@@ -20,9 +20,11 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * Encodes an ellipse.
@@ -31,6 +33,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 public class Ellipse extends GraphicalPrimitive2D {
@@ -79,7 +82,7 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   protected Boolean absoluteRy;
 
-  // TODO - missing attribute ratio
+  protected Double ratio;
   
   /**
    * Creates a new {@link Ellipse} instance.
@@ -108,6 +111,8 @@ public class Ellipse extends GraphicalPrimitive2D {
     absoluteCz = obj.absoluteCz;
     absoluteRx = obj.absoluteRx;
     absoluteRy = obj.absoluteRy;
+    
+    ratio = obj.ratio;
   }
 
   
@@ -252,6 +257,13 @@ public class Ellipse extends GraphicalPrimitive2D {
     } else if (!ry.equals(other.ry)) {
       return false;
     }
+    if (ratio == null) {
+      if (other.ratio != null) {
+        return false;
+      }
+    } else if (!ratio.equals(other.ratio)) {
+      return false;
+    }
     return true;
   }
 
@@ -368,6 +380,44 @@ public class Ellipse extends GraphicalPrimitive2D {
       Double oldCz = cz;
       cz = null;
       firePropertyChange(RenderConstants.cz, oldCz, cz);
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+   * @return the ratio-attribute (specifies rx/ry, cf. render specification: Ellipse class)
+   */
+  public double getRatio() {
+    return ratio;
+  }
+  
+  /**
+   * @return whether the ratio-attribute is set to a number
+   */
+  public boolean isSetRatio() {
+    return ratio != null && !ratio.isNaN();
+  }
+  
+  /**
+   * Sets the ratio-attribute to given value and fires appropriate change-events
+   * @param newRatio the new value to be taken
+   */
+  public void setRatio(Double newRatio) {
+    Double oldCz = this.ratio;
+    this.ratio = newRatio;
+    firePropertyChange(RenderConstants.ratio, oldCz, this.cz);
+  }
+  
+  /**
+   * Unsets the ratio-attribute (if set)
+   * @return Whether the ratio could actually be unset
+   */
+  public boolean unsetRatio() {
+    if (isSetRatio()) {
+      Double old = ratio;
+      ratio = null;
+      firePropertyChange(RenderConstants.ratio, old, ratio);
       return true;
     }
     return false;
@@ -708,6 +758,11 @@ public class Ellipse extends GraphicalPrimitive2D {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ry,
         XMLTools.positioningToString(getRy(), isAbsoluteRy()));
     }
+    if(isSetRatio()) {
+      attributes.remove(RenderConstants.ratio);
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ratio,
+        StringTools.toString(Locale.ENGLISH, getRatio()));
+    }
 
     return attributes;
   }
@@ -741,6 +796,9 @@ public class Ellipse extends GraphicalPrimitive2D {
       else if (attributeName.equals(RenderConstants.ry)) {
         setRy(XMLTools.parsePosition(value));
         setAbsoluteRy(XMLTools.isAbsolutePosition(value));
+      }
+      else if(attributeName.equals(RenderConstants.ratio)) {
+        setRatio(Double.parseDouble(value));
       }
       else {
         isAttributeRead = false;

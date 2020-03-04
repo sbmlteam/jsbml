@@ -235,6 +235,10 @@ public class RenderConstants {
    */
   public static final String rx = "rx";
   /**
+   * The rx/ry-ratio of an ellipse
+   */
+  public static final String ratio = "ratio";
+  /**
    * 
    */
   public static final String absoluteWidth = "absolute-width";

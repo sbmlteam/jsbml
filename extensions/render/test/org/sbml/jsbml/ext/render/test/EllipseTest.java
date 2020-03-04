@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -375,5 +376,50 @@ public class EllipseTest {
     Ellipse ellipse=new Ellipse();
     ellipse.setAbsoluteRy(false);
     assertTrue(!ellipse.isAbsoluteRy());
+  }
+  
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#setRatio(Double)}
+   * and {@link org.sbml.jsbml.ext.render.Ellipse#getRatio()}.
+   */
+  @Test
+  public void testGetSetRatio() {
+    Ellipse ellipse=new Ellipse();
+    ellipse.setRatio(1.4d);
+    assertTrue(ellipse.isSetRatio());
+    assertEquals(1.4d, ellipse.getRatio(), 1e-10);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isSetRatio()}
+   */
+  @Test
+  public void testIsSetRatio() {
+    Ellipse ellipse=new Ellipse();
+    assertFalse(ellipse.isSetRatio());
+    ellipse.setRatio(1.4d);
+    assertTrue(ellipse.isSetRatio());
+    ellipse.setRatio(0.582d);
+    assertTrue(ellipse.isSetRatio());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#unsetRatio()}
+   */
+  @Test
+  public void testUnsetRatio() {
+    Ellipse ellipse=new Ellipse();
+    assertFalse(ellipse.isSetRatio());
+    ellipse.setRatio(1.4d);
+    assertTrue(ellipse.isSetRatio());
+    ellipse.unsetRatio();
+    assertFalse(ellipse.isSetRatio());
+    ellipse.setRatio(0.92d);
+    assertTrue(ellipse.isSetRatio());
+    ellipse.setRatio(null);
+    assertFalse(ellipse.isSetRatio());
+    ellipse.setRatio(Double.NaN);
+    assertFalse(ellipse.isSetRatio());
   }
 }

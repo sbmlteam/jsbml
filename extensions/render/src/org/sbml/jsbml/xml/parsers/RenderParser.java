@@ -43,7 +43,6 @@ import org.sbml.jsbml.ext.render.GradientBase;
 import org.sbml.jsbml.ext.render.GradientStop;
 import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LinearGradient;
-import org.sbml.jsbml.ext.render.ListOfGlobalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
