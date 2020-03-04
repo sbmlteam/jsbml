@@ -895,7 +895,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     } else if (!absoluteZ.equals(other.absoluteZ)) {
       return false;
     }
-    if (fontFamily != other.fontFamily) {
+    if (!fontFamily.equals(other.fontFamily)) {
       return false;
     }
     if (fontSize == null) {
@@ -946,8 +946,29 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     } else if (!z.equals(other.z)) {
       return false;
     }
+    if (text == null) {
+      if (other.text != null) {
+        return false;
+      }
+    } else if (!text.equals(other.text)) {
+      return false;
+    }
     return true;
   }
 
   
+  /**
+   * @return An informative string about this Text-object. Contains the text
+   *         (which is <b>not</b> an XML-attribute)
+   */
+  @Override
+  public String toString() {
+    String result = super.toString();
+    if(isSetText()) {
+      result = result.substring(0, result.length() - 1);
+      result += " text=" + getText() + "]";
+    }
+    
+    return result;
+  }
 }

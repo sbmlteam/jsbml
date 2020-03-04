@@ -58,7 +58,9 @@ import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
 import org.sbml.jsbml.ext.render.RenderPoint;
 import org.sbml.jsbml.ext.render.Style;
+import org.sbml.jsbml.ext.render.Text;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
  * @author Alexander Diamantikos
@@ -107,6 +109,34 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
     return super.processAttribute(elementName, attributeName, value, uri, prefix,
         isLastAttribute, contextObject);
   }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
+   */
+  @Override
+  public void processCharactersOf(String elementName, String characters,
+    Object contextObject) {
+    super.processCharactersOf(elementName, characters, contextObject);
+    if(contextObject instanceof Text) {
+      ((Text) contextObject).setText(characters);
+    }
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
+   */
+  @Override
+  public void writeCharacters(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+    super.writeCharacters(xmlObject, sbmlElementToWrite);
+    
+    // As by the render-specification, text-objects have their text simply as an XML-child 
+    if(sbmlElementToWrite instanceof Text) {
+      if(((Text) sbmlElementToWrite).isSetText()) {
+        xmlObject.setCharacters(((Text) sbmlElementToWrite).getText()); 
+      }
+    }
+  }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)

@@ -110,8 +110,6 @@ public class RenderWriteTest {
    */
   @Test
   public void testWriteReadLayoutPlugin() throws SBMLException, XMLStreamException {
-    System.out.println("\n[[[ LayoutPlugin ]]]");
-    
     RenderLayoutPlugin rlp = new RenderLayoutPlugin(layout);
     rlp.createLocalRenderInformation("info1");
     layout.addExtension(RenderConstants.namespaceURI, rlp);
@@ -137,8 +135,6 @@ public class RenderWriteTest {
    */
   @Test
   public void testWriteReadListOfLayoutsPlugin() throws SBMLException, XMLStreamException {
-    System.out.println("\n[[[ ListOfLayoutsPlugin ]]]");
-    
     RenderListOfLayoutsPlugin rlolp = new RenderListOfLayoutsPlugin(listOfLayouts);
     rlolp.createGlobalRenderInformation("global");
     listOfLayouts.addExtension(RenderConstants.namespaceURI, rlolp);
@@ -164,8 +160,6 @@ public class RenderWriteTest {
    */
   @Test
   public void testWriteReadGraphicalObjectPlugin() throws SBMLException, XMLStreamException {
-    System.out.println("\n[[[ GraphicalObjectPlugin ]]]");
-    
     SpeciesGlyph sg = layout.createSpeciesGlyph("sg1");
     RenderGraphicalObjectPlugin rgop = new RenderGraphicalObjectPlugin(sg);
     // cf. Render-specification p. 14 
@@ -193,8 +187,6 @@ public class RenderWriteTest {
    */
   @Test
   public void testWriteReadText() throws SBMLException, XMLStreamException {
-    System.out.println("\n[[[ Text ]]]");
-    
     RenderGroup group = new RenderGroup();
     Text questionmark = group.createText();
     questionmark.setFontSize((short) 10);
@@ -234,8 +226,6 @@ public class RenderWriteTest {
   
   @Test
   public void testWriteReadTransformation2D() throws SBMLException, XMLStreamException {
-    System.out.println("\n[[[ Transformation2D ]]]");
-    
     RenderGroup group = new RenderGroup();
     Rectangle rectangle = group.createRectangle();
     rectangle.setHeight(20); rectangle.setAbsoluteHeight(true);
