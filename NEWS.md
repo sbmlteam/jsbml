@@ -6,21 +6,38 @@
 
 ### New Features:
 
-  - Implemented most of the comp package constraints
-  
-  - Added a new FUNCTION_CSYMBOL type to ASTNode so that we can parse and write generic csymbol defined elsewhere than in the core. Allow to read and write correctly the distrib defined csymbol.
-  
   - Implemented the latest draft of the distrib package.
+
+  - Implemented most of the spatial package validation constraints. (Thanks to Bhavye Jain who did this among other things during GSOC 2019)
+  
+  - Implemented most of the comp package validation constraints
+
+  - Implemented most of the multi package validation constraints
+
+  - Added a new FUNCTION_CSYMBOL type to ASTNode so that we can parse and write generic csymbol defined elsewhere than in the core. Allow to read and write correctly the distrib defined csymbol.
+    
+  - Added a converter to transfer the COBRA like SBML notes into RDF annotations when possible.
   
   
 ### Bug Fixes:
 
   - Converters from SBML Level 2 with COBRA annotations to FBC version 1 and version 2 and vice versa bug fixes.
   
+  - Improved the output of History.toString().
+  
+  - Fixes several issues to the spatial parser found when implementing validation.
+  
   - Fixes for issues #157 and #158. The combined list of SpeciesFeature and SubListOfSpeciesFeatures was not created properly.
   
   - Security bug fix: disallow external entity definitions inside SBML files. This prevents attackers from loading potentially sensitive files (e.g. /etc/passwd) into the content of the model. See https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md for more information. Thanks to Mihai Glont for providing the fix.
   
+ - Fixed a bug in BindingSiteSpeciesType, the XML element name used when writing was left to 'speciesType' instead of 'bindingSiteSpeciesType'.
+ 
+ - Fixed issue #159 by making the multi parser more robust against invalid xml elements. 
+ 
+ - Removed unused class SpeciesFeatureChange.
+ 
+ - Fixed a bug in SBMLErrorFactory so that an exception is not thrown if some data is missing for the validation message. If nothing is found about a specific error id, the SBMLerror should still be created with the default post message.
  
 
 ==================================
