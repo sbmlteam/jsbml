@@ -28,7 +28,6 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**

@@ -44,6 +44,7 @@ public class GradientStop extends AbstractSBase {
   /**
    * 
    */
+  //TODO: this should be a RelAbsVector! (cf. render-spec p. 22)
   private Double offset;
   /**
    * 

@@ -35,6 +35,7 @@ public class LinearGradient extends GradientBase {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 825789189989621388L;
+  // TODO: switch to RelAbsVector (cf render-spec p 23)
   /**
    * 
    */
