@@ -19,8 +19,6 @@
  */
 package org.sbml.jsbml.ext.fbc.converters;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.KineticLaw;
@@ -35,8 +33,12 @@ import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
+import org.sbml.jsbml.ext.fbc.FluxBound.Operation;
+import org.sbml.jsbml.ext.fbc.FluxObjective;
+import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.ext.fbc.CobraConstants;
 import org.sbml.jsbml.util.CobraUtil;
+import org.sbml.jsbml.util.PackageDisabler;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.converters.SBMLConverter;
 
@@ -53,6 +55,121 @@ public class FbcV1ToCobraConverter implements SBMLConverter {
 
   Double defaultLowerBound = null;
   Double defaultUpperBound = null;
+  PackageDisabler packageDisabler;
+  
+  
+  private void createKineticLawForReaction(Reaction reaction) {
+    if (reaction == null) 
+    {
+      return;
+    }
+    reaction.unsetKineticLaw();
+    KineticLaw kineticLaw = reaction.getKineticLaw();
+    if (kineticLaw == null) 
+    {
+      kineticLaw = new KineticLaw(reaction);
+      LocalParameter fluxValueParameter = reaction.getKineticLaw().createLocalParameter(CobraConstants.FLUX_VALUE);
+      fluxValueParameter.setValue(0d);
+      fluxValueParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
+      ASTNode astNode = new ASTNode(CobraConstants.FLUX_VALUE);
+      kineticLaw.setMath(astNode);
+    }
+    
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    if (upperBoundParameter == null) 
+    {
+      // 3. Assign lower and upper flux bounds if they were set, use defaults otherwise
+      upperBoundParameter = reaction.getKineticLaw().createLocalParameter(CobraConstants.UPPER_BOUND);
+      if (this.defaultUpperBound != null)
+      {
+        upperBoundParameter.setValue(this.defaultUpperBound);
+      } else 
+      {
+        upperBoundParameter.setValue(Double.POSITIVE_INFINITY);
+      }
+      upperBoundParameter.setExplicitlyConstant(true);
+      upperBoundParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
+    }
+    
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    if (lowerBoundParameter == null) 
+    {
+      lowerBoundParameter = kineticLaw.createLocalParameter(CobraConstants.LOWER_BOUND);
+      if (this.defaultLowerBound != null)
+      {
+        lowerBoundParameter.setValue(this.defaultLowerBound);  
+      } else 
+      {
+        lowerBoundParameter.setValue(Double.NEGATIVE_INFINITY);
+      }
+      lowerBoundParameter.setExplicitlyConstant(true);
+      lowerBoundParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
+    }
+    
+    LocalParameter objectiveCoefficientParameter = kineticLaw.getLocalParameter(CobraConstants.OBJECTIVE_COEFFICIENT);
+    if (objectiveCoefficientParameter == null)
+    {
+      objectiveCoefficientParameter = kineticLaw.createLocalParameter(CobraConstants.OBJECTIVE_COEFFICIENT);
+      objectiveCoefficientParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
+      objectiveCoefficientParameter.setValue(0d);
+    }
+  }
+    
+  private void unsetConstantForSpeciesReferencesOfReaction(Reaction reaction) {
+    // unset attribute constant for products and reactants of reaction
+    for (SpeciesReference speciesReference: reaction.getListOfProducts()) {
+      speciesReference.unsetConstant();
+    }
+    for (SpeciesReference speciesReference: reaction.getListOfReactants()) {
+      speciesReference.unsetConstant();
+    }
+  }
+   
+  private void updateKineticLawFromBound (Reaction reaction, FluxBound bound)
+  {
+    if (reaction == null || bound == null) {
+      return;
+    }
+    Operation operation = bound.getOperation();
+    KineticLaw kineticLaw = reaction.getKineticLaw();
+    LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
+    LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
+    
+    if (operation.equals(FluxBound.Operation.LESS_EQUAL) || operation.equals(FluxBound.Operation.EQUAL)) 
+    {
+      upperBoundParameter.setValue(bound.getValue());
+    }
+    
+    if (operation.equals(FluxBound.Operation.GREATER_EQUAL) || operation.equals(FluxBound.Operation.EQUAL)) 
+    {
+      lowerBoundParameter.setValue(bound.getValue());
+    }
+  }
+   
+  private void setObjectiveCoefficient(FBCModelPlugin plugin, Model model) {
+    if (plugin == null || model == null) {
+      return;
+    }
+    Objective obj = plugin.getActiveObjectiveInstance();
+    if (obj == null) {
+      return;
+    }
+    for (FluxObjective fluxObj : obj.getListOfFluxObjectives()) {
+      if (fluxObj == null) {
+        continue;
+      }
+      Reaction reaction = model.getReaction(fluxObj.getReaction());
+      if (reaction == null) {
+        continue;
+      }
+      KineticLaw law = reaction.getKineticLaw();
+      if (law == null) {
+        continue;
+      }
+      LocalParameter param = law.getLocalParameter(CobraConstants.OBJECTIVE_COEFFICIENT);
+      param.setValue(fluxObj.getCoefficient());
+    }
+  }
   
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#convert(org.sbml.jsbml.SBMLDocument)
@@ -60,6 +177,7 @@ public class FbcV1ToCobraConverter implements SBMLConverter {
   @Override
   public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
     // only SBMLDocuments with level 3 version 1 and package version 1 are converted
+    packageDisabler = new PackageDisabler(sbmlDocument);
     if (sbmlDocument.isPackageEnabled(FBCConstants.getNamespaceURI(3, 1, 1))) {
       Model model = sbmlDocument.getModel();
       
@@ -99,73 +217,28 @@ public class FbcV1ToCobraConverter implements SBMLConverter {
       }
       
       // Process reactions
-      // 1. Collect lower and upper flux bounds from the list of flux bounds
       FBCModelPlugin fbcModelPlugin = (FBCModelPlugin)model.getPlugin(FBCConstants.shortLabel);
-      Map<String, Double> reactionIdToLowerFluxBoundDoubleValueMap = new HashMap<>();
-      Map<String, Double> reactionIdToUpperFluxBoundDoubleValueMap = new HashMap<>();
       
-      for (FluxBound fluxBound : fbcModelPlugin.getListOfFluxBounds()) {
-        if (fluxBound.getOperation().equals(FluxBound.Operation.GREATER_EQUAL))
-        {
-            reactionIdToLowerFluxBoundDoubleValueMap.put(fluxBound.getReaction(), Double.valueOf(fluxBound.getValue()));
-        } else if (fluxBound.getOperation().equals(FluxBound.Operation.LESS_EQUAL))
-        {
-          reactionIdToUpperFluxBoundDoubleValueMap.put(fluxBound.getReaction(), Double.valueOf(fluxBound.getValue()));
-        }
-      }
-      
-      // 2. Create the kineticLaw element with FLUX_VALUE for each reaction
+      // Create the kineticLaw for each reaction
       for (Reaction reaction : model.getListOfReactions()) {
-        KineticLaw kineticLaw = new KineticLaw(reaction);
-        ASTNode astNode = new ASTNode(CobraConstants.FLUX_VALUE);
-        kineticLaw.setMath(astNode);
-        LocalParameter fluxValueParameter = reaction.getKineticLaw().createLocalParameter(CobraConstants.FLUX_VALUE);
-        fluxValueParameter.setValue(0d);
-        fluxValueParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
-        
-        // 3. Assign lower and upper flux bounds if they were set, use defaults otherwise
-        LocalParameter upperBoundParameter = reaction.getKineticLaw().createLocalParameter(CobraConstants.UPPER_BOUND);
-        if (reactionIdToUpperFluxBoundDoubleValueMap.containsKey(reaction.getId()))
-        {
-          upperBoundParameter.setValue(reactionIdToUpperFluxBoundDoubleValueMap.get(reaction.getId()).doubleValue());
-        } else if (this.defaultUpperBound != null)
-        {
-          upperBoundParameter.setValue(this.defaultUpperBound);
-        } else {
-          upperBoundParameter.setValue(Double.POSITIVE_INFINITY);
-        }
-        upperBoundParameter.setExplicitlyConstant(true);
-        upperBoundParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
-        
-        LocalParameter lowerBoundParameter = reaction.getKineticLaw().createLocalParameter(CobraConstants.LOWER_BOUND);
-        if (reactionIdToLowerFluxBoundDoubleValueMap.containsKey(reaction.getId()))
-        {
-          lowerBoundParameter.setValue(reactionIdToLowerFluxBoundDoubleValueMap.get(reaction.getId()).doubleValue());
-        } else if (this.defaultLowerBound != null)
-        {
-          lowerBoundParameter.setValue(this.defaultLowerBound);  
-        } else {
-          lowerBoundParameter.setValue(Double.NEGATIVE_INFINITY);
-        }
-        lowerBoundParameter.setExplicitlyConstant(true);
-        lowerBoundParameter.setUnits(CobraConstants.mmol_per_gDW_per_hr);
-               
-        // 4. unset attribute constant for products and reactants
-        for (SpeciesReference speciesReference: reaction.getListOfProducts()) {
-          speciesReference.unsetConstant();
-        }
-        for (SpeciesReference speciesReference: reaction.getListOfReactants()) {
-          speciesReference.unsetConstant();
-        }
-        
+        this.createKineticLawForReaction(reaction);
+        this.unsetConstantForSpeciesReferencesOfReaction(reaction);
       }
-      // 5. unset List of flux bounds
-      fbcModelPlugin.unsetListOfFluxBounds();
+      
+      // update lower and upper bound for existing fluxBounds
+      for (FluxBound fluxBound : fbcModelPlugin.getListOfFluxBounds()) {
+        this.updateKineticLawFromBound(model.getReaction(fluxBound.getReaction()), fluxBound);
+      }
+      
+      // set objectiveCoefficient values for active objective
+      this.setObjectiveCoefficient(fbcModelPlugin, model);
     }
    
-    // TODO: it is unclear whether this should be done
-    sbmlDocument.removeDeclaredNamespaceByPrefix(FBCConstants.shortLabel);
-    // TODO: the SBMLDocumentAttriute fbc:required="false" still remains and it is unclear how to remove it
+    // remove FBC Package
+    packageDisabler.removePackage(FBCConstants.shortLabel);
+    // remove SBMLDocumentAttriute fbc:required="false" 
+    sbmlDocument.getSBMLDocumentAttributes().remove(FBCConstants.shortLabel + ":required");
+    
     return sbmlDocument;
   }
 
