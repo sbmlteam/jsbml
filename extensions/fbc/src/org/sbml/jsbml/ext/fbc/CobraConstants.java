@@ -42,6 +42,11 @@ public class CobraConstants {
   public final static String LOWER_BOUND = "LOWER_BOUND";
   
   /**
+  *
+  */
+ public final static String OBJECTIVE_COEFFICIENT = "OBJECTIVE_COEFFICIENT";
+ 
+  /**
    * 
    */
   public final static String mmol_per_gDW_per_hr = "mmol_per_gDW_per_hr";
