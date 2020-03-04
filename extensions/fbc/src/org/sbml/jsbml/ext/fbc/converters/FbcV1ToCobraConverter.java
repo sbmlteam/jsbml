@@ -135,12 +135,12 @@ public class FbcV1ToCobraConverter implements SBMLConverter {
     LocalParameter lowerBoundParameter = kineticLaw.getLocalParameter(CobraConstants.LOWER_BOUND);
     LocalParameter upperBoundParameter = kineticLaw.getLocalParameter(CobraConstants.UPPER_BOUND);
     
-    if (operation.equals(FluxBound.Operation.LESS_EQUAL) || operation.equals(FluxBound.Operation.EQUAL)) 
+    if (operation.equals(FluxBound.Operation.LESS) || operation.equals(FluxBound.Operation.LESS_EQUAL) || operation.equals(FluxBound.Operation.EQUAL)) 
     {
       upperBoundParameter.setValue(bound.getValue());
     }
     
-    if (operation.equals(FluxBound.Operation.GREATER_EQUAL) || operation.equals(FluxBound.Operation.EQUAL)) 
+    if (operation.equals(FluxBound.Operation.GREATER) || operation.equals(FluxBound.Operation.GREATER_EQUAL) || operation.equals(FluxBound.Operation.EQUAL)) 
     {
       lowerBoundParameter.setValue(bound.getValue());
     }
