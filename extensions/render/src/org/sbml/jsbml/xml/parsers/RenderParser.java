@@ -67,6 +67,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @author Jakob Matthes
  * @author Eugen Netz
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 @ProviderFor(ReadingParser.class)

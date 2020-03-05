@@ -60,7 +60,6 @@ public class Transformation2D extends Transformation {
     super(obj);
     
     if (obj.isSetTransform()) {
-      // TODO: check for length == 6 here?
       transform = new Double[obj.transform.length];
       System.arraycopy(obj.getTransform(), 0, transform, 0, obj.getTransform().length);
     }
