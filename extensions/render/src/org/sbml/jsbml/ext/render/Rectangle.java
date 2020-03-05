@@ -95,6 +95,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   private Boolean absoluteRy;
 
+  // TODO: missing ratio of type double!
+  
   /**
    * @return the value of rx
    */

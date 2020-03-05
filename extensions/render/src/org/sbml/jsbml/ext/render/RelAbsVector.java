@@ -191,14 +191,10 @@ public class RelAbsVector {
    * render-documentation.
    * 
    * @return the XML-string-encoding of this RelAbsVector
-   * @throws Exception
-   *         If neither {@link RelAbsVector#isSetAbsoluteValue()} nor
-   *         {@link RelAbsVector#isSetRelativeValue()}
    */
-  public String getCoordinate() throws Exception {
+  public String getCoordinate() {
     if(!(isSetAbsoluteValue() || isSetRelativeValue()))
-      throw new Exception(
-        "Cannot generate a valid RelAbsVector-string with neither absolute nor relative part set");
+      return "0";
     
     StringBuffer result = new StringBuffer();
     if(isSetAbsoluteValue() && getAbsoluteValue() != 0) {

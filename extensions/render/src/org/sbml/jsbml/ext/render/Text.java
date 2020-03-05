@@ -41,14 +41,17 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteX;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteY;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteZ;
   /**
    * 

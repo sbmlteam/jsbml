@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ext.render.Image;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 
 
 /**
@@ -32,7 +33,8 @@ import org.sbml.jsbml.ext.render.Image;
  * @since 1.0
  */
 public class ImageTest {
-
+  private final static double TOLERANCE = 1e-5;
+  
   /**
    * Test method for {@link Image#getAllowsChildren()}.
    */
@@ -224,9 +226,9 @@ public class ImageTest {
   @Test
   public void testGetHeight() {
     Image image=new Image();
-    double height=12d;
+    RelAbsVector height = new RelAbsVector(12);
     image.setHeight(height);
-    assertEquals(height,image.getHeight(),.00001d);
+    assertEquals(height, image.getHeight());
   }
 
 
@@ -236,7 +238,7 @@ public class ImageTest {
   @Test
   public void testIsSetHeight() {
     Image image=new Image();
-    double height=12d;
+    RelAbsVector height = new RelAbsVector(12);
     image.setHeight(height);
     assertTrue(image.isSetHeight());
   }
@@ -248,9 +250,9 @@ public class ImageTest {
   @Test
   public void testSetHeight() {
     Image image=new Image();
-    double height=12d;
+    RelAbsVector height = new RelAbsVector(12);
     image.setHeight(height);
-    assertEquals(height,image.getHeight(),.00001d);
+    assertEquals(height, image.getHeight());
   }
 
 
@@ -262,7 +264,7 @@ public class ImageTest {
     Image image=new Image();
     String hyperlink="http://sbml.org/Main_Page";
     image.setHref(hyperlink);
-    assertEquals(hyperlink,image.getHref());
+    assertEquals(hyperlink, image.getHref());
   }
 
 
@@ -296,9 +298,9 @@ public class ImageTest {
   @Test
   public void testGetWidth() {
     Image image=new Image();
-    double width=10d;
+    RelAbsVector width = new RelAbsVector(10);
     image.setWidth(width);
-    assertEquals(width,image.getWidth(),.00001d);
+    assertEquals(width,image.getWidth());
   }
 
 
@@ -308,7 +310,7 @@ public class ImageTest {
   @Test
   public void testIsSetWidth() {
     Image image=new Image();
-    double width=132d;
+    RelAbsVector width = new RelAbsVector(132);
     image.setWidth(width);
     assertTrue(image.isSetWidth());
   }
@@ -320,9 +322,9 @@ public class ImageTest {
   @Test
   public void testSetWidth() {
     Image image=new Image();
-    double width=10d;
+    RelAbsVector width = new RelAbsVector(10);
     image.setWidth(width);
-    assertEquals(width,image.getWidth(),.00001d);
+    assertEquals(width,image.getWidth());
   }
 
 
@@ -332,8 +334,8 @@ public class ImageTest {
   @Test
   public void testGetX() {
     Image image=new Image();
-    image.setX(0.02d);
-    assertEquals(image.getX(),0.02d,0.00000001d);
+    image.setX(new RelAbsVector(0.02d));
+    assertEquals(image.getX().getAbsoluteValue(),0.02d, TOLERANCE);
   }
 
 
@@ -343,7 +345,7 @@ public class ImageTest {
   @Test
   public void testIsSetX() {
     Image image=new Image();
-    image.setX(0.02d);
+    image.setX(new RelAbsVector(0.02d));
     assertTrue(image.isSetX());
   }
 
@@ -354,8 +356,8 @@ public class ImageTest {
   @Test
   public void testSetX() {
     Image image=new Image();
-    image.setX(0.02d);
-    assertEquals(image.getX(),0.02d,0.00000001d);
+    image.setX(new RelAbsVector(0.02d));
+    assertEquals(image.getX().getAbsoluteValue(),0.02d, TOLERANCE);
   }
 
 
@@ -365,8 +367,8 @@ public class ImageTest {
   @Test
   public void testGetY() {
     Image image=new Image();
-    image.setY(0.02d);
-    assertEquals(image.getY(),0.02d,0.00000001d);
+    image.setY(new RelAbsVector(0.02d));
+    assertEquals(image.getY(), new RelAbsVector(0.02d));
   }
 
 
@@ -376,7 +378,7 @@ public class ImageTest {
   @Test
   public void testIsSetY() {
     Image image=new Image();
-    image.setY(0.02d);
+    image.setY(new RelAbsVector(0.02d));
     assertTrue(image.isSetY());
   }
 
@@ -387,8 +389,8 @@ public class ImageTest {
   @Test
   public void testSetY() {
     Image image=new Image();
-    image.setY(0.02d);
-    assertEquals(image.getY(),0.02d,0.00000001d);
+    image.setY(new RelAbsVector(0.02d));
+    assertEquals(image.getY(),new RelAbsVector(0.02d));
   }
 
 
@@ -398,8 +400,8 @@ public class ImageTest {
   @Test
   public void testGetZ() {
     Image image=new Image();
-    image.setZ(0.02d);
-    assertEquals(image.getZ(),0.02d,0.00000001d);
+    image.setZ(new RelAbsVector(0.02d));
+    assertEquals(image.getZ(),new RelAbsVector(0.02d));
   }
 
 
@@ -409,7 +411,7 @@ public class ImageTest {
   @Test
   public void testIsSetZ() {
     Image image=new Image();
-    image.setZ(0.02d);
+    image.setZ(new RelAbsVector(0.02d));
     assertTrue(image.isSetZ());
   }
 
@@ -420,7 +422,7 @@ public class ImageTest {
   @Test
   public void testSetZ() {
     Image image=new Image();
-    image.setZ(0.02d);
+    image.setZ(new RelAbsVector(0.02d));
     assertTrue(image.isSetZ());
   }
 }

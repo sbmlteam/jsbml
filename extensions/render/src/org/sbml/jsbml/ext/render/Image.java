@@ -40,42 +40,47 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * 
    */
-  private Double x;
+  private RelAbsVector x;
   /**
    * 
    */
-  private Double y;
+  private RelAbsVector y;
   /**
    * 
    */
-  private Double z;
+  private RelAbsVector z;
   /**
    * 
    */
-  private Double width;
+  private RelAbsVector width;
   /**
    * 
    */
-  private Double height;
+  private RelAbsVector height;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteX;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteY;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteZ;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteWidth;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteHeight;
   /**
    * 
@@ -135,7 +140,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
 
-    z = 0d;
+    z = new RelAbsVector(0d);
   }
 
 
@@ -291,6 +296,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of absoluteHeight
    */
+  @Deprecated
   public boolean isAbsoluteHeight() {
     if (isSetAbsoluteHeight()) {
       return absoluteHeight;
@@ -302,6 +308,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return whether absoluteHeight is set
    */
+  @Deprecated
   public boolean isSetAbsoluteHeight() {
     return absoluteHeight != null;
   }
@@ -310,6 +317,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of absoluteHeight
    * @param absoluteHeight
    */
+  @Deprecated
   public void setAbsoluteHeight(boolean absoluteHeight) {
     Boolean oldAbsoluteHeight = this.absoluteHeight;
     this.absoluteHeight = absoluteHeight;
@@ -321,6 +329,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * @return {@code true}, if absoluteHeight was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public boolean unsetAbsoluteHeight() {
     if (isSetAbsoluteHeight()) {
       Boolean oldAbsoluteHeight = absoluteHeight;
@@ -334,6 +343,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of absoluteWidth
    */
+  @Deprecated
   public boolean isAbsoluteWidth() {
     if (isSetAbsoluteWidth()) {
       return absoluteWidth;
@@ -345,6 +355,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return whether absoluteWidth is set
    */
+  @Deprecated
   public boolean isSetAbsoluteWidth() {
     return absoluteWidth != null;
   }
@@ -353,6 +364,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of absoluteWidth
    * @param absoluteWidth
    */
+  @Deprecated
   public void setAbsoluteWidth(boolean absoluteWidth) {
     Boolean oldAbsoluteWidth = this.absoluteWidth;
     this.absoluteWidth = absoluteWidth;
@@ -364,6 +376,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * @return {@code true}, if absoluteWidth was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public boolean unsetAbsoluteWidth() {
     if (isSetAbsoluteWidth()) {
       Boolean oldAbsoluteWidth = absoluteWidth;
@@ -377,6 +390,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of absoluteX
    */
+  @Deprecated
   public boolean isAbsoluteX() {
     if (isSetAbsoluteX()) {
       return absoluteX;
@@ -388,6 +402,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return whether absoluteX is set
    */
+  @Deprecated
   public boolean isSetAbsoluteX() {
     return absoluteX != null;
   }
@@ -396,6 +411,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of absoluteX
    * @param absoluteX
    */
+  @Deprecated
   public void setAbsoluteX(boolean absoluteX) {
     Boolean oldAbsoluteX = this.absoluteX;
     this.absoluteX = absoluteX;
@@ -407,6 +423,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * @return {@code true}, if absoluteX was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public boolean unsetAbsoluteX() {
     if (isSetAbsoluteX()) {
       Boolean oldAbsoluteX = absoluteX;
@@ -420,6 +437,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of absoluteY
    */
+  @Deprecated
   public boolean isAbsoluteY() {
     if (isSetAbsoluteY()) {
       return absoluteY;
@@ -431,6 +449,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return whether absoluteY is set
    */
+  @Deprecated
   public boolean isSetAbsoluteY() {
     return absoluteY != null;
   }
@@ -439,6 +458,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of absoluteY
    * @param absoluteY
    */
+  @Deprecated
   public void setAbsoluteY(boolean absoluteY) {
     Boolean oldAbsoluteY = this.absoluteY;
     this.absoluteY = absoluteY;
@@ -450,6 +470,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * @return {@code true}, if absoluteY was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public boolean unsetAbsoluteY() {
     if (isSetAbsoluteY()) {
       Boolean oldAbsoluteY = absoluteY;
@@ -463,6 +484,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of absoluteZ
    */
+  @Deprecated
   public boolean isAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       return absoluteZ;
@@ -474,6 +496,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return whether absoluteZ is set
    */
+  @Deprecated
   public boolean isSetAbsoluteZ() {
     return absoluteZ != null;
   }
@@ -482,6 +505,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of absoluteZ
    * @param absoluteZ
    */
+  @Deprecated
   public void setAbsoluteZ(boolean absoluteZ) {
     Boolean oldAbsoluteZ = this.absoluteZ;
     this.absoluteZ = absoluteZ;
@@ -493,6 +517,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * @return {@code true}, if absoluteZ was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public boolean unsetAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       Boolean oldAbsoluteZ = absoluteZ;
@@ -506,7 +531,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of height
    */
-  public double getHeight() {
+  public RelAbsVector getHeight() {
     if (isSetHeight()) {
       return height;
     }
@@ -525,8 +550,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of height
    * @param height
    */
-  public void setHeight(double height) {
-    Double oldHeight = this.height;
+  public void setHeight(RelAbsVector height) {
+    RelAbsVector oldHeight = this.height;
     this.height = height;
     firePropertyChange(RenderConstants.height, oldHeight, this.height);
   }
@@ -538,7 +563,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetHeight() {
     if (isSetHeight()) {
-      Double oldHeight = height;
+      RelAbsVector oldHeight = height;
       height = null;
       firePropertyChange(RenderConstants.height, oldHeight, height);
       return true;
@@ -592,7 +617,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of width
    */
-  public double getWidth() {
+  public RelAbsVector getWidth() {
     if (isSetWidth()) {
       return width;
     }
@@ -611,8 +636,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of width
    * @param width
    */
-  public void setWidth(double width) {
-    Double oldWidth = this.width;
+  public void setWidth(RelAbsVector width) {
+    RelAbsVector oldWidth = this.width;
     this.width = width;
     firePropertyChange(RenderConstants.width, oldWidth, this.width);
   }
@@ -624,7 +649,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetWidth() {
     if (isSetWidth()) {
-      Double oldWidth = width;
+      RelAbsVector oldWidth = width;
       width = null;
       firePropertyChange(RenderConstants.width, oldWidth, width);
       return true;
@@ -635,7 +660,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of x
    */
-  public double getX() {
+  public RelAbsVector getX() {
     if (isSetX()) {
       return x;
     }
@@ -654,8 +679,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of x
    * @param x
    */
-  public void setX(double x) {
-    Double oldX = this.x;
+  public void setX(RelAbsVector x) {
+    RelAbsVector oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
   }
@@ -667,7 +692,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetX() {
     if (isSetX()) {
-      Double oldX = x;
+      RelAbsVector oldX = x;
       x = null;
       firePropertyChange(RenderConstants.x, oldX, x);
       return true;
@@ -678,7 +703,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of y
    */
-  public double getY() {
+  public RelAbsVector getY() {
     if (isSetY()) {
       return y;
     }
@@ -697,8 +722,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of y
    * @param y
    */
-  public void setY(double y) {
-    Double oldY = this.y;
+  public void setY(RelAbsVector y) {
+    RelAbsVector oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
   }
@@ -710,7 +735,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetY() {
     if (isSetY()) {
-      Double oldY = y;
+      RelAbsVector oldY = y;
       y = null;
       firePropertyChange(RenderConstants.y, oldY, y);
       return true;
@@ -721,7 +746,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of z
    */
-  public double getZ() {
+  public RelAbsVector getZ() {
     if (isSetZ()) {
       return z;
     }
@@ -740,8 +765,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of z
    * @param z
    */
-  public void setZ(double z) {
-    Double oldZ = this.z;
+  public void setZ(RelAbsVector z) {
+    RelAbsVector oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
   }
@@ -753,7 +778,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetZ() {
     if (isSetZ()) {
-      Double oldZ = z;
+      RelAbsVector oldZ = z;
       z = null;
       firePropertyChange(RenderConstants.z, oldZ, z);
       return true;
@@ -776,27 +801,27 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
     if (isSetX()) {
       attributes.remove(RenderConstants.x);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
-        XMLTools.positioningToString(getX(), isAbsoluteX()));
+        x.getCoordinate());
     }
     if (isSetY()) {
       attributes.remove(RenderConstants.y);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
-        XMLTools.positioningToString(getY(), isAbsoluteY()));
+        y.getCoordinate());
     }
     if (isSetZ()) {
       attributes.remove(RenderConstants.z);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
-        XMLTools.positioningToString(getZ(), isAbsoluteZ()));
+        z.getCoordinate());
     }
     if (isSetWidth()) {
       attributes.remove(RenderConstants.width);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.width,
-        XMLTools.positioningToString(getWidth(), isAbsoluteWidth()));
+        width.getCoordinate());
     }
     if (isSetHeight()) {
       attributes.remove(RenderConstants.height);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.height,
-        XMLTools.positioningToString(getHeight(), isAbsoluteHeight()));
+        width.getCoordinate());
     }
     return attributes;
   }
@@ -813,23 +838,23 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
         setHref(value);
       }
       else if (attributeName.equals(RenderConstants.x)) {
-        setX(XMLTools.parsePosition(value));
+        x.setCoordinate(value);
         setAbsoluteX(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.y)) {
-        setY(XMLTools.parsePosition(value));
+        y.setCoordinate(value);
         setAbsoluteY(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.z)) {
-        setZ(XMLTools.parsePosition(value));
+        z.setCoordinate(value);
         setAbsoluteZ(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.width)) {
-        setWidth(XMLTools.parsePosition(value));
+        width.setCoordinate(value);
         setAbsoluteWidth(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.height)) {
-        setHeight(XMLTools.parsePosition(value));
+        height.setCoordinate(value);
         setAbsoluteHeight(XMLTools.isAbsolutePosition(value));
       }
       else {

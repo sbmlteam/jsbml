@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.sbml.jsbml.ext.render.RelAbsVector;
 
-
+/**
+ * @author DavidVetter
+ */
 public class RelAbsVectorTest {
 
   private static final double TOLERANCE = 1e-10;
