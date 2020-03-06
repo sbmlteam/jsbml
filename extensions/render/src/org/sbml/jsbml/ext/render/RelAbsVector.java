@@ -206,6 +206,11 @@ public class RelAbsVector {
       result.append(getRelativeValue());
       result.append("%");
     }
+    // This happens, if both relative and absolute are 0, or if either is 0 and
+    // the other not set 
+    if(result.length() == 0)
+      result.append("0");
+    
     return result.toString();
   }
   

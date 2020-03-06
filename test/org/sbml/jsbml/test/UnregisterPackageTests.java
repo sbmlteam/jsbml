@@ -811,7 +811,7 @@ public class UnregisterPackageTests {
     LocalStyle ls1 = new LocalStyle(3, 1, g1);
     ls1.setId("RLS1");
     lri1.addLocalStyle(ls1);
-    g1.createRectangle().setX(4.5);
+    g1.createRectangle().setX(new RelAbsVector(4.5));
     g1.createText().setAbsoluteX(true);
     Image image = g1.createImage();
     image.setAbsoluteX(false);

@@ -41,66 +41,28 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * 
    */
-  private Double x;
+  private RelAbsVector x, y, z, width, height;
   /**
    * 
    */
-  private Double y;
+  @Deprecated
+  private Boolean absoluteX, absoluteY, absoluteZ, absoluteWidth, absoluteHeight;
   /**
    * 
    */
-  private Double z;
+  private RelAbsVector rx, ry;
   /**
    * 
    */
-  private Double width;
-  /**
-   * 
-   */
-  private Double height;
-  /**
-   * 
-   */
-  private Boolean absoluteX;
-  /**
-   * 
-   */
-  private Boolean absoluteY;
-  /**
-   * 
-   */
-  private Boolean absoluteZ;
-  /**
-   * 
-   */
-  private Boolean absoluteWidth;
-  /**
-   * 
-   */
-  private Boolean absoluteHeight;
-  /**
-   * 
-   */
-  private Double rx;
-  /**
-   * 
-   */
-  private Double ry;
-  /**
-   * 
-   */
-  private Boolean absoluteRx;
-  /**
-   * 
-   */
-  private Boolean absoluteRy;
+  @Deprecated
+  private Boolean absoluteRx, absoluteRy;
 
   // TODO: missing ratio of type double!
   
   /**
    * @return the value of rx
    */
-  public double getRx() {
+  public RelAbsVector getRx() {
     if (isSetRx()) {
       return rx;
     }
@@ -119,8 +81,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * Set the value of rx
    * @param rx
    */
-  public void setRx(double rx) {
-    Double oldRx = this.rx;
+  public void setRx(RelAbsVector rx) {
+    RelAbsVector oldRx = this.rx;
     this.rx = rx;
     firePropertyChange(RenderConstants.rx, oldRx, this.rx);
   }
@@ -132,7 +94,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   public boolean unsetRx() {
     if (isSetRx()) {
-      Double oldRx = rx;
+      RelAbsVector oldRx = rx;
       rx = null;
       firePropertyChange(RenderConstants.rx, oldRx, rx);
       return true;
@@ -143,7 +105,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of ry
    */
-  public double getRy() {
+  public RelAbsVector getRy() {
     if (isSetRy()) {
       return ry;
     }
@@ -162,8 +124,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * Set the value of ry
    * @param ry
    */
-  public void setRy(double ry) {
-    Double oldRy = this.ry;
+  public void setRy(RelAbsVector ry) {
+    RelAbsVector oldRy = this.ry;
     this.ry = ry;
     firePropertyChange(RenderConstants.ry, oldRy, this.ry);
   }
@@ -485,7 +447,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   public boolean unsetRy() {
     if (isSetRy()) {
-      Double oldRy = ry;
+      RelAbsVector oldRy = ry;
       ry = null;
       firePropertyChange(RenderConstants.ry, oldRy, ry);
       return true;
@@ -497,7 +459,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return the value of x
    */
   @Override
-  public double getX() {
+  public RelAbsVector getX() {
     if (isSetX()) {
       return x;
     }
@@ -517,8 +479,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @see org.sbml.jsbml.ext.render.Point3D#setX(double)
    */
   @Override
-  public void setX(double x) {
-    Double oldX = this.x;
+  public void setX(RelAbsVector x) {
+    RelAbsVector oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
   }
@@ -531,7 +493,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   @Override
   public boolean unsetX() {
     if (isSetX()) {
-      Double oldX = x;
+      RelAbsVector oldX = x;
       x = null;
       firePropertyChange(RenderConstants.x, oldX, x);
       return true;
@@ -543,7 +505,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return the value of y
    */
   @Override
-  public double getY() {
+  public RelAbsVector getY() {
     if (isSetY()) {
       return y;
     }
@@ -563,8 +525,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @see org.sbml.jsbml.ext.render.Point3D#setY(double)
    */
   @Override
-  public void setY(double y) {
-    Double oldY = this.y;
+  public void setY(RelAbsVector y) {
+    RelAbsVector oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
   }
@@ -577,7 +539,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   @Override
   public boolean unsetY() {
     if (isSetY()) {
-      Double oldY = y;
+      RelAbsVector oldY = y;
       y = null;
       firePropertyChange(RenderConstants.y, oldY, y);
       return true;
@@ -589,7 +551,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return the value of z
    */
   @Override
-  public double getZ() {
+  public RelAbsVector getZ() {
     if (isSetZ()) {
       return z;
     }
@@ -609,8 +571,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @see org.sbml.jsbml.ext.render.Point3D#setZ(double)
    */
   @Override
-  public void setZ(double z) {
-    Double oldZ = this.z;
+  public void setZ(RelAbsVector z) {
+    RelAbsVector oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
   }
@@ -623,7 +585,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   @Override
   public boolean unsetZ() {
     if (isSetZ()) {
-      Double oldZ = z;
+      RelAbsVector oldZ = z;
       z = null;
       firePropertyChange(RenderConstants.z, oldZ, z);
       return true;
@@ -634,7 +596,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of height
    */
-  public double getHeight() {
+  public RelAbsVector getHeight() {
     if (isSetHeight()) {
       return height;
     }
@@ -653,8 +615,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * Set the value of height
    * @param height
    */
-  public void setHeight(double height) {
-    Double oldHeight = this.height;
+  public void setHeight(RelAbsVector height) {
+    RelAbsVector oldHeight = this.height;
     this.height = height;
     firePropertyChange(RenderConstants.height, oldHeight, this.height);
   }
@@ -666,7 +628,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   public boolean unsetHeight() {
     if (isSetHeight()) {
-      Double oldHeight = height;
+      RelAbsVector oldHeight = height;
       height = null;
       firePropertyChange(RenderConstants.height, oldHeight, height);
       return true;
@@ -677,7 +639,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of width
    */
-  public double getWidth() {
+  public RelAbsVector getWidth() {
     if (isSetWidth()) {
       return width;
     }
@@ -696,8 +658,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * Set the value of width
    * @param width
    */
-  public void setWidth(double width) {
-    Double oldWidth = this.width;
+  public void setWidth(RelAbsVector width) {
+    RelAbsVector oldWidth = this.width;
     this.width = width;
     firePropertyChange(RenderConstants.width, oldWidth, this.width);
   }
@@ -709,7 +671,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   public boolean unsetWidth() {
     if (isSetWidth()) {
-      Double oldWidth = width;
+      RelAbsVector oldWidth = width;
       width = null;
       firePropertyChange(RenderConstants.width, oldWidth, width);
       return true;
@@ -808,37 +770,37 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
     if (isSetX()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
-        XMLTools.positioningToString(getX(), isAbsoluteX()));
+        getX().getCoordinate());
     }
     if (isSetY()) {
       attributes.remove(RenderConstants.y);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
-        XMLTools.positioningToString(getY(), isAbsoluteY()));
+        getY().getCoordinate());
     }
     if (isSetZ()) {
       attributes.remove(RenderConstants.z);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
-        XMLTools.positioningToString(getZ(), isAbsoluteZ()));
+        getZ().getCoordinate());
     }
     if (isSetWidth()) {
       attributes.remove(RenderConstants.width);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.width,
-        XMLTools.positioningToString(getWidth(), isAbsoluteWidth()));
+        getWidth().getCoordinate());
     }
     if (isSetHeight()) {
       attributes.remove(RenderConstants.height);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.height,
-        XMLTools.positioningToString(getHeight(), isAbsoluteHeight()));
+        getHeight().getCoordinate());
     }
     if (isSetRx()) {
       attributes.remove(RenderConstants.rx);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.rx,
-        XMLTools.positioningToString(getRx(), isAbsoluteRx()));
+        getRx().getCoordinate());
     }
     if (isSetRy()) {
       attributes.remove(RenderConstants.ry);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ry,
-        XMLTools.positioningToString(getRy(), isAbsoluteRy()));
+        getRy().getCoordinate());
     }
 
     return attributes;
@@ -855,32 +817,25 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.x)) {
-        setX(XMLTools.parsePosition(value));
-        setAbsoluteX(XMLTools.isAbsolutePosition(value));
+        setX(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.y)) {
-        setY(XMLTools.parsePosition(value));
-        setAbsoluteY(XMLTools.isAbsolutePosition(value));
+        setY(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.z)) {
-        setZ(XMLTools.parsePosition(value));
-        setAbsoluteZ(XMLTools.isAbsolutePosition(value));
+        setZ(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.width)) {
-        setWidth(XMLTools.parsePosition(value));
-        setAbsoluteWidth(XMLTools.isAbsolutePosition(value));
+        setWidth(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.height)) {
-        setHeight(XMLTools.parsePosition(value));
-        setAbsoluteHeight(XMLTools.isAbsolutePosition(value));
+        setHeight(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.rx)) {
-        setRx(XMLTools.parsePosition(value));
-        setAbsoluteRx(XMLTools.isAbsolutePosition(value));
+        setRx(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.ry)) {
-        setRy(XMLTools.parsePosition(value));
-        setAbsoluteRy(XMLTools.isAbsolutePosition(value));
+        setRy(new RelAbsVector(value));
       }
       else {
         isAttributeRead = false;
@@ -932,55 +887,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
       return false;
     }
     Rectangle other = (Rectangle) obj;
-    if (absoluteHeight == null) {
-      if (other.absoluteHeight != null) {
-        return false;
-      }
-    } else if (!absoluteHeight.equals(other.absoluteHeight)) {
-      return false;
-    }
-    if (absoluteRx == null) {
-      if (other.absoluteRx != null) {
-        return false;
-      }
-    } else if (!absoluteRx.equals(other.absoluteRx)) {
-      return false;
-    }
-    if (absoluteRy == null) {
-      if (other.absoluteRy != null) {
-        return false;
-      }
-    } else if (!absoluteRy.equals(other.absoluteRy)) {
-      return false;
-    }
-    if (absoluteWidth == null) {
-      if (other.absoluteWidth != null) {
-        return false;
-      }
-    } else if (!absoluteWidth.equals(other.absoluteWidth)) {
-      return false;
-    }
-    if (absoluteX == null) {
-      if (other.absoluteX != null) {
-        return false;
-      }
-    } else if (!absoluteX.equals(other.absoluteX)) {
-      return false;
-    }
-    if (absoluteY == null) {
-      if (other.absoluteY != null) {
-        return false;
-      }
-    } else if (!absoluteY.equals(other.absoluteY)) {
-      return false;
-    }
-    if (absoluteZ == null) {
-      if (other.absoluteZ != null) {
-        return false;
-      }
-    } else if (!absoluteZ.equals(other.absoluteZ)) {
-      return false;
-    }
     if (height == null) {
       if (other.height != null) {
         return false;

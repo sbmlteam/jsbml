@@ -80,15 +80,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /**
    * 
    */
-  private Double x;
-  /**
-   * 
-   */
-  private Double y;
-  /**
-   * 
-   */
-  private Double z;
+  private RelAbsVector x, y, z;
   /**
    * The actual text to be displayed
    */
@@ -202,7 +194,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#getX()
    */
   @Override
-  public double getX() {
+  public RelAbsVector getX() {
     if (isSetX()) {
       return x;
     }
@@ -214,7 +206,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#getY()
    */
   @Override
-  public double getY() {
+  public RelAbsVector getY() {
     if (isSetY()) {
       return y;
     }
@@ -226,7 +218,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#getZ()
    */
   @Override
-  public double getZ() {
+  public RelAbsVector getZ() {
     if (isSetZ()) {
       return z;
     }
@@ -513,8 +505,8 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#setX(java.lang.Double)
    */
   @Override
-  public void setX(double x) {
-    Double oldX = this.x;
+  public void setX(RelAbsVector x) {
+    RelAbsVector oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
   }
@@ -523,8 +515,8 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#setY(java.lang.Double)
    */
   @Override
-  public void setY(double y) {
-    Double oldY = this.y;
+  public void setY(RelAbsVector y) {
+    RelAbsVector oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
   }
@@ -533,8 +525,8 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#setZ(java.lang.Double)
    */
   @Override
-  public void setZ(double z) {
-    Double oldZ = this.z;
+  public void setZ(RelAbsVector z) {
+    RelAbsVector oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
   }
@@ -686,7 +678,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetX() {
     if (isSetX()) {
-      Double oldX = x;
+      RelAbsVector oldX = x;
       x = null;
       firePropertyChange(RenderConstants.x, oldX, x);
       return true;
@@ -700,7 +692,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetY() {
     if (isSetY()) {
-      Double oldY = y;
+      RelAbsVector oldY = y;
       y = null;
       firePropertyChange(RenderConstants.y, oldY, y);
       return true;
@@ -714,7 +706,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetZ() {
     if (isSetZ()) {
-      Double oldZ = z;
+      RelAbsVector oldZ = z;
       z = null;
       firePropertyChange(RenderConstants.z, oldZ, z);
       return true;
@@ -748,15 +740,15 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     }
     if (isSetX()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
-        XMLTools.positioningToString(getX(), isAbsoluteX()));
+        getX().getCoordinate());
     }
     if (isSetY()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
-        XMLTools.positioningToString(getY(), isAbsoluteY()));
+        getY().getCoordinate());
     }
     if (isSetZ()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
-        XMLTools.positioningToString(getZ(), isAbsoluteZ()));
+        getZ().getCoordinate());
     }
     if (isSetFontStyleItalic()) {
       attributes.put(RenderConstants.fontStyleItalic,
@@ -811,15 +803,15 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
         setFontSize(Short.valueOf(value));
       }
       else if (attributeName.equals(RenderConstants.x)) {
-        setX(XMLTools.parsePosition(value));
+        setX(new RelAbsVector(value));
         setAbsoluteX(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.y)) {
-        setY(XMLTools.parsePosition(value));
+        setY(new RelAbsVector(value));
         setAbsoluteY(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.z)) {
-        setZ(XMLTools.parsePosition(value));
+        setZ(new RelAbsVector(value));
         setAbsoluteZ(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.fontStyleItalic)) {
@@ -877,27 +869,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
       return false;
     }
     Text other = (Text) obj;
-    if (absoluteX == null) {
-      if (other.absoluteX != null) {
-        return false;
-      }
-    } else if (!absoluteX.equals(other.absoluteX)) {
-      return false;
-    }
-    if (absoluteY == null) {
-      if (other.absoluteY != null) {
-        return false;
-      }
-    } else if (!absoluteY.equals(other.absoluteY)) {
-      return false;
-    }
-    if (absoluteZ == null) {
-      if (other.absoluteZ != null) {
-        return false;
-      }
-    } else if (!absoluteZ.equals(other.absoluteZ)) {
-      return false;
-    }
+    
     if (!fontFamily.equals(other.fontFamily)) {
       return false;
     }

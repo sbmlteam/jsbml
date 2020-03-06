@@ -31,46 +31,52 @@ public interface Point3D {
   /**
    * @return the value of absoluteY
    */
+  @Deprecated
   public abstract boolean isAbsoluteY();
 
   /**
    * @return the value of absoluteZ
    */
+  @Deprecated
   public abstract boolean isAbsoluteZ();
 
   /**
    * @return the value of x
    */
-  public abstract double getX();
+  public abstract RelAbsVector getX();
 
   /**
    * @return the value of y
    */
-  public abstract double getY();
+  public abstract RelAbsVector getY();
 
   /**
    * @return the value of z
    */
-  public abstract double getZ();
+  public abstract RelAbsVector getZ();
 
   /**
    * @return the value of absoluteX
    */
+  @Deprecated
   public abstract boolean isAbsoluteX();
 
   /**
    * @return whether absoluteX is set
    */
+  @Deprecated
   public abstract boolean isSetAbsoluteX();
 
   /**
    * @return whether absoluteY is set
    */
+  @Deprecated
   public abstract boolean isSetAbsoluteY();
 
   /**
    * @return whether absoluteZ is set
    */
+  @Deprecated
   public abstract boolean isSetAbsoluteZ();
 
   /**
@@ -92,43 +98,47 @@ public interface Point3D {
    * Set the value of absoluteX
    * @param absoluteX
    */
+  @Deprecated
   public abstract void setAbsoluteX(boolean absoluteX);
 
   /**
    * Set the value of absoluteY
    * @param absoluteY
    */
+  @Deprecated
   public abstract void setAbsoluteY(boolean absoluteY);
 
   /**
    * Set the value of absoluteZ
    * @param absoluteZ
    */
+  @Deprecated
   public abstract void setAbsoluteZ(boolean absoluteZ);
 
   /**
    * Set the value of x
    * @param x
    */
-  public abstract void setX(double x);
+  public abstract void setX(RelAbsVector x);
 
   /**
    * Set the value of y
    * @param y
    */
-  public abstract void setY(double y);
+  public abstract void setY(RelAbsVector y);
 
   /**
    * Set the value of z
    * @param z
    */
-  public abstract void setZ(double z);
+  public abstract void setZ(RelAbsVector z);
 
   /**
    * Unsets the variable absoluteX
    * @return {@code true}, if absoluteX was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public abstract boolean unsetAbsoluteX();
 
   /**
@@ -136,6 +146,7 @@ public interface Point3D {
    * @return {@code true}, if absoluteY was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public abstract boolean unsetAbsoluteY();
 
   /**
@@ -143,6 +154,7 @@ public interface Point3D {
    * @return {@code true}, if absoluteZ was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public abstract boolean unsetAbsoluteZ();
 
   /**

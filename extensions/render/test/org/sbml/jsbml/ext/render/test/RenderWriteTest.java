@@ -42,6 +42,7 @@ import org.sbml.jsbml.ext.render.HTextAnchor;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Rectangle;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderGraphicalObjectPlugin;
 import org.sbml.jsbml.ext.render.RenderGroup;
@@ -193,8 +194,8 @@ public class RenderWriteTest {
     questionmark.setFontFamily("monospace");
     questionmark.setTextAnchor(HTextAnchor.START);
     questionmark.setVTextAnchor(VTextAnchor.TOP);    
-    questionmark.setX(0); questionmark.setAbsoluteX(true);
-    questionmark.setY(0); questionmark.setAbsoluteY(true);
+    questionmark.setX(new RelAbsVector(0));
+    questionmark.setY(new RelAbsVector(0));
     questionmark.setText("?");
     
     LocalStyle style = new LocalStyle(group);
@@ -228,10 +229,10 @@ public class RenderWriteTest {
   public void testWriteReadTransformation2D() throws SBMLException, XMLStreamException {
     RenderGroup group = new RenderGroup();
     Rectangle rectangle = group.createRectangle();
-    rectangle.setHeight(20); rectangle.setAbsoluteHeight(true);
-    rectangle.setWidth(10); rectangle.setAbsoluteWidth(true);
-    rectangle.setX(2); rectangle.setAbsoluteX(true);
-    rectangle.setY(0); rectangle.setAbsoluteY(true);
+    rectangle.setHeight(new RelAbsVector(20));
+    rectangle.setWidth(new RelAbsVector(10)); 
+    rectangle.setX(new RelAbsVector(2)); 
+    rectangle.setY(new RelAbsVector(0)); 
     
     rectangle.setTransform(new Double[] {new Double(0), new Double(1),
       new Double(-1), new Double(0), new Double(4), new Double(-2)});
@@ -258,6 +259,8 @@ public class RenderWriteTest {
         RenderConstants.namespaceURI)).getLocalRenderInformation(0)
                                       .getListOfLocalStyles().get(0).getGroup()
                                       .getElement(0);
+    System.out.println(rectangle);
+    System.out.println(readTransformation);
     assertEquals((Transformation2D) rectangle, readTransformation);
   }
 }
