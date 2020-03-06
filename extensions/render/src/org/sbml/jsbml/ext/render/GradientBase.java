@@ -379,7 +379,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * @param stopColor
    * @return
    */
-  public GradientStop createGradientStop(double offset, String stopColor) {
+  public GradientStop createGradientStop(RelAbsVector offset, String stopColor) {
     GradientStop field = new GradientStop(offset, stopColor, getLevel(), getVersion());
     addGradientStop(field);
     return field;

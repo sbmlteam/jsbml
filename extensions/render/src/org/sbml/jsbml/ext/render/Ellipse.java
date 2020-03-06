@@ -44,42 +44,47 @@ public class Ellipse extends GraphicalPrimitive2D {
   /**
    * 
    */
-  protected Double cx;
+  protected RelAbsVector cx;
   /**
    * 
    */
-  protected Double cy;
+  protected RelAbsVector cy;
   /**
    * 
    */
-  protected Double cz;
+  protected RelAbsVector cz;
   /**
    * 
    */
-  protected Double rx;
+  protected RelAbsVector rx;
   /**
    * 
    */
-  protected Double ry;
+  protected RelAbsVector ry;
   /**
    * 
    */
+  @Deprecated
   protected Boolean absoluteCx;
   /**
    * 
    */
+  @Deprecated
   protected Boolean absoluteCy;
   /**
    * 
    */
+  @Deprecated
   protected Boolean absoluteCz;
   /**
    * 
    */
+  @Deprecated
   protected Boolean absoluteRx;
   /**
    * 
    */
+  @Deprecated
   protected Boolean absoluteRy;
 
   protected Double ratio;
@@ -139,7 +144,7 @@ public class Ellipse extends GraphicalPrimitive2D {
   /**
    * @return the value of cx
    */
-  public double getCx() {
+  public RelAbsVector getCx() {
     if (isSetCx()) {
       return cx;
     }
@@ -278,8 +283,8 @@ public class Ellipse extends GraphicalPrimitive2D {
    * Set the value of cx
    * @param cx
    */
-  public void setCx(double cx) {
-    Double oldCx = this.cx;
+  public void setCx(RelAbsVector cx) {
+    RelAbsVector oldCx = this.cx;
     this.cx = cx;
     firePropertyChange(RenderConstants.cx, oldCx, this.cx);
   }
@@ -291,7 +296,7 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public boolean unsetCx() {
     if (isSetCx()) {
-      Double oldCx = cx;
+      RelAbsVector oldCx = cx;
       cx = null;
       firePropertyChange(RenderConstants.cx, oldCx, cx);
       return true;
@@ -302,7 +307,7 @@ public class Ellipse extends GraphicalPrimitive2D {
   /**
    * @return the value of cy
    */
-  public double getCy() {
+  public RelAbsVector getCy() {
     if (isSetCy()) {
       return cy;
     }
@@ -321,8 +326,8 @@ public class Ellipse extends GraphicalPrimitive2D {
    * Set the value of cy
    * @param cy
    */
-  public void setCy(Double cy) {
-    Double oldCy = this.cy;
+  public void setCy(RelAbsVector cy) {
+    RelAbsVector oldCy = this.cy;
     this.cy = cy;
     firePropertyChange(RenderConstants.cy, oldCy, this.cy);
   }
@@ -334,7 +339,7 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public boolean unsetCy() {
     if (isSetCy()) {
-      Double oldCy = cy;
+      RelAbsVector oldCy = cy;
       cy = null;
       firePropertyChange(RenderConstants.cy, oldCy, cy);
       return true;
@@ -345,7 +350,7 @@ public class Ellipse extends GraphicalPrimitive2D {
   /**
    * @return the value of cz
    */
-  public double getCz() {
+  public RelAbsVector getCz() {
     if (isSetCz()) {
       return cz;
     }
@@ -364,8 +369,8 @@ public class Ellipse extends GraphicalPrimitive2D {
    * Set the value of cz
    * @param cz
    */
-  public void setCz(Double cz) {
-    Double oldCz = this.cz;
+  public void setCz(RelAbsVector cz) {
+    RelAbsVector oldCz = this.cz;
     this.cz = cz;
     firePropertyChange(RenderConstants.cz, oldCz, this.cz);
   }
@@ -377,7 +382,7 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public boolean unsetCz() {
     if (isSetCz()) {
-      Double oldCz = cz;
+      RelAbsVector oldCz = cz;
       cz = null;
       firePropertyChange(RenderConstants.cz, oldCz, cz);
       return true;
@@ -426,7 +431,7 @@ public class Ellipse extends GraphicalPrimitive2D {
   /**
    * @return the value of rx
    */
-  public double getRx() {
+  public RelAbsVector getRx() {
     if (isSetRx()) {
       return rx;
     }
@@ -445,8 +450,8 @@ public class Ellipse extends GraphicalPrimitive2D {
    * Set the value of rx
    * @param rx
    */
-  public void setRx(Double rx) {
-    Double oldRx = this.rx;
+  public void setRx(RelAbsVector rx) {
+    RelAbsVector oldRx = this.rx;
     this.rx = rx;
     firePropertyChange(RenderConstants.rx, oldRx, this.rx);
   }
@@ -458,7 +463,7 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public boolean unsetRx() {
     if (isSetRx()) {
-      Double oldRx = rx;
+      RelAbsVector oldRx = rx;
       rx = null;
       firePropertyChange(RenderConstants.rx, oldRx, rx);
       return true;
@@ -469,7 +474,7 @@ public class Ellipse extends GraphicalPrimitive2D {
   /**
    * @return the value of ry
    */
-  public double getRy() {
+  public RelAbsVector getRy() {
     if (isSetRy()) {
       return ry;
     }
@@ -488,8 +493,8 @@ public class Ellipse extends GraphicalPrimitive2D {
    * Set the value of ry
    * @param ry
    */
-  public void setRy(Double ry) {
-    Double oldRy = this.ry;
+  public void setRy(RelAbsVector ry) {
+    RelAbsVector oldRy = this.ry;
     this.ry = ry;
     firePropertyChange(RenderConstants.ry, oldRy, this.ry);
   }
@@ -501,7 +506,7 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public boolean unsetRy() {
     if (isSetRy()) {
-      Double oldRy = ry;
+      RelAbsVector oldRy = ry;
       ry = null;
       firePropertyChange(RenderConstants.ry, oldRy, ry);
       return true;
@@ -736,27 +741,27 @@ public class Ellipse extends GraphicalPrimitive2D {
     if (isSetCx()) {
       attributes.remove(RenderConstants.cx);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cx,
-        XMLTools.positioningToString(getCx(), isAbsoluteCx()));
+        getCx().getCoordinate());
     }
     if (isSetCy()) {
       attributes.remove(RenderConstants.cy);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cy,
-        XMLTools.positioningToString(getCy(), isAbsoluteCy()));
+        getCy().getCoordinate());
     }
     if (isSetCz()) {
       attributes.remove(RenderConstants.cz);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cz,
-        XMLTools.positioningToString(getCz(), isAbsoluteCz()));
+        getCz().getCoordinate());
     }
     if (isSetRx()) {
       attributes.remove(RenderConstants.rx);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.rx,
-        XMLTools.positioningToString(getRx(), isAbsoluteRx()));
+        getRx().getCoordinate());
     }
     if (isSetRy()) {
       attributes.remove(RenderConstants.ry);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ry,
-        XMLTools.positioningToString(getRy(), isAbsoluteRy()));
+        getRy().getCoordinate());
     }
     if(isSetRatio()) {
       attributes.remove(RenderConstants.ratio);
@@ -778,23 +783,23 @@ public class Ellipse extends GraphicalPrimitive2D {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.cx)) {
-        setCx(XMLTools.parsePosition(value));
+        setCx(new RelAbsVector(value));
         setAbsoluteCx(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cy)) {
-        setCy(XMLTools.parsePosition(value));
+        setCy(new RelAbsVector(value));
         setAbsoluteCy(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cz)) {
-        setCz(XMLTools.parsePosition(value));
+        setCz(new RelAbsVector(value));
         setAbsoluteCz(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.rx)) {
-        setRx(XMLTools.parsePosition(value));
+        setRx(new RelAbsVector(value));
         setAbsoluteRx(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.ry)) {
-        setRy(XMLTools.parsePosition(value));
+        setRy(new RelAbsVector(value));
         setAbsoluteRy(XMLTools.isAbsolutePosition(value));
       }
       else if(attributeName.equals(RenderConstants.ratio)) {

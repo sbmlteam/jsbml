@@ -38,61 +38,44 @@ public class RadialGradient extends GradientBase {
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteCx;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteCy;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteCz;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteR;
 
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteFx;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteFy;
   /**
    * 
    */
+  @Deprecated
   private Boolean absoluteFz;
 
   /**
    * 
    */
-  private Double cx;
-  /**
-   * 
-   */
-  private Double cy;
-  /**
-   * 
-   */
-  private Double cz;
-  /**
-   * 
-   */
-  private Double r;
-  /**
-   * 
-   */
-  private Double fx;
-  /**
-   * 
-   */
-  private Double fy;
-  /**
-   * 
-   */
-  private Double fz;
+  private RelAbsVector cx, cy, cz, r, fx, fy, fz;
 
 
   /**
@@ -136,7 +119,7 @@ public class RadialGradient extends GradientBase {
   /**
    * @return the value of cx
    */
-  public double getCx() {
+  public RelAbsVector getCx() {
     if (isSetCx()) {
       return cx;
     }
@@ -147,7 +130,7 @@ public class RadialGradient extends GradientBase {
   /**
    * @return the value of cy
    */
-  public double getCy() {
+  public RelAbsVector getCy() {
     if (isSetCy()) {
       return cy;
     }
@@ -158,7 +141,7 @@ public class RadialGradient extends GradientBase {
   /**
    * @return the value of cz
    */
-  public double getCz() {
+  public RelAbsVector getCz() {
     if (isSetCz()) {
       return cz;
     }
@@ -169,7 +152,7 @@ public class RadialGradient extends GradientBase {
   /**
    * @return the value of fx
    */
-  public double getFx() {
+  public RelAbsVector getFx() {
     if (isSetFx()) {
       return fx;
     }
@@ -180,7 +163,7 @@ public class RadialGradient extends GradientBase {
   /**
    * @return the value of fy
    */
-  public double getFy() {
+  public RelAbsVector getFy() {
     if (isSetFy()) {
       return fy;
     }
@@ -191,7 +174,7 @@ public class RadialGradient extends GradientBase {
   /**
    * @return the value of fz
    */
-  public double getFz() {
+  public RelAbsVector getFz() {
     if (isSetFz()) {
       return fz;
     }
@@ -202,7 +185,7 @@ public class RadialGradient extends GradientBase {
   /**
    * @return the value of r
    */
-  public double getR() {
+  public RelAbsVector getR() {
     if (isSetR()) {
       return r;
     }
@@ -483,8 +466,8 @@ public class RadialGradient extends GradientBase {
    * Set the value of cx
    * @param cx
    */
-  public void setCx(double cx) {
-    Double oldCx = this.cx;
+  public void setCx(RelAbsVector cx) {
+    RelAbsVector oldCx = this.cx;
     this.cx = cx;
     firePropertyChange(RenderConstants.cx, oldCx, this.cx);
   }
@@ -493,8 +476,8 @@ public class RadialGradient extends GradientBase {
    * Set the value of cy
    * @param cy
    */
-  public void setCy(double cy) {
-    Double oldCy = this.cy;
+  public void setCy(RelAbsVector cy) {
+    RelAbsVector oldCy = this.cy;
     this.cy = cy;
     firePropertyChange(RenderConstants.cy, oldCy, this.cy);
   }
@@ -503,8 +486,8 @@ public class RadialGradient extends GradientBase {
    * Set the value of cz
    * @param cz
    */
-  public void setCz(double cz) {
-    Double oldCz = this.cz;
+  public void setCz(RelAbsVector cz) {
+    RelAbsVector oldCz = this.cz;
     this.cz = cz;
     firePropertyChange(RenderConstants.cz, oldCz, this.cz);
   }
@@ -513,8 +496,8 @@ public class RadialGradient extends GradientBase {
    * Set the value of fx
    * @param fx
    */
-  public void setFx(double fx) {
-    Double oldFx = this.fx;
+  public void setFx(RelAbsVector fx) {
+    RelAbsVector oldFx = this.fx;
     this.fx = fx;
     firePropertyChange(RenderConstants.fx, oldFx, this.fx);
   }
@@ -523,8 +506,8 @@ public class RadialGradient extends GradientBase {
    * Set the value of fy
    * @param fy
    */
-  public void setFy(double fy) {
-    Double oldFy = this.fy;
+  public void setFy(RelAbsVector fy) {
+    RelAbsVector oldFy = this.fy;
     this.fy = fy;
     firePropertyChange(RenderConstants.fy, oldFy, this.fy);
   }
@@ -533,8 +516,8 @@ public class RadialGradient extends GradientBase {
    * Set the value of fz
    * @param fz
    */
-  public void setFz(double fz) {
-    Double oldFz = this.fz;
+  public void setFz(RelAbsVector fz) {
+    RelAbsVector oldFz = this.fz;
     this.fz = fz;
     firePropertyChange(RenderConstants.fz, oldFz, this.fz);
   }
@@ -543,8 +526,8 @@ public class RadialGradient extends GradientBase {
    * Set the value of r
    * @param r
    */
-  public void setR(double r) {
-    Double oldR = this.r;
+  public void setR(RelAbsVector r) {
+    RelAbsVector oldR = this.r;
     this.r = r;
     firePropertyChange(RenderConstants.r, oldR, this.r);
   }
@@ -661,7 +644,7 @@ public class RadialGradient extends GradientBase {
    */
   public boolean unsetCx() {
     if (isSetCx()) {
-      Double oldCx = cx;
+      RelAbsVector oldCx = cx;
       cx = null;
       firePropertyChange(RenderConstants.cx, oldCx, cx);
       return true;
@@ -676,7 +659,7 @@ public class RadialGradient extends GradientBase {
    */
   public boolean unsetCy() {
     if (isSetCy()) {
-      Double oldCy = cy;
+      RelAbsVector oldCy = cy;
       cy = null;
       firePropertyChange(RenderConstants.cy, oldCy, cy);
       return true;
@@ -691,7 +674,7 @@ public class RadialGradient extends GradientBase {
    */
   public boolean unsetCz() {
     if (isSetCz()) {
-      Double oldCz = cz;
+      RelAbsVector oldCz = cz;
       cz = null;
       firePropertyChange(RenderConstants.cz, oldCz, cz);
       return true;
@@ -706,7 +689,7 @@ public class RadialGradient extends GradientBase {
    */
   public boolean unsetFx() {
     if (isSetFx()) {
-      Double oldFx = fx;
+      RelAbsVector oldFx = fx;
       fx = null;
       firePropertyChange(RenderConstants.fx, oldFx, fx);
       return true;
@@ -721,7 +704,7 @@ public class RadialGradient extends GradientBase {
    */
   public boolean unsetFy() {
     if (isSetFy()) {
-      Double oldFy = fy;
+      RelAbsVector oldFy = fy;
       fy = null;
       firePropertyChange(RenderConstants.fy, oldFy, fy);
       return true;
@@ -736,7 +719,7 @@ public class RadialGradient extends GradientBase {
    */
   public boolean unsetFz() {
     if (isSetFz()) {
-      Double oldFz = fz;
+      RelAbsVector oldFz = fz;
       fz = null;
       firePropertyChange(RenderConstants.fz, oldFz, fz);
       return true;
@@ -751,7 +734,7 @@ public class RadialGradient extends GradientBase {
    */
   public boolean unsetR() {
     if (isSetR()) {
-      Double oldR = r;
+      RelAbsVector oldR = r;
       r = null;
       firePropertyChange(RenderConstants.r, oldR, r);
       return true;
@@ -769,37 +752,37 @@ public class RadialGradient extends GradientBase {
     if (isSetR()) {
       attributes.remove(RenderConstants.r);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.r,
-        XMLTools.positioningToString(getR(), isAbsoluteR()));
+        getR().getCoordinate());
     }
     if (isSetCx()) {
       attributes.remove(RenderConstants.cx);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cx,
-        XMLTools.positioningToString(getCx(), isAbsoluteCx()));
+        getCx().getCoordinate());
     }
     if (isSetCy()) {
       attributes.remove(RenderConstants.cy);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cy,
-        XMLTools.positioningToString(getCy(), isAbsoluteCy()));
+        getCy().getCoordinate());
     }
     if (isSetCz()) {
       attributes.remove(RenderConstants.cz);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cz,
-        XMLTools.positioningToString(getCz(), isAbsoluteCz()));
+        getCz().getCoordinate());
     }
     if (isSetFx()) {
       attributes.remove(RenderConstants.fx);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fx,
-        XMLTools.positioningToString(getFx(), isAbsoluteFx()));
+        getFx().getCoordinate());
     }
     if (isSetFy()) {
       attributes.remove(RenderConstants.fy);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fy,
-        XMLTools.positioningToString(getFy(), isAbsoluteFy()));
+        getFy().getCoordinate());
     }
     if (isSetFz()) {
       attributes.remove(RenderConstants.fz);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fz,
-        XMLTools.positioningToString(getFz(), isAbsoluteFz()));
+        getFz().getCoordinate());
     }
     return attributes;
   }
@@ -814,31 +797,31 @@ public class RadialGradient extends GradientBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.r)) {
-        setR(XMLTools.parsePosition(value));
+        setR(new RelAbsVector(value));
         setAbsoluteR(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cx)) {
-        setCx(XMLTools.parsePosition(value));
+        setCx(new RelAbsVector(value));
         setAbsoluteCx(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cy)) {
-        setCy(XMLTools.parsePosition(value));
+        setCy(new RelAbsVector(value));
         setAbsoluteCy(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cz)) {
-        setCz(XMLTools.parsePosition(value));
+        setCz(new RelAbsVector(value));
         setAbsoluteCz(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.fx)) {
-        setFx(XMLTools.parsePosition(value));
+        setFx(new RelAbsVector(value));
         setAbsoluteFx(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.fy)) {
-        setFy(XMLTools.parsePosition(value));
+        setFy(new RelAbsVector(value));
         setAbsoluteFy(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.fz)) {
-        setFz(XMLTools.parsePosition(value));
+        setFz(new RelAbsVector(value));
         setAbsoluteFz(XMLTools.isAbsolutePosition(value));
       }
       else {

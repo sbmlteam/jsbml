@@ -838,23 +838,23 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
         setHref(value);
       }
       else if (attributeName.equals(RenderConstants.x)) {
-        x.setCoordinate(value);
+        setX(new RelAbsVector(value));
         setAbsoluteX(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.y)) {
-        y.setCoordinate(value);
+        setY(new RelAbsVector(value));
         setAbsoluteY(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.z)) {
-        z.setCoordinate(value);
+        setZ(new RelAbsVector(value));
         setAbsoluteZ(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.width)) {
-        width.setCoordinate(value);
+        setWidth(new RelAbsVector(value));
         setAbsoluteWidth(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.height)) {
-        height.setCoordinate(value);
+        setHeight(new RelAbsVector(value));
         setAbsoluteHeight(XMLTools.isAbsolutePosition(value));
       }
       else {
