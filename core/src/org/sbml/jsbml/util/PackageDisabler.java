@@ -137,7 +137,7 @@ public class PackageDisabler {
       for (int i = 0; i < node.getChildCount(); i++) {
         TreeNode child = node.getChildAt(i);
         if (child instanceof SBase) {
-          System.out.println("inUse: child of node is instance of SBase");
+          System.out.println("inUse: child of node is instance of SBase " + child.toString());
           SBasePlugin plug = ((SBase) child).getExtension(nameOrUri);
           if (plug != null) {
             System.out.println("inUse: SBasePlugin of child is not null -> is in use");

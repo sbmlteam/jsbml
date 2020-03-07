@@ -17,7 +17,9 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompModelPlugin;
+import org.sbml.jsbml.ext.comp.CompSBasePlugin;
 import org.sbml.jsbml.ext.comp.Port;
+import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
 import org.sbml.jsbml.ext.distrib.DistribSBasePlugin;
 import org.sbml.jsbml.ext.dyn.DynConstants;
@@ -84,43 +86,38 @@ public class PackageDisablerTests {
   public void disableUnusedTest() {
     
     assertTrue(doc.isPackageEnabled(CompConstants.shortLabel) == true); 
-//    assertTrue(doc.isPackageEnabled(LayoutConstants.shortLabel) == true);
-//    assertTrue(doc.isPackageEnabled(ArraysConstants.shortLabel) == true);
-//    assertTrue(doc.isPackageEnabled(DistribConstants.shortLabel) == true); 
-//    assertTrue(doc.isPackageEnabled(DynConstants.shortLabel) == true);
-//    assertTrue(doc.isPackageEnabled(FBCConstants.shortLabel) == true);
-//    assertTrue(doc.isPackageEnabled(GroupsConstants.shortLabel) == true);
-//    assertTrue(doc.isPackageEnabled(MultiConstants.shortLabel) == true);
-//    assertTrue(doc.isPackageEnabled(QualConstants.shortLabel) == true);
-//    assertTrue(doc.isPackageEnabled(SpatialConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(LayoutConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(ArraysConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(DistribConstants.shortLabel) == true); 
+    assertTrue(doc.isPackageEnabled(DynConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(FBCConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(GroupsConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(MultiConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(QualConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(SpatialConstants.shortLabel) == true);
 
-    //simulate used compModel 
+    //used compModel 
     assertTrue((compModel.getChildCount() == 0) == true);
-    compModel.createSubmodel("submodel1");
-    compModel.createPort();
+    Submodel sm1 = compModel.createSubmodel("submodel1");
+    Submodel sm2 = compModel.createSubmodel("submodel2");
+    Port port1 = compModel.createPort();
+    sm1.addExtension(CompConstants.shortLabel, new CompSBasePlugin());  
+    assertTrue((sm1.getExtensionCount() > 0) == true);
     assertTrue((compModel.getChildCount() == 2) == true);
     
-    try {
-      new SBMLWriter().write(doc, new BufferedOutputStream(System.out),
-        "SBMLWriterTest", "");
-    } catch (XMLStreamException e) {
-      e.printStackTrace();
-    } catch (SBMLException e) {
-      e.printStackTrace();
-    }
-    
+    //used layoutModel
+     
     pDisabler.disableUnused(); 
-
-    assertTrue(doc.isPackageEnabled(CompConstants.shortLabel) == false); 
-//    assertTrue(doc.isPackageEnabled(LayoutConstants.shortLabel) == false);
-//    assertTrue(doc.isPackageEnabled(ArraysConstants.shortLabel) == false);
-//    assertTrue(doc.isPackageEnabled(DistribConstants.shortLabel) == false); 
-//    assertTrue(doc.isPackageEnabled(DynConstants.shortLabel) == false);
-//    assertTrue(doc.isPackageEnabled(FBCConstants.shortLabel) == false);
-//    assertTrue(doc.isPackageEnabled(GroupsConstants.shortLabel) == false);
-//    assertTrue(doc.isPackageEnabled(MultiConstants.shortLabel) == false);
-//    assertTrue(doc.isPackageEnabled(QualConstants.shortLabel) == false);
-//    assertTrue(doc.isPackageEnabled(SpatialConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(CompConstants.shortLabel) == true);
+    assertTrue(doc.isPackageEnabled(LayoutConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(ArraysConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(DistribConstants.shortLabel) == false); 
+    assertTrue(doc.isPackageEnabled(DynConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(FBCConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(GroupsConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(MultiConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(QualConstants.shortLabel) == false);
+    assertTrue(doc.isPackageEnabled(SpatialConstants.shortLabel) == false);
 
     //TODO - make packages used 
   }
