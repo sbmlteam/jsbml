@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderCubicBezier;
 
 
@@ -60,8 +61,8 @@ public class RenderCubicBezierTest {
   public void testGetX1() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     assertTrue(!bezier.isSetX1());
-    bezier.setX1(0.02d);
-    assertEquals(bezier.getX1(),0.02d,0.00000001d);
+    bezier.setX1(new RelAbsVector(0.02d));
+    assertEquals(bezier.getX1().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -72,8 +73,8 @@ public class RenderCubicBezierTest {
   public void testGetX2() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     assertTrue(!bezier.isSetX2());
-    bezier.setX2(0.02d);
-    assertEquals(bezier.getX2(),0.02d,0.00000001d);
+    bezier.setX2(new RelAbsVector(0.02d));
+    assertEquals(bezier.getX2().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -84,8 +85,8 @@ public class RenderCubicBezierTest {
   public void testGetY1() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     assertTrue(!bezier.isSetY1());
-    bezier.setY1(0.02d);
-    assertEquals(bezier.getY1(),0.02d,0.00000001d);
+    bezier.setY1(new RelAbsVector(0.02d));
+    assertEquals(bezier.getY1().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -96,8 +97,8 @@ public class RenderCubicBezierTest {
   public void testGetY2() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     assertTrue(!bezier.isSetY2());
-    bezier.setY2(0.02d);
-    assertEquals(bezier.getY2(),0.02d,0.00000001d);
+    bezier.setY2(new RelAbsVector(0.02d));
+    assertEquals(bezier.getY2().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -107,9 +108,9 @@ public class RenderCubicBezierTest {
   @Test
   public void testGetZ1() {
     RenderCubicBezier bezier=new RenderCubicBezier();
-    bezier.setZ1(0.02d);
+    bezier.setZ1(new RelAbsVector(0.02d));
     assertTrue(bezier.isSetZ1());
-    assertEquals(bezier.getZ1(),0.02d,0.00000001d);
+    assertEquals(bezier.getZ1().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -119,9 +120,9 @@ public class RenderCubicBezierTest {
   @Test
   public void testGetZ2() {
     RenderCubicBezier bezier=new RenderCubicBezier();
-    bezier.setZ2(0.02d);
+    bezier.setZ2(new RelAbsVector(0.02d));
     assertTrue(bezier.isSetZ2());
-    assertEquals(bezier.getZ2(),0.02d,0.00000001d);
+    assertEquals(bezier.getZ2().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -276,7 +277,7 @@ public class RenderCubicBezierTest {
   public void testIsSetX1() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     double d=0.02d;
-    bezier.setX1(d);
+    bezier.setX1(new RelAbsVector(d));
     assertTrue(bezier.isSetX1());
   }
 
@@ -288,7 +289,7 @@ public class RenderCubicBezierTest {
   public void testIsSetX2() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     double d=0.02d;
-    bezier.setX2(d);
+    bezier.setX2(new RelAbsVector(d));
     assertTrue(bezier.isSetX2());
   }
 
@@ -300,7 +301,7 @@ public class RenderCubicBezierTest {
   public void testIsSetY1() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     double d=0.02d;
-    bezier.setY1(d);
+    bezier.setY1(new RelAbsVector(d));
     assertTrue(bezier.isSetY1());
   }
 
@@ -312,7 +313,7 @@ public class RenderCubicBezierTest {
   public void testIsSetY2() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     double d=0.02d;
-    bezier.setY2(d);
+    bezier.setY2(new RelAbsVector(d));
     assertTrue(bezier.isSetY2());
   }
 
@@ -324,7 +325,7 @@ public class RenderCubicBezierTest {
   public void testIsSetZ1() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     double d=0.02d;
-    bezier.setZ1(d);
+    bezier.setZ1(new RelAbsVector(d));
     assertTrue(bezier.isSetZ1());
   }
 
@@ -336,7 +337,7 @@ public class RenderCubicBezierTest {
   public void testIsSetZ2() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     double d=0.02d;
-    bezier.setZ2(d);
+    bezier.setZ2(new RelAbsVector(d));
     assertTrue(bezier.isSetZ2());
   }
 
@@ -414,8 +415,8 @@ public class RenderCubicBezierTest {
   public void testSetX1() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     assertTrue(!bezier.isSetX1());
-    bezier.setX1(0.02d);
-    assertEquals(bezier.getX1(),0.02d,0.00000001d);
+    bezier.setX1(new RelAbsVector(0.02d));
+    assertEquals(bezier.getX1().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -426,8 +427,8 @@ public class RenderCubicBezierTest {
   public void testSetX2() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     assertTrue(!bezier.isSetX2());
-    bezier.setX2(0.02d);
-    assertEquals(bezier.getX2(),0.02d,0.00000001d);
+    bezier.setX2(new RelAbsVector(0.02d));
+    assertEquals(bezier.getX2().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -438,8 +439,8 @@ public class RenderCubicBezierTest {
   public void testSetY1() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     assertTrue(!bezier.isSetY1());
-    bezier.setY1(0.02d);
-    assertEquals(bezier.getY1(),0.02d,0.00000001d);
+    bezier.setY1(new RelAbsVector(0.02d));
+    assertEquals(bezier.getY1().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -450,8 +451,8 @@ public class RenderCubicBezierTest {
   public void testSetY2() {
     RenderCubicBezier bezier=new RenderCubicBezier();
     assertTrue(!bezier.isSetY2());
-    bezier.setY2(0.02d);
-    assertEquals(bezier.getY2(),0.02d,0.00000001d);
+    bezier.setY2(new RelAbsVector(0.02d));
+    assertEquals(bezier.getY2().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -461,9 +462,9 @@ public class RenderCubicBezierTest {
   @Test
   public void testSetZ1() {
     RenderCubicBezier bezier=new RenderCubicBezier();
-    bezier.setZ1(0.02d);
+    bezier.setZ1(new RelAbsVector(0.02d));
     assertTrue(bezier.isSetZ1());
-    assertEquals(bezier.getZ1(),0.02d,0.00000001d);
+    assertEquals(bezier.getZ1().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -473,8 +474,8 @@ public class RenderCubicBezierTest {
   @Test
   public void testSetZ2() {
     RenderCubicBezier bezier=new RenderCubicBezier();
-    bezier.setZ2(0.02d);
+    bezier.setZ2(new RelAbsVector(0.02d));
     assertTrue(bezier.isSetZ2());
-    assertEquals(bezier.getZ2(),0.02d,0.00000001d);
+    assertEquals(bezier.getZ2().getAbsoluteValue(),0.02d,0.00000001d);
   }
 }

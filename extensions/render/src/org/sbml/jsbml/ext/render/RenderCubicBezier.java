@@ -40,51 +40,12 @@ public class RenderCubicBezier extends RenderPoint {
   /**
    * 
    */
-  private Boolean absoluteX1;
+  @Deprecated
+  private Boolean absoluteX1, absoluteY1, absoluteZ1, absoluteX2, absoluteY2, absoluteZ2;
   /**
    * 
    */
-  private Boolean absoluteY1;
-  /**
-   * 
-   */
-  private Boolean absoluteZ1;
-  /**
-   * 
-   */
-  private Boolean absoluteX2;
-  /**
-   * 
-   */
-  private Boolean absoluteY2;
-  /**
-   * 
-   */
-  private Boolean absoluteZ2;
-  /**
-   * 
-   */
-  private Double x1;
-  /**
-   * 
-   */
-  private Double y1;
-  /**
-   * 
-   */
-  private Double z1;
-  /**
-   * 
-   */
-  private Double x2;
-  /**
-   * 
-   */
-  private Double y2;
-  /**
-   * 
-   */
-  private Double z2;
+  private RelAbsVector x1, y1, z1, x2, y2, z2;
 
   /**
    * Creates an RenderCubicBezier instance
@@ -126,7 +87,7 @@ public class RenderCubicBezier extends RenderPoint {
   /**
    * @return the value of x1
    */
-  public double getX1() {
+  public RelAbsVector getX1() {
     if (isSetX1()) {
       return x1;
     }
@@ -137,7 +98,7 @@ public class RenderCubicBezier extends RenderPoint {
   /**
    * @return the value of x2
    */
-  public double getX2() {
+  public RelAbsVector getX2() {
     if (isSetX2()) {
       return x2;
     }
@@ -148,7 +109,7 @@ public class RenderCubicBezier extends RenderPoint {
   /**
    * @return the value of y1
    */
-  public double getY1() {
+  public RelAbsVector getY1() {
     if (isSetY1()) {
       return y1;
     }
@@ -159,7 +120,7 @@ public class RenderCubicBezier extends RenderPoint {
   /**
    * @return the value of y2
    */
-  public double getY2() {
+  public RelAbsVector getY2() {
     if (isSetY2()) {
       return y2;
     }
@@ -170,7 +131,7 @@ public class RenderCubicBezier extends RenderPoint {
   /**
    * @return the value of z1
    */
-  public double getZ1() {
+  public RelAbsVector getZ1() {
     if (isSetZ1()) {
       return z1;
     }
@@ -181,7 +142,7 @@ public class RenderCubicBezier extends RenderPoint {
   /**
    * @return the value of z2
    */
-  public double getZ2() {
+  public RelAbsVector getZ2() {
     if (isSetZ2()) {
       return z2;
     }
@@ -414,8 +375,8 @@ public class RenderCubicBezier extends RenderPoint {
    * Set the value of x1
    * @param x1
    */
-  public void setX1(double x1) {
-    Double oldX1 = this.x1;
+  public void setX1(RelAbsVector x1) {
+    RelAbsVector oldX1 = this.x1;
     this.x1 = x1;
     firePropertyChange(RenderConstants.basepoint1_x, oldX1, this.x1);
   }
@@ -424,8 +385,8 @@ public class RenderCubicBezier extends RenderPoint {
    * Set the value of x2
    * @param x2
    */
-  public void setX2(double x2) {
-    Double oldX2 = this.x2;
+  public void setX2(RelAbsVector x2) {
+    RelAbsVector oldX2 = this.x2;
     this.x2 = x2;
     firePropertyChange(RenderConstants.basepoint2_x, oldX2, this.x2);
   }
@@ -434,8 +395,8 @@ public class RenderCubicBezier extends RenderPoint {
    * Set the value of y1
    * @param y1
    */
-  public void setY1(double y1) {
-    Double oldY1 = this.y1;
+  public void setY1(RelAbsVector y1) {
+    RelAbsVector oldY1 = this.y1;
     this.y1 = y1;
     firePropertyChange(RenderConstants.basepoint1_y, oldY1, this.y1);
   }
@@ -444,8 +405,8 @@ public class RenderCubicBezier extends RenderPoint {
    * Set the value of y2
    * @param y2
    */
-  public void setY2(double y2) {
-    Double oldY2 = this.y2;
+  public void setY2(RelAbsVector y2) {
+    RelAbsVector oldY2 = this.y2;
     this.y2 = y2;
     firePropertyChange(RenderConstants.basepoint2_y, oldY2, this.y2);
   }
@@ -454,8 +415,8 @@ public class RenderCubicBezier extends RenderPoint {
    * Set the value of z1
    * @param z1
    */
-  public void setZ1(double z1) {
-    Double oldZ1 = this.z1;
+  public void setZ1(RelAbsVector z1) {
+    RelAbsVector oldZ1 = this.z1;
     this.z1 = z1;
     firePropertyChange(RenderConstants.basepoint1_z, oldZ1, this.z1);
   }
@@ -464,8 +425,8 @@ public class RenderCubicBezier extends RenderPoint {
    * Set the value of z2
    * @param z2
    */
-  public void setZ2(double z2) {
-    Double oldZ2 = this.z2;
+  public void setZ2(RelAbsVector z2) {
+    RelAbsVector oldZ2 = this.z2;
     this.z2 = z2;
     firePropertyChange(RenderConstants.basepoint2_z, oldZ2, this.z2);
   }
@@ -567,7 +528,7 @@ public class RenderCubicBezier extends RenderPoint {
    */
   public boolean unsetX1() {
     if (isSetX1()) {
-      Double oldX1 = x1;
+      RelAbsVector oldX1 = x1;
       x1 = null;
       firePropertyChange(RenderConstants.x1, oldX1, x1);
       return true;
@@ -582,7 +543,7 @@ public class RenderCubicBezier extends RenderPoint {
    */
   public boolean unsetX2() {
     if (isSetX2()) {
-      Double oldX2 = x2;
+      RelAbsVector oldX2 = x2;
       x2 = null;
       firePropertyChange(RenderConstants.basepoint2_x, oldX2, x2);
       return true;
@@ -597,7 +558,7 @@ public class RenderCubicBezier extends RenderPoint {
    */
   public boolean unsetY1() {
     if (isSetY1()) {
-      Double oldY1 = y1;
+      RelAbsVector oldY1 = y1;
       y1 = null;
       firePropertyChange(RenderConstants.basepoint1_y, oldY1, y1);
       return true;
@@ -612,7 +573,7 @@ public class RenderCubicBezier extends RenderPoint {
    */
   public boolean unsetY2() {
     if (isSetY2()) {
-      Double oldY2 = y2;
+      RelAbsVector oldY2 = y2;
       y2 = null;
       firePropertyChange(RenderConstants.basepoint2_y, oldY2, y2);
       return true;
@@ -627,7 +588,7 @@ public class RenderCubicBezier extends RenderPoint {
    */
   public boolean unsetZ1() {
     if (isSetZ1()) {
-      Double oldZ1 = z1;
+      RelAbsVector oldZ1 = z1;
       z1 = null;
       firePropertyChange(RenderConstants.basepoint1_z, oldZ1, z1);
       return true;
@@ -642,7 +603,7 @@ public class RenderCubicBezier extends RenderPoint {
    */
   public boolean unsetZ2() {
     if (isSetZ2()) {
-      Double oldZ2 = z2;
+      RelAbsVector oldZ2 = z2;
       z2 = null;
       firePropertyChange(RenderConstants.basepoint2_z, oldZ2, z2);
       return true;
@@ -660,27 +621,27 @@ public class RenderCubicBezier extends RenderPoint {
     
     if (isSetX1()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint1_x,
-        XMLTools.positioningToString(getX1(), isAbsoluteX1()));
+        getX1().getCoordinate());
     }
     if (isSetX2()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint2_x,
-        XMLTools.positioningToString(getX2(), isAbsoluteX2()));
+        getX2().getCoordinate());
     }
     if (isSetY1()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint1_y,
-        XMLTools.positioningToString(getY1(), isAbsoluteY1()));
+        getY1().getCoordinate());
     }
     if (isSetY2()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint2_y,
-        XMLTools.positioningToString(getY2(), isAbsoluteY2()));
+        getY2().getCoordinate());
     }
     if (isSetZ1()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint1_z,
-        XMLTools.positioningToString(getZ1(), isAbsoluteZ1()));
+        getZ1().getCoordinate());
     }
     if (isSetZ2()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.basepoint2_z,
-        XMLTools.positioningToString(getZ2(), isAbsoluteZ2()));
+        getZ2().getCoordinate());
     }
     return attributes;
   }
@@ -695,27 +656,27 @@ public class RenderCubicBezier extends RenderPoint {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.basepoint1_x)) {
-        setX1(XMLTools.parsePosition(value));
+        setX1(new RelAbsVector(value));
         setAbsoluteX1(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint2_x)) {
-        setX2(XMLTools.parsePosition(value));
+        setX2(new RelAbsVector(value));
         setAbsoluteX2(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint1_y)) {
-        setY1(XMLTools.parsePosition(value));
+        setY1(new RelAbsVector(value));
         setAbsoluteY1(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint2_y)) {
-        setY2(XMLTools.parsePosition(value));
+        setY2(new RelAbsVector(value));
         setAbsoluteY2(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint1_z)) {
-        setZ1(XMLTools.parsePosition(value));
+        setZ1(new RelAbsVector(value));
         setAbsoluteZ1(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint2_z)) {
-        setZ2(XMLTools.parsePosition(value));
+        setZ2(new RelAbsVector(value));
         setAbsoluteZ2(XMLTools.isAbsolutePosition(value));
       }
       else {
