@@ -812,9 +812,8 @@ public class UnregisterPackageTests {
     ls1.setId("RLS1");
     lri1.addLocalStyle(ls1);
     g1.createRectangle().setX(new RelAbsVector(4.5));
-    g1.createText().setAbsoluteX(true);
+    g1.createText();
     Image image = g1.createImage();
-    image.setAbsoluteX(false);
     image.setX(new RelAbsVector(33d));
 
     image.setMetaId("RI1");

@@ -32,6 +32,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(value=Suite.class)
 @SuiteClasses(value={ColorDefinitionTest.class, CurveTest.class, EllipseTest.class, GroupTest.class,
   ImageTest.class, LinearGradientTest.class, GraphicalPrimitive1DTest.class, GraphicalPrimitive2DTest.class,
-  PolygonTest.class, RenderCubicBezierTest.class, RectangleTest.class,TextTest.class})
+  PolygonTest.class, RenderCubicBezierTest.class, RectangleTest.class,TextTest.class, RenderWriteTest.class})
 public class RenderJUnitTests {
 }

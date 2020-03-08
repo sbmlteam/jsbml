@@ -35,42 +35,6 @@ public class RadialGradient extends GradientBase {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -6976786676644704255L;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteCx;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteCy;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteCz;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteR;
-
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteFx;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteFy;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteFz;
 
   /**
    * 
@@ -99,13 +63,6 @@ public class RadialGradient extends GradientBase {
     fy = obj.fy;
     fz = obj.fz;
     r = obj.r;
-    absoluteCx = obj.absoluteCx;
-    absoluteCy = obj.absoluteCy;
-    absoluteCz = obj.absoluteCz;
-    absoluteR = obj.absoluteR;
-    absoluteFx = obj.absoluteFx;
-    absoluteFy = obj.absoluteFy;
-    absoluteFz = obj.absoluteFz;
   }
 
   /* (non-Javadoc)
@@ -215,133 +172,7 @@ public class RadialGradient extends GradientBase {
 //    absoluteFx = false;
 //    absoluteFy = false;
 //    absoluteFz = false;
-  }
-
-  /**
-   * @return the value of absoluteCx
-   */
-  public boolean isAbsoluteCx() {
-    if (isSetAbsoluteCx()) {
-      return absoluteCx;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteCx, this);
-  }
-
-  /**
-   * @return the value of absoluteCy
-   */
-  public boolean isAbsoluteCy() {
-    if (isSetAbsoluteCy()) {
-      return absoluteCy;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteCy, this);
-  }
-
-  /**
-   * @return the value of absoluteCz
-   */
-  public boolean isAbsoluteCz() {
-    if (isSetAbsoluteCz()) {
-      return absoluteCz;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteCz, this);
-  }
-
-  /**
-   * @return the value of absoluteFx
-   */
-  public boolean isAbsoluteFx() {
-    if (isSetAbsoluteFx()) {
-      return absoluteFx;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteFx, this);
-  }
-
-  /**
-   * @return the value of absoluteFy
-   */
-  public boolean isAbsoluteFy() {
-    if (isSetAbsoluteFy()) {
-      return absoluteFy;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteFy, this);
-  }
-
-  /**
-   * @return the value of absoluteFz
-   */
-  public boolean isAbsoluteFz() {
-    if (isSetAbsoluteFz()) {
-      return absoluteFz;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteFz, this);
-  }
-
-  /**
-   * @return the value of absoluteR
-   */
-  public boolean isAbsoluteR() {
-    if (isSetAbsoluteR()) {
-      return absoluteR;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteR, this);
-  }
-
-  /**
-   * @return whether absoluteCx is set
-   */
-  public boolean isSetAbsoluteCx() {
-    return absoluteCx != null;
-  }
-
-  /**
-   * @return whether absoluteCy is set
-   */
-  public boolean isSetAbsoluteCy() {
-    return absoluteCy != null;
-  }
-
-  /**
-   * @return whether absoluteCz is set
-   */
-  public boolean isSetAbsoluteCz() {
-    return absoluteCz != null;
-  }
-
-  /**
-   * @return whether absoluteFx is set
-   */
-  public boolean isSetAbsoluteFx() {
-    return absoluteFx != null;
-  }
-
-  /**
-   * @return whether absoluteFy is set
-   */
-  public boolean isSetAbsoluteFy() {
-    return absoluteFy != null;
-  }
-
-  /**
-   * @return whether absoluteFz is set
-   */
-  public boolean isSetAbsoluteFz() {
-    return absoluteFz != null;
-  }
-
-  /**
-   * @return whether absoluteR is set
-   */
-  public boolean isSetAbsoluteR() {
-    return absoluteR != null;
-  }
+  }  
 
   /**
    * @return whether cx is set
@@ -390,76 +221,6 @@ public class RadialGradient extends GradientBase {
    */
   public boolean isSetR() {
     return r != null;
-  }
-
-  /**
-   * Set the value of absoluteCx
-   * @param absoluteCx
-   */
-  public void setAbsoluteCx(boolean absoluteCx) {
-    Boolean oldAbsoluteCx = this.absoluteCx;
-    this.absoluteCx = absoluteCx;
-    firePropertyChange(RenderConstants.absoluteCx, oldAbsoluteCx, this.absoluteCx);
-  }
-
-  /**
-   * Set the value of absoluteCy
-   * @param absoluteCy
-   */
-  public void setAbsoluteCy(boolean absoluteCy) {
-    Boolean oldAbsoluteCy = this.absoluteCy;
-    this.absoluteCy = absoluteCy;
-    firePropertyChange(RenderConstants.absoluteCy, oldAbsoluteCy, this.absoluteCy);
-  }
-
-  /**
-   * Set the value of absoluteCz
-   * @param absoluteCz
-   */
-  public void setAbsoluteCz(boolean absoluteCz) {
-    Boolean oldAbsoluteCz = this.absoluteCz;
-    this.absoluteCz = absoluteCz;
-    firePropertyChange(RenderConstants.absoluteCz, oldAbsoluteCz, this.absoluteCz);
-  }
-
-  /**
-   * Set the value of absoluteFx
-   * @param absoluteFx
-   */
-  public void setAbsoluteFx(boolean absoluteFx) {
-    Boolean oldAbsoluteFx = this.absoluteFx;
-    this.absoluteFx = absoluteFx;
-    firePropertyChange(RenderConstants.absoluteFx, oldAbsoluteFx, this.absoluteFx);
-  }
-
-  /**
-   * Set the value of absoluteFy
-   * @param absoluteFy
-   */
-  public void setAbsoluteFy(boolean absoluteFy) {
-    Boolean oldAbsoluteFy = this.absoluteFy;
-    this.absoluteFy = absoluteFy;
-    firePropertyChange(RenderConstants.absoluteFy, oldAbsoluteFy, this.absoluteFy);
-  }
-
-  /**
-   * Set the value of absoluteFz
-   * @param absoluteFz
-   */
-  public void setAbsoluteFz(boolean absoluteFz) {
-    Boolean oldAbsoluteFz = this.absoluteFz;
-    this.absoluteFz = absoluteFz;
-    firePropertyChange(RenderConstants.absoluteFz, oldAbsoluteFz, this.absoluteFz);
-  }
-
-  /**
-   * Set the value of absoluteR
-   * @param absoluteR
-   */
-  public void setAbsoluteR(boolean absoluteR) {
-    Boolean oldAbsoluteR = this.absoluteR;
-    this.absoluteR = absoluteR;
-    firePropertyChange(RenderConstants.absoluteR, oldAbsoluteR, this.absoluteR);
   }
 
   /**
@@ -531,112 +292,7 @@ public class RadialGradient extends GradientBase {
     this.r = r;
     firePropertyChange(RenderConstants.r, oldR, this.r);
   }
-
-  /**
-   * Unsets the variable absoluteCx
-   * @return {@code true}, if absoluteCx was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteCx() {
-    if (isSetAbsoluteCx()) {
-      Boolean oldAbsoluteCx = absoluteCx;
-      absoluteCx = null;
-      firePropertyChange(RenderConstants.absoluteCx, oldAbsoluteCx, absoluteCx);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteCy
-   * @return {@code true}, if absoluteCy was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteCy() {
-    if (isSetAbsoluteCy()) {
-      Boolean oldAbsoluteCy = absoluteCy;
-      absoluteCy = null;
-      firePropertyChange(RenderConstants.absoluteCy, oldAbsoluteCy, absoluteCy);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteCz
-   * @return {@code true}, if absoluteCz was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteCz() {
-    if (isSetAbsoluteCz()) {
-      Boolean oldAbsoluteCz = absoluteCz;
-      absoluteCz = null;
-      firePropertyChange(RenderConstants.absoluteCz, oldAbsoluteCz, absoluteCz);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteFx
-   * @return {@code true}, if absoluteFx was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteFx() {
-    if (isSetAbsoluteFx()) {
-      Boolean oldAbsoluteFx = absoluteFx;
-      absoluteFx = null;
-      firePropertyChange(RenderConstants.absoluteFx, oldAbsoluteFx, absoluteFx);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteFy
-   * @return {@code true}, if absoluteFy was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteFy() {
-    if (isSetAbsoluteFy()) {
-      Boolean oldAbsoluteFy = absoluteFy;
-      absoluteFy = null;
-      firePropertyChange(RenderConstants.absoluteFy, oldAbsoluteFy, absoluteFy);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteFz
-   * @return {@code true}, if absoluteFz was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteFz() {
-    if (isSetAbsoluteFz()) {
-      Boolean oldAbsoluteFz = absoluteFz;
-      absoluteFz = null;
-      firePropertyChange(RenderConstants.absoluteFz, oldAbsoluteFz, absoluteFz);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteR
-   * @return {@code true}, if absoluteR was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteR() {
-    if (isSetAbsoluteR()) {
-      Boolean oldAbsoluteR = absoluteR;
-      absoluteR = null;
-      firePropertyChange(RenderConstants.absoluteR, oldAbsoluteR, absoluteR);
-      return true;
-    }
-    return false;
-  }
-
+  
   /**
    * Unsets the variable cx
    * @return {@code true}, if cx was set before,
@@ -798,31 +454,24 @@ public class RadialGradient extends GradientBase {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.r)) {
         setR(new RelAbsVector(value));
-        setAbsoluteR(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cx)) {
         setCx(new RelAbsVector(value));
-        setAbsoluteCx(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cy)) {
         setCy(new RelAbsVector(value));
-        setAbsoluteCy(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cz)) {
         setCz(new RelAbsVector(value));
-        setAbsoluteCz(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.fx)) {
         setFx(new RelAbsVector(value));
-        setAbsoluteFx(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.fy)) {
         setFy(new RelAbsVector(value));
-        setAbsoluteFy(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.fz)) {
         setFz(new RelAbsVector(value));
-        setAbsoluteFz(XMLTools.isAbsolutePosition(value));
       }
       else {
         isAttributeRead = false;
@@ -838,19 +487,7 @@ public class RadialGradient extends GradientBase {
   public int hashCode() {
     final int prime = 3169;
     int result = super.hashCode();
-    result = prime * result
-        + ((absoluteCx == null) ? 0 : absoluteCx.hashCode());
-    result = prime * result
-        + ((absoluteCy == null) ? 0 : absoluteCy.hashCode());
-    result = prime * result
-        + ((absoluteCz == null) ? 0 : absoluteCz.hashCode());
-    result = prime * result
-        + ((absoluteFx == null) ? 0 : absoluteFx.hashCode());
-    result = prime * result
-        + ((absoluteFy == null) ? 0 : absoluteFy.hashCode());
-    result = prime * result
-        + ((absoluteFz == null) ? 0 : absoluteFz.hashCode());
-    result = prime * result + ((absoluteR == null) ? 0 : absoluteR.hashCode());
+
     result = prime * result + ((cx == null) ? 0 : cx.hashCode());
     result = prime * result + ((cy == null) ? 0 : cy.hashCode());
     result = prime * result + ((cz == null) ? 0 : cz.hashCode());
@@ -876,55 +513,7 @@ public class RadialGradient extends GradientBase {
       return false;
     }
     RadialGradient other = (RadialGradient) obj;
-    if (absoluteCx == null) {
-      if (other.absoluteCx != null) {
-        return false;
-      }
-    } else if (!absoluteCx.equals(other.absoluteCx)) {
-      return false;
-    }
-    if (absoluteCy == null) {
-      if (other.absoluteCy != null) {
-        return false;
-      }
-    } else if (!absoluteCy.equals(other.absoluteCy)) {
-      return false;
-    }
-    if (absoluteCz == null) {
-      if (other.absoluteCz != null) {
-        return false;
-      }
-    } else if (!absoluteCz.equals(other.absoluteCz)) {
-      return false;
-    }
-    if (absoluteFx == null) {
-      if (other.absoluteFx != null) {
-        return false;
-      }
-    } else if (!absoluteFx.equals(other.absoluteFx)) {
-      return false;
-    }
-    if (absoluteFy == null) {
-      if (other.absoluteFy != null) {
-        return false;
-      }
-    } else if (!absoluteFy.equals(other.absoluteFy)) {
-      return false;
-    }
-    if (absoluteFz == null) {
-      if (other.absoluteFz != null) {
-        return false;
-      }
-    } else if (!absoluteFz.equals(other.absoluteFz)) {
-      return false;
-    }
-    if (absoluteR == null) {
-      if (other.absoluteR != null) {
-        return false;
-      }
-    } else if (!absoluteR.equals(other.absoluteR)) {
-      return false;
-    }
+    
     if (cx == null) {
       if (other.cx != null) {
         return false;

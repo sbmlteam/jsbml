@@ -27,19 +27,6 @@ package org.sbml.jsbml.ext.render;
  * @since 1.0
  */
 public interface Point3D {
-
-  /**
-   * @return the value of absoluteY
-   */
-  @Deprecated
-  public abstract boolean isAbsoluteY();
-
-  /**
-   * @return the value of absoluteZ
-   */
-  @Deprecated
-  public abstract boolean isAbsoluteZ();
-
   /**
    * @return the value of x
    */
@@ -56,30 +43,6 @@ public interface Point3D {
   public abstract RelAbsVector getZ();
 
   /**
-   * @return the value of absoluteX
-   */
-  @Deprecated
-  public abstract boolean isAbsoluteX();
-
-  /**
-   * @return whether absoluteX is set
-   */
-  @Deprecated
-  public abstract boolean isSetAbsoluteX();
-
-  /**
-   * @return whether absoluteY is set
-   */
-  @Deprecated
-  public abstract boolean isSetAbsoluteY();
-
-  /**
-   * @return whether absoluteZ is set
-   */
-  @Deprecated
-  public abstract boolean isSetAbsoluteZ();
-
-  /**
    * @return whether x is set
    */
   public abstract boolean isSetX();
@@ -93,27 +56,6 @@ public interface Point3D {
    * @return whether z is set
    */
   public abstract boolean isSetZ();
-
-  /**
-   * Set the value of absoluteX
-   * @param absoluteX
-   */
-  @Deprecated
-  public abstract void setAbsoluteX(boolean absoluteX);
-
-  /**
-   * Set the value of absoluteY
-   * @param absoluteY
-   */
-  @Deprecated
-  public abstract void setAbsoluteY(boolean absoluteY);
-
-  /**
-   * Set the value of absoluteZ
-   * @param absoluteZ
-   */
-  @Deprecated
-  public abstract void setAbsoluteZ(boolean absoluteZ);
 
   /**
    * Set the value of x
@@ -132,30 +74,6 @@ public interface Point3D {
    * @param z
    */
   public abstract void setZ(RelAbsVector z);
-
-  /**
-   * Unsets the variable absoluteX
-   * @return {@code true}, if absoluteX was set before,
-   *         otherwise {@code false}
-   */
-  @Deprecated
-  public abstract boolean unsetAbsoluteX();
-
-  /**
-   * Unsets the variable absoluteY
-   * @return {@code true}, if absoluteY was set before,
-   *         otherwise {@code false}
-   */
-  @Deprecated
-  public abstract boolean unsetAbsoluteY();
-
-  /**
-   * Unsets the variable absoluteZ
-   * @return {@code true}, if absoluteZ was set before,
-   *         otherwise {@code false}
-   */
-  @Deprecated
-  public abstract boolean unsetAbsoluteZ();
 
   /**
    * Unsets the variable x

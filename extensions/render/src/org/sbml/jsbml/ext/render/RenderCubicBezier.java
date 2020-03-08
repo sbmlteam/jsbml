@@ -40,11 +40,6 @@ public class RenderCubicBezier extends RenderPoint {
   /**
    * 
    */
-  @Deprecated
-  private Boolean absoluteX1, absoluteY1, absoluteZ1, absoluteX2, absoluteY2, absoluteZ2;
-  /**
-   * 
-   */
   private RelAbsVector x1, y1, z1, x2, y2, z2;
 
   /**
@@ -62,12 +57,6 @@ public class RenderCubicBezier extends RenderPoint {
    */
   public RenderCubicBezier(RenderCubicBezier obj) {
     super(obj);
-    absoluteX1 = obj.absoluteX1;
-    absoluteY1 = obj.absoluteY1;
-    absoluteZ1 = obj.absoluteZ1;
-    absoluteX2 = obj.absoluteX2;
-    absoluteY2 = obj.absoluteY2;
-    absoluteZ2 = obj.absoluteZ2;
     x1 = obj.x1;
     y1 = obj.y1;
     z1 = obj.z1;
@@ -162,114 +151,6 @@ public class RenderCubicBezier extends RenderPoint {
   }
 
   /**
-   * @return the value of absoluteX1
-   */
-  public boolean isAbsoluteX1() {
-    if (isSetAbsoluteX1()) {
-      return absoluteX1;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteX1, this);
-  }
-
-  /**
-   * @return the value of absoluteX2
-   */
-  public boolean isAbsoluteX2() {
-    if (isSetAbsoluteX2()) {
-      return absoluteX2;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteX2, this);
-  }
-
-  /**
-   * @return the value of absoluteY1
-   */
-  public boolean isAbsoluteY1() {
-    if (isSetAbsoluteY1()) {
-      return absoluteY1;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteY1, this);
-  }
-
-  /**
-   * @return the value of absoluteY2
-   */
-  public boolean isAbsoluteY2() {
-    if (isSetAbsoluteY2()) {
-      return absoluteY2;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteY2, this);
-  }
-
-  /**
-   * @return the value of absoluteZ1
-   */
-  public boolean isAbsoluteZ1() {
-    if (isSetAbsoluteZ1()) {
-      return absoluteZ1;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteZ1, this);
-  }
-
-  /**
-   * @return the value of absoluteZ2
-   */
-  public boolean isAbsoluteZ2() {
-    if (isSetAbsoluteZ2()) {
-      return absoluteZ2;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteZ2, this);
-  }
-
-  /**
-   * @return whether absoluteX1 is set
-   */
-  public boolean isSetAbsoluteX1() {
-    return absoluteX1 != null;
-  }
-
-  /**
-   * @return whether absoluteX2 is set
-   */
-  public boolean isSetAbsoluteX2() {
-    return absoluteX2 != null;
-  }
-
-  /**
-   * @return whether absoluteY1 is set
-   */
-  public boolean isSetAbsoluteY1() {
-    return absoluteY1 != null;
-  }
-
-  /**
-   * @return whether absoluteY2 is set
-   */
-  public boolean isSetAbsoluteY2() {
-    return absoluteY2 != null;
-  }
-
-  /**
-   * @return whether absoluteZ1 is set
-   */
-  public boolean isSetAbsoluteZ1() {
-    return absoluteZ1 != null;
-  }
-
-  /**
-   * @return whether absoluteZ2 is set
-   */
-  public boolean isSetAbsoluteZ2() {
-    return absoluteZ2 != null;
-  }
-
-  /**
    * @return whether x1 is set
    */
   public boolean isSetX1() {
@@ -309,66 +190,6 @@ public class RenderCubicBezier extends RenderPoint {
    */
   public boolean isSetZ2() {
     return z2 != null;
-  }
-
-  /**
-   * Set the value of absoluteX1
-   * @param absoluteX1
-   */
-  public void setAbsoluteX1(boolean absoluteX1) {
-    Boolean oldAbsoluteX1 = this.absoluteX1;
-    this.absoluteX1 = absoluteX1;
-    firePropertyChange(RenderConstants.absoluteX1, oldAbsoluteX1, this.absoluteX1);
-  }
-
-  /**
-   * Set the value of absoluteX2
-   * @param absoluteX2
-   */
-  public void setAbsoluteX2(boolean absoluteX2) {
-    Boolean oldAbsoluteX2 = this.absoluteX2;
-    this.absoluteX2 = absoluteX2;
-    firePropertyChange(RenderConstants.absoluteX2, oldAbsoluteX2, this.absoluteX2);
-  }
-
-  /**
-   * Set the value of absoluteY1
-   * @param absoluteY1
-   */
-  public void setAbsoluteY1(boolean absoluteY1) {
-    Boolean oldAbsoluteY1 = this.absoluteY1;
-    this.absoluteY1 = absoluteY1;
-    firePropertyChange(RenderConstants.absoluteY1, oldAbsoluteY1, this.absoluteY1);
-  }
-
-  /**
-   * Set the value of absoluteY2
-   * @param absoluteY2
-   */
-  public void setAbsoluteY2(boolean absoluteY2) {
-    Boolean oldAbsoluteY2 = this.absoluteY2;
-    this.absoluteY2 = absoluteY2;
-    firePropertyChange(RenderConstants.absoluteY2, oldAbsoluteY2, this.absoluteY2);
-  }
-
-  /**
-   * Set the value of absoluteZ1
-   * @param absoluteZ1
-   */
-  public void setAbsoluteZ1(boolean absoluteZ1) {
-    Boolean oldAbsoluteZ1 = this.absoluteZ1;
-    this.absoluteZ1 = absoluteZ1;
-    firePropertyChange(RenderConstants.absoluteZ1, oldAbsoluteZ1, this.absoluteZ1);
-  }
-
-  /**
-   * Set the value of absoluteZ2
-   * @param absoluteZ2
-   */
-  public void setAbsoluteZ2(boolean absoluteZ2) {
-    Boolean oldAbsoluteZ2 = this.absoluteZ2;
-    this.absoluteZ2 = absoluteZ2;
-    firePropertyChange(RenderConstants.absoluteZ2, oldAbsoluteZ2, this.absoluteZ2);
   }
 
   /**
@@ -430,97 +251,7 @@ public class RenderCubicBezier extends RenderPoint {
     this.z2 = z2;
     firePropertyChange(RenderConstants.basepoint2_z, oldZ2, this.z2);
   }
-
-  /**
-   * Unsets the variable absoluteX1
-   * @return {@code true}, if absoluteX1 was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteX1() {
-    if (isSetAbsoluteX1()) {
-      Boolean oldAbsoluteX1 = absoluteX1;
-      absoluteX1 = null;
-      firePropertyChange(RenderConstants.absoluteX1, oldAbsoluteX1, absoluteX1);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteX2
-   * @return {@code true}, if absoluteX2 was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteX2() {
-    if (isSetAbsoluteX2()) {
-      Boolean oldAbsoluteX2 = absoluteX2;
-      absoluteX2 = null;
-      firePropertyChange(RenderConstants.absoluteX2, oldAbsoluteX2, absoluteX2);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteY1
-   * @return {@code true}, if absoluteY1 was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteY1() {
-    if (isSetAbsoluteY1()) {
-      Boolean oldAbsoluteY1 = absoluteY1;
-      absoluteY1 = null;
-      firePropertyChange(RenderConstants.absoluteY1, oldAbsoluteY1, absoluteY1);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteY2
-   * @return {@code true}, if absoluteY2 was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteY2() {
-    if (isSetAbsoluteY2()) {
-      Boolean oldAbsoluteY2 = absoluteY2;
-      absoluteY2 = null;
-      firePropertyChange(RenderConstants.absoluteY2, oldAbsoluteY2, absoluteY2);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteZ1
-   * @return {@code true}, if absoluteZ1 was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteZ1() {
-    if (isSetAbsoluteZ1()) {
-      Boolean oldAbsoluteZ1 = absoluteZ1;
-      absoluteZ1 = null;
-      firePropertyChange(RenderConstants.absoluteZ1, oldAbsoluteZ1, absoluteZ1);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable absoluteZ2
-   * @return {@code true}, if absoluteZ2 was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteZ2() {
-    if (isSetAbsoluteZ2()) {
-      Boolean oldAbsoluteZ2 = absoluteZ2;
-      absoluteZ2 = null;
-      firePropertyChange(RenderConstants.absoluteZ2, oldAbsoluteZ2, absoluteZ2);
-      return true;
-    }
-    return false;
-  }
-
+  
   /**
    * Unsets the variable x1
    * @return {@code true}, if x1 was set before,
@@ -657,27 +388,21 @@ public class RenderCubicBezier extends RenderPoint {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.basepoint1_x)) {
         setX1(new RelAbsVector(value));
-        setAbsoluteX1(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint2_x)) {
         setX2(new RelAbsVector(value));
-        setAbsoluteX2(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint1_y)) {
         setY1(new RelAbsVector(value));
-        setAbsoluteY1(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint2_y)) {
         setY2(new RelAbsVector(value));
-        setAbsoluteY2(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint1_z)) {
         setZ1(new RelAbsVector(value));
-        setAbsoluteZ1(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.basepoint2_z)) {
         setZ2(new RelAbsVector(value));
-        setAbsoluteZ2(XMLTools.isAbsolutePosition(value));
       }
       else {
         isAttributeRead = false;
@@ -693,18 +418,6 @@ public class RenderCubicBezier extends RenderPoint {
   public int hashCode() {
     final int prime = 3181;
     int result = super.hashCode();
-    result = prime * result
-        + ((absoluteX1 == null) ? 0 : absoluteX1.hashCode());
-    result = prime * result
-        + ((absoluteX2 == null) ? 0 : absoluteX2.hashCode());
-    result = prime * result
-        + ((absoluteY1 == null) ? 0 : absoluteY1.hashCode());
-    result = prime * result
-        + ((absoluteY2 == null) ? 0 : absoluteY2.hashCode());
-    result = prime * result
-        + ((absoluteZ1 == null) ? 0 : absoluteZ1.hashCode());
-    result = prime * result
-        + ((absoluteZ2 == null) ? 0 : absoluteZ2.hashCode());
     result = prime * result + ((x1 == null) ? 0 : x1.hashCode());
     result = prime * result + ((x2 == null) ? 0 : x2.hashCode());
     result = prime * result + ((y1 == null) ? 0 : y1.hashCode());
@@ -729,48 +442,7 @@ public class RenderCubicBezier extends RenderPoint {
       return false;
     }
     RenderCubicBezier other = (RenderCubicBezier) obj;
-    if (absoluteX1 == null) {
-      if (other.absoluteX1 != null) {
-        return false;
-      }
-    } else if (!absoluteX1.equals(other.absoluteX1)) {
-      return false;
-    }
-    if (absoluteX2 == null) {
-      if (other.absoluteX2 != null) {
-        return false;
-      }
-    } else if (!absoluteX2.equals(other.absoluteX2)) {
-      return false;
-    }
-    if (absoluteY1 == null) {
-      if (other.absoluteY1 != null) {
-        return false;
-      }
-    } else if (!absoluteY1.equals(other.absoluteY1)) {
-      return false;
-    }
-    if (absoluteY2 == null) {
-      if (other.absoluteY2 != null) {
-        return false;
-      }
-    } else if (!absoluteY2.equals(other.absoluteY2)) {
-      return false;
-    }
-    if (absoluteZ1 == null) {
-      if (other.absoluteZ1 != null) {
-        return false;
-      }
-    } else if (!absoluteZ1.equals(other.absoluteZ1)) {
-      return false;
-    }
-    if (absoluteZ2 == null) {
-      if (other.absoluteZ2 != null) {
-        return false;
-      }
-    } else if (!absoluteZ2.equals(other.absoluteZ2)) {
-      return false;
-    }
+    
     if (x1 == null) {
       if (other.x1 != null) {
         return false;

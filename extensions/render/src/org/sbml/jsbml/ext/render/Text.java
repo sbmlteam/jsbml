@@ -41,21 +41,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /**
    * 
    */
-  @Deprecated
-  private Boolean absoluteX;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteY;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteZ;
-  /**
-   * 
-   */
   private String fontFamily;
   /**
    * 
@@ -101,9 +86,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     super(obj);
     
     // copy all attributes
-    absoluteX = obj.absoluteX;
-    absoluteY = obj.absoluteY;
-    absoluteZ = obj.absoluteZ;
     
     fontFamily = obj.fontFamily;
     fontSize = obj.fontSize;
@@ -227,42 +209,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteX()
-   */
-  @Override
-  public boolean isAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      return absoluteX;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteX, this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteY()
-   */
-  @Override
-  public boolean isAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      return absoluteY;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteY, this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteZ()
-   */
-  @Override
-  public boolean isAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      return absoluteZ;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteZ, this);
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isFontStyleItalic()
    */
   @Override
@@ -284,30 +230,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.fontWeightBold, this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#isSetAbsoluteX()
-   */
-  @Override
-  public boolean isSetAbsoluteX() {
-    return absoluteX != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#isSetAbsoluteY()
-   */
-  @Override
-  public boolean isSetAbsoluteY() {
-    return absoluteY != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#isSetAbsoluteZ()
-   */
-  @Override
-  public boolean isSetAbsoluteZ() {
-    return absoluteZ != null;
   }
 
   /* (non-Javadoc)
@@ -392,36 +314,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean isSetZ() {
     return z != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteX(java.lang.Boolean)
-   */
-  @Override
-  public void setAbsoluteX(boolean absoluteX) {
-    Boolean oldAbsoluteX = this.absoluteX;
-    this.absoluteX = absoluteX;
-    firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteY(java.lang.Boolean)
-   */
-  @Override
-  public void setAbsoluteY(boolean absoluteY) {
-    Boolean oldAbsoluteY = this.absoluteY;
-    this.absoluteY = absoluteY;
-    firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteZ(java.lang.Boolean)
-   */
-  @Override
-  public void setAbsoluteZ(boolean absoluteZ) {
-    Boolean oldAbsoluteZ = this.absoluteZ;
-    this.absoluteZ = absoluteZ;
-    firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
   }
 
   /* (non-Javadoc)
@@ -529,48 +421,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     RelAbsVector oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#unsetAbsoluteX()
-   */
-  @Override
-  public boolean unsetAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      Boolean oldAbsoluteX = absoluteX;
-      absoluteX = null;
-      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, absoluteX);
-      return true;
-    }
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#unsetAbsoluteY()
-   */
-  @Override
-  public boolean unsetAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      Boolean oldAbsoluteY = absoluteY;
-      absoluteY = null;
-      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, absoluteY);
-      return true;
-    }
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#unsetAbsoluteZ()
-   */
-  @Override
-  public boolean unsetAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      Boolean oldAbsoluteZ = absoluteZ;
-      absoluteZ = null;
-      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, absoluteZ);
-      return true;
-    }
-    return false;
   }
 
   /* (non-Javadoc)
@@ -804,15 +654,12 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
       }
       else if (attributeName.equals(RenderConstants.x)) {
         setX(new RelAbsVector(value));
-        setAbsoluteX(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.y)) {
         setY(new RelAbsVector(value));
-        setAbsoluteY(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.z)) {
         setZ(new RelAbsVector(value));
-        setAbsoluteZ(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.fontStyleItalic)) {
         setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
@@ -834,9 +681,6 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   public int hashCode() {
     final int prime = 3163;
     int result = super.hashCode();
-    result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
-    result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
-    result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
     result = prime * result
         + ((fontFamily == null) ? 0 : fontFamily.hashCode());
     result = prime * result + ((fontSize == null) ? 0 : fontSize.hashCode());

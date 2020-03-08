@@ -60,31 +60,6 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * 
    */
-  @Deprecated
-  private Boolean absoluteX;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteY;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteZ;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteWidth;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteHeight;
-  /**
-   * 
-   */
   private String href;
 
   /**
@@ -111,11 +86,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public Image(Image obj) {
     super();
-    absoluteHeight = obj.absoluteHeight;
-    absoluteWidth = obj.absoluteWidth;
-    absoluteX = obj.absoluteX;
-    absoluteY = obj.absoluteY;
-    absoluteZ = obj.absoluteZ;
+
     height = obj.height;
     href = obj.href;
     width = obj.width;
@@ -151,13 +122,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   public int hashCode() {
     final int prime = 3137;
     int result = super.hashCode();
-    result = prime * result
-        + ((absoluteHeight == null) ? 0 : absoluteHeight.hashCode());
-    result = prime * result
-        + ((absoluteWidth == null) ? 0 : absoluteWidth.hashCode());
-    result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
-    result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
-    result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
+    
     result = prime * result + ((height == null) ? 0 : height.hashCode());
     result = prime * result + ((href == null) ? 0 : href.hashCode());
     result = prime * result + ((width == null) ? 0 : width.hashCode());
@@ -182,41 +147,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
       return false;
     }
     Image other = (Image) obj;
-    if (absoluteHeight == null) {
-      if (other.absoluteHeight != null) {
-        return false;
-      }
-    } else if (!absoluteHeight.equals(other.absoluteHeight)) {
-      return false;
-    }
-    if (absoluteWidth == null) {
-      if (other.absoluteWidth != null) {
-        return false;
-      }
-    } else if (!absoluteWidth.equals(other.absoluteWidth)) {
-      return false;
-    }
-    if (absoluteX == null) {
-      if (other.absoluteX != null) {
-        return false;
-      }
-    } else if (!absoluteX.equals(other.absoluteX)) {
-      return false;
-    }
-    if (absoluteY == null) {
-      if (other.absoluteY != null) {
-        return false;
-      }
-    } else if (!absoluteY.equals(other.absoluteY)) {
-      return false;
-    }
-    if (absoluteZ == null) {
-      if (other.absoluteZ != null) {
-        return false;
-      }
-    } else if (!absoluteZ.equals(other.absoluteZ)) {
-      return false;
-    }
+    
     if (height == null) {
       if (other.height != null) {
         return false;
@@ -292,242 +223,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
       resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
       Math.min(pos, 0)));
   }
-
-  /**
-   * @return the value of absoluteHeight
-   */
-  @Deprecated
-  public boolean isAbsoluteHeight() {
-    if (isSetAbsoluteHeight()) {
-      return absoluteHeight;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteHeight is set
-   */
-  @Deprecated
-  public boolean isSetAbsoluteHeight() {
-    return absoluteHeight != null;
-  }
-
-  /**
-   * Set the value of absoluteHeight
-   * @param absoluteHeight
-   */
-  @Deprecated
-  public void setAbsoluteHeight(boolean absoluteHeight) {
-    Boolean oldAbsoluteHeight = this.absoluteHeight;
-    this.absoluteHeight = absoluteHeight;
-    firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, this.absoluteHeight);
-  }
-
-  /**
-   * Unsets the variable absoluteHeight
-   * @return {@code true}, if absoluteHeight was set before,
-   *         otherwise {@code false}
-   */
-  @Deprecated
-  public boolean unsetAbsoluteHeight() {
-    if (isSetAbsoluteHeight()) {
-      Boolean oldAbsoluteHeight = absoluteHeight;
-      absoluteHeight = null;
-      firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, absoluteHeight);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteWidth
-   */
-  @Deprecated
-  public boolean isAbsoluteWidth() {
-    if (isSetAbsoluteWidth()) {
-      return absoluteWidth;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteWidth is set
-   */
-  @Deprecated
-  public boolean isSetAbsoluteWidth() {
-    return absoluteWidth != null;
-  }
-
-  /**
-   * Set the value of absoluteWidth
-   * @param absoluteWidth
-   */
-  @Deprecated
-  public void setAbsoluteWidth(boolean absoluteWidth) {
-    Boolean oldAbsoluteWidth = this.absoluteWidth;
-    this.absoluteWidth = absoluteWidth;
-    firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, this.absoluteWidth);
-  }
-
-  /**
-   * Unsets the variable absoluteWidth
-   * @return {@code true}, if absoluteWidth was set before,
-   *         otherwise {@code false}
-   */
-  @Deprecated
-  public boolean unsetAbsoluteWidth() {
-    if (isSetAbsoluteWidth()) {
-      Boolean oldAbsoluteWidth = absoluteWidth;
-      absoluteWidth = null;
-      firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, absoluteWidth);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteX
-   */
-  @Deprecated
-  public boolean isAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      return absoluteX;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteX is set
-   */
-  @Deprecated
-  public boolean isSetAbsoluteX() {
-    return absoluteX != null;
-  }
-
-  /**
-   * Set the value of absoluteX
-   * @param absoluteX
-   */
-  @Deprecated
-  public void setAbsoluteX(boolean absoluteX) {
-    Boolean oldAbsoluteX = this.absoluteX;
-    this.absoluteX = absoluteX;
-    firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
-  }
-
-  /**
-   * Unsets the variable absoluteX
-   * @return {@code true}, if absoluteX was set before,
-   *         otherwise {@code false}
-   */
-  @Deprecated
-  public boolean unsetAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      Boolean oldAbsoluteX = absoluteX;
-      absoluteX = null;
-      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, absoluteX);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteY
-   */
-  @Deprecated
-  public boolean isAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      return absoluteY;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteY is set
-   */
-  @Deprecated
-  public boolean isSetAbsoluteY() {
-    return absoluteY != null;
-  }
-
-  /**
-   * Set the value of absoluteY
-   * @param absoluteY
-   */
-  @Deprecated
-  public void setAbsoluteY(boolean absoluteY) {
-    Boolean oldAbsoluteY = this.absoluteY;
-    this.absoluteY = absoluteY;
-    firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
-  }
-
-  /**
-   * Unsets the variable absoluteY
-   * @return {@code true}, if absoluteY was set before,
-   *         otherwise {@code false}
-   */
-  @Deprecated
-  public boolean unsetAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      Boolean oldAbsoluteY = absoluteY;
-      absoluteY = null;
-      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, absoluteY);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteZ
-   */
-  @Deprecated
-  public boolean isAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      return absoluteZ;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteZ is set
-   */
-  @Deprecated
-  public boolean isSetAbsoluteZ() {
-    return absoluteZ != null;
-  }
-
-  /**
-   * Set the value of absoluteZ
-   * @param absoluteZ
-   */
-  @Deprecated
-  public void setAbsoluteZ(boolean absoluteZ) {
-    Boolean oldAbsoluteZ = this.absoluteZ;
-    this.absoluteZ = absoluteZ;
-    firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
-  }
-
-  /**
-   * Unsets the variable absoluteZ
-   * @return {@code true}, if absoluteZ was set before,
-   *         otherwise {@code false}
-   */
-  @Deprecated
-  public boolean unsetAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      Boolean oldAbsoluteZ = absoluteZ;
-      absoluteZ = null;
-      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, absoluteZ);
-      return true;
-    }
-    return false;
-  }
-
+  
   /**
    * @return the value of height
    */
@@ -839,23 +535,18 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
       }
       else if (attributeName.equals(RenderConstants.x)) {
         setX(new RelAbsVector(value));
-        setAbsoluteX(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.y)) {
         setY(new RelAbsVector(value));
-        setAbsoluteY(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.z)) {
         setZ(new RelAbsVector(value));
-        setAbsoluteZ(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.width)) {
         setWidth(new RelAbsVector(value));
-        setAbsoluteWidth(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.height)) {
         setHeight(new RelAbsVector(value));
-        setAbsoluteHeight(XMLTools.isAbsolutePosition(value));
       }
       else {
         isAttributeRead = false;

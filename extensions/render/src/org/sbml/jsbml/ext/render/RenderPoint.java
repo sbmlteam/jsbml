@@ -40,22 +40,6 @@ public class RenderPoint extends RenderCurveSegment {
   /**
    * 
    */
-  @Deprecated
-  private Boolean absoluteX;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteY;
-  /**
-   * 
-   */
-  @Deprecated
-  private Boolean absoluteZ;
-
-  /**
-   * 
-   */
   private RelAbsVector x, y, z;
   
   /**
@@ -73,9 +57,6 @@ public class RenderPoint extends RenderCurveSegment {
    */
   public RenderPoint(RenderPoint obj) {
     super(obj);
-    absoluteX = obj.absoluteX;
-    absoluteY = obj.absoluteY;
-    absoluteZ = obj.absoluteZ;
     x = obj.x;
     y = obj.y;
     z = obj.z;
@@ -144,66 +125,6 @@ public class RenderPoint extends RenderCurveSegment {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#isAbsoluteX()
-   */
-  @Override
-  public boolean isAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      return absoluteX;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteX, this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#isAbsoluteY()
-   */
-  @Override
-  public boolean isAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      return absoluteY;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteY, this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#isAbsoluteZ()
-   */
-  @Override
-  public boolean isAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      return absoluteZ;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteZ, this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#isSetAbsoluteX()
-   */
-  @Override
-  public boolean isSetAbsoluteX() {
-    return absoluteX != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#isSetAbsoluteY()
-   */
-  @Override
-  public boolean isSetAbsoluteY() {
-    return absoluteY != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#isSetAbsoluteZ()
-   */
-  @Override
-  public boolean isSetAbsoluteZ() {
-    return absoluteZ != null;
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isSetX()
    */
   @Override
@@ -225,36 +146,6 @@ public class RenderPoint extends RenderCurveSegment {
   @Override
   public boolean isSetZ() {
     return z != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteX(java.lang.Boolean)
-   */
-  @Override
-  public void setAbsoluteX(boolean absoluteX) {
-    Boolean oldAbsoluteX = this.absoluteX;
-    this.absoluteX = absoluteX;
-    firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteY(java.lang.Boolean)
-   */
-  @Override
-  public void setAbsoluteY(boolean absoluteY) {
-    Boolean oldAbsoluteY = this.absoluteY;
-    this.absoluteY = absoluteY;
-    firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteZ(java.lang.Boolean)
-   */
-  @Override
-  public void setAbsoluteZ(boolean absoluteZ) {
-    Boolean oldAbsoluteZ = this.absoluteZ;
-    this.absoluteZ = absoluteZ;
-    firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
   }
 
   /* (non-Javadoc)
@@ -285,48 +176,6 @@ public class RenderPoint extends RenderCurveSegment {
     RelAbsVector oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#unsetAbsoluteX()
-   */
-  @Override
-  public boolean unsetAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      Boolean oldAbsoluteX = absoluteX;
-      absoluteX = null;
-      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, absoluteX);
-      return true;
-    }
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#unsetAbsoluteY()
-   */
-  @Override
-  public boolean unsetAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      Boolean oldAbsoluteY = absoluteY;
-      absoluteY = null;
-      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, absoluteY);
-      return true;
-    }
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderPoint#unsetAbsoluteZ()
-   */
-  @Override
-  public boolean unsetAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      Boolean oldAbsoluteZ = absoluteZ;
-      absoluteZ = null;
-      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, absoluteZ);
-      return true;
-    }
-    return false;
   }
 
   /* (non-Javadoc)
@@ -407,15 +256,12 @@ public class RenderPoint extends RenderCurveSegment {
       
       if (attributeName.equals(RenderConstants.x)) {
         setX(new RelAbsVector(value));
-        setAbsoluteX(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.y)) {
         setY(new RelAbsVector(value));
-        setAbsoluteY(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.z)) {
         setZ(new RelAbsVector(value));
-        setAbsoluteZ(XMLTools.isAbsolutePosition(value));
       }
       else {
         isAttributeRead = false;
@@ -431,9 +277,6 @@ public class RenderPoint extends RenderCurveSegment {
   public int hashCode() {
     final int prime = 3187;
     int result = super.hashCode();
-    result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
-    result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
-    result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
     result = prime * result + ((x == null) ? 0 : x.hashCode());
     result = prime * result + ((y == null) ? 0 : y.hashCode());
     result = prime * result + ((z == null) ? 0 : z.hashCode());
@@ -455,27 +298,7 @@ public class RenderPoint extends RenderCurveSegment {
       return false;
     }
     RenderPoint other = (RenderPoint) obj;
-    if (absoluteX == null) {
-      if (other.absoluteX != null) {
-        return false;
-      }
-    } else if (!absoluteX.equals(other.absoluteX)) {
-      return false;
-    }
-    if (absoluteY == null) {
-      if (other.absoluteY != null) {
-        return false;
-      }
-    } else if (!absoluteY.equals(other.absoluteY)) {
-      return false;
-    }
-    if (absoluteZ == null) {
-      if (other.absoluteZ != null) {
-        return false;
-      }
-    } else if (!absoluteZ.equals(other.absoluteZ)) {
-      return false;
-    }
+    
     if (x == null) {
       if (other.x != null) {
         return false;

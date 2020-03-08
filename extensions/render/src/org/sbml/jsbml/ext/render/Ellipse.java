@@ -61,31 +61,6 @@ public class Ellipse extends GraphicalPrimitive2D {
    * 
    */
   protected RelAbsVector ry;
-  /**
-   * 
-   */
-  @Deprecated
-  protected Boolean absoluteCx;
-  /**
-   * 
-   */
-  @Deprecated
-  protected Boolean absoluteCy;
-  /**
-   * 
-   */
-  @Deprecated
-  protected Boolean absoluteCz;
-  /**
-   * 
-   */
-  @Deprecated
-  protected Boolean absoluteRx;
-  /**
-   * 
-   */
-  @Deprecated
-  protected Boolean absoluteRy;
 
   protected Double ratio;
   
@@ -110,12 +85,6 @@ public class Ellipse extends GraphicalPrimitive2D {
     cz = obj.cz;
     rx = obj.rx;
     ry = obj.ry;
-    
-    absoluteCx = obj.absoluteCx;
-    absoluteCy = obj.absoluteCy;
-    absoluteCz = obj.absoluteCz;
-    absoluteRx = obj.absoluteRx;
-    absoluteRy = obj.absoluteRy;
     
     ratio = obj.ratio;
   }
@@ -159,16 +128,7 @@ public class Ellipse extends GraphicalPrimitive2D {
   public int hashCode() {
     final int prime = 3137;
     int result = super.hashCode();
-    result = prime * result
-        + ((absoluteCx == null) ? 0 : absoluteCx.hashCode());
-    result = prime * result
-        + ((absoluteCy == null) ? 0 : absoluteCy.hashCode());
-    result = prime * result
-        + ((absoluteCz == null) ? 0 : absoluteCz.hashCode());
-    result = prime * result
-        + ((absoluteRx == null) ? 0 : absoluteRx.hashCode());
-    result = prime * result
-        + ((absoluteRy == null) ? 0 : absoluteRy.hashCode());
+    
     result = prime * result + ((cx == null) ? 0 : cx.hashCode());
     result = prime * result + ((cy == null) ? 0 : cy.hashCode());
     result = prime * result + ((cz == null) ? 0 : cz.hashCode());
@@ -192,41 +152,7 @@ public class Ellipse extends GraphicalPrimitive2D {
       return false;
     }
     Ellipse other = (Ellipse) obj;
-    if (absoluteCx == null) {
-      if (other.absoluteCx != null) {
-        return false;
-      }
-    } else if (!absoluteCx.equals(other.absoluteCx)) {
-      return false;
-    }
-    if (absoluteCy == null) {
-      if (other.absoluteCy != null) {
-        return false;
-      }
-    } else if (!absoluteCy.equals(other.absoluteCy)) {
-      return false;
-    }
-    if (absoluteCz == null) {
-      if (other.absoluteCz != null) {
-        return false;
-      }
-    } else if (!absoluteCz.equals(other.absoluteCz)) {
-      return false;
-    }
-    if (absoluteRx == null) {
-      if (other.absoluteRx != null) {
-        return false;
-      }
-    } else if (!absoluteRx.equals(other.absoluteRx)) {
-      return false;
-    }
-    if (absoluteRy == null) {
-      if (other.absoluteRy != null) {
-        return false;
-      }
-    } else if (!absoluteRy.equals(other.absoluteRy)) {
-      return false;
-    }
+    
     if (cx == null) {
       if (other.cx != null) {
         return false;
@@ -514,222 +440,6 @@ public class Ellipse extends GraphicalPrimitive2D {
     return false;
   }
 
-  /**
-   * @return the value of absoluteCx
-   */
-  public boolean isAbsoluteCx() {
-    if (isSetAbsoluteCx()) {
-      return absoluteCx;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteCx, this);
-  }
-
-  /**
-   * @return whether absoluteCx is set
-   */
-  public boolean isSetAbsoluteCx() {
-    return absoluteCx != null;
-  }
-
-  /**
-   * Set the value of absoluteCx
-   * @param absoluteCx
-   */
-  public void setAbsoluteCx(boolean absoluteCx) {
-    Boolean oldAbsoluteCx = this.absoluteCx;
-    this.absoluteCx = absoluteCx;
-    firePropertyChange(RenderConstants.absoluteCx, oldAbsoluteCx, this.absoluteCx);
-  }
-
-  /**
-   * Unsets the variable absoluteCx
-   * @return {@code true}, if absoluteCx was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteCx() {
-    if (isSetAbsoluteCx()) {
-      Boolean oldAbsoluteCx = absoluteCx;
-      absoluteCx = null;
-      firePropertyChange(RenderConstants.absoluteCx, oldAbsoluteCx, absoluteCx);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteCy
-   */
-  public boolean isAbsoluteCy() {
-    if (isSetAbsoluteCy()) {
-      return absoluteCy;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteCy, this);
-  }
-
-  /**
-   * @return whether absoluteCy is set
-   */
-  public boolean isSetAbsoluteCy() {
-    return absoluteCy != null;
-  }
-
-  /**
-   * Set the value of absoluteCy
-   * @param absoluteCy
-   */
-  public void setAbsoluteCy(boolean absoluteCy) {
-    Boolean oldAbsoluteCy = this.absoluteCy;
-    this.absoluteCy = absoluteCy;
-    firePropertyChange(RenderConstants.absoluteCy, oldAbsoluteCy, this.absoluteCy);
-  }
-
-  /**
-   * Unsets the variable absoluteCy
-   * @return {@code true}, if absoluteCy was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteCy() {
-    if (isSetAbsoluteCy()) {
-      Boolean oldAbsoluteCy = absoluteCy;
-      absoluteCy = null;
-      firePropertyChange(RenderConstants.absoluteCy, oldAbsoluteCy, absoluteCy);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteCz
-   */
-  public boolean isAbsoluteCz() {
-    if (isSetAbsoluteCz()) {
-      return absoluteCz;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteCz, this);
-  }
-
-  /**
-   * @return whether absoluteCz is set
-   */
-  public boolean isSetAbsoluteCz() {
-    return absoluteCz != null;
-  }
-
-  /**
-   * Set the value of absoluteCz
-   * @param absoluteCz
-   */
-  public void setAbsoluteCz(boolean absoluteCz) {
-    Boolean oldAbsoluteCz = this.absoluteCz;
-    this.absoluteCz = absoluteCz;
-    firePropertyChange(RenderConstants.absoluteCz, oldAbsoluteCz, this.absoluteCz);
-  }
-
-  /**
-   * Unsets the variable absoluteCz
-   * @return {@code true}, if absoluteCz was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteCz() {
-    if (isSetAbsoluteCz()) {
-      Boolean oldAbsoluteCz = absoluteCz;
-      absoluteCz = null;
-      firePropertyChange(RenderConstants.absoluteCz, oldAbsoluteCz, absoluteCz);
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * @return the value of absoluteRx
-   */
-  public boolean isAbsoluteRx() {
-    if (isSetAbsoluteRx()) {
-      return absoluteRx;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteRx, this);
-  }
-
-  /**
-   * @return whether absoluteRx is set
-   */
-  public boolean isSetAbsoluteRx() {
-    return absoluteRx != null;
-  }
-
-  /**
-   * Set the value of absoluteRx
-   * @param absoluteRx
-   */
-  public void setAbsoluteRx(boolean absoluteRx) {
-    Boolean oldAbsoluteRx = this.absoluteRx;
-    this.absoluteRx = absoluteRx;
-    firePropertyChange(RenderConstants.absoluteRx, oldAbsoluteRx, this.absoluteRx);
-  }
-
-  /**
-   * Unsets the variable absoluteRx
-   * @return {@code true}, if absoluteRx was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteRx() {
-    if (isSetAbsoluteRx()) {
-      Boolean oldAbsoluteRx = absoluteRx;
-      absoluteRx = null;
-      firePropertyChange(RenderConstants.absoluteRx, oldAbsoluteRx, absoluteRx);
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * @return the value of absoluteRy
-   */
-  public boolean isAbsoluteRy() {
-    if (isSetAbsoluteRy()) {
-      return absoluteRy;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteRy, this);
-  }
-
-  /**
-   * @return whether absoluteRy is set
-   */
-  public boolean isSetAbsoluteRy() {
-    return absoluteRy != null;
-  }
-
-  /**
-   * Set the value of absoluteRy
-   * @param absoluteRy
-   */
-  public void setAbsoluteRy(boolean absoluteRy) {
-    Boolean oldAbsoluteRy = this.absoluteRy;
-    this.absoluteRy = absoluteRy;
-    firePropertyChange(RenderConstants.absoluteRy, oldAbsoluteRy, this.absoluteRy);
-  }
-
-  /**
-   * Unsets the variable absoluteRy
-   * @return {@code true}, if absoluteRy was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteRy() {
-    if (isSetAbsoluteRy()) {
-      Boolean oldAbsoluteRy = absoluteRy;
-      absoluteRy = null;
-      firePropertyChange(RenderConstants.absoluteRy, oldAbsoluteRy, absoluteRy);
-      return true;
-    }
-    return false;
-  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
@@ -784,23 +494,18 @@ public class Ellipse extends GraphicalPrimitive2D {
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.cx)) {
         setCx(new RelAbsVector(value));
-        setAbsoluteCx(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cy)) {
         setCy(new RelAbsVector(value));
-        setAbsoluteCy(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.cz)) {
         setCz(new RelAbsVector(value));
-        setAbsoluteCz(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.rx)) {
         setRx(new RelAbsVector(value));
-        setAbsoluteRx(XMLTools.isAbsolutePosition(value));
       }
       else if (attributeName.equals(RenderConstants.ry)) {
         setRy(new RelAbsVector(value));
-        setAbsoluteRy(XMLTools.isAbsolutePosition(value));
       }
       else if(attributeName.equals(RenderConstants.ratio)) {
         setRatio(Double.parseDouble(value));
