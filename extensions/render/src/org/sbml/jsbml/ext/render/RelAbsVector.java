@@ -1,5 +1,7 @@
 package org.sbml.jsbml.ext.render;
 
+import org.sbml.jsbml.AbstractSBase;
+
 /**
  * Implements the RelAbsVector-datatype defined in the render-specification:
  * A RelAbsVector encodes a single number as a combination of an absolute and a
@@ -10,8 +12,10 @@ package org.sbml.jsbml.ext.render;
  * 
  * @author DavidVetter
  */
-public class RelAbsVector {
+public class RelAbsVector extends AbstractSBase {
 
+  private static final long serialVersionUID = 7621009594700491178L;
+  
   private Double absolute;
   private Double relative;
   
@@ -19,37 +23,78 @@ public class RelAbsVector {
   private static final String RELATIVE_PATTERN = ABSOLUTE_PATTERN + "\\%";
   
   public RelAbsVector() {
+    super();
   }
   
+  /**
+   * Copy-constructor
+   * @param original
+   */
   public RelAbsVector(RelAbsVector original) {
+    super(original);
     absolute = original.getAbsoluteValue();
     relative = original.getRelativeValue();
   }
   
+  /**
+   * Set only the absolute, but not the relative part, to an initial value
+   * @param absolute coordinate-value (in pt)
+   */
   public RelAbsVector(double absolute) {
+    super();
     this.absolute = absolute;
   }
   
+  
+  /**
+   * Set both the relative and absolute parts to initial values
+   * 
+   * @param absolute
+   *        coordinate-value (in pt)
+   * @param relative
+   *        in % of some reference size (of the enclosing {@link BoundingBox}),
+   *        relative=75 means 75% (i.e. 0.75)
+   */
   public RelAbsVector(double absolute, double relative) {
+    super();
     this.absolute = absolute;
     this.relative = relative;
   }
   
+  
+  /**
+   * Set from a XML-String in the format "a" or "r%" or "a+r%" or "a-r%", as
+   * described in the render-specification
+   * 
+   * @param coordinate
+   *        String encoding of a RelAbsVector. If invalid, both absolute and
+   *        relative part are set to NaN (i.e. unset)
+   */
   public RelAbsVector(String coordinate) {
+    super();
     setCoordinate(coordinate);
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public RelAbsVector clone() {
     return new RelAbsVector(this);
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object obj) {
     if(this == obj) {
       return true;
     }
     if(obj.getClass() != this.getClass()) {
+      return false;
+    }
+    if(!super.equals(obj)) {
       return false;
     }
     
@@ -87,19 +132,25 @@ public class RelAbsVector {
   }
   
   /**
+   * Sets absolute part to new value and fires appropriate event
    * @param absolute the new absolute value to be taken
    */
   public void setAbsoluteValue(double absolute) {
+    Double old = this.absolute;
     this.absolute = absolute;
+    firePropertyChange(RenderConstants.absoluteValue, old, absolute);
   }
   
   /**
+   * Sets relative part to new value and fires appropriate event
    * @param relative
    *        the new relative value to be taken (in percent, i.e. relative=100d
    *        means 100%)
    */
   public void setRelativeValue(double relative) {
+    Double old = this.relative;
     this.relative = relative;
+    firePropertyChange(RenderConstants.relativeValue, old, relative);
   }
   
   /**
@@ -122,7 +173,9 @@ public class RelAbsVector {
    */
   public boolean unsetAbsoluteValue() {
     if(isSetAbsoluteValue()) {
+      Double old = absolute;
       absolute = null;
+      firePropertyChange(RenderConstants.absoluteValue, old, absolute);
       return true;
     }
     return false;
@@ -134,7 +187,9 @@ public class RelAbsVector {
    */
   public boolean unsetRelativeValue() {
     if(isSetRelativeValue()) {
+      Double old = relative;
       relative = null;
+      firePropertyChange(RenderConstants.relativeValue, old, relative);
       return true;
     }
     return false;
@@ -147,7 +202,7 @@ public class RelAbsVector {
    * are set to NaN
    * 
    * @param coordinates
-   *        a valid RelAbsVector string
+   *        a RelAbsVector string
    * @return Whether the string was valid
    */
   public boolean setCoordinate(String coordinates) {
@@ -187,8 +242,8 @@ public class RelAbsVector {
   
   
   /**
-   * Produces a string of the format "a" or "r%" or "a+r%" as specified in the
-   * render-documentation.
+   * Produces a string of the format "a" or "r%" or "a+r%" or "a-r%" as
+   * specified in the render-documentation.
    * 
    * @return the XML-string-encoding of this RelAbsVector
    */

@@ -561,6 +561,12 @@ public class RenderConstants {
    */
   public static final String defaultValues = "defaultValues";
 
+  /** Refers to the absolute part of a RelAbsVector */
+  public static final String absoluteValue = "absoluteValue";
+  
+  /** Refers to the relative part of a RelAbsVector */
+  public static final String relativeValue = "relativeValue";
+  
   /**
    * Returns the namespace URI corresponding to the given level and version.
    * 

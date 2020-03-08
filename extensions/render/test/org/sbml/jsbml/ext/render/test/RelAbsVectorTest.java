@@ -318,16 +318,12 @@ public class RelAbsVectorTest {
   
   
   /**
-   * Trying to get the coordinate-string of a fully unset RelAbsVector should
-   * give rise to an Exception
-   * 
-   * TODO: or should the return just be "0"?
-   * 
-   * @throws Exception
+   * Trying to get the coordinate-string of a fully unset RelAbsVector should yield 
+   * default "0"
    */
-  @Test(expected = Exception.class)
-  public void testGetCoordinateException() throws Exception {
+  @Test
+  public void testGetCoordinateUnset() {
     RelAbsVector rav = new RelAbsVector();
-    rav.getCoordinate();
+    assertEquals("0", rav.getCoordinate());
   }
 }
