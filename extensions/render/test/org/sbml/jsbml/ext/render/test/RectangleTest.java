@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -281,5 +282,30 @@ public class RectangleTest {
     double width=10d;
     rectangle.setWidth(new RelAbsVector(width));
     assertEquals(width,rectangle.getWidth().getAbsoluteValue(),.00001d);
+  }
+  
+  @Test
+  public void testGetSetRatio() {
+    Rectangle rectangle = new Rectangle();
+    rectangle.setRatio(2.87d);
+    assertEquals(rectangle.getRatio(), 2.87d, 1e-7);
+  }
+  
+  @Test
+  public void testIsSetRatio() {
+    Rectangle rectangle = new Rectangle();
+    assertFalse(rectangle.isSetRatio());
+    rectangle.setRatio(2.87d);
+    assertTrue(rectangle.isSetRatio());
+  }
+  
+  @Test
+  public void testUnsetRatio() {
+    Rectangle rectangle = new Rectangle();
+    assertFalse(rectangle.isSetRatio());
+    rectangle.setRatio(2.87d);
+    assertTrue(rectangle.isSetRatio());
+    rectangle.unsetRatio();
+    assertFalse(rectangle.isSetRatio());
   }
 }

@@ -48,7 +48,10 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   private RelAbsVector rx, ry;
 
-  // TODO: missing ratio of type double!
+  /**
+   * Ratio of width to height
+   */
+  private Double ratio;
   
   /**
    * @return the value of rx
@@ -362,6 +365,44 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     }
     return false;
   }
+  
+  /**
+   * @return the ratio width/height
+   */
+  public double getRatio() {
+    if(isSetRatio())
+      return ratio;
+    throw new PropertyUndefinedError(RenderConstants.ratio, this);
+  }
+  
+  /**
+   * @return whether the ratio of width/height is set
+   */
+  public boolean isSetRatio() {
+    return ratio != null;
+  }
+  
+  /**
+   * @param ratio of width/height
+   */
+  public void setRatio(double ratio) {
+    Double old = this.ratio;
+    this.ratio = ratio;
+    firePropertyChange(RenderConstants.ratio, old, ratio);
+  }
+  
+  /**
+   * @return whether the ratio of width/height could be unset
+   */
+  public boolean unsetRatio() {
+    if(isSetRatio()) {
+      Double old = ratio;
+      ratio = null;
+      firePropertyChange(RenderConstants.ratio, old, ratio);
+      return true;
+    }
+    return false;
+  }
 
   /**
    * Creates a new {@link Rectangle} instance.
@@ -385,6 +426,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     ry = obj.ry;
     height = obj.height;
     width = obj.width;
+    ratio = obj.ratio;
   }
 
   /* (non-Javadoc)
@@ -479,6 +521,11 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ry,
         getRy().getCoordinate());
     }
+    if(isSetRatio()) {
+      attributes.remove(RenderConstants.ratio);
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ratio,
+        "" + getRatio());
+    }
 
     return attributes;
   }
@@ -513,6 +560,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
       }
       else if (attributeName.equals(RenderConstants.ry)) {
         setRy(new RelAbsVector(value));
+      }
+      else if (attributeName.equals(RenderConstants.ratio)) {
+        setRatio(XMLTools.parsePosition(value));
       }
       else {
         isAttributeRead = false;
