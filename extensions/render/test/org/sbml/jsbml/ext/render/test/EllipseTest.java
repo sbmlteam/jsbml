@@ -24,9 +24,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.beans.PropertyChangeEvent;
+
+import javax.swing.tree.TreeNode;
+
 import org.junit.Test;
 import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.RelAbsVector;
+import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 
 
 /**
@@ -36,6 +43,38 @@ import org.sbml.jsbml.ext.render.RelAbsVector;
 public class EllipseTest {
 
   private static final double TOLERANCE = 1e-8;
+  
+  @Test
+  public void testEvents() {
+    Ellipse ellipse = new Ellipse();
+    ellipse.setCx(new RelAbsVector("50-30%"));
+    StringBuffer change = new StringBuffer();
+    String ARROW = " -> ";
+    TreeNodeChangeListener listener = new TreeNodeChangeListener() {
+
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        change.delete(0, change.length());
+        change.append(evt.getOldValue() + ARROW + evt.getNewValue());
+      }
+
+      @Override
+      public void nodeAdded(TreeNode node) { }
+      @Override
+      public void nodeRemoved(TreeNodeRemovedEvent event) { }
+    };
+    ellipse.addTreeNodeChangeListener(listener);
+    // Initially: nothing changed
+    assertEquals("", change.toString());
+    ellipse.setCx(new RelAbsVector("70-30%"));
+    String expected = new RelAbsVector("50-30%") + ARROW + new RelAbsVector("70-30%");
+    assertEquals(expected, change.toString());
+    ellipse.getCx().setAbsoluteValue(10d);
+    expected = new RelAbsVector("70-30%") + ARROW + new RelAbsVector("10-30%");
+    assertEquals(expected, change.toString());
+  }
+  
+  
   /**
    * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#getCx()}.
    */

@@ -20,11 +20,16 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.beans.PropertyChangeEvent;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 
 /**
  * Encodes an ellipse.
@@ -212,6 +217,33 @@ public class Ellipse extends GraphicalPrimitive2D {
   public void setCx(RelAbsVector cx) {
     RelAbsVector oldCx = this.cx;
     this.cx = cx;
+    
+    // TODO: Example: like this, the Ellipse would notify its listeners about
+    // changes to its RelAbsVectors. Should this be added or should users be
+    // instructed to listen to the RelAbsVectors/not use
+    // getCx().setAbsoluteValue(...)?
+    if(oldCx != null)
+      oldCx.removeAllTreeNodeChangeListeners();
+    if(cx != null) {
+      this.cx.addTreeNodeChangeListener(new TreeNodeChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          RelAbsVector old = ((RelAbsVector) evt.getSource()).clone();
+          switch(evt.getPropertyName()) {
+          case RenderConstants.absoluteValue:
+            old.setAbsoluteValue((double) evt.getOldValue());
+            break;
+          case RenderConstants.relativeValue:
+            old.setRelativeValue((double) evt.getOldValue());
+            break;
+          }
+          firePropertyChange(RenderConstants.cx, old, (RelAbsVector) evt.getSource());
+        }
+        
+        public void nodeAdded(TreeNode node) {}
+        public void nodeRemoved(TreeNodeRemovedEvent event) {}
+      });
+    }
     firePropertyChange(RenderConstants.cx, oldCx, this.cx);
   }
 
