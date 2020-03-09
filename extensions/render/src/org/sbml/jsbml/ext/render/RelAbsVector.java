@@ -276,4 +276,16 @@ public class RelAbsVector extends AbstractSBase {
   public String toString() {
     return String.format("RelAbsVector [absolute=%s, relative=%s]", absolute, relative);
   }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3061;
+    int result = super.hashCode();
+    result = prime * result + ((absolute == null) ? 0 : absolute.hashCode());
+    result = prime * result + ((relative == null) ? 0 : relative.hashCode());
+    return result;
+  }
 }

@@ -259,8 +259,6 @@ public class RenderWriteTest {
         RenderConstants.namespaceURI)).getLocalRenderInformation(0)
                                       .getListOfLocalStyles().get(0).getGroup()
                                       .getElement(0);
-    System.out.println(rectangle);
-    System.out.println(readTransformation);
     assertEquals((Transformation2D) rectangle, readTransformation);
   }
 }

@@ -133,7 +133,7 @@ public class PolygonTest {
     Polygon polygon=new Polygon();
     ListOf<RenderPoint> list=new ListOf<RenderPoint>();
     polygon.setListOfElements(list);
-    System.out.println(polygon.getChildCount());
+    // System.out.println(polygon.getChildCount());
     assertTrue(polygon.getListOfElements().getChildCount() == 0);
     RenderPoint rP=new RenderPoint();
     assertTrue(rP != null);
