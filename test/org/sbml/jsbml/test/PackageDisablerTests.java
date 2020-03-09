@@ -2,52 +2,27 @@ package org.sbml.jsbml.test;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedOutputStream;
-
-import javax.xml.stream.XMLStreamException;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.sbml.jsbml.Event;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.SBMLWriter;
-import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompModelPlugin;
-import org.sbml.jsbml.ext.comp.CompSBasePlugin;
 import org.sbml.jsbml.ext.comp.Port;
 import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.ext.distrib.DistribConstants;
 import org.sbml.jsbml.ext.distrib.DistribSBasePlugin;
 import org.sbml.jsbml.ext.distrib.Uncertainty;
 import org.sbml.jsbml.ext.dyn.DynConstants;
-import org.sbml.jsbml.ext.dyn.DynSBasePlugin;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.GeneProduct;
-import org.sbml.jsbml.ext.groups.GroupsConstants;
-import org.sbml.jsbml.ext.groups.GroupsModelPlugin;
-import org.sbml.jsbml.ext.layout.AbstractReferenceGlyph;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
-import org.sbml.jsbml.ext.layout.ReactionGlyph;
-import org.sbml.jsbml.ext.layout.SpeciesGlyph;
-import org.sbml.jsbml.ext.multi.MultiConstants;
-import org.sbml.jsbml.ext.multi.MultiModelPlugin;
-import org.sbml.jsbml.ext.qual.QualConstants;
-import org.sbml.jsbml.ext.qual.QualModelPlugin;
-import org.sbml.jsbml.ext.spatial.AdjacentDomains;
-import org.sbml.jsbml.ext.spatial.Geometry;
-import org.sbml.jsbml.ext.spatial.SpatialConstants;
-import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
-import org.sbml.jsbml.ontology.Term;
 import org.sbml.jsbml.util.PackageDisabler;
 
 /**
