@@ -22,6 +22,7 @@ package org.sbml.jsbml.examples.render;
 import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.SourceSink;
 
@@ -47,12 +48,9 @@ public class RenderSourceSink extends SourceSink<LocalStyle> {
     double height, double depth) {
     RenderGroup result = new RenderGroup();
     Ellipse circle = result.createEllipse();
-    circle.setCx(width/2);
-    circle.setAbsoluteCx(true);
-    circle.setCy(height/2);
-    circle.setAbsoluteCy(true);
-    circle.setRx(0.45*Math.min(width, height));
-    circle.setAbsoluteRx(true);
+    circle.setCx(new RelAbsVector(width/2));
+    circle.setCy(new RelAbsVector(height/2));
+    circle.setRx(new RelAbsVector(0.45*Math.min(width, height)));
     
     circle.setStroke(stroke);
     circle.setStrokeWidth(getLineWidth());

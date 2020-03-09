@@ -22,6 +22,7 @@ package org.sbml.jsbml.examples.render;
 import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.SimpleChemical;
 
@@ -49,9 +50,9 @@ public class RenderSimpleChemical extends SimpleChemical<LocalStyle> {
     double radius = Math.min(width, height) / 2;
     
     Ellipse background = chemical.createEllipse();
-    background.setCx(width/2); background.setAbsoluteCx(true);
-    background.setCy(height/2); background.setAbsoluteCy(true);
-    background.setRx(radius); background.setAbsoluteRx(true);
+    background.setCx(new RelAbsVector(width/2));
+    background.setCy(new RelAbsVector(height/2));
+    background.setRx(new RelAbsVector(radius));
     background.setStroke(stroke);
     background.setStrokeWidth(0);
     background.setFill(fill);

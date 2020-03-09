@@ -19,9 +19,6 @@
  */
 package org.sbml.jsbml.ext.render;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
@@ -31,6 +28,7 @@ import org.sbml.jsbml.AbstractSBase;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 public class Transformation extends AbstractSBase {
@@ -39,9 +37,9 @@ public class Transformation extends AbstractSBase {
    */
   private static final long serialVersionUID = 1845276761656867150L;
   /**
-   * 
+   * A deviation from Transformation2D's Double[] is not justified by the specification
    */
-  protected List<Double> transform;
+  protected Double[] transform;
 
   /**
    * Creates an Transformation instance
@@ -71,7 +69,8 @@ public class Transformation extends AbstractSBase {
     super(obj);
 
     if (obj.isSetTransform()) {
-      setTransform(new ArrayList<Double>(obj.transform));
+      transform = new Double[obj.transform.length];
+      System.arraycopy(obj.transform, 0, transform, 0, obj.transform.length);
     }
   }
 
@@ -121,7 +120,10 @@ public class Transformation extends AbstractSBase {
       return false;
     }
     Transformation other = (Transformation) obj;
-    if ((isSetTransform() != other.isSetTransform()) || (isSetTransform() && !transform.equals(other.transform))) {
+    if ((isSetTransform() != other.isSetTransform()) || (isSetTransform()
+        // Need use deepEquals, because we are working on Double[], not on double[]
+      && !java.util.Arrays.deepEquals(transform, other.transform))) {
+      
       return false;
     }
     return true;
@@ -136,15 +138,15 @@ public class Transformation extends AbstractSBase {
 
     if (isSetTransform()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.transform,
-        XMLTools.encodeArrayDoubleToString(transform.toArray(new Double[0])));
+        XMLTools.encodeArrayDoubleToString(transform));
     }
     return attributes;
   }
 
   /**
-   * @return
+   * @return whether transform is set
    */
-  private boolean isSetTransform() {
+  public boolean isSetTransform() {
     return transform != null;
   }
 
@@ -159,7 +161,7 @@ public class Transformation extends AbstractSBase {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.transform)) {
-        setTransform(Arrays.asList(XMLTools.decodeStringToArrayDouble(value)));
+        setTransform(XMLTools.decodeStringToArrayDouble(value));
       }
       else {
         isAttributeRead = false;
@@ -170,13 +172,24 @@ public class Transformation extends AbstractSBase {
   }
 
   /**
+   * Set the value of transform
    * @param transform
    */
-  private boolean setTransform(List<Double> transform) {
-    List<Double> oldTransform = this.transform;
+  public boolean setTransform(Double[] transform) {
+    Double[] oldTransform = this.transform;
     this.transform = transform;
     firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
     return transform != oldTransform;
   }
 
+  /**
+   * @return the value of transform
+   */
+  public Double[] getTransform() {
+    if (!isSetTransform()) {
+      // Note render specification page 25: exactly 12 values
+      transform = new Double[12];
+    }
+    return transform;
+  }
 }

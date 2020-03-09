@@ -22,6 +22,7 @@ package org.sbml.jsbml.examples.render;
 import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.UnspecifiedNode;
 
@@ -48,10 +49,10 @@ private String stroke, fill, clone;
     RenderGroup node = new RenderGroup();
     
     Ellipse background = node.createEllipse();
-    background.setCx(width/2); background.setAbsoluteCx(true);
-    background.setCy(height/2); background.setAbsoluteCy(true);
-    background.setRx(width/2); background.setAbsoluteRx(true);
-    background.setRy(height/2); background.setAbsoluteRy(true);
+    background.setCx(new RelAbsVector(width/2));
+    background.setCy(new RelAbsVector(height/2));
+    background.setRx(new RelAbsVector(width/2));
+    background.setRy(new RelAbsVector(height/2));
     
     background.setStroke(stroke);
     background.setStrokeWidth(0);

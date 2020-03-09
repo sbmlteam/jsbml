@@ -37,7 +37,8 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
    */
   private static final long serialVersionUID = -5666416071124784541L;
   /**
-   * 
+   * Specifies fill style: Can be a color-string, a {@link ColorDefinition}'s
+   * id, or a {@link GradientBase}'s id; or "none"
    */
   protected String fill;
   

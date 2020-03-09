@@ -32,7 +32,7 @@ import org.sbml.jsbml.SBase;
  * @author Jan Rudolph
  * @since 1.0
  */
-public class Image extends Transformation2D { // TODO - need to extends UniqueNamedSBase, NamedSBase
+public class Image extends Transformation2D { // TODO - need to extends UniqueNamedSBase, NamedSBase -- why? Only needs an optional id
   /**
    * Generated serial version identifier
    */
@@ -40,43 +40,23 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * 
    */
-  private Double x;
+  private RelAbsVector x;
   /**
    * 
    */
-  private Double y;
+  private RelAbsVector y;
   /**
    * 
    */
-  private Double z;
+  private RelAbsVector z;
   /**
    * 
    */
-  private Double width;
+  private RelAbsVector width;
   /**
    * 
    */
-  private Double height;
-  /**
-   * 
-   */
-  private Boolean absoluteX;
-  /**
-   * 
-   */
-  private Boolean absoluteY;
-  /**
-   * 
-   */
-  private Boolean absoluteZ;
-  /**
-   * 
-   */
-  private Boolean absoluteWidth;
-  /**
-   * 
-   */
-  private Boolean absoluteHeight;
+  private RelAbsVector height;
   /**
    * 
    */
@@ -97,6 +77,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public Image(String id) {
     super();
+    setId(id);
     initDefaults();
   }
 
@@ -105,12 +86,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * @param obj
    */
   public Image(Image obj) {
-    super();
-    absoluteHeight = obj.absoluteHeight;
-    absoluteWidth = obj.absoluteWidth;
-    absoluteX = obj.absoluteX;
-    absoluteY = obj.absoluteY;
-    absoluteZ = obj.absoluteZ;
+    super(obj);
+
     height = obj.height;
     href = obj.href;
     width = obj.width;
@@ -135,7 +112,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
     setPackageVersion(-1);
     packageName = RenderConstants.shortLabel;
 
-    z = 0d;
+    z = new RelAbsVector(0d);
   }
 
 
@@ -146,13 +123,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   public int hashCode() {
     final int prime = 3137;
     int result = super.hashCode();
-    result = prime * result
-        + ((absoluteHeight == null) ? 0 : absoluteHeight.hashCode());
-    result = prime * result
-        + ((absoluteWidth == null) ? 0 : absoluteWidth.hashCode());
-    result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
-    result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
-    result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
+    
     result = prime * result + ((height == null) ? 0 : height.hashCode());
     result = prime * result + ((href == null) ? 0 : href.hashCode());
     result = prime * result + ((width == null) ? 0 : width.hashCode());
@@ -177,41 +148,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
       return false;
     }
     Image other = (Image) obj;
-    if (absoluteHeight == null) {
-      if (other.absoluteHeight != null) {
-        return false;
-      }
-    } else if (!absoluteHeight.equals(other.absoluteHeight)) {
-      return false;
-    }
-    if (absoluteWidth == null) {
-      if (other.absoluteWidth != null) {
-        return false;
-      }
-    } else if (!absoluteWidth.equals(other.absoluteWidth)) {
-      return false;
-    }
-    if (absoluteX == null) {
-      if (other.absoluteX != null) {
-        return false;
-      }
-    } else if (!absoluteX.equals(other.absoluteX)) {
-      return false;
-    }
-    if (absoluteY == null) {
-      if (other.absoluteY != null) {
-        return false;
-      }
-    } else if (!absoluteY.equals(other.absoluteY)) {
-      return false;
-    }
-    if (absoluteZ == null) {
-      if (other.absoluteZ != null) {
-        return false;
-      }
-    } else if (!absoluteZ.equals(other.absoluteZ)) {
-      return false;
-    }
+    
     if (height == null) {
       if (other.height != null) {
         return false;
@@ -287,226 +224,11 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
       resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
       Math.min(pos, 0)));
   }
-
-  /**
-   * @return the value of absoluteHeight
-   */
-  public boolean isAbsoluteHeight() {
-    if (isSetAbsoluteHeight()) {
-      return absoluteHeight;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteHeight is set
-   */
-  public boolean isSetAbsoluteHeight() {
-    return absoluteHeight != null;
-  }
-
-  /**
-   * Set the value of absoluteHeight
-   * @param absoluteHeight
-   */
-  public void setAbsoluteHeight(boolean absoluteHeight) {
-    Boolean oldAbsoluteHeight = this.absoluteHeight;
-    this.absoluteHeight = absoluteHeight;
-    firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, this.absoluteHeight);
-  }
-
-  /**
-   * Unsets the variable absoluteHeight
-   * @return {@code true}, if absoluteHeight was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteHeight() {
-    if (isSetAbsoluteHeight()) {
-      Boolean oldAbsoluteHeight = absoluteHeight;
-      absoluteHeight = null;
-      firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, absoluteHeight);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteWidth
-   */
-  public boolean isAbsoluteWidth() {
-    if (isSetAbsoluteWidth()) {
-      return absoluteWidth;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteWidth is set
-   */
-  public boolean isSetAbsoluteWidth() {
-    return absoluteWidth != null;
-  }
-
-  /**
-   * Set the value of absoluteWidth
-   * @param absoluteWidth
-   */
-  public void setAbsoluteWidth(boolean absoluteWidth) {
-    Boolean oldAbsoluteWidth = this.absoluteWidth;
-    this.absoluteWidth = absoluteWidth;
-    firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, this.absoluteWidth);
-  }
-
-  /**
-   * Unsets the variable absoluteWidth
-   * @return {@code true}, if absoluteWidth was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteWidth() {
-    if (isSetAbsoluteWidth()) {
-      Boolean oldAbsoluteWidth = absoluteWidth;
-      absoluteWidth = null;
-      firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, absoluteWidth);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteX
-   */
-  public boolean isAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      return absoluteX;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteX is set
-   */
-  public boolean isSetAbsoluteX() {
-    return absoluteX != null;
-  }
-
-  /**
-   * Set the value of absoluteX
-   * @param absoluteX
-   */
-  public void setAbsoluteX(boolean absoluteX) {
-    Boolean oldAbsoluteX = this.absoluteX;
-    this.absoluteX = absoluteX;
-    firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
-  }
-
-  /**
-   * Unsets the variable absoluteX
-   * @return {@code true}, if absoluteX was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      Boolean oldAbsoluteX = absoluteX;
-      absoluteX = null;
-      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, absoluteX);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteY
-   */
-  public boolean isAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      return absoluteY;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteY is set
-   */
-  public boolean isSetAbsoluteY() {
-    return absoluteY != null;
-  }
-
-  /**
-   * Set the value of absoluteY
-   * @param absoluteY
-   */
-  public void setAbsoluteY(boolean absoluteY) {
-    Boolean oldAbsoluteY = this.absoluteY;
-    this.absoluteY = absoluteY;
-    firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
-  }
-
-  /**
-   * Unsets the variable absoluteY
-   * @return {@code true}, if absoluteY was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      Boolean oldAbsoluteY = absoluteY;
-      absoluteY = null;
-      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, absoluteY);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteZ
-   */
-  public boolean isAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      return absoluteZ;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteZ is set
-   */
-  public boolean isSetAbsoluteZ() {
-    return absoluteZ != null;
-  }
-
-  /**
-   * Set the value of absoluteZ
-   * @param absoluteZ
-   */
-  public void setAbsoluteZ(boolean absoluteZ) {
-    Boolean oldAbsoluteZ = this.absoluteZ;
-    this.absoluteZ = absoluteZ;
-    firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
-  }
-
-  /**
-   * Unsets the variable absoluteZ
-   * @return {@code true}, if absoluteZ was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      Boolean oldAbsoluteZ = absoluteZ;
-      absoluteZ = null;
-      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, absoluteZ);
-      return true;
-    }
-    return false;
-  }
-
+  
   /**
    * @return the value of height
    */
-  public double getHeight() {
+  public RelAbsVector getHeight() {
     if (isSetHeight()) {
       return height;
     }
@@ -525,8 +247,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of height
    * @param height
    */
-  public void setHeight(double height) {
-    Double oldHeight = this.height;
+  public void setHeight(RelAbsVector height) {
+    RelAbsVector oldHeight = this.height;
     this.height = height;
     firePropertyChange(RenderConstants.height, oldHeight, this.height);
   }
@@ -538,7 +260,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetHeight() {
     if (isSetHeight()) {
-      Double oldHeight = height;
+      RelAbsVector oldHeight = height;
       height = null;
       firePropertyChange(RenderConstants.height, oldHeight, height);
       return true;
@@ -592,7 +314,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of width
    */
-  public double getWidth() {
+  public RelAbsVector getWidth() {
     if (isSetWidth()) {
       return width;
     }
@@ -611,8 +333,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of width
    * @param width
    */
-  public void setWidth(double width) {
-    Double oldWidth = this.width;
+  public void setWidth(RelAbsVector width) {
+    RelAbsVector oldWidth = this.width;
     this.width = width;
     firePropertyChange(RenderConstants.width, oldWidth, this.width);
   }
@@ -624,7 +346,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetWidth() {
     if (isSetWidth()) {
-      Double oldWidth = width;
+      RelAbsVector oldWidth = width;
       width = null;
       firePropertyChange(RenderConstants.width, oldWidth, width);
       return true;
@@ -635,7 +357,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of x
    */
-  public double getX() {
+  public RelAbsVector getX() {
     if (isSetX()) {
       return x;
     }
@@ -654,8 +376,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of x
    * @param x
    */
-  public void setX(double x) {
-    Double oldX = this.x;
+  public void setX(RelAbsVector x) {
+    RelAbsVector oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
   }
@@ -667,7 +389,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetX() {
     if (isSetX()) {
-      Double oldX = x;
+      RelAbsVector oldX = x;
       x = null;
       firePropertyChange(RenderConstants.x, oldX, x);
       return true;
@@ -678,7 +400,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of y
    */
-  public double getY() {
+  public RelAbsVector getY() {
     if (isSetY()) {
       return y;
     }
@@ -697,8 +419,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of y
    * @param y
    */
-  public void setY(double y) {
-    Double oldY = this.y;
+  public void setY(RelAbsVector y) {
+    RelAbsVector oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
   }
@@ -710,7 +432,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetY() {
     if (isSetY()) {
-      Double oldY = y;
+      RelAbsVector oldY = y;
       y = null;
       firePropertyChange(RenderConstants.y, oldY, y);
       return true;
@@ -721,7 +443,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
   /**
    * @return the value of z
    */
-  public double getZ() {
+  public RelAbsVector getZ() {
     if (isSetZ()) {
       return z;
     }
@@ -740,8 +462,8 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * Set the value of z
    * @param z
    */
-  public void setZ(double z) {
-    Double oldZ = this.z;
+  public void setZ(RelAbsVector z) {
+    RelAbsVector oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
   }
@@ -753,7 +475,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public boolean unsetZ() {
     if (isSetZ()) {
-      Double oldZ = z;
+      RelAbsVector oldZ = z;
       z = null;
       firePropertyChange(RenderConstants.z, oldZ, z);
       return true;
@@ -776,27 +498,27 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
     if (isSetX()) {
       attributes.remove(RenderConstants.x);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
-        XMLTools.positioningToString(getX(), isAbsoluteX()));
+        x.getCoordinate());
     }
     if (isSetY()) {
       attributes.remove(RenderConstants.y);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
-        XMLTools.positioningToString(getY(), isAbsoluteY()));
+        y.getCoordinate());
     }
     if (isSetZ()) {
       attributes.remove(RenderConstants.z);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
-        XMLTools.positioningToString(getZ(), isAbsoluteZ()));
+        z.getCoordinate());
     }
     if (isSetWidth()) {
       attributes.remove(RenderConstants.width);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.width,
-        XMLTools.positioningToString(getWidth(), isAbsoluteWidth()));
+        width.getCoordinate());
     }
     if (isSetHeight()) {
       attributes.remove(RenderConstants.height);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.height,
-        XMLTools.positioningToString(getHeight(), isAbsoluteHeight()));
+        width.getCoordinate());
     }
     return attributes;
   }
@@ -813,24 +535,19 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
         setHref(value);
       }
       else if (attributeName.equals(RenderConstants.x)) {
-        setX(XMLTools.parsePosition(value));
-        setAbsoluteX(XMLTools.isAbsolutePosition(value));
+        setX(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.y)) {
-        setY(XMLTools.parsePosition(value));
-        setAbsoluteY(XMLTools.isAbsolutePosition(value));
+        setY(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.z)) {
-        setZ(XMLTools.parsePosition(value));
-        setAbsoluteZ(XMLTools.isAbsolutePosition(value));
+        setZ(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.width)) {
-        setWidth(XMLTools.parsePosition(value));
-        setAbsoluteWidth(XMLTools.isAbsolutePosition(value));
+        setWidth(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.height)) {
-        setHeight(XMLTools.parsePosition(value));
-        setAbsoluteHeight(XMLTools.isAbsolutePosition(value));
+        setHeight(new RelAbsVector(value));
       }
       else {
         isAttributeRead = false;

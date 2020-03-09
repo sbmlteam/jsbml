@@ -21,6 +21,7 @@ package org.sbml.jsbml.examples.render;
 
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Rectangle;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.Compartment;
 
@@ -45,10 +46,10 @@ public class RenderCompartment extends Compartment<LocalStyle> {
     double height, double depth) {
     RenderGroup compartment = new RenderGroup();
     Rectangle rect = compartment.createRectangle();
-    rect.setX(0); rect.setAbsoluteX(true);
-    rect.setY(0); rect.setAbsoluteY(true);
-    rect.setWidth(width); rect.setAbsoluteWidth(true);
-    rect.setHeight(height); rect.setAbsoluteHeight(true);
+    rect.setX(new RelAbsVector(0));
+    rect.setY(new RelAbsVector(0));
+    rect.setWidth(new RelAbsVector(width));
+    rect.setHeight(new RelAbsVector(height));
     
     rect.setStroke(stroke);
     rect.setStrokeWidth(getLineWidth());

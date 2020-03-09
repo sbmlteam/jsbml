@@ -27,51 +27,20 @@ package org.sbml.jsbml.ext.render;
  * @since 1.0
  */
 public interface Point3D {
-
-  /**
-   * @return the value of absoluteY
-   */
-  public abstract boolean isAbsoluteY();
-
-  /**
-   * @return the value of absoluteZ
-   */
-  public abstract boolean isAbsoluteZ();
-
   /**
    * @return the value of x
    */
-  public abstract double getX();
+  public abstract RelAbsVector getX();
 
   /**
    * @return the value of y
    */
-  public abstract double getY();
+  public abstract RelAbsVector getY();
 
   /**
    * @return the value of z
    */
-  public abstract double getZ();
-
-  /**
-   * @return the value of absoluteX
-   */
-  public abstract boolean isAbsoluteX();
-
-  /**
-   * @return whether absoluteX is set
-   */
-  public abstract boolean isSetAbsoluteX();
-
-  /**
-   * @return whether absoluteY is set
-   */
-  public abstract boolean isSetAbsoluteY();
-
-  /**
-   * @return whether absoluteZ is set
-   */
-  public abstract boolean isSetAbsoluteZ();
+  public abstract RelAbsVector getZ();
 
   /**
    * @return whether x is set
@@ -89,61 +58,22 @@ public interface Point3D {
   public abstract boolean isSetZ();
 
   /**
-   * Set the value of absoluteX
-   * @param absoluteX
-   */
-  public abstract void setAbsoluteX(boolean absoluteX);
-
-  /**
-   * Set the value of absoluteY
-   * @param absoluteY
-   */
-  public abstract void setAbsoluteY(boolean absoluteY);
-
-  /**
-   * Set the value of absoluteZ
-   * @param absoluteZ
-   */
-  public abstract void setAbsoluteZ(boolean absoluteZ);
-
-  /**
    * Set the value of x
    * @param x
    */
-  public abstract void setX(double x);
+  public abstract void setX(RelAbsVector x);
 
   /**
    * Set the value of y
    * @param y
    */
-  public abstract void setY(double y);
+  public abstract void setY(RelAbsVector y);
 
   /**
    * Set the value of z
    * @param z
    */
-  public abstract void setZ(double z);
-
-  /**
-   * Unsets the variable absoluteX
-   * @return {@code true}, if absoluteX was set before,
-   *         otherwise {@code false}
-   */
-  public abstract boolean unsetAbsoluteX();
-
-  /**
-   * Unsets the variable absoluteY
-   * @return {@code true}, if absoluteY was set before,
-   *         otherwise {@code false}
-   */
-  public abstract boolean unsetAbsoluteY();
-
-  /**
-   * Unsets the variable absoluteZ
-   * @return {@code true}, if absoluteZ was set before,
-   *         otherwise {@code false}
-   */
-  public abstract boolean unsetAbsoluteZ();
+  public abstract void setZ(RelAbsVector z);
 
   /**
    * Unsets the variable x

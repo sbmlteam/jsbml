@@ -22,6 +22,7 @@ package org.sbml.jsbml.examples.render;
 import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.LocalStyle;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.director.DissociationNode;
 
@@ -47,17 +48,17 @@ public class RenderDissociationNode extends RenderSBGNProcessNode
     group.setStrokeWidth(getLineWidth());
     
     Ellipse outer = group.createEllipse();
-    outer.setCx(width/2); outer.setAbsoluteCx(true);
-    outer.setCy(height/2); outer.setAbsoluteCy(true);
-    outer.setRx(getNodeSize()/2); outer.setAbsoluteRx(true);
+    outer.setCx(new RelAbsVector(width/2));
+    outer.setCy(new RelAbsVector(height/2));
+    outer.setRx(new RelAbsVector(getNodeSize()/2));
     
     outer.setFill(getFill());
     outer.setStroke(getStroke());
     
     Ellipse inner = group.createEllipse();
-    inner.setCx(width/2); inner.setAbsoluteCx(true);
-    inner.setCy(height/2); inner.setAbsoluteCy(true);
-    inner.setRx(getNodeSize()/4); inner.setAbsoluteRx(true);
+    inner.setCx(new RelAbsVector(width/2));
+    inner.setCy(new RelAbsVector(height/2));
+    inner.setRx(new RelAbsVector(getNodeSize()/4));
     
     inner.setFill(getFill());
     inner.setStroke(getStroke());

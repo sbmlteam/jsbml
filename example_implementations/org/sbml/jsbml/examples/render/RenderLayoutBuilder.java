@@ -41,6 +41,7 @@ import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderCubicBezier;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.RenderPoint;
@@ -426,12 +427,9 @@ public class RenderLayoutBuilder
     
     RenderGroup catalysisGroup = new RenderGroup(layout.getLevel(), layout.getVersion());
     Ellipse catalysisArrowHead = catalysisGroup.createEllipse();
-    catalysisArrowHead.setCx(0.6d*arrowScale);
-    catalysisArrowHead.setAbsoluteCx(true);
-    catalysisArrowHead.setCy(0.5*arrowScale);
-    catalysisArrowHead.setAbsoluteCy(true);
-    catalysisArrowHead.setRx(0.5*arrowScale);
-    catalysisArrowHead.setAbsoluteRx(true);
+    catalysisArrowHead.setCx(new RelAbsVector(0.6d*arrowScale));
+    catalysisArrowHead.setCy(new RelAbsVector(0.5*arrowScale));
+    catalysisArrowHead.setRx(new RelAbsVector(0.5*arrowScale));
     setGraphicalProperties(catalysisArrowHead, 0.3, STROKE, FILL);
     
     catalysis.setGroup(catalysisGroup);
@@ -534,10 +532,8 @@ public class RenderLayoutBuilder
    */
   public static void addRenderPoint(Polygon polygon, double x, double y) {
     RenderPoint currentRenderPoint = polygon.createRenderPoint();
-    currentRenderPoint.setAbsoluteX(true);
-    currentRenderPoint.setAbsoluteY(true);
-    currentRenderPoint.setX(x);
-    currentRenderPoint.setY(y);
+    currentRenderPoint.setX(new RelAbsVector(x));
+    currentRenderPoint.setY(new RelAbsVector(y));
   }
   
   /**
@@ -554,12 +550,12 @@ public class RenderLayoutBuilder
   public static void addRenderCubicBezier(Polygon polygon, double baseX1,
     double baseY1, double baseX2, double baseY2, double endX, double endY) {
     RenderCubicBezier bezier = new RenderCubicBezier();
-    bezier.setX(endX); bezier.setAbsoluteX(true);
-    bezier.setY(endY); bezier.setAbsoluteY(true);
-    bezier.setX1(baseX1); bezier.setAbsoluteX1(true);
-    bezier.setY1(baseY1); bezier.setAbsoluteY1(true);
-    bezier.setX2(baseX2); bezier.setAbsoluteX2(true);
-    bezier.setY2(baseY2); bezier.setAbsoluteY2(true);
+    bezier.setX(new RelAbsVector(endX));
+    bezier.setY(new RelAbsVector(endY));
+    bezier.setX1(new RelAbsVector(baseX1));
+    bezier.setY1(new RelAbsVector(baseY1));
+    bezier.setX2(new RelAbsVector(baseX2)); 
+    bezier.setY2(new RelAbsVector(baseY2));
     polygon.addElement(bezier);
   }
   

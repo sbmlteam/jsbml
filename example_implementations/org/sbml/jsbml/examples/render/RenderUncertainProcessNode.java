@@ -23,6 +23,7 @@ import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.render.HTextAnchor;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.Text;
 import org.sbml.jsbml.ext.render.VTextAnchor;
@@ -82,8 +83,8 @@ public class RenderUncertainProcessNode extends RenderSBGNProcessNode
       new Double(0.5 * (width - breadth * cos + fontHeight * sin)),
       new Double(0.5 * (height - breadth * sin - fontHeight * cos))});
     
-    questionmark.setX(0); questionmark.setAbsoluteX(true);
-    questionmark.setY(0); questionmark.setAbsoluteY(true);
+    questionmark.setX(new RelAbsVector(0));
+    questionmark.setY(new RelAbsVector(0));
     questionmark.setText("?");
     
     return new LocalStyle(group);
