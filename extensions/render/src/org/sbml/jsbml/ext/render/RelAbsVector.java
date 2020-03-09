@@ -24,6 +24,7 @@ public class RelAbsVector extends AbstractSBase {
   
   public RelAbsVector() {
     super();
+    initDefaults();
   }
   
   /**
@@ -42,6 +43,7 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(double absolute) {
     super();
+    initDefaults();
     this.absolute = absolute;
   }
   
@@ -57,6 +59,7 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(double absolute, double relative) {
     super();
+    initDefaults();
     this.absolute = absolute;
     this.relative = relative;
   }
@@ -72,7 +75,16 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(String coordinate) {
     super();
+    initDefaults();
     setCoordinate(coordinate);
+  }
+  
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setPackageVersion(-1);
+    packageName = RenderConstants.shortLabel;
   }
   
   /* (non-Javadoc)

@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -34,6 +35,17 @@ import org.sbml.jsbml.ext.render.RelAbsVector;
  */
 public class ImageTest {
   private final static double TOLERANCE = 1e-5;
+  
+  @Test
+  public void testImageId() {
+    Image img = new Image("someId");
+    assertTrue(img.isSetId());
+    assertEquals("someId", img.getId());
+    assertEquals(img.getId(), new Image(img).getId());
+    
+    assertFalse(img.equals(new Image("otherId")));
+  }
+  
   
   /**
    * Test method for {@link Image#getAllowsChildren()}.

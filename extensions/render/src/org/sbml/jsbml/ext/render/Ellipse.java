@@ -66,7 +66,9 @@ public class Ellipse extends GraphicalPrimitive2D {
    * 
    */
   protected RelAbsVector ry;
-
+  /**
+   * Optional: Ratio of width to height
+   */
   protected Double ratio;
   
   /**
@@ -139,6 +141,7 @@ public class Ellipse extends GraphicalPrimitive2D {
     result = prime * result + ((cz == null) ? 0 : cz.hashCode());
     result = prime * result + ((rx == null) ? 0 : rx.hashCode());
     result = prime * result + ((ry == null) ? 0 : ry.hashCode());
+    result = prime * result + ((ratio == null) ? 0 : ratio.hashCode());
     return result;
   }
 

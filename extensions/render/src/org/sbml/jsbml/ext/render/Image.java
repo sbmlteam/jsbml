@@ -32,7 +32,7 @@ import org.sbml.jsbml.SBase;
  * @author Jan Rudolph
  * @since 1.0
  */
-public class Image extends Transformation2D { // TODO - need to extends UniqueNamedSBase, NamedSBase
+public class Image extends Transformation2D { // TODO - need to extends UniqueNamedSBase, NamedSBase -- why? Only needs an optional id
   /**
    * Generated serial version identifier
    */
@@ -77,6 +77,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    */
   public Image(String id) {
     super();
+    setId(id);
     initDefaults();
   }
 
@@ -85,7 +86,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
    * @param obj
    */
   public Image(Image obj) {
-    super();
+    super(obj);
 
     height = obj.height;
     href = obj.href;
