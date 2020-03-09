@@ -44,7 +44,11 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   private RelAbsVector x, y, z, width, height;
   
   /**
-   * 
+   * Optional: Define the rounding of the corners:
+   * <ul>
+   * <li>rx defines the x-radius of the ellipse for rounding the corners</li>
+   * <li>ry defines the y-radius of the ellipse for rounding the corners</li>
+   * </ul>
    */
   private RelAbsVector rx, ry;
 
@@ -54,7 +58,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   private Double ratio;
   
   /**
-   * @return the value of rx
+   * @return the value of {@link Rectangle#rx}
    */
   public RelAbsVector getRx() {
     if (isSetRx()) {
@@ -65,14 +69,14 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   }
 
   /**
-   * @return whether rx is set
+   * @return whether {@link Rectangle#rx} is set
    */
   public boolean isSetRx() {
     return rx != null;
   }
 
   /**
-   * Set the value of rx
+   * Set the value of {@link Rectangle#rx}
    * @param rx
    */
   public void setRx(RelAbsVector rx) {
@@ -82,7 +86,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   }
 
   /**
-   * Unsets the variable rx
+   * Unsets the variable {@link Rectangle#rx}
    * @return {@code true}, if rx was set before,
    *         otherwise {@code false}
    */
@@ -97,7 +101,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   }
 
   /**
-   * @return the value of ry
+   * @return the value of {@link Rectangle#ry}
    */
   public RelAbsVector getRy() {
     if (isSetRy()) {
@@ -108,14 +112,14 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   }
 
   /**
-   * @return whether ry is set
+   * @return whether {@link Rectangle#ry} is set
    */
   public boolean isSetRy() {
     return ry != null;
   }
 
   /**
-   * Set the value of ry
+   * Set the value of {@link Rectangle#ry}
    * @param ry
    */
   public void setRy(RelAbsVector ry) {
@@ -124,11 +128,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     firePropertyChange(RenderConstants.ry, oldRy, this.ry);
   }
 
-  //TODO - we probably need to store all coordinate as String as they can contain arithmetic operation !!
-  // -> true, but use RelAbsVector instead
-
   /**
-   * Unsets the variable ry
+   * Unsets the variable {@link Rectangle#ry}
    * @return {@code true}, if ry was set before,
    *         otherwise {@code false}
    */
@@ -586,6 +587,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     result = prime * result + ((x == null) ? 0 : x.hashCode());
     result = prime * result + ((y == null) ? 0 : y.hashCode());
     result = prime * result + ((z == null) ? 0 : z.hashCode());
+    result = prime * result + ((z == null) ? 0 : ratio.hashCode());
     return result;
   }
 
@@ -653,8 +655,14 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     } else if (!z.equals(other.z)) {
       return false;
     }
+    if (ratio == null) {
+      if (other.ratio != null) {
+        return false;
+      }
+    } else if (!ratio.equals(other.ratio)) {
+      return false;
+    }
     return true;
   }
-
   
 }

@@ -695,6 +695,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     result = prime * result + ((x == null) ? 0 : x.hashCode());
     result = prime * result + ((y == null) ? 0 : y.hashCode());
     result = prime * result + ((z == null) ? 0 : z.hashCode());
+    result = prime * result + ((text == null) ? 0 : text.hashCode());
     return result;
   }
 
