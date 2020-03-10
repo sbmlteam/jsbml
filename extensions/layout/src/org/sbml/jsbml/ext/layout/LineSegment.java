@@ -295,7 +295,7 @@ public class LineSegment extends CurveSegment {
     this.end = end;
 
     if (end != null) {
-      // TODO: should this not be set on this.end?
+      // TODO 2020/03: should this not be set on this.end?
       end.setElementName(LayoutConstants.end);
     }
     registerChild(this.end);
@@ -314,7 +314,7 @@ public class LineSegment extends CurveSegment {
     this.start = start;
 
     if (start != null) {
-      // TODO: should this not be set on this.start?
+      // TODO 2020/03: should this not be set on this.start?
       start.setElementName(LayoutConstants.start);
     }
     registerChild(this.start);

@@ -299,7 +299,7 @@ public abstract class CurveSegment extends AbstractSBase {
     logger.debug("reading CurveSegmentImpl: " + prefix + ":" + attributeName);
 
     if (!isAttributeRead) {
-      //TODO: will the xsi:type element be properly read? Create test for this...
+      //TODO 2014/04: will the xsi:type element be properly read? Create test for this...
       if (attributeName.equals("type")) {
         try
         {

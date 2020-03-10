@@ -309,6 +309,7 @@ public class Curve extends AbstractSBase implements ICurve {
   @Override
   public void setListOfCurveSegments(ListOf<CurveSegment> listOfCurveSegments) {
     unsetListOfCurveSegments();
+    ListOf<CurveSegment> oldListOfCurveSegments = listOfCurveSegments;
     this.listOfCurveSegments = listOfCurveSegments;
     if (this.listOfCurveSegments != null) {
       listOfCurveSegments.setPackageVersion(-1);
@@ -319,6 +320,9 @@ public class Curve extends AbstractSBase implements ICurve {
       listOfCurveSegments.setOtherListName(LayoutConstants.listOfCurveSegments);
     }
     registerChild(this.listOfCurveSegments);
+    // TODO 2020/03: is this necessary in addition to registerChild? (which also fires some Events)
+    firePropertyChange(LayoutConstants.listOfCurveSegments,
+      oldListOfCurveSegments, listOfCurveSegments);
   }
 
   /* (non-Javadoc)
@@ -330,6 +334,8 @@ public class Curve extends AbstractSBase implements ICurve {
       ListOf<CurveSegment> oldListOfCurveSegments = listOfCurveSegments;
       listOfCurveSegments = null;
       oldListOfCurveSegments.fireNodeRemovedEvent();
+      firePropertyChange(LayoutConstants.listOfCurveSegments,
+        oldListOfCurveSegments, listOfCurveSegments);
       return true;
     }
     return false;

@@ -323,7 +323,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
       Dimensions oldValue = this.dimensions;
       this.dimensions = null;
       firePropertyChange(LayoutConstants.dimensions, oldValue, dimensions);
-      // TODO: do not need this: 
+      // TODO 2019/12: need this v? 
       oldValue.fireNodeRemovedEvent();
     }
     this.dimensions = dimensions;
@@ -382,7 +382,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
       logger.warn(MessageFormat.format(
         ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
         "name", getLevel(), getVersion(), getElementName()));
-      // TODO: This must be generally solved. Here we have an SBase with ID but without name!
+      // TODO 2013/12: This must be generally solved. Here we have an SBase with ID but without name!
     }
 
     return attributes;

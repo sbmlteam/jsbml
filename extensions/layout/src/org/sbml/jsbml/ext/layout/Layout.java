@@ -36,7 +36,6 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.ListOfWithName;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -272,8 +271,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
 
-  // TODO - add methods to create GraphicalObject
-  // TODO - check the libsbml Layout java API to see if we could add some methods
+  // TODO 2014/06: add methods to create GraphicalObject
+  // TODO 2014/05: check the libsbml Layout java API to see if we could add some methods
 
   /**
    * Creates and adds a new {@link CompartmentGlyph}.
@@ -503,11 +502,11 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @SuppressWarnings("unchecked")
   private <T> List<T> findGlyphs(ListOf<? extends T> listOfGlyphs, String id) {
-    // TODO - use the Model findUniqueNamedSBase method if model is not null ?
+    // TODO 2014/05: use the Model findUniqueNamedSBase method if model is not null ?
     if (isSetListOfReactionGlyphs() && (listOfGlyphs != null) && (!listOfGlyphs.isEmpty())) {
       NamedSBaseReferenceFilter filter = new NamedSBaseReferenceFilter(id);
       filter.setFilterForReference(true);
-      return (List<T>) listOfGlyphs.filter(filter); // TODO: why would this have been listOf>Reaction<Glyphs?
+      return (List<T>) listOfGlyphs.filter(filter); // TODO 2020/01: why would this have been listOf>Reaction<Glyphs?
     }
     return new ArrayList<T>(0);
   }

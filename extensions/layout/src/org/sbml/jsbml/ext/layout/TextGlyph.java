@@ -336,7 +336,7 @@ public class TextGlyph extends AbstractReferenceGlyph {
    * Unsets the origin of text
    */
   public void unsetOriginOfText() {
-    // TODO: could return boolean
+    // TODO 2019/12: could return boolean
     unsetReference();
   }
   
