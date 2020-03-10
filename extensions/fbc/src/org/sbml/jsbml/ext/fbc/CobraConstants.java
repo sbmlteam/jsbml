@@ -64,6 +64,11 @@ public class CobraConstants {
   /**
    * 
    */
+  public final static String DEFAULT_GENE_ASSOCIATION_SPELLING = "DEFAULT_GENE_ASSOCIATION_SPELLING";
+  
+  /**
+   * 
+   */
   public final static String CHARGE = "CHARGE";
  
   /**
