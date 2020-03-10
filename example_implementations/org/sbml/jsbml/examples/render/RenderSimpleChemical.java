@@ -50,8 +50,8 @@ public class RenderSimpleChemical extends SimpleChemical<LocalStyle> {
     double radius = Math.min(width, height) / 2;
     
     Ellipse background = chemical.createEllipse();
-    background.setCx(new RelAbsVector(width/2));
-    background.setCy(new RelAbsVector(height/2));
+    background.setCx(new RelAbsVector(0, 50d));
+    background.setCy(new RelAbsVector(0, 50d));
     background.setRx(new RelAbsVector(radius));
     background.setStroke(stroke);
     background.setStrokeWidth(0);

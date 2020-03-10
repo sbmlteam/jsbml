@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-03-09 at 13:25:33 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-03-10 at 08:34:12 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="Ring" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <layout:layout layout:id="_6453fd5e_e189_450a_9036_045bc77b943f" layout:name="auto_layout">
+      <layout:layout layout:id="_430acab5_0bae_44cf_8415_b07e6d4199a2" layout:name="auto_layout">
         <render:listOfRenderInformation xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
-          <render:renderInformation render:id="_6453fd5e_e189_450a_9036_045bc77b943f_render">
+          <render:renderInformation render:id="_430acab5_0bae_44cf_8415_b07e6d4199a2_render">
             <render:listOfColorDefinitions>
               <render:colorDefinition render:id="red" render:value="#FF0000FF"/>
               <render:colorDefinition render:id="black" render:value="#000000FF"/>
@@ -131,145 +131,73 @@
               <render:style id="TextGylphStyle" render:typeList="TEXTGLYPH">
                 <render:g render:font-family="monospace" render:font-size="10" render:text-anchor="middle" render:vtext-anchor="middle"/>
               </render:style>
-              <render:style id="styleOf__46d04a86_c85c_444f_a004_0b77f8163e49" render:idList="_46d04a86_c85c_444f_a004_0b77f8163e49">
+              <render:style id="styleOf_d84b18c2_fe5e_49b0_924d_5b5c4c4f3548" render:idList="d84b18c2_fe5e_49b0_924d_5b5c4c4f3548">
                 <render:g>
                   <render:rectangle render:fill="white" render:height="122.13106741667367" render:stroke="black" render:stroke-width="0.3" render:width="176.80753550602049" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
-              <render:style id="styleOf_ea517084_95e4_4753_a51e_32f40454dfcd" render:idList="ea517084_95e4_4753_a51e_32f40454dfcd">
+              <render:style id="styleOf_a93291d3_de8d_4117_ab2a_6caf127b8929" render:idList="a93291d3_de8d_4117_ab2a_6caf127b8929">
                 <render:g>
                   <render:rectangle render:fill="white" render:height="122.13106741667367" render:stroke="black" render:stroke-width="0.3" render:width="255.1789024783502" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
-              <render:style id="styleOf__865c7a2f_7b1d_4089_b5ea_e03322837f9e" render:idList="_865c7a2f_7b1d_4089_b5ea_e03322837f9e">
+              <render:style id="styleOf__9846bc44_0509_4368_bd7c_4031064052f7" render:idList="_9846bc44_0509_4368_bd7c_4031064052f7">
                 <render:g>
                   <render:rectangle render:fill="white" render:height="112.40453183331931" render:stroke="black" render:stroke-width="0.3" render:width="50.000000000000014" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_A_glyph_" render:idList="A_glyph_">
                 <render:g>
-                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="4.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="0" render:basePoint1_y="2.0" render:basePoint2_x="2.0" render:basePoint2_y="0" render:x="4.0" render:y="0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="36.0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="38.0" render:basePoint1_y="0" render:basePoint2_x="40.0" render:basePoint2_y="2.0" render:x="40.0" render:y="4.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="40.0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="40.0" render:basePoint1_y="18.0" render:basePoint2_x="38.0" render:basePoint2_y="20.0" render:x="36.0" render:y="20.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4.0" render:y="20.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2.0" render:basePoint1_y="20.0" render:basePoint2_x="0" render:basePoint2_y="18.0" render:x="0" render:y="16.0" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:stroke="black" render:stroke-width="1.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="4.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="0" render:basePoint1_y="2.0" render:basePoint2_x="2.0" render:basePoint2_y="0" render:x="4.0" render:y="0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="36.0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="38.0" render:basePoint1_y="0" render:basePoint2_x="40.0" render:basePoint2_y="2.0" render:x="40.0" render:y="4.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="40.0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="40.0" render:basePoint1_y="18.0" render:basePoint2_x="38.0" render:basePoint2_y="20.0" render:x="36.0" render:y="20.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4.0" render:y="20.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2.0" render:basePoint1_y="20.0" render:basePoint2_x="0" render:basePoint2_y="18.0" render:x="0" render:y="16.0" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
+                  <render:rectangle render:fill="white" render:height="20.0" render:rx="4.0" render:stroke="black" render:stroke-width="0.0" render:width="40.0" render:x="0" render:y="0"/>
+                  <render:rectangle render:height="20.0" render:rx="4.0" render:stroke="black" render:stroke-width="1.0" render:width="40.0" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_B_glyph_" render:idList="B_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_C_glyph_" render:idList="C_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_D_glyph_" render:idList="D_glyph_">
                 <render:g>
-                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="4.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="0" render:basePoint1_y="2.0" render:basePoint2_x="2.0" render:basePoint2_y="0" render:x="4.0" render:y="0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="36.0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="38.0" render:basePoint1_y="0" render:basePoint2_x="40.0" render:basePoint2_y="2.0" render:x="40.0" render:y="4.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="40.0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="40.0" render:basePoint1_y="18.0" render:basePoint2_x="38.0" render:basePoint2_y="20.0" render:x="36.0" render:y="20.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4.0" render:y="20.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2.0" render:basePoint1_y="20.0" render:basePoint2_x="0" render:basePoint2_y="18.0" render:x="0" render:y="16.0" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:stroke="black" render:stroke-width="1.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="4.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="0" render:basePoint1_y="2.0" render:basePoint2_x="2.0" render:basePoint2_y="0" render:x="4.0" render:y="0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="36.0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="38.0" render:basePoint1_y="0" render:basePoint2_x="40.0" render:basePoint2_y="2.0" render:x="40.0" render:y="4.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="40.0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="40.0" render:basePoint1_y="18.0" render:basePoint2_x="38.0" render:basePoint2_y="20.0" render:x="36.0" render:y="20.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4.0" render:y="20.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2.0" render:basePoint1_y="20.0" render:basePoint2_x="0" render:basePoint2_y="18.0" render:x="0" render:y="16.0" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
+                  <render:rectangle render:fill="white" render:height="20.0" render:rx="4.0" render:stroke="black" render:stroke-width="0.0" render:width="40.0" render:x="0" render:y="0"/>
+                  <render:rectangle render:height="20.0" render:rx="4.0" render:stroke="black" render:stroke-width="1.0" render:width="40.0" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_E_glyph_" render:idList="E_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_F_glyph_" render:idList="F_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_G_glyph_" render:idList="G_glyph_">
                 <render:g>
-                  <render:polygon render:fill="white" render:stroke="black" render:stroke-width="0.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="4.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="0" render:basePoint1_y="2.0" render:basePoint2_x="2.0" render:basePoint2_y="0" render:x="4.0" render:y="0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="36.0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="38.0" render:basePoint1_y="0" render:basePoint2_x="40.0" render:basePoint2_y="2.0" render:x="40.0" render:y="4.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="40.0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="40.0" render:basePoint1_y="18.0" render:basePoint2_x="38.0" render:basePoint2_y="20.0" render:x="36.0" render:y="20.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4.0" render:y="20.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2.0" render:basePoint1_y="20.0" render:basePoint2_x="0" render:basePoint2_y="18.0" render:x="0" render:y="16.0" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
-                  <render:polygon render:stroke="black" render:stroke-width="1.0">
-                    <render:listOfElements>
-                      <render:element render:x="0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:x="0" render:y="4.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="0" render:basePoint1_y="2.0" render:basePoint2_x="2.0" render:basePoint2_y="0" render:x="4.0" render:y="0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="36.0" render:y="0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="38.0" render:basePoint1_y="0" render:basePoint2_x="40.0" render:basePoint2_y="2.0" render:x="40.0" render:y="4.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="40.0" render:y="16.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="40.0" render:basePoint1_y="18.0" render:basePoint2_x="38.0" render:basePoint2_y="20.0" render:x="36.0" render:y="20.0" xsi:type="RenderCubicBezier"/>
-                      <render:element render:x="4.0" render:y="20.0" xsi:type="RenderPoint"/>
-                      <render:element render:basePoint1_x="2.0" render:basePoint1_y="20.0" render:basePoint2_x="0" render:basePoint2_y="18.0" render:x="0" render:y="16.0" xsi:type="RenderCubicBezier"/>
-                    </render:listOfElements>
-                  </render:polygon>
+                  <render:rectangle render:fill="white" render:height="20.0" render:rx="4.0" render:stroke="black" render:stroke-width="0.0" render:width="40.0" render:x="0" render:y="0"/>
+                  <render:rectangle render:height="20.0" render:rx="4.0" render:stroke="black" render:stroke-width="1.0" render:width="40.0" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_H_glyph_" render:idList="H_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_I_glyph_" render:idList="I_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="20.0" render:cy="10.0" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="white" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_empty_glyph_" render:idList="empty_glyph_">
@@ -283,7 +211,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_875173fb_e8a9_4216_9c80_e04920e6a9e5">
+              <render:style render:idList="fd2526c4_7ec8_4064_a80d_2ac0e2244108">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -295,7 +223,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="b4b45918_b18a_4be3_8fc5_aee9ce8f4e76">
+              <render:style render:idList="_2ff4d21e_a2a6_45f2_8a03_e162a336f6bd">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -307,7 +235,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_6357e320_309d_4bdb_a709_cc43d6712ef8">
+              <render:style render:idList="efdf738c_ce0d_41dd_a2b1_7d712cc2dc54">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -319,7 +247,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_70e81ea7_fee7_497f_b720_3ca9b5d26a62">
+              <render:style render:idList="_0f034861_e701_4734_b590_0cc135b5e897">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -331,7 +259,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_9c856852_b904_48cd_ae78_ad3dc1afec5d">
+              <render:style render:idList="f49a2c27_315f_44ff_85c1_098f89f9c609">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -348,19 +276,19 @@
         </render:listOfRenderInformation>
         <layout:dimensions layout:depth="100" layout:height="800" layout:width="800"/>
         <layout:listOfCompartmentGlyphs>
-          <layout:compartmentGlyph layout:compartment="extracellular" layout:id="_46d04a86_c85c_444f_a004_0b77f8163e49">
+          <layout:compartmentGlyph layout:compartment="extracellular" layout:id="d84b18c2_fe5e_49b0_924d_5b5c4c4f3548">
             <layout:boundingBox>
               <layout:position layout:x="395" layout:y="261.66666666666663" layout:z="-2"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="176.80753550602049"/>
             </layout:boundingBox>
           </layout:compartmentGlyph>
-          <layout:compartmentGlyph layout:compartment="cytosol" layout:id="ea517084_95e4_4753_a51e_32f40454dfcd">
+          <layout:compartmentGlyph layout:compartment="cytosol" layout:id="a93291d3_de8d_4117_ab2a_6caf127b8929">
             <layout:boundingBox>
               <layout:position layout:x="316.6286330276703" layout:y="436.20226591665966" layout:z="-3"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="255.1789024783502"/>
             </layout:boundingBox>
           </layout:compartmentGlyph>
-          <layout:compartmentGlyph layout:compartment="vesicle" layout:id="_865c7a2f_7b1d_4089_b5ea_e03322837f9e">
+          <layout:compartmentGlyph layout:compartment="vesicle" layout:id="_9846bc44_0509_4368_bd7c_4031064052f7">
             <layout:boundingBox>
               <layout:position layout:x="268.1924644939795" layout:y="353.79773408334034" layout:z="-1"/>
               <layout:dimensions layout:depth="1" layout:height="112.40453183331931" layout:width="50.000000000000014"/>
@@ -430,7 +358,7 @@
           </layout:speciesGlyph>
         </layout:listOfSpeciesGlyphs>
         <layout:listOfReactionGlyphs>
-          <layout:reactionGlyph layout:id="_875173fb_e8a9_4216_9c80_e04920e6a9e5" layout:reaction="R1">
+          <layout:reactionGlyph layout:id="fd2526c4_7ec8_4064_a80d_2ac0e2244108" layout:reaction="R1">
             <layout:boundingBox>
               <layout:position layout:x="474.4360806896183" layout:y="317.24245248926627" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -482,7 +410,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="b4b45918_b18a_4be3_8fc5_aee9ce8f4e76" layout:reaction="R2">
+          <layout:reactionGlyph layout:id="_2ff4d21e_a2a6_45f2_8a03_e162a336f6bd" layout:reaction="R2">
             <layout:boundingBox>
               <layout:position layout:x="450.14185839563527" layout:y="415.43273898766824" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -534,7 +462,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="_6357e320_309d_4bdb_a709_cc43d6712ef8" layout:reaction="R3">
+          <layout:reactionGlyph layout:id="efdf738c_ce0d_41dd_a2b1_7d712cc2dc54" layout:reaction="R3">
             <layout:boundingBox>
               <layout:position layout:x="438.7908513947403" layout:y="410.20226585616547" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -610,7 +538,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="_70e81ea7_fee7_497f_b720_3ca9b5d26a62" layout:reaction="R4">
+          <layout:reactionGlyph layout:id="_0f034861_e701_4734_b590_0cc135b5e897" layout:reaction="R4">
             <layout:boundingBox>
               <layout:position layout:x="338.81194329538914" layout:y="459.9448844024854" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -674,7 +602,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="_9c856852_b904_48cd_ae78_ad3dc1afec5d" layout:reaction="EX1">
+          <layout:reactionGlyph layout:id="f49a2c27_315f_44ff_85c1_098f89f9c609" layout:reaction="EX1">
             <layout:boundingBox>
               <layout:position layout:x="344.1898111697849" layout:y="404.29422478735734" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -716,73 +644,73 @@
           </layout:reactionGlyph>
         </layout:listOfReactionGlyphs>
         <layout:listOfTextGlyphs>
-          <layout:textGlyph layout:graphicalObject="_46d04a86_c85c_444f_a004_0b77f8163e49" layout:id="a24683d4_5430_463e_b62b_eceda3785548" layout:originOfText="extracellular">
+          <layout:textGlyph layout:graphicalObject="d84b18c2_fe5e_49b0_924d_5b5c4c4f3548" layout:id="c9070857_dcf8_4ff0_bc4c_65fff37de762" layout:originOfText="extracellular">
             <layout:boundingBox>
               <layout:position layout:x="395" layout:y="261.66666666666663" layout:z="-2"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="176.80753550602049"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="ea517084_95e4_4753_a51e_32f40454dfcd" layout:id="_900b96af_18cb_4c72_8417_df5d4e3cabeb" layout:originOfText="cytosol">
+          <layout:textGlyph layout:graphicalObject="a93291d3_de8d_4117_ab2a_6caf127b8929" layout:id="_98a7d4e2_6269_4500_9a7c_b5bc55ef2e99" layout:originOfText="cytosol">
             <layout:boundingBox>
               <layout:position layout:x="316.6286330276703" layout:y="436.20226591665966" layout:z="-3"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="255.1789024783502"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="_865c7a2f_7b1d_4089_b5ea_e03322837f9e" layout:id="_9da83469_e645_48c8_a573_78cee3027ef4" layout:originOfText="vesicle">
+          <layout:textGlyph layout:graphicalObject="_9846bc44_0509_4368_bd7c_4031064052f7" layout:id="_27214bda_e9a1_4b85_bc48_9895bff87a7d" layout:originOfText="vesicle">
             <layout:boundingBox>
               <layout:position layout:x="268.1924644939795" layout:y="353.79773408334034" layout:z="-1"/>
               <layout:dimensions layout:depth="1" layout:height="112.40453183331931" layout:width="50.000000000000014"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="A_glyph_" layout:id="_58d99173_8aaf_4d52_8691_81b0bb01b941" layout:originOfText="A">
+          <layout:textGlyph layout:graphicalObject="A_glyph_" layout:id="f39bc552_d25d_404d_bddc_cd9dac1cabe0" layout:originOfText="A">
             <layout:boundingBox>
               <layout:position layout:x="400" layout:y="266.66666666666663" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="B_glyph_" layout:id="_14fc6164_a4b5_4190_a1f0_31e5812d2b77" layout:originOfText="B">
+          <layout:textGlyph layout:graphicalObject="B_glyph_" layout:id="_686e7f74_184d_4831_a5ab_592cc0e33dc4" layout:originOfText="B">
             <layout:boundingBox>
               <layout:position layout:x="478.3713669723297" layout:y="292.13106741667366" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="C_glyph_" layout:id="_365e5457_f5b3_445b_ad8e_7a25640684d3" layout:originOfText="C">
+          <layout:textGlyph layout:graphicalObject="C_glyph_" layout:id="_028be3bd_42bf_453a_837f_e17593e2402c" layout:originOfText="C">
             <layout:boundingBox>
               <layout:position layout:x="526.8075355060205" layout:y="358.79773408334034" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="D_glyph_" layout:id="bd732a21_bc63_4ea5_b265_3d6f4b2e55c4" layout:originOfText="D">
+          <layout:textGlyph layout:graphicalObject="D_glyph_" layout:id="_7a4031c7_82c0_485d_80f6_426ebf86077e" layout:originOfText="D">
             <layout:boundingBox>
               <layout:position layout:x="526.8075355060205" layout:y="441.20226591665966" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="E_glyph_" layout:id="_27a258d3_c0bd_4506_9935_186a8a729cd8" layout:originOfText="E">
+          <layout:textGlyph layout:graphicalObject="E_glyph_" layout:id="addbb8f6_1e1e_4094_903c_692368c8a41b" layout:originOfText="E">
             <layout:boundingBox>
               <layout:position layout:x="478.3713669723297" layout:y="507.86893258332634" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="F_glyph_" layout:id="_24720fbf_87bd_4813_a4ca_3a3ffd400ce8" layout:originOfText="F">
+          <layout:textGlyph layout:graphicalObject="F_glyph_" layout:id="_4d9e74e7_4151_4b2b_ae1b_9e0da42e0941" layout:originOfText="F">
             <layout:boundingBox>
               <layout:position layout:x="400" layout:y="533.3333333333334" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="G_glyph_" layout:id="_0eb83b02_9fe3_4a42_a064_79ce758a1dc1" layout:originOfText="G">
+          <layout:textGlyph layout:graphicalObject="G_glyph_" layout:id="df845e68_a63d_4ecc_a12c_e1a4d387a3cd" layout:originOfText="G">
             <layout:boundingBox>
               <layout:position layout:x="321.6286330276703" layout:y="507.86893258332634" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="H_glyph_" layout:id="_8b540a71_4e0b_4d31_9075_27d1826402df" layout:originOfText="H">
+          <layout:textGlyph layout:graphicalObject="H_glyph_" layout:id="_4956adb8_cb8c_4c1f_b225_65ebd1952191" layout:originOfText="H">
             <layout:boundingBox>
               <layout:position layout:x="273.1924644939795" layout:y="441.20226591665966" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="I_glyph_" layout:id="bbe22f89_46dc_47b6_9a5e_78d4f3701ce1" layout:originOfText="I">
+          <layout:textGlyph layout:graphicalObject="I_glyph_" layout:id="_95bbe5c8_6dad_4072_b19a_83d787d5d47c" layout:originOfText="I">
             <layout:boundingBox>
               <layout:position layout:x="273.1924644939795" layout:y="358.79773408334034" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
