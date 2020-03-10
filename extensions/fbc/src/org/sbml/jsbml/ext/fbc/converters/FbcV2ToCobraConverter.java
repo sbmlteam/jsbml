@@ -34,6 +34,9 @@ import org.sbml.jsbml.util.converters.SBMLConverter;
  */
 public class FbcV2ToCobraConverter implements SBMLConverter {
 
+  // Options for FbcV2ToFbcV1Converter
+  String defaultGeneAssociationSpelling = null;
+  
   // Options for FbcV1ToCobraConverter
   Double defaultLowerBound = null;
   Double defaultUpperBound = null;
@@ -45,6 +48,9 @@ public class FbcV2ToCobraConverter implements SBMLConverter {
   public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
    // convert SBML FBCV2 file to SBML FBCV1
     FbcV2ToFbcV1Converter fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    if (this.defaultGeneAssociationSpelling != null) {
+      fbcV2ToFbcV1Converter.setOption(CobraConstants.DEFAULT_GENE_ASSOCIATION_SPELLING, defaultGeneAssociationSpelling);
+    }
     sbmlDocument = fbcV2ToFbcV1Converter.convert(sbmlDocument);
    // convert SBML FBCV1 file to old COBRA SBML
     FbcV1ToCobraConverter fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
@@ -81,6 +87,8 @@ public class FbcV2ToCobraConverter implements SBMLConverter {
         this.defaultUpperBound = null;
       }
     }
-    
+    if (name.equals(CobraConstants.DEFAULT_GENE_ASSOCIATION_SPELLING)) {
+      this.defaultGeneAssociationSpelling = value;
+    }
   }
 }
