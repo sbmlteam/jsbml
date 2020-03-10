@@ -268,7 +268,8 @@ public class RelAbsVector extends AbstractSBase {
       result.append(getAbsoluteValue());
     }
     if(isSetRelativeValue() && getRelativeValue() != 0) {
-      if(getRelativeValue() > 0)
+      // Only, if there is a preceding absolute value is the '+' needed
+      if(getRelativeValue() > 0 && isSetAbsoluteValue())
         result.append("+");
       result.append(getRelativeValue());
       result.append("%");

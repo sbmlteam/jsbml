@@ -311,6 +311,9 @@ public class RelAbsVectorTest {
     rav.unsetAbsoluteValue();
     assertEquals("-10.0%", rav.getCoordinate());
     
+    rav.setRelativeValue(40d);
+    assertEquals("40.0%", rav.getCoordinate());
+    
     rav.unsetRelativeValue();
     rav.setAbsoluteValue(2.53);
     assertEquals("2.53", rav.getCoordinate());
