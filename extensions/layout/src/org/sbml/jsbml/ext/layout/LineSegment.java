@@ -288,15 +288,18 @@ public class LineSegment extends CurveSegment {
    */
   @Override
   public void setEnd(Point end) {
+    Point old = this.end;
     if (this.end != null) {
       this.end.fireNodeRemovedEvent();
     }
     this.end = end;
 
     if (end != null) {
+      // TODO: should this not be set on this.end?
       end.setElementName(LayoutConstants.end);
     }
     registerChild(this.end);
+    firePropertyChange(LayoutConstants.end, old, this.end);
   }
 
   /* (non-Javadoc)
@@ -304,15 +307,18 @@ public class LineSegment extends CurveSegment {
    */
   @Override
   public void setStart(Point start) {
+    Point old = this.start;
     if (this.start != null) {
       this.start.fireNodeRemovedEvent();
     }
     this.start = start;
 
     if (start != null) {
+      // TODO: should this not be set on this.start?
       start.setElementName(LayoutConstants.start);
     }
     registerChild(this.start);
+    firePropertyChange(LayoutConstants.start, old, this.start);
   }
 
   /**

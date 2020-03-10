@@ -307,8 +307,8 @@ public class CubicBezier extends LineSegment {
    * @param basePoint1
    */
   public void setBasePoint1(Point basePoint1) {
+    Point oldValue = this.basePoint1;
     if (this.basePoint1 != null) {
-      Point oldValue = this.basePoint1;
       this.basePoint1 = null;
       oldValue.fireNodeRemovedEvent();
     }
@@ -318,6 +318,7 @@ public class CubicBezier extends LineSegment {
       basePoint1.setElementName(LayoutConstants.basePoint1);
     }
     registerChild(this.basePoint1);
+    firePropertyChange(LayoutConstants.basePoint1, oldValue, this.basePoint1);
   }
 
   /**
@@ -325,8 +326,8 @@ public class CubicBezier extends LineSegment {
    * @param basePoint2
    */
   public void setBasePoint2(Point basePoint2) {
+    Point oldValue = this.basePoint2;
     if (this.basePoint2 != null) {
-      Point oldValue = this.basePoint2;
       this.basePoint2 = null;
       oldValue.fireNodeRemovedEvent();
     }
@@ -336,6 +337,7 @@ public class CubicBezier extends LineSegment {
       basePoint2.setElementName(LayoutConstants.basePoint2);
     }
     registerChild(this.basePoint2);
+    firePropertyChange(LayoutConstants.basePoint2, oldValue, this.basePoint2);
   }
 
   /**

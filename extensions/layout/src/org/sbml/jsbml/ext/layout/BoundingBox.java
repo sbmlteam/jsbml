@@ -342,6 +342,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   public void setPosition(Point point) {
     Point oldValue = position;
     position = point;
+    firePropertyChange(LayoutConstants.position, oldValue, dimensions);
     if (oldValue != null) {
       oldValue.fireNodeRemovedEvent();
     }
