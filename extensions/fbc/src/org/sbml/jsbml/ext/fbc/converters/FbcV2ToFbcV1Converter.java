@@ -37,6 +37,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fbc.And;
 import org.sbml.jsbml.ext.fbc.Association;
+import org.sbml.jsbml.ext.fbc.CobraConstants;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCReactionPlugin;
@@ -61,7 +62,7 @@ import org.sbml.jsbml.util.filters.Filter;
 @SuppressWarnings("deprecation")
 public class FbcV2ToFbcV1Converter implements SBMLConverter {
 
-  String userKey = null;
+  String defaultGeneAssociationSpelling = null;
   
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#convert(org.sbml.jsbml.SBMLDocument)
@@ -170,9 +171,9 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
         // if there is an old gene association entry in the notes of this reaction it will be deleted
         Properties pElementsReactionNotes = new Properties();
         Pattern p;
-        if (userKey != null) {
-        // userKey is a way of writing “gene association” specified by the user    
-          p = Pattern.compile(userKey);
+        if (defaultGeneAssociationSpelling != null) {
+        // defaultGeneAssociationSpelling is a way of writing “gene association” specified by the user    
+          p = Pattern.compile(defaultGeneAssociationSpelling);
         } else {
         // regular expression to match the most common ways of writing “gene association”  
           p = Pattern.compile("(?i)gene[\\-_ ]*association");
@@ -210,7 +211,12 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
    */
   @Override
   public void setOption(String name, String value) {
-    this.userKey = value;
+    if (name == null) {
+      return;
+    }
+    if (name.equals(CobraConstants.DEFAULT_GENE_ASSOCIATION_SPELLING)) {
+      this.defaultGeneAssociationSpelling = value;
+    }
   }
   
   private ASTNode processAssociation(Association association, FBCModelPlugin fbcModelPlugin) {
