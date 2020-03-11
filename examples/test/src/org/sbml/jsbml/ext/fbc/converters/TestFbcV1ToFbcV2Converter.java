@@ -34,7 +34,7 @@ import org.sbml.jsbml.TidySBMLWriter;
  * @author Nicolas Rodriguez
  * @since 1.3
  */
-public class TestFcbV1ToFbcV2Converter {
+public class TestFbcV1ToFbcV2Converter {
 
   /**
    * Converts SBML FBC_V1 files to SBML FBC_V2.
@@ -48,8 +48,8 @@ public class TestFcbV1ToFbcV2Converter {
     SBMLReader sbmlReader = new SBMLReader();
     SBMLDocument doc = sbmlReader.readSBMLFromFile(args[0]);
     // convert and write document
-    FcbV1ToFbcV2Converter fcbV1ToFbcV2Converter = new FcbV1ToFbcV2Converter();
+    FbcV1ToFbcV2Converter fbcV1ToFbcV2Converter = new FbcV1ToFbcV2Converter();
     TidySBMLWriter tidySBMLWriter = new TidySBMLWriter();
-    tidySBMLWriter.writeSBMLToFile(fcbV1ToFbcV2Converter.convert(doc),args[1]);
+    tidySBMLWriter.writeSBMLToFile(fbcV1ToFbcV2Converter.convert(doc),args[1]);
   }
 }

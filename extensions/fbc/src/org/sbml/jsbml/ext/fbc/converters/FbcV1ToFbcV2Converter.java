@@ -52,7 +52,7 @@ import org.sbml.jsbml.util.filters.Filter;
  */
 
 @SuppressWarnings("deprecation")
-public class FcbV1ToFbcV2Converter implements SBMLConverter {
+public class FbcV1ToFbcV2Converter implements SBMLConverter {
   
   String userKey = null;
   

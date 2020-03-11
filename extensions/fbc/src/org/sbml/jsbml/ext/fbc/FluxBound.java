@@ -44,6 +44,7 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * Allowable operations for flux bounds.
    * 
    * @author Andreas Dr&auml;ger
+   * @author Thorsten Tiede
    * @since 1.0
    * @deprecated Only defined in FBC version 1.
    */
@@ -58,9 +59,17 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
      */
     GREATER_EQUAL("greaterEqual"),
     /**
+     * greater
+     */
+    GREATER("greater"),
+    /**
      * lessEqual
      */
-    LESS_EQUAL("lessEqual");
+    LESS_EQUAL("lessEqual"),
+    /**
+     * less
+     */
+    LESS("less");
 
     /**
      * @param value
