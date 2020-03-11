@@ -31,6 +31,7 @@ import org.sbml.jsbml.SBase;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Emanuel Vetter
  * @since 1.0
  */
 public class Rectangle extends GraphicalPrimitive2D implements Point3D {

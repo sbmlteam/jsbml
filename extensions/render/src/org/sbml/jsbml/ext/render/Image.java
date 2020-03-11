@@ -30,6 +30,7 @@ import org.sbml.jsbml.SBase;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 public class Image extends Transformation2D { // TODO - need to extends UniqueNamedSBase, NamedSBase -- why? Only needs an optional id

@@ -37,6 +37,7 @@ import org.sbml.jsbml.ext.layout.GraphicalObject;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Emanuel Vetter
  * @since 1.0
  */
 public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
