@@ -467,13 +467,16 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 
   /**
    * Unsets the {@link #role} (and fires appropriate Event)
+   * @return whether the {@link #role} could indeed be unset
    */
-  public void unsetRole() {
+  public boolean unsetRole() {
     if (isSetSpeciesReferenceRole()) {
       SpeciesReferenceRole oldValue = role;
       role = null; 
       firePropertyChange(LayoutConstants.role, oldValue, role);
+      return true;
     }   
+    return false;
   }
   
   /**

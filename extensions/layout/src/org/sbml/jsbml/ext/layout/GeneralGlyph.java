@@ -211,7 +211,6 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
       ListOf<GraphicalObject> oldSubGlyphs = listOfSubGlyphs;
       listOfSubGlyphs = null;
       oldSubGlyphs.fireNodeRemovedEvent();
-      firePropertyChange(LayoutConstants.listOfSubGlyphs, oldSubGlyphs, listOfSubGlyphs);
       return true;
     }
     return false;
@@ -692,9 +691,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   public void setListOfReferenceGlyph(ListOf<ReferenceGlyph> listOfReferenceGlyph)
   {
-    // unsetListOfReferenceGlyph();
-    ListOf<ReferenceGlyph> old = this.listOfReferenceGlyphs;
-    old.fireNodeRemovedEvent();
+    unsetListOfReferenceGlyph();
     listOfReferenceGlyphs = listOfReferenceGlyph;
 
     if (listOfReferenceGlyph != null)
@@ -708,8 +705,6 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
     }
 
     registerChild(listOfReferenceGlyphs);
-    // TODO 2020/03: event like this?
-    firePropertyChange(LayoutConstants.listOfReferenceGlyphs, old, listOfReferenceGlyphs);
   }
 
 
@@ -722,8 +717,6 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
       ListOf<ReferenceGlyph> oldValue = listOfReferenceGlyphs;
       listOfReferenceGlyphs = null;
       oldValue.fireNodeRemovedEvent();
-      firePropertyChange(LayoutConstants.listOfReferenceGlyphs, oldValue,
-        listOfReferenceGlyphs);
     }
   }
 

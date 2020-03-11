@@ -323,7 +323,6 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
       Dimensions oldValue = this.dimensions;
       this.dimensions = null;
       firePropertyChange(LayoutConstants.dimensions, oldValue, dimensions);
-      // TODO 2019/12: need this v? 
       oldValue.fireNodeRemovedEvent();
     }
     this.dimensions = dimensions;
