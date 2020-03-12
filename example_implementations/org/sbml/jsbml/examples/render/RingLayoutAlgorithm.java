@@ -695,7 +695,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
   }
   
   
-  /**
+  /*
    * Unused methods:
    */
   
