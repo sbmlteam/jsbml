@@ -203,10 +203,8 @@ public class RelAbsVector extends AbstractSBase {
    */
   public void setRelativeValue(double relative) {
     Double old = this.relative;
-    RelAbsVector oldThis = this.clone();
     this.relative = relative;
     firePropertyChange(RenderConstants.relativeValue, old, relative);
-    redirectEvent(oldThis);
   }
   
   /**
