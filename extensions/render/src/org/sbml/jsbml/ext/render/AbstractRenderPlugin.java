@@ -60,11 +60,11 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
    */
   private static final long serialVersionUID = -4225426173177528441L;
   /**
-   * 
+   * @deprecated This field is not specified by the render-package-specification
    */
-  private GlobalRenderInformation renderInformation; // TODO - one or a ListOf GlobalRenderInformation?
-
-
+  @Deprecated
+  private GlobalRenderInformation renderInformation; 
+  
   /**
    * Creates an AbstractRenderPlugin instance
    * 
@@ -93,6 +93,8 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   public AbstractRenderPlugin(AbstractRenderPlugin obj) {
     super(obj);
 
+    // TODO 2020/02: remove this already? Definitely remove when removing the deprecated
+    // methods!
     if (obj.isSetRenderInformation()) {
       setRenderInformation(obj.getRenderInformation().clone());
     }
@@ -105,9 +107,17 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   public void initDefaults() {
   }
 
+  
   /**
+   * @deprecated This goes beyond/is besides the render-package's specification
+   *             and will be removed in a future release. Use the methods
+   *             {@link RenderLayoutPlugin#getListOfLocalRenderInformation()},
+   *             {@link RenderLayoutPlugin#getLocalRenderInformation(int)}, and
+   *             {@link RenderListOfLayoutsPlugin#getListOfGlobalRenderInformation()}
+   *             respectively
    * @return the value of renderInformation
    */
+  @Deprecated
   public GlobalRenderInformation getRenderInformation() {
     if (isSetRenderInformation()) {
       return renderInformation;
@@ -116,29 +126,53 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
     return null;
   }
 
+  
   /**
+   * @deprecated This goes beyond/is besides the render-package's specification
+   *             and will be removed in a future release. Use the
+   *             {@link LocalRenderInformation}-related methods of
+   *             {@link RenderLayoutPlugin}, and the
+   *             {@link GlobalRenderInformation}-related methods of
+   *             {@link RenderListOfLayoutsPlugin} instead.
    * @return whether renderInformation is set
    */
+  @Deprecated
   public boolean isSetRenderInformation() {
     return renderInformation != null;
   }
 
   /**
+   * @deprecated This goes beyond/is besides the render-package's specification
+   *             and will be removed in a future release. Use the
+   *             {@link LocalRenderInformation}-related methods of
+   *             {@link RenderLayoutPlugin}, and the
+   *             {@link GlobalRenderInformation}-related methods of
+   *             {@link RenderListOfLayoutsPlugin} instead.
+   * 
    * Set the value of renderInformation
    * 
    * @param renderInformation the value of renderInformation
    */
+  @Deprecated
   public void setRenderInformation(GlobalRenderInformation renderInformation) {
     GlobalRenderInformation oldRenderInformation = this.renderInformation;
     this.renderInformation = renderInformation;
     firePropertyChange(RenderConstants.renderInformation, oldRenderInformation, this.renderInformation);
   }
 
+  
   /**
-   * Unsets the variable renderInformation
+   * @deprecated This goes beyond/is besides the render-package's specification
+   *             and will be removed in a future release. Use the
+   *             {@link LocalRenderInformation}-related methods of
+   *             {@link RenderLayoutPlugin}, and the
+   *             {@link GlobalRenderInformation}-related methods of
+   *             {@link RenderListOfLayoutsPlugin} instead.
+   *             Unsets the variable renderInformation
    * @return {@code true}, if renderInformation was set before,
    *         otherwise {@code false}
    */
+  @Deprecated
   public boolean unsetRenderInformation() {
     if (isSetRenderInformation()) {
       GlobalRenderInformation oldRenderInformation = renderInformation;
@@ -155,7 +189,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    return false; // TODO - implement
+    return false;
   }
 
   /* (non-Javadoc)
@@ -164,7 +198,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public TreeNode getChildAt(int childIndex) {
-    return null; // TODO - implement
+    return null; // TODO 2015/04: implement
   }
 
   /* (non-Javadoc)
@@ -173,7 +207,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public int getChildCount() {
-    return 0; // TODO - implement
+    return 0; // TODO 2015/04: implement
   }
 
   /* (non-Javadoc)
@@ -182,7 +216,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public boolean getAllowsChildren() {
-    return false; // TODO - implement
+    return false; // TODO 2015/04: implement
   }
 
   /* (non-Javadoc)
@@ -191,7 +225,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public Map<String, String> writeXMLAttributes() {
-    return null; // TODO - implement
+    return null; // TODO 2015/04: implement
   }
 
 }

@@ -21,10 +21,18 @@
 package org.sbml.jsbml.ext.render.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.beans.PropertyChangeEvent;
+
+import javax.swing.tree.TreeNode;
 
 import org.junit.Test;
 import org.sbml.jsbml.ext.render.Ellipse;
+import org.sbml.jsbml.ext.render.RelAbsVector;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 
 
 /**
@@ -33,6 +41,48 @@ import org.sbml.jsbml.ext.render.Ellipse;
  */
 public class EllipseTest {
 
+  private static final double TOLERANCE = 1e-8;
+  
+  @Test
+  public void testEvents() {
+    Ellipse ellipse = new Ellipse();
+    new RelAbsVector("50-30%");
+    ellipse.setCx(new RelAbsVector("50-30%"));
+    StringBuffer change = new StringBuffer();
+    String ARROW = " -> ";
+    TreeNodeChangeListener listener = new TreeNodeChangeListener() {
+
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        change.delete(0, change.length());
+        change.append(evt.getOldValue() + ARROW + evt.getNewValue());
+      }
+
+      @Override
+      public void nodeAdded(TreeNode node) { }
+      @Override
+      public void nodeRemoved(TreeNodeRemovedEvent event) { }
+    };
+    ellipse.addTreeNodeChangeListener(listener);
+    // Initially: nothing changed
+    assertEquals("", change.toString());
+    
+    // This trivially should produce a property-change-event
+    ellipse.setCx(new RelAbsVector("70-30%"));
+    String expected = new RelAbsVector("50-30%") + ARROW + new RelAbsVector("70-30%");
+    assertEquals(expected, change.toString());
+    
+    // This could easily be hidden from the events (only producing one on the
+    // RelAbsVector, whose meaning will not be inferable from the event):
+    // With redirection, the user can just listen to the ellipse and be sure that
+    // changes to the RelAbsVectors do not fly under the radar:
+    ellipse.getCx().setAbsoluteValue(10d);
+    expected = new RelAbsVector("70-30%") + ARROW + new RelAbsVector("10-30%");
+    assertEquals(expected, change.toString());
+    
+  }
+  
+  
   /**
    * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#getCx()}.
    */
@@ -40,8 +90,8 @@ public class EllipseTest {
   public void testGetCx() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setCx(d);
-    assertEquals(ellipse.getCx(),d,0.00000001d);
+    ellipse.setCx(new RelAbsVector(d));
+    assertEquals(ellipse.getCx().getAbsoluteValue(),d, TOLERANCE);
   }
 
 
@@ -52,7 +102,7 @@ public class EllipseTest {
   public void testIsSetCx() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setCx(d);
+    ellipse.setCx(new RelAbsVector(d));
     assertTrue(ellipse.isSetCx());
   }
 
@@ -64,8 +114,8 @@ public class EllipseTest {
   public void testSetCx() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setCx(d);
-    assertTrue(Double.compare(ellipse.getCx(),d)==0);
+    ellipse.setCx(new RelAbsVector(d));
+    assertEquals(ellipse.getCx(), new RelAbsVector(d));
   }
 
 
@@ -76,8 +126,8 @@ public class EllipseTest {
   public void testGetCy() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setCy(d);
-    assertEquals(ellipse.getCy(),d,0.00000001d);
+    ellipse.setCy(new RelAbsVector(d));
+    assertEquals(ellipse.getCy().getAbsoluteValue(), d, TOLERANCE);
   }
 
 
@@ -88,7 +138,7 @@ public class EllipseTest {
   public void testIsSetCy() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setCy(d);
+    ellipse.setCy(new RelAbsVector(d));
     assertTrue(ellipse.isSetCy());
   }
 
@@ -100,8 +150,8 @@ public class EllipseTest {
   public void testSetCy() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setCy(d);
-    assertTrue(Double.compare(ellipse.getCy(),d)==0);
+    ellipse.setCy(new RelAbsVector(d));
+    assertEquals(ellipse.getCy(), new RelAbsVector(d));
   }
 
 
@@ -112,8 +162,8 @@ public class EllipseTest {
   public void testGetCz() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setCz(d);
-    assertEquals(ellipse.getCz(),d,0.00000001d);
+    ellipse.setCz(new RelAbsVector(d));
+    assertEquals(ellipse.getCz().getAbsoluteValue(), d, TOLERANCE);
   }
 
 
@@ -124,8 +174,8 @@ public class EllipseTest {
   public void testIsSetCz() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setCz(d);
-    assertTrue(Double.compare(ellipse.getCz(),d)==0);
+    ellipse.setCz(new RelAbsVector(d));
+    assertTrue(ellipse.isSetCz());
   }
 
 
@@ -136,8 +186,8 @@ public class EllipseTest {
   public void testSetCz() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setCz(d);
-    assertTrue(Double.compare(ellipse.getCz(),0.02d)==0);
+    ellipse.setCz(new RelAbsVector(d));
+    assertEquals(ellipse.getCz(), new RelAbsVector(d));
   }
 
 
@@ -148,8 +198,8 @@ public class EllipseTest {
   public void testGetRx() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setRx(d);
-    assertEquals(ellipse.getRx(),d,0.00000001d);
+    ellipse.setRx(new RelAbsVector(d));
+    assertEquals(ellipse.getRx().getAbsoluteValue(),d,TOLERANCE);
   }
 
 
@@ -160,7 +210,7 @@ public class EllipseTest {
   public void testIsSetRx() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setRx(d);
+    ellipse.setRx(new RelAbsVector(d));
     assertTrue(ellipse.isSetRx());
   }
 
@@ -172,8 +222,8 @@ public class EllipseTest {
   public void testSetRx() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setRx(d);
-    assertTrue(Double.compare(ellipse.getRx(),0.02d)==0);
+    ellipse.setRx(new RelAbsVector(d));
+    assertEquals(ellipse.getRx(), new RelAbsVector(d));
   }
 
 
@@ -184,8 +234,8 @@ public class EllipseTest {
   public void testGetRy() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setRy(d);
-    assertEquals(ellipse.getRy(),d,0.00000001d);
+    ellipse.setRy(new RelAbsVector(d));
+    assertEquals(ellipse.getRy().getAbsoluteValue(), d, TOLERANCE);
   }
 
 
@@ -196,7 +246,7 @@ public class EllipseTest {
   public void testIsSetRy() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setRy(d);
+    ellipse.setRy(new RelAbsVector(d));
     assertTrue(ellipse.isSetRy());
   }
 
@@ -208,172 +258,51 @@ public class EllipseTest {
   public void testSetRy() {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
-    ellipse.setRy(d);
-    assertTrue(Double.compare(ellipse.getRy(),0.02d)==0);
+    ellipse.setRy(new RelAbsVector(d));
+    assertEquals(ellipse.getRy(), new RelAbsVector(d));
   }
-
-
+  
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isAbsoluteCx()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#setRatio(Double)}
+   * and {@link org.sbml.jsbml.ext.render.Ellipse#getRatio()}.
    */
   @Test
-  public void testIsAbsoluteCx() {
+  public void testGetSetRatio() {
     Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteCx(false);
-    assertTrue(!ellipse.isAbsoluteCx());
+    ellipse.setRatio(1.4d);
+    assertTrue(ellipse.isSetRatio());
+    assertEquals(1.4d, ellipse.getRatio(), 1e-10);
   }
-
-
+  
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isSetAbsoluteCx()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isSetRatio()}
    */
   @Test
-  public void testIsSetAbsoluteCx() {
+  public void testIsSetRatio() {
     Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteCx(false);
-    assertTrue(ellipse.isSetAbsoluteCx());
+    assertFalse(ellipse.isSetRatio());
+    ellipse.setRatio(1.4d);
+    assertTrue(ellipse.isSetRatio());
+    ellipse.setRatio(0.582d);
+    assertTrue(ellipse.isSetRatio());
   }
-
-
+  
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#setAbsoluteCx(boolean)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#unsetRatio()}
    */
   @Test
-  public void testSetAbsoluteCx() {
+  public void testUnsetRatio() {
     Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteCx(false);
-    assertTrue(!ellipse.isAbsoluteCx());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isAbsoluteCy()}.
-   */
-  @Test
-  public void testIsAbsoluteCy() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteCy(false);
-    assertTrue(!ellipse.isAbsoluteCy());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isSetAbsoluteCy()}.
-   */
-  @Test
-  public void testIsSetAbsoluteCy() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteCy(false);
-    assertTrue(ellipse.isSetAbsoluteCy());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#setAbsoluteCy(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteCy() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteCy(false);
-    assertTrue(!ellipse.isAbsoluteCy());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isAbsoluteCz()}.
-   */
-  @Test
-  public void testIsAbsoluteCz() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteCz(false);
-    assertTrue(!ellipse.isAbsoluteCz());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isSetAbsoluteCz()}.
-   */
-  @Test
-  public void testIsSetAbsoluteCz() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteCz(false);
-    assertTrue(ellipse.isSetAbsoluteCz());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#setAbsoluteCz(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteCz() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteCz(false);
-    assertTrue(!ellipse.isAbsoluteCz());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isAbsoluteRx()}.
-   */
-  @Test
-  public void testIsAbsoluteRx() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteRx(false);
-    assertTrue(!ellipse.isAbsoluteRx());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isSetAbsoluteRx()}.
-   */
-  @Test
-  public void testIsSetAbsoluteRx() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteRx(false);
-    assertTrue(ellipse.isSetAbsoluteRx());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#setAbsoluteRx(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteRx() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteRx(false);
-    assertTrue(!ellipse.isAbsoluteRx());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isAbsoluteRy()}.
-   */
-  @Test
-  public void testIsAbsoluteRy() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteRy(true);
-    assertTrue(ellipse.isAbsoluteRy());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#isSetAbsoluteRy()}.
-   */
-  @Test
-  public void testIsSetAbsoluteRy() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteRy(false);
-    assertTrue(ellipse.isSetAbsoluteRy());
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Ellipse#setAbsoluteRy(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteRy() {
-    Ellipse ellipse=new Ellipse();
-    ellipse.setAbsoluteRy(false);
-    assertTrue(!ellipse.isAbsoluteRy());
+    assertFalse(ellipse.isSetRatio());
+    ellipse.setRatio(1.4d);
+    assertTrue(ellipse.isSetRatio());
+    ellipse.unsetRatio();
+    assertFalse(ellipse.isSetRatio());
+    ellipse.setRatio(0.92d);
+    assertTrue(ellipse.isSetRatio());
+    ellipse.setRatio(null);
+    assertFalse(ellipse.isSetRatio());
+    ellipse.setRatio(Double.NaN);
+    assertFalse(ellipse.isSetRatio());
   }
 }

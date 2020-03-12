@@ -31,6 +31,7 @@ import org.sbml.jsbml.SBase;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Emanuel Vetter
  * @since 1.0
  */
 public class Rectangle extends GraphicalPrimitive2D implements Point3D {
@@ -41,64 +42,26 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * 
    */
-  private Double x;
+  private RelAbsVector x, y, z, width, height;
+  
   /**
-   * 
+   * Optional: Define the rounding of the corners:
+   * <ul>
+   * <li>rx defines the x-radius of the ellipse for rounding the corners</li>
+   * <li>ry defines the y-radius of the ellipse for rounding the corners</li>
+   * </ul>
    */
-  private Double y;
-  /**
-   * 
-   */
-  private Double z;
-  /**
-   * 
-   */
-  private Double width;
-  /**
-   * 
-   */
-  private Double height;
-  /**
-   * 
-   */
-  private Boolean absoluteX;
-  /**
-   * 
-   */
-  private Boolean absoluteY;
-  /**
-   * 
-   */
-  private Boolean absoluteZ;
-  /**
-   * 
-   */
-  private Boolean absoluteWidth;
-  /**
-   * 
-   */
-  private Boolean absoluteHeight;
-  /**
-   * 
-   */
-  private Double rx;
-  /**
-   * 
-   */
-  private Double ry;
-  /**
-   * 
-   */
-  private Boolean absoluteRx;
-  /**
-   * 
-   */
-  private Boolean absoluteRy;
+  private RelAbsVector rx, ry;
 
   /**
-   * @return the value of rx
+   * Ratio of width to height
    */
-  public double getRx() {
+  private Double ratio;
+  
+  /**
+   * @return the value of {@link Rectangle#rx}
+   */
+  public RelAbsVector getRx() {
     if (isSetRx()) {
       return rx;
     }
@@ -107,30 +70,30 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   }
 
   /**
-   * @return whether rx is set
+   * @return whether {@link Rectangle#rx} is set
    */
   public boolean isSetRx() {
     return rx != null;
   }
 
   /**
-   * Set the value of rx
+   * Set the value of {@link Rectangle#rx}
    * @param rx
    */
-  public void setRx(double rx) {
-    Double oldRx = this.rx;
+  public void setRx(RelAbsVector rx) {
+    RelAbsVector oldRx = this.rx;
     this.rx = rx;
     firePropertyChange(RenderConstants.rx, oldRx, this.rx);
   }
 
   /**
-   * Unsets the variable rx
+   * Unsets the variable {@link Rectangle#rx}
    * @return {@code true}, if rx was set before,
    *         otherwise {@code false}
    */
   public boolean unsetRx() {
     if (isSetRx()) {
-      Double oldRx = rx;
+      RelAbsVector oldRx = rx;
       rx = null;
       firePropertyChange(RenderConstants.rx, oldRx, rx);
       return true;
@@ -139,9 +102,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   }
 
   /**
-   * @return the value of ry
+   * @return the value of {@link Rectangle#ry}
    */
-  public double getRy() {
+  public RelAbsVector getRy() {
     if (isSetRy()) {
       return ry;
     }
@@ -150,340 +113,30 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   }
 
   /**
-   * @return whether ry is set
+   * @return whether {@link Rectangle#ry} is set
    */
   public boolean isSetRy() {
     return ry != null;
   }
 
   /**
-   * Set the value of ry
+   * Set the value of {@link Rectangle#ry}
    * @param ry
    */
-  public void setRy(double ry) {
-    Double oldRy = this.ry;
+  public void setRy(RelAbsVector ry) {
+    RelAbsVector oldRy = this.ry;
     this.ry = ry;
     firePropertyChange(RenderConstants.ry, oldRy, this.ry);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteX()
-   */
-  @Override
-  public boolean isAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      return absoluteX;
-    }
-
-    return true; // TODO - we probably need to store all coordinate as String as they can contain arithmetic operation !!
-  }
-
   /**
-   * @return whether absoluteX is set
-   */
-  @Override
-  public boolean isSetAbsoluteX() {
-    return absoluteX != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteX(boolean)
-   */
-  @Override
-  public void setAbsoluteX(boolean absoluteX) {
-    Boolean oldAbsoluteX = this.absoluteX;
-    this.absoluteX = absoluteX;
-    firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
-  }
-
-  /**
-   * Unsets the variable absoluteX
-   * @return {@code true}, if absoluteX was set before,
-   *         otherwise {@code false}
-   */
-  @Override
-  public boolean unsetAbsoluteX() {
-    if (isSetAbsoluteX()) {
-      Boolean oldAbsoluteX = absoluteX;
-      absoluteX = null;
-      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, absoluteX);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteY
-   */
-  @Override
-  public boolean isAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      return absoluteY;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteY is set
-   */
-  @Override
-  public boolean isSetAbsoluteY() {
-    return absoluteY != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteY(boolean)
-   */
-  @Override
-  public void setAbsoluteY(boolean absoluteY) {
-    Boolean oldAbsoluteY = this.absoluteY;
-    this.absoluteY = absoluteY;
-    firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
-  }
-
-  /**
-   * Unsets the variable absoluteY
-   * @return {@code true}, if absoluteY was set before,
-   *         otherwise {@code false}
-   */
-  @Override
-  public boolean unsetAbsoluteY() {
-    if (isSetAbsoluteY()) {
-      Boolean oldAbsoluteY = absoluteY;
-      absoluteY = null;
-      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, absoluteY);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteZ
-   */
-  @Override
-  public boolean isAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      return absoluteZ;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteZ is set
-   */
-  @Override
-  public boolean isSetAbsoluteZ() {
-    return absoluteZ != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteZ(boolean)
-   */
-  @Override
-  public void setAbsoluteZ(boolean absoluteZ) {
-    Boolean oldAbsoluteZ = this.absoluteZ;
-    this.absoluteZ = absoluteZ;
-    firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
-  }
-
-  /**
-   * Unsets the variable absoluteZ
-   * @return {@code true}, if absoluteZ was set before,
-   *         otherwise {@code false}
-   */
-  @Override
-  public boolean unsetAbsoluteZ() {
-    if (isSetAbsoluteZ()) {
-      Boolean oldAbsoluteZ = absoluteZ;
-      absoluteZ = null;
-      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, absoluteZ);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteRx
-   */
-  public boolean isAbsoluteRx() {
-    if (isSetAbsoluteRx()) {
-      return absoluteRx;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteRx is set
-   */
-  public boolean isSetAbsoluteRx() {
-    return absoluteRx != null;
-  }
-
-  /**
-   * Set the value of absoluteRx
-   * @param absoluteRx
-   */
-  public void setAbsoluteRx(boolean absoluteRx) {
-    Boolean oldAbsoluteRx = this.absoluteRx;
-    this.absoluteRx = absoluteRx;
-    firePropertyChange(RenderConstants.absoluteRx, oldAbsoluteRx, this.absoluteRx);
-  }
-
-  /**
-   * Unsets the variable absoluteRx
-   * @return {@code true}, if absoluteRx was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteRx() {
-    if (isSetAbsoluteRx()) {
-      Boolean oldAbsoluteRx = absoluteRx;
-      absoluteRx = null;
-      firePropertyChange(RenderConstants.absoluteRx, oldAbsoluteRx, absoluteRx);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteRy
-   */
-  public boolean isAbsoluteRy() {
-    if (isSetAbsoluteRy()) {
-      return absoluteRy;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteRy is set
-   */
-  public boolean isSetAbsoluteRy() {
-    return absoluteRy != null;
-  }
-
-  /**
-   * Set the value of absoluteRy
-   * @param absoluteRy
-   */
-  public void setAbsoluteRy(boolean absoluteRy) {
-    Boolean oldAbsoluteRy = this.absoluteRy;
-    this.absoluteRy = absoluteRy;
-    firePropertyChange(RenderConstants.absoluteRy, oldAbsoluteRy, this.absoluteRy);
-  }
-
-  /**
-   * Unsets the variable absoluteRy
-   * @return {@code true}, if absoluteRy was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteRy() {
-    if (isSetAbsoluteRy()) {
-      Boolean oldAbsoluteRy = absoluteRy;
-      absoluteRy = null;
-      firePropertyChange(RenderConstants.absoluteRy, oldAbsoluteRy, absoluteRy);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteHeight
-   */
-  public boolean isAbsoluteHeight() {
-    if (isSetAbsoluteHeight()) {
-      return absoluteHeight;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteHeight is set
-   */
-  public boolean isSetAbsoluteHeight() {
-    return absoluteHeight != null;
-  }
-
-  /**
-   * Set the value of absoluteHeight
-   * @param absoluteHeight
-   */
-  public void setAbsoluteHeight(boolean absoluteHeight) {
-    Boolean oldAbsoluteHeight = this.absoluteHeight;
-    this.absoluteHeight = absoluteHeight;
-    firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, this.absoluteHeight);
-  }
-
-  /**
-   * Unsets the variable absoluteHeight
-   * @return {@code true}, if absoluteHeight was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteHeight() {
-    if (isSetAbsoluteHeight()) {
-      Boolean oldAbsoluteHeight = absoluteHeight;
-      absoluteHeight = null;
-      firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, absoluteHeight);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @return the value of absoluteWidth
-   */
-  public boolean isAbsoluteWidth() {
-    if (isSetAbsoluteWidth()) {
-      return absoluteWidth;
-    }
-
-    return true;
-  }
-
-  /**
-   * @return whether absoluteWidth is set
-   */
-  public boolean isSetAbsoluteWidth() {
-    return absoluteWidth != null;
-  }
-
-  /**
-   * Set the value of absoluteWidth
-   * @param absoluteWidth
-   */
-  public void setAbsoluteWidth(boolean absoluteWidth) {
-    Boolean oldAbsoluteWidth = this.absoluteWidth;
-    this.absoluteWidth = absoluteWidth;
-    firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, this.absoluteWidth);
-  }
-
-  /**
-   * Unsets the variable absoluteWidth
-   * @return {@code true}, if absoluteWidth was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetAbsoluteWidth() {
-    if (isSetAbsoluteWidth()) {
-      Boolean oldAbsoluteWidth = absoluteWidth;
-      absoluteWidth = null;
-      firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, absoluteWidth);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Unsets the variable ry
+   * Unsets the variable {@link Rectangle#ry}
    * @return {@code true}, if ry was set before,
    *         otherwise {@code false}
    */
   public boolean unsetRy() {
     if (isSetRy()) {
-      Double oldRy = ry;
+      RelAbsVector oldRy = ry;
       ry = null;
       firePropertyChange(RenderConstants.ry, oldRy, ry);
       return true;
@@ -495,7 +148,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return the value of x
    */
   @Override
-  public double getX() {
+  public RelAbsVector getX() {
     if (isSetX()) {
       return x;
     }
@@ -515,8 +168,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @see org.sbml.jsbml.ext.render.Point3D#setX(double)
    */
   @Override
-  public void setX(double x) {
-    Double oldX = this.x;
+  public void setX(RelAbsVector x) {
+    RelAbsVector oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
   }
@@ -529,7 +182,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   @Override
   public boolean unsetX() {
     if (isSetX()) {
-      Double oldX = x;
+      RelAbsVector oldX = x;
       x = null;
       firePropertyChange(RenderConstants.x, oldX, x);
       return true;
@@ -541,7 +194,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return the value of y
    */
   @Override
-  public double getY() {
+  public RelAbsVector getY() {
     if (isSetY()) {
       return y;
     }
@@ -561,8 +214,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @see org.sbml.jsbml.ext.render.Point3D#setY(double)
    */
   @Override
-  public void setY(double y) {
-    Double oldY = this.y;
+  public void setY(RelAbsVector y) {
+    RelAbsVector oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
   }
@@ -575,7 +228,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   @Override
   public boolean unsetY() {
     if (isSetY()) {
-      Double oldY = y;
+      RelAbsVector oldY = y;
       y = null;
       firePropertyChange(RenderConstants.y, oldY, y);
       return true;
@@ -587,7 +240,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return the value of z
    */
   @Override
-  public double getZ() {
+  public RelAbsVector getZ() {
     if (isSetZ()) {
       return z;
     }
@@ -607,8 +260,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @see org.sbml.jsbml.ext.render.Point3D#setZ(double)
    */
   @Override
-  public void setZ(double z) {
-    Double oldZ = this.z;
+  public void setZ(RelAbsVector z) {
+    RelAbsVector oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
   }
@@ -621,7 +274,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   @Override
   public boolean unsetZ() {
     if (isSetZ()) {
-      Double oldZ = z;
+      RelAbsVector oldZ = z;
       z = null;
       firePropertyChange(RenderConstants.z, oldZ, z);
       return true;
@@ -632,7 +285,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of height
    */
-  public double getHeight() {
+  public RelAbsVector getHeight() {
     if (isSetHeight()) {
       return height;
     }
@@ -651,8 +304,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * Set the value of height
    * @param height
    */
-  public void setHeight(double height) {
-    Double oldHeight = this.height;
+  public void setHeight(RelAbsVector height) {
+    RelAbsVector oldHeight = this.height;
     this.height = height;
     firePropertyChange(RenderConstants.height, oldHeight, this.height);
   }
@@ -664,7 +317,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   public boolean unsetHeight() {
     if (isSetHeight()) {
-      Double oldHeight = height;
+      RelAbsVector oldHeight = height;
       height = null;
       firePropertyChange(RenderConstants.height, oldHeight, height);
       return true;
@@ -675,7 +328,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of width
    */
-  public double getWidth() {
+  public RelAbsVector getWidth() {
     if (isSetWidth()) {
       return width;
     }
@@ -694,8 +347,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * Set the value of width
    * @param width
    */
-  public void setWidth(double width) {
-    Double oldWidth = this.width;
+  public void setWidth(RelAbsVector width) {
+    RelAbsVector oldWidth = this.width;
     this.width = width;
     firePropertyChange(RenderConstants.width, oldWidth, this.width);
   }
@@ -707,9 +360,47 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   public boolean unsetWidth() {
     if (isSetWidth()) {
-      Double oldWidth = width;
+      RelAbsVector oldWidth = width;
       width = null;
       firePropertyChange(RenderConstants.width, oldWidth, width);
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+   * @return the ratio width/height
+   */
+  public double getRatio() {
+    if(isSetRatio())
+      return ratio;
+    throw new PropertyUndefinedError(RenderConstants.ratio, this);
+  }
+  
+  /**
+   * @return whether the ratio of width/height is set
+   */
+  public boolean isSetRatio() {
+    return ratio != null;
+  }
+  
+  /**
+   * @param ratio of width/height
+   */
+  public void setRatio(double ratio) {
+    Double old = this.ratio;
+    this.ratio = ratio;
+    firePropertyChange(RenderConstants.ratio, old, ratio);
+  }
+  
+  /**
+   * @return whether the ratio of width/height could be unset
+   */
+  public boolean unsetRatio() {
+    if(isSetRatio()) {
+      Double old = ratio;
+      ratio = null;
+      firePropertyChange(RenderConstants.ratio, old, ratio);
       return true;
     }
     return false;
@@ -737,13 +428,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     ry = obj.ry;
     height = obj.height;
     width = obj.width;
-    absoluteX = obj.absoluteX;
-    absoluteY = obj.absoluteY;
-    absoluteZ = obj.absoluteZ;
-    absoluteHeight = obj.absoluteHeight;
-    absoluteWidth = obj.absoluteWidth;
-    absoluteRx = obj.absoluteRx;
-    absoluteRy = obj.absoluteRy;
+    ratio = obj.ratio;
   }
 
   /* (non-Javadoc)
@@ -806,37 +491,42 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
     if (isSetX()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
-        XMLTools.positioningToString(getX(), isAbsoluteX()));
+        getX().getCoordinate());
     }
     if (isSetY()) {
       attributes.remove(RenderConstants.y);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
-        XMLTools.positioningToString(getY(), isAbsoluteY()));
+        getY().getCoordinate());
     }
     if (isSetZ()) {
       attributes.remove(RenderConstants.z);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
-        XMLTools.positioningToString(getZ(), isAbsoluteZ()));
+        getZ().getCoordinate());
     }
     if (isSetWidth()) {
       attributes.remove(RenderConstants.width);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.width,
-        XMLTools.positioningToString(getWidth(), isAbsoluteWidth()));
+        getWidth().getCoordinate());
     }
     if (isSetHeight()) {
       attributes.remove(RenderConstants.height);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.height,
-        XMLTools.positioningToString(getHeight(), isAbsoluteHeight()));
+        getHeight().getCoordinate());
     }
     if (isSetRx()) {
       attributes.remove(RenderConstants.rx);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.rx,
-        XMLTools.positioningToString(getRx(), isAbsoluteRx()));
+        getRx().getCoordinate());
     }
     if (isSetRy()) {
       attributes.remove(RenderConstants.ry);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ry,
-        XMLTools.positioningToString(getRy(), isAbsoluteRy()));
+        getRy().getCoordinate());
+    }
+    if(isSetRatio()) {
+      attributes.remove(RenderConstants.ratio);
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ratio,
+        "" + getRatio());
     }
 
     return attributes;
@@ -853,32 +543,28 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.x)) {
-        setX(XMLTools.parsePosition(value));
-        setAbsoluteX(XMLTools.isAbsolutePosition(value));
+        setX(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.y)) {
-        setY(XMLTools.parsePosition(value));
-        setAbsoluteY(XMLTools.isAbsolutePosition(value));
+        setY(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.z)) {
-        setZ(XMLTools.parsePosition(value));
-        setAbsoluteZ(XMLTools.isAbsolutePosition(value));
+        setZ(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.width)) {
-        setWidth(XMLTools.parsePosition(value));
-        setAbsoluteWidth(XMLTools.isAbsolutePosition(value));
+        setWidth(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.height)) {
-        setHeight(XMLTools.parsePosition(value));
-        setAbsoluteHeight(XMLTools.isAbsolutePosition(value));
+        setHeight(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.rx)) {
-        setRx(XMLTools.parsePosition(value));
-        setAbsoluteRx(XMLTools.isAbsolutePosition(value));
+        setRx(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.ry)) {
-        setRy(XMLTools.parsePosition(value));
-        setAbsoluteRy(XMLTools.isAbsolutePosition(value));
+        setRy(new RelAbsVector(value));
+      }
+      else if (attributeName.equals(RenderConstants.ratio)) {
+        setRatio(XMLTools.parsePosition(value));
       }
       else {
         isAttributeRead = false;
@@ -894,17 +580,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   public int hashCode() {
     final int prime = 3137;
     int result = super.hashCode();
-    result = prime * result
-        + ((absoluteHeight == null) ? 0 : absoluteHeight.hashCode());
-    result = prime * result
-        + ((absoluteRx == null) ? 0 : absoluteRx.hashCode());
-    result = prime * result
-        + ((absoluteRy == null) ? 0 : absoluteRy.hashCode());
-    result = prime * result
-        + ((absoluteWidth == null) ? 0 : absoluteWidth.hashCode());
-    result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
-    result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
-    result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
+    
     result = prime * result + ((height == null) ? 0 : height.hashCode());
     result = prime * result + ((rx == null) ? 0 : rx.hashCode());
     result = prime * result + ((ry == null) ? 0 : ry.hashCode());
@@ -912,6 +588,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     result = prime * result + ((x == null) ? 0 : x.hashCode());
     result = prime * result + ((y == null) ? 0 : y.hashCode());
     result = prime * result + ((z == null) ? 0 : z.hashCode());
+    result = prime * result + ((z == null) ? 0 : ratio.hashCode());
     return result;
   }
 
@@ -930,55 +607,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
       return false;
     }
     Rectangle other = (Rectangle) obj;
-    if (absoluteHeight == null) {
-      if (other.absoluteHeight != null) {
-        return false;
-      }
-    } else if (!absoluteHeight.equals(other.absoluteHeight)) {
-      return false;
-    }
-    if (absoluteRx == null) {
-      if (other.absoluteRx != null) {
-        return false;
-      }
-    } else if (!absoluteRx.equals(other.absoluteRx)) {
-      return false;
-    }
-    if (absoluteRy == null) {
-      if (other.absoluteRy != null) {
-        return false;
-      }
-    } else if (!absoluteRy.equals(other.absoluteRy)) {
-      return false;
-    }
-    if (absoluteWidth == null) {
-      if (other.absoluteWidth != null) {
-        return false;
-      }
-    } else if (!absoluteWidth.equals(other.absoluteWidth)) {
-      return false;
-    }
-    if (absoluteX == null) {
-      if (other.absoluteX != null) {
-        return false;
-      }
-    } else if (!absoluteX.equals(other.absoluteX)) {
-      return false;
-    }
-    if (absoluteY == null) {
-      if (other.absoluteY != null) {
-        return false;
-      }
-    } else if (!absoluteY.equals(other.absoluteY)) {
-      return false;
-    }
-    if (absoluteZ == null) {
-      if (other.absoluteZ != null) {
-        return false;
-      }
-    } else if (!absoluteZ.equals(other.absoluteZ)) {
-      return false;
-    }
     if (height == null) {
       if (other.height != null) {
         return false;
@@ -1028,8 +656,14 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     } else if (!z.equals(other.z)) {
       return false;
     }
+    if (ratio == null) {
+      if (other.ratio != null) {
+        return false;
+      }
+    } else if (!ratio.equals(other.ratio)) {
+      return false;
+    }
     return true;
   }
-
   
 }

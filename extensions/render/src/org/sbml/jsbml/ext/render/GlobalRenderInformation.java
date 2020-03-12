@@ -39,7 +39,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
   private static final long serialVersionUID = 855680727119080659L;
 
   /**
-   * 
+   * This ought to be a list of Styles, but not LocalStyles!
    */
   private ListOf<Style> listOfStyles;
 
@@ -234,6 +234,8 @@ public class GlobalRenderInformation extends RenderInformationBase {
 
 
   /**
+   * Adds the given style to the list of styles
+   * 
    * @param style
    * @return
    */

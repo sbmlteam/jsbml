@@ -40,7 +40,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
    */
   private static final long serialVersionUID = 3705246334810811216L;
   /**
-   * 
+   * Specify the stroke-color: Either directly a Color-string, or the id of a {@link ColorDefinition}
    */
   protected String stroke;
   /**

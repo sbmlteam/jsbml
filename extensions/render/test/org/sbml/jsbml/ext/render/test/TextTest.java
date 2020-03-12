@@ -21,12 +21,14 @@
 package org.sbml.jsbml.ext.render.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ext.render.Text;
 import org.sbml.jsbml.ext.render.FontFamily;
 import org.sbml.jsbml.ext.render.HTextAnchor;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.VTextAnchor;
 
 
@@ -72,6 +74,17 @@ public class TextTest {
     textType.setFontSize(fontSize);
     assertEquals("getFontSizeError",fontSize,textType.getFontSize());
   }
+  
+  /**
+   * Test method for {@link Text#getText()}
+   */
+  @Test
+  public void testGetText() {
+    Text textType = new Text();
+    assertFalse(textType.isSetText());
+    textType.setText("...");
+    assertEquals("getTextError", "...", textType.getText());
+  }
 
 
   /**
@@ -106,8 +119,8 @@ public class TextTest {
   public void testGetX() {
     Text textType=new Text();
     assertTrue(!textType.isSetX());
-    textType.setX(0.02d);
-    assertEquals(textType.getX(),0.02d,0.00000001d);
+    textType.setX(new RelAbsVector(0.02d));
+    assertEquals(textType.getX().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -118,8 +131,8 @@ public class TextTest {
   public void testGetY() {
     Text textType=new Text();
     assertTrue(!textType.isSetY());
-    textType.setY(0.02d);
-    assertEquals(textType.getY(),0.02d,0.00000001d);
+    textType.setY(new RelAbsVector(0.02d));
+    assertEquals(textType.getY().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -130,46 +143,9 @@ public class TextTest {
   public void testGetZ() {
     Text textType=new Text();
     assertTrue(!textType.isSetZ());
-    textType.setZ(0.02d);
-    assertEquals(textType.getZ(),0.02d,0.00000001d);
+    textType.setZ(new RelAbsVector(0.02d));
+    assertEquals(textType.getZ().getAbsoluteValue(),0.02d,0.00000001d);
   }
-
-
-  /**
-   * Test method for {@link Text#isSetAbsoluteX()}.
-   */
-  @Test
-  public void testIsSetAbsoluteX() {
-    Text textType=new Text();
-    assertTrue(!textType.isSetAbsoluteX());
-    textType.setAbsoluteX(true);
-    assertTrue(textType.isSetAbsoluteX());
-  }
-
-
-  /**
-   * Test method for {@link Text#isSetAbsoluteY()}.
-   */
-  @Test
-  public void testIsSetAbsoluteY() {
-    Text textType=new Text();
-    assertTrue(!textType.isSetAbsoluteY());
-    textType.setAbsoluteY(true);
-    assertTrue(textType.isSetAbsoluteY());
-  }
-
-
-  /**
-   * Test method for {@link Text#isSetAbsoluteZ()}.
-   */
-  @Test
-  public void testIsSetAbsoluteZ() {
-    Text textType=new Text();
-    assertTrue(!textType.isSetAbsoluteZ());
-    textType.setAbsoluteZ(true);
-    assertTrue(textType.isSetAbsoluteZ());
-  }
-
 
   /**
    * Test method for {@link Text#isSetFontFamily()} with {@link String} as the type of the font.
@@ -232,7 +208,21 @@ public class TextTest {
     assertTrue(textType.isSetFontWeightBold());
   }
 
-
+  /**
+   * Test method for {@link Text#isSetText()}
+   */
+  @Test
+  public void testIsSetText() {
+    Text textType = new Text();
+    assertFalse(textType.isSetText());
+    textType.setText("");
+    // Deviation from libSBML!
+    assertTrue("isSetTextError: behaves like libSBML", textType.isSetText());
+    
+    textType.setText("Some nonempty string");
+    assertTrue("isSetTextError",textType.isSetText());
+  }
+  
   /**
    * Test method for {@link Text#isSetTextAnchor()}.
    */
@@ -265,7 +255,7 @@ public class TextTest {
   @Test
   public void testIsSetX() {
     Text textType=new Text();
-    textType.setX(0.02d);
+    textType.setX(new RelAbsVector(0.02d));
     assertTrue(textType.isSetX());
   }
 
@@ -276,7 +266,7 @@ public class TextTest {
   @Test
   public void testIsSetY() {
     Text textType=new Text();
-    textType.setY(0.02d);
+    textType.setY(new RelAbsVector(0.02d));
     assertTrue(textType.isSetY());
   }
 
@@ -287,44 +277,10 @@ public class TextTest {
   @Test
   public void testIsSetZ() {
     Text textType=new Text();
-    textType.setZ(0.02d);
+    textType.setZ(new RelAbsVector(0.02d));
     assertTrue(textType.isSetZ());
   }
-
-
-  /**
-   * Test method for {@link Text#setAbsoluteX(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteX() {
-    Text textType=new Text();
-    textType.setAbsoluteX(true);
-    assertEquals("AbsoluteVarError",true,textType.isAbsoluteX());
-  }
-
-
-  /**
-   * Test method for {@link Text#setAbsoluteY(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteY() {
-    Text textType=new Text();
-    textType.setAbsoluteY(true);
-    assertEquals("AbsoluteVarError",true,textType.isAbsoluteY());
-  }
-
-
-  /**
-   * Test method for {@link Text#setAbsoluteZ(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteZ() {
-    Text textType=new Text();
-    textType.setAbsoluteZ(true);
-    assertTrue(textType.isAbsoluteZ());
-  }
-
-
+  
   /**
    * Test method for {@link Text#setFontFamily(FontFamily)} with {@link String} as the type of the font..
    */
@@ -384,7 +340,33 @@ public class TextTest {
     textType.setFontWeightBold(true);
     assertTrue(textType.isFontWeightBold());
   }
+  
+  /**
+   * Tests behaviour of {@link Text#setText(String)} for usual arguments (non-null Strings)
+   */
+  @Test
+  public void testSetText() {
+    Text textType = new Text();
+    textType.setText("Glc");
+    assertEquals("setTextError", "Glc", textType.getText());
+    textType.setText("");
+    assertEquals("setTextError", "", textType.getText());
+  }
 
+  
+  /**
+   * Tests behaviour for setting the text to {@code null} via
+   * {@link Text#setText(String)} instead of {@link Text#unsetText()}
+   */
+  @Test
+  public void testSetTextToNull() {
+    Text textType = new Text();
+    assertFalse(textType.isSetText());
+    textType.setText("Not null");
+    assertTrue(textType.isSetText());
+    textType.setText(null);
+    assertFalse(textType.isSetText());
+  }
 
   /**
    * Test method for {@link Text#setTextAnchor(HTextAnchor)}.
@@ -429,8 +411,8 @@ public class TextTest {
   public void testSetX() {
     Text textType=new Text();
     assertTrue(!textType.isSetX());
-    textType.setX(0.02d);
-    assertEquals(textType.getX(),0.02d,0.00000001d);
+    textType.setX(new RelAbsVector(0.02d));
+    assertEquals(textType.getX().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -441,8 +423,8 @@ public class TextTest {
   public void testSetY() {
     Text textType=new Text();
     assertTrue(!textType.isSetY());
-    textType.setY(0.02d);
-    assertEquals(textType.getY(),0.02d,0.00000001d);
+    textType.setY(new RelAbsVector(0.02d));
+    assertEquals(textType.getY().getAbsoluteValue(),0.02d,0.00000001d);
   }
 
 
@@ -453,7 +435,20 @@ public class TextTest {
   public void testSetZ() {
     Text textType=new Text();
     assertTrue(!textType.isSetZ());
-    textType.setZ(0.02d);
-    assertEquals(textType.getZ(),0.02d,0.00000001d);
+    textType.setZ(new RelAbsVector(0.02d));
+    assertEquals(textType.getZ().getAbsoluteValue(),0.02d,0.00000001d);
+  }
+  
+  /**
+   * Test method for {@link Text#unsetText()}
+   */
+  @Test
+  public void testUnsetText() {
+    Text textType = new Text();
+    assertFalse(textType.isSetText());
+    textType.setText("ATP");
+    assertTrue(textType.isSetText());
+    textType.unsetText();
+    assertFalse(textType.isSetText());
   }
 }

@@ -32,6 +32,7 @@ import org.sbml.jsbml.SBase;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 public class GradientStop extends AbstractSBase {
@@ -44,7 +45,7 @@ public class GradientStop extends AbstractSBase {
   /**
    * 
    */
-  private Double offset;
+  private RelAbsVector offset;
   /**
    * 
    */
@@ -57,12 +58,23 @@ public class GradientStop extends AbstractSBase {
    * @param offset
    * @param stopColor
    */
-  public GradientStop(Double offset, String stopColor) {
+  public GradientStop(RelAbsVector offset, String stopColor) {
     super();
     initDefaults();
 
     this.offset = offset;
     this.stopColor = stopColor;
+  }
+  
+  /**
+   * Convenience-constructor: As by the specification, the offset ought to be purely relative-valued 
+   * (i.e.e.g. 25d for 25%), the absolute part of the RelAbsVector is to be ignored anyways.
+   * 
+   * @param offset
+   * @param stopColor
+   */
+  public GradientStop(double offset, String stopColor) {
+    this(new RelAbsVector(0, offset), stopColor);
   }
 
   /**
@@ -73,7 +85,7 @@ public class GradientStop extends AbstractSBase {
    * @param level
    * @param version
    */
-  public GradientStop(Double offset, String stopColor, int level, int version) {
+  public GradientStop(RelAbsVector offset, String stopColor, int level, int version) {
     super(level, version);
     if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
       Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
@@ -205,7 +217,7 @@ public class GradientStop extends AbstractSBase {
   /**
    * @return the value of offset
    */
-  public double getOffset() {
+  public RelAbsVector getOffset() {
     if (isSetOffset()) {
       return offset;
     }
@@ -242,8 +254,8 @@ public class GradientStop extends AbstractSBase {
    * Set the value of offset
    * @param offset
    */
-  public void setOffset(double offset) {
-    Double oldOffset = this.offset;
+  public void setOffset(RelAbsVector offset) {
+    RelAbsVector oldOffset = this.offset;
     this.offset = offset;
     firePropertyChange(RenderConstants.offset, oldOffset, this.offset);
   }
@@ -265,7 +277,7 @@ public class GradientStop extends AbstractSBase {
    */
   public boolean unsetOffset() {
     if (isSetOffset()) {
-      Double oldOffset = offset;
+      RelAbsVector oldOffset = offset;
       offset = null;
       firePropertyChange(RenderConstants.offset, oldOffset, offset);
       return true;
@@ -297,7 +309,7 @@ public class GradientStop extends AbstractSBase {
     if (isSetOffset()) {
       attributes.remove(RenderConstants.offset);
       attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.offset,
-        XMLTools.positioningToString(getOffset(), false));
+        getOffset().getCoordinate());
     }
     if (isSetStopColor()) {
       attributes.remove(RenderConstants.stopColor);
@@ -317,7 +329,7 @@ public class GradientStop extends AbstractSBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.offset)) {
-        setOffset(XMLTools.parsePosition(value));
+        setOffset(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.stopColor)) {
         setStopColor(value);

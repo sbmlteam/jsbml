@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderCubicBezier;
 import org.sbml.jsbml.ext.render.RenderPoint;
 
@@ -63,9 +64,9 @@ public class PolygonTest {
     Polygon polygon=new Polygon();
     ListOf<RenderPoint> list=new ListOf<RenderPoint>();
     RenderPoint point=new RenderPoint();
-    point.setX(.01d);
-    point.setY(.01d);
-    point.setZ(.01d);
+    point.setX(new RelAbsVector(.01d));
+    point.setY(new RelAbsVector(.01d));
+    point.setZ(new RelAbsVector(.01d));
     list.add(point);
     polygon.setListOfElements(list);
     assertEquals("Error",list,polygon.getChildAt(0));
@@ -80,9 +81,9 @@ public class PolygonTest {
     Polygon polygon=new Polygon();
     ListOf<RenderPoint> list=new ListOf<RenderPoint>();
     RenderPoint point=new RenderPoint();
-    point.setX(.01d);
-    point.setY(.01d);
-    point.setZ(.01d);
+    point.setX(new RelAbsVector(.01d));
+    point.setY(new RelAbsVector(.01d));
+    point.setZ(new RelAbsVector(.01d));
     list.add(point);
     polygon.setListOfElements(list);
     assertEquals("ElementError",point,polygon.getListOfElements().get(0));
@@ -97,9 +98,9 @@ public class PolygonTest {
     Polygon polygon=new Polygon();
     ListOf<RenderPoint> list=new ListOf<RenderPoint>();
     RenderPoint point=new RenderPoint();
-    point.setX(.01d);
-    point.setY(.01d);
-    point.setZ(.01d);
+    point.setX(new RelAbsVector(.01d));
+    point.setY(new RelAbsVector(.01d));
+    point.setZ(new RelAbsVector(.01d));
     list.add(point);
     polygon.setListOfElements(list);
     assertTrue(polygon.isSetListOfElements());
@@ -113,9 +114,9 @@ public class PolygonTest {
   public void testSetListOfElements() {
     ListOf<RenderPoint> list=new ListOf<RenderPoint>();
     RenderPoint point=new RenderPoint();
-    point.setX(.01d);
-    point.setY(.01d);
-    point.setZ(.01d);
+    point.setX(new RelAbsVector(.01d));
+    point.setY(new RelAbsVector(.01d));
+    point.setZ(new RelAbsVector(.01d));
     list.add(point);
     Polygon polygon=new Polygon();
     assertTrue(!polygon.isSetListOfElements());
@@ -132,7 +133,7 @@ public class PolygonTest {
     Polygon polygon=new Polygon();
     ListOf<RenderPoint> list=new ListOf<RenderPoint>();
     polygon.setListOfElements(list);
-    System.out.println(polygon.getChildCount());
+    // System.out.println(polygon.getChildCount());
     assertTrue(polygon.getListOfElements().getChildCount() == 0);
     RenderPoint rP=new RenderPoint();
     assertTrue(rP != null);
