@@ -19,7 +19,9 @@
  */
 package org.sbml.jsbml.ext.render;
 
-import org.sbml.jsbml.AbstractSBase;
+import javax.swing.tree.TreeNode;
+
+import org.sbml.jsbml.AbstractTreeNode;
 
 /**
  * Implements the RelAbsVector-datatype defined in the render-specification:
@@ -31,7 +33,7 @@ import org.sbml.jsbml.AbstractSBase;
  * 
  * @author DavidVetter
  */
-public class RelAbsVector extends AbstractSBase {
+public class RelAbsVector extends AbstractTreeNode {
 
   private static final long serialVersionUID = 7621009594700491178L;
   
@@ -41,15 +43,8 @@ public class RelAbsVector extends AbstractSBase {
   private static final String ABSOLUTE_PATTERN = "-?((.\\d+)|(\\d+(\\.\\d*)?))";
   private static final String RELATIVE_PATTERN = ABSOLUTE_PATTERN + "\\%";
   
-  /**
-   * For firing events on the parent: eventName denotes the meaning of the event
-   * (e.g. RenderConstants.cx)
-   */
-  private String eventName; 
-  
   public RelAbsVector() {
     super();
-    initDefaults();
   }
   
   /**
@@ -60,7 +55,6 @@ public class RelAbsVector extends AbstractSBase {
     super(original);
     absolute = original.absolute;
     relative = original.relative;
-    eventName = original.eventName;
   }
   
   /**
@@ -69,7 +63,6 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(double absolute) {
     super();
-    initDefaults();
     this.absolute = absolute;
   }
   
@@ -85,7 +78,6 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(double absolute, double relative) {
     super();
-    initDefaults();
     this.absolute = absolute;
     this.relative = relative;
   }
@@ -101,30 +93,7 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(String coordinate) {
     super();
-    initDefaults();
     setCoordinate(coordinate);
-  }
-  
-  /**
-   * TODO 2020/03: Is this a sensible solution? 
-   * Registers this RelAbsVector as a child to the given AbstractSBase, and remembers the 
-   * eventName: PropertyChangeEvents of this will be additionally forwarded to the parent 
-   * under the specified eventName
-   * 
-   * @param parent
-   * @param eventName
-   */
-  public RelAbsVector(AbstractSBase parent, String eventName) {
-    this();
-    registerEventParent(parent, eventName);
-  }
-  
-  /**
-   * Initializes the default values using the namespace.
-   */
-  public void initDefaults() {
-    setPackageVersion(-1);
-    packageName = RenderConstants.shortLabel;
   }
   
   /* (non-Javadoc)
@@ -189,10 +158,8 @@ public class RelAbsVector extends AbstractSBase {
    */
   public void setAbsoluteValue(double absolute) {
     Double old = this.absolute;
-    RelAbsVector oldThis = this.clone();
     this.absolute = absolute;
     firePropertyChange(RenderConstants.absoluteValue, old, absolute);
-    redirectEvent(oldThis);
   }
   
   /**
@@ -203,10 +170,8 @@ public class RelAbsVector extends AbstractSBase {
    */
   public void setRelativeValue(double relative) {
     Double old = this.relative;
-    RelAbsVector oldThis = this.clone();
     this.relative = relative;
     firePropertyChange(RenderConstants.relativeValue, old, relative);
-    redirectEvent(oldThis);
   }
   
   /**
@@ -230,10 +195,8 @@ public class RelAbsVector extends AbstractSBase {
   public boolean unsetAbsoluteValue() {
     if(isSetAbsoluteValue()) {
       Double old = absolute;
-      RelAbsVector oldThis = clone();
       absolute = null;
       firePropertyChange(RenderConstants.absoluteValue, old, absolute);
-      redirectEvent(oldThis);
       return true;
     }
     return false;
@@ -246,10 +209,8 @@ public class RelAbsVector extends AbstractSBase {
   public boolean unsetRelativeValue() {
     if(isSetRelativeValue()) {
       Double old = relative;
-      RelAbsVector oldThis = clone();
       relative = null;
       firePropertyChange(RenderConstants.relativeValue, old, relative);
-      redirectEvent(oldThis);
       return true;
     }
     return false;
@@ -349,63 +310,19 @@ public class RelAbsVector extends AbstractSBase {
     result = prime * result + ((relative == null) ? 0 : relative.hashCode());
     return result;
   }
-  
-  // TODO 2020/03: Is this kind of event-forwarding a sensible solution? 
-  /**
-   * @return the {@link #eventName} defining the meaning of this RelAbsVector to its parent 
-   */
-  public String getEventName() {
-    return eventName;
+
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    return null;
   }
-  
-  /**
-   * @return whether {@link #eventName} is actually set
-   */
-  public boolean isSetEventName() {
-    return eventName != null;
+
+  @Override
+  public int getChildCount() {
+    return 0;
   }
-  
-  /**
-   * @return Whether {@link #eventName} could indeed be unset
-   */
-  public boolean unsetEventName() {
-    if(isSetEventName()) {
-      eventName = null;
-      return true;
-    }
+
+  @Override
+  public boolean getAllowsChildren() {
     return false;
-  }
-  
-  
-  /**
-   * @param name
-   *        a String specifying the meaning of this {@link RelAbsVector} to its
-   *        parent
-   */
-  public void setEventName(String name) {
-    eventName = name;
-  }
-  
-  /**
-   * Fires an appropriate event on the parent, if there is one and if the name is set.
-   * @param old Value of this before the PropertyChange
-   */
-  private void redirectEvent(RelAbsVector old) {
-    if(isSetParent() && isSetEventName()) {
-      getParent().firePropertyChange(eventName, old, this);
-    }
-  }
-  
-  
-  /**
-   * @param parent
-   *        The AbstractSBase holding this (this will be registered as a child
-   *        of parent)
-   * @param eventName
-   *        The meaning of this {@link RelAbsVector} to its parent
-   */
-  public void registerEventParent(AbstractSBase parent, String eventName) {
-    parent.registerChild(this);
-    this.eventName = eventName;
   }
 }
