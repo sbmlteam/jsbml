@@ -20,16 +20,11 @@
  */
 package org.sbml.jsbml.ext.render;
 
-import java.beans.PropertyChangeEvent;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
-import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 
 /**
  * Encodes an ellipse.
@@ -219,34 +214,17 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public void setCx(RelAbsVector cx) {
     RelAbsVector oldCx = this.cx;
-    this.cx = cx;
+    if (oldCx != null)
+      oldCx.removeFromParent();
     
-    // TODO: Example: like this, the Ellipse would notify its listeners about
-    // changes to its RelAbsVectors. Should this be added or should users be
-    // instructed to listen to the RelAbsVectors/not use
+    this.cx = cx;
+    // TODO 2020/03: Example: like this, the Ellipse would notify its listeners
+    // about changes to its RelAbsVectors. Should this be added or should users
+    // be instructed to listen to the RelAbsVectors/not use
     // getCx().setAbsoluteValue(...)?
-    if(oldCx != null)
-      oldCx.removeAllTreeNodeChangeListeners();
-    if(cx != null) {
-      this.cx.addTreeNodeChangeListener(new TreeNodeChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-          RelAbsVector old = ((RelAbsVector) evt.getSource()).clone();
-          switch(evt.getPropertyName()) {
-          case RenderConstants.absoluteValue:
-            old.setAbsoluteValue((double) evt.getOldValue());
-            break;
-          case RenderConstants.relativeValue:
-            old.setRelativeValue((double) evt.getOldValue());
-            break;
-          }
-          firePropertyChange(RenderConstants.cx, old, (RelAbsVector) evt.getSource());
-        }
-        
-        public void nodeAdded(TreeNode node) {}
-        public void nodeRemoved(TreeNodeRemovedEvent event) {}
-      });
-    }
+    if(cx != null)
+      this.cx.registerEventParent(this, RenderConstants.cx);
+    
     firePropertyChange(RenderConstants.cx, oldCx, this.cx);
   }
 
@@ -258,6 +236,8 @@ public class Ellipse extends GraphicalPrimitive2D {
   public boolean unsetCx() {
     if (isSetCx()) {
       RelAbsVector oldCx = cx;
+      if (oldCx != null)
+        oldCx.removeFromParent();
       cx = null;
       firePropertyChange(RenderConstants.cx, oldCx, cx);
       return true;
@@ -289,7 +269,12 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public void setCy(RelAbsVector cy) {
     RelAbsVector oldCy = this.cy;
+    if (oldCy != null)
+      oldCy.removeFromParent();
+    
     this.cy = cy;
+    if(cy != null)
+      this.cy.registerEventParent(this, RenderConstants.cy);
     firePropertyChange(RenderConstants.cy, oldCy, this.cy);
   }
 
@@ -301,6 +286,9 @@ public class Ellipse extends GraphicalPrimitive2D {
   public boolean unsetCy() {
     if (isSetCy()) {
       RelAbsVector oldCy = cy;
+      if (oldCy != null)
+        oldCy.removeFromParent();
+      
       cy = null;
       firePropertyChange(RenderConstants.cy, oldCy, cy);
       return true;
@@ -332,7 +320,12 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public void setCz(RelAbsVector cz) {
     RelAbsVector oldCz = this.cz;
+    if (oldCz != null)
+      oldCz.removeFromParent();
+    
     this.cz = cz;
+    if(cz != null)
+      this.cz.registerEventParent(this, RenderConstants.cz);
     firePropertyChange(RenderConstants.cz, oldCz, this.cz);
   }
 
@@ -344,6 +337,9 @@ public class Ellipse extends GraphicalPrimitive2D {
   public boolean unsetCz() {
     if (isSetCz()) {
       RelAbsVector oldCz = cz;
+      if (oldCz != null)
+        oldCz.removeFromParent();
+
       cz = null;
       firePropertyChange(RenderConstants.cz, oldCz, cz);
       return true;
@@ -413,7 +409,12 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public void setRx(RelAbsVector rx) {
     RelAbsVector oldRx = this.rx;
+    if (oldRx != null)
+      oldRx.removeFromParent();
+    
     this.rx = rx;
+    if(rx != null)
+      this.rx.registerEventParent(this, RenderConstants.rx);
     firePropertyChange(RenderConstants.rx, oldRx, this.rx);
   }
 
@@ -425,6 +426,9 @@ public class Ellipse extends GraphicalPrimitive2D {
   public boolean unsetRx() {
     if (isSetRx()) {
       RelAbsVector oldRx = rx;
+      if (oldRx != null)
+        oldRx.removeFromParent();
+      
       rx = null;
       firePropertyChange(RenderConstants.rx, oldRx, rx);
       return true;
@@ -456,7 +460,12 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public void setRy(RelAbsVector ry) {
     RelAbsVector oldRy = this.ry;
+    if (oldRy != null)
+      oldRy.removeFromParent();
+    
     this.ry = ry;
+    if(ry != null)
+      this.ry.registerEventParent(this, RenderConstants.ry);
     firePropertyChange(RenderConstants.ry, oldRy, this.ry);
   }
 
@@ -468,6 +477,9 @@ public class Ellipse extends GraphicalPrimitive2D {
   public boolean unsetRy() {
     if (isSetRy()) {
       RelAbsVector oldRy = ry;
+      if (oldRy != null)
+        oldRy.removeFromParent();
+      
       ry = null;
       firePropertyChange(RenderConstants.ry, oldRy, ry);
       return true;
