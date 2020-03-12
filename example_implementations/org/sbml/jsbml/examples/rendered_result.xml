@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-03-10 at 08:34:12 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-03-12 at 10:46:56 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="Ring" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <layout:layout layout:id="_430acab5_0bae_44cf_8415_b07e6d4199a2" layout:name="auto_layout">
+      <layout:layout layout:id="e1069df8_de30_49ef_bb88_b0556fbd054e" layout:name="auto_layout">
         <render:listOfRenderInformation xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
-          <render:renderInformation render:id="_430acab5_0bae_44cf_8415_b07e6d4199a2_render">
+          <render:renderInformation render:id="e1069df8_de30_49ef_bb88_b0556fbd054e_render">
             <render:listOfColorDefinitions>
               <render:colorDefinition render:id="red" render:value="#FF0000FF"/>
               <render:colorDefinition render:id="black" render:value="#000000FF"/>
@@ -131,17 +131,17 @@
               <render:style id="TextGylphStyle" render:typeList="TEXTGLYPH">
                 <render:g render:font-family="monospace" render:font-size="10" render:text-anchor="middle" render:vtext-anchor="middle"/>
               </render:style>
-              <render:style id="styleOf_d84b18c2_fe5e_49b0_924d_5b5c4c4f3548" render:idList="d84b18c2_fe5e_49b0_924d_5b5c4c4f3548">
+              <render:style id="styleOf__2037b772_0ef1_4334_98ee_629bd396e558" render:idList="_2037b772_0ef1_4334_98ee_629bd396e558">
                 <render:g>
                   <render:rectangle render:fill="white" render:height="122.13106741667367" render:stroke="black" render:stroke-width="0.3" render:width="176.80753550602049" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
-              <render:style id="styleOf_a93291d3_de8d_4117_ab2a_6caf127b8929" render:idList="a93291d3_de8d_4117_ab2a_6caf127b8929">
+              <render:style id="styleOf__5438959f_e089_487e_b073_c737e83539a9" render:idList="_5438959f_e089_487e_b073_c737e83539a9">
                 <render:g>
                   <render:rectangle render:fill="white" render:height="122.13106741667367" render:stroke="black" render:stroke-width="0.3" render:width="255.1789024783502" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
-              <render:style id="styleOf__9846bc44_0509_4368_bd7c_4031064052f7" render:idList="_9846bc44_0509_4368_bd7c_4031064052f7">
+              <render:style id="styleOf__464c95a4_5a9e_44d1_9fe5_60813327e1fc" render:idList="_464c95a4_5a9e_44d1_9fe5_60813327e1fc">
                 <render:g>
                   <render:rectangle render:fill="white" render:height="112.40453183331931" render:stroke="black" render:stroke-width="0.3" render:width="50.000000000000014" render:x="0" render:y="0"/>
                 </render:g>
@@ -211,7 +211,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="fd2526c4_7ec8_4064_a80d_2ac0e2244108">
+              <render:style render:idList="efaddd9d_ef88_460c_9a9e_03c80f498a82">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -223,7 +223,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_2ff4d21e_a2a6_45f2_8a03_e162a336f6bd">
+              <render:style render:idList="_05343e4d_59b2_4c4f_a0c8_2fe8e6f3ba99">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -235,7 +235,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="efdf738c_ce0d_41dd_a2b1_7d712cc2dc54">
+              <render:style render:idList="cc686ebc_6c9a_48e4_97c7_45bb7f8c9b0e">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -247,7 +247,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_0f034861_e701_4734_b590_0cc135b5e897">
+              <render:style render:idList="ff8d6fd3_b267_43cc_bee4_d335524d1482">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -259,7 +259,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="f49a2c27_315f_44ff_85c1_098f89f9c609">
+              <render:style render:idList="be7749a0_3b98_461c_a675_0c021cfcec68">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -276,19 +276,19 @@
         </render:listOfRenderInformation>
         <layout:dimensions layout:depth="100" layout:height="800" layout:width="800"/>
         <layout:listOfCompartmentGlyphs>
-          <layout:compartmentGlyph layout:compartment="extracellular" layout:id="d84b18c2_fe5e_49b0_924d_5b5c4c4f3548">
+          <layout:compartmentGlyph layout:compartment="extracellular" layout:id="_2037b772_0ef1_4334_98ee_629bd396e558">
             <layout:boundingBox>
               <layout:position layout:x="395" layout:y="261.66666666666663" layout:z="-2"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="176.80753550602049"/>
             </layout:boundingBox>
           </layout:compartmentGlyph>
-          <layout:compartmentGlyph layout:compartment="cytosol" layout:id="a93291d3_de8d_4117_ab2a_6caf127b8929">
+          <layout:compartmentGlyph layout:compartment="cytosol" layout:id="_5438959f_e089_487e_b073_c737e83539a9">
             <layout:boundingBox>
               <layout:position layout:x="316.6286330276703" layout:y="436.20226591665966" layout:z="-3"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="255.1789024783502"/>
             </layout:boundingBox>
           </layout:compartmentGlyph>
-          <layout:compartmentGlyph layout:compartment="vesicle" layout:id="_9846bc44_0509_4368_bd7c_4031064052f7">
+          <layout:compartmentGlyph layout:compartment="vesicle" layout:id="_464c95a4_5a9e_44d1_9fe5_60813327e1fc">
             <layout:boundingBox>
               <layout:position layout:x="268.1924644939795" layout:y="353.79773408334034" layout:z="-1"/>
               <layout:dimensions layout:depth="1" layout:height="112.40453183331931" layout:width="50.000000000000014"/>
@@ -358,7 +358,7 @@
           </layout:speciesGlyph>
         </layout:listOfSpeciesGlyphs>
         <layout:listOfReactionGlyphs>
-          <layout:reactionGlyph layout:id="fd2526c4_7ec8_4064_a80d_2ac0e2244108" layout:reaction="R1">
+          <layout:reactionGlyph layout:id="efaddd9d_ef88_460c_9a9e_03c80f498a82" layout:reaction="R1">
             <layout:boundingBox>
               <layout:position layout:x="474.4360806896183" layout:y="317.24245248926627" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -410,7 +410,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="_2ff4d21e_a2a6_45f2_8a03_e162a336f6bd" layout:reaction="R2">
+          <layout:reactionGlyph layout:id="_05343e4d_59b2_4c4f_a0c8_2fe8e6f3ba99" layout:reaction="R2">
             <layout:boundingBox>
               <layout:position layout:x="450.14185839563527" layout:y="415.43273898766824" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -462,7 +462,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="efdf738c_ce0d_41dd_a2b1_7d712cc2dc54" layout:reaction="R3">
+          <layout:reactionGlyph layout:id="cc686ebc_6c9a_48e4_97c7_45bb7f8c9b0e" layout:reaction="R3">
             <layout:boundingBox>
               <layout:position layout:x="438.7908513947403" layout:y="410.20226585616547" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -538,7 +538,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="_0f034861_e701_4734_b590_0cc135b5e897" layout:reaction="R4">
+          <layout:reactionGlyph layout:id="ff8d6fd3_b267_43cc_bee4_d335524d1482" layout:reaction="R4">
             <layout:boundingBox>
               <layout:position layout:x="338.81194329538914" layout:y="459.9448844024854" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -602,7 +602,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="f49a2c27_315f_44ff_85c1_098f89f9c609" layout:reaction="EX1">
+          <layout:reactionGlyph layout:id="be7749a0_3b98_461c_a675_0c021cfcec68" layout:reaction="EX1">
             <layout:boundingBox>
               <layout:position layout:x="344.1898111697849" layout:y="404.29422478735734" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -644,73 +644,73 @@
           </layout:reactionGlyph>
         </layout:listOfReactionGlyphs>
         <layout:listOfTextGlyphs>
-          <layout:textGlyph layout:graphicalObject="d84b18c2_fe5e_49b0_924d_5b5c4c4f3548" layout:id="c9070857_dcf8_4ff0_bc4c_65fff37de762" layout:originOfText="extracellular">
+          <layout:textGlyph layout:graphicalObject="_2037b772_0ef1_4334_98ee_629bd396e558" layout:id="cdb8f3ab_c29f_42af_a89b_369a243227e2" layout:originOfText="extracellular">
             <layout:boundingBox>
               <layout:position layout:x="395" layout:y="261.66666666666663" layout:z="-2"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="176.80753550602049"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="a93291d3_de8d_4117_ab2a_6caf127b8929" layout:id="_98a7d4e2_6269_4500_9a7c_b5bc55ef2e99" layout:originOfText="cytosol">
+          <layout:textGlyph layout:graphicalObject="_5438959f_e089_487e_b073_c737e83539a9" layout:id="_28178a3b_c701_434a_ae74_01608549a3a5" layout:originOfText="cytosol">
             <layout:boundingBox>
               <layout:position layout:x="316.6286330276703" layout:y="436.20226591665966" layout:z="-3"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="255.1789024783502"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="_9846bc44_0509_4368_bd7c_4031064052f7" layout:id="_27214bda_e9a1_4b85_bc48_9895bff87a7d" layout:originOfText="vesicle">
+          <layout:textGlyph layout:graphicalObject="_464c95a4_5a9e_44d1_9fe5_60813327e1fc" layout:id="_1fda5840_58e9_4144_8ed6_2014237a974a" layout:originOfText="vesicle">
             <layout:boundingBox>
               <layout:position layout:x="268.1924644939795" layout:y="353.79773408334034" layout:z="-1"/>
               <layout:dimensions layout:depth="1" layout:height="112.40453183331931" layout:width="50.000000000000014"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="A_glyph_" layout:id="f39bc552_d25d_404d_bddc_cd9dac1cabe0" layout:originOfText="A">
+          <layout:textGlyph layout:graphicalObject="A_glyph_" layout:id="_4bfd0c84_9058_4c18_a56e_238cf7b5be11" layout:originOfText="A">
             <layout:boundingBox>
               <layout:position layout:x="400" layout:y="266.66666666666663" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="B_glyph_" layout:id="_686e7f74_184d_4831_a5ab_592cc0e33dc4" layout:originOfText="B">
+          <layout:textGlyph layout:graphicalObject="B_glyph_" layout:id="fb291ae2_bccd_4934_a1da_2b65da860e09" layout:originOfText="B">
             <layout:boundingBox>
               <layout:position layout:x="478.3713669723297" layout:y="292.13106741667366" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="C_glyph_" layout:id="_028be3bd_42bf_453a_837f_e17593e2402c" layout:originOfText="C">
+          <layout:textGlyph layout:graphicalObject="C_glyph_" layout:id="_89d6a406_6f35_4853_adb2_7caee0685418" layout:originOfText="C">
             <layout:boundingBox>
               <layout:position layout:x="526.8075355060205" layout:y="358.79773408334034" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="D_glyph_" layout:id="_7a4031c7_82c0_485d_80f6_426ebf86077e" layout:originOfText="D">
+          <layout:textGlyph layout:graphicalObject="D_glyph_" layout:id="_017a0c58_9539_4a76_afbe_79331bebebcf" layout:originOfText="D">
             <layout:boundingBox>
               <layout:position layout:x="526.8075355060205" layout:y="441.20226591665966" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="E_glyph_" layout:id="addbb8f6_1e1e_4094_903c_692368c8a41b" layout:originOfText="E">
+          <layout:textGlyph layout:graphicalObject="E_glyph_" layout:id="e5c60f66_e169_4e75_a508_ee6d06aaa309" layout:originOfText="E">
             <layout:boundingBox>
               <layout:position layout:x="478.3713669723297" layout:y="507.86893258332634" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="F_glyph_" layout:id="_4d9e74e7_4151_4b2b_ae1b_9e0da42e0941" layout:originOfText="F">
+          <layout:textGlyph layout:graphicalObject="F_glyph_" layout:id="_70f0b78d_68ed_4625_a6fe_80dad689451c" layout:originOfText="F">
             <layout:boundingBox>
               <layout:position layout:x="400" layout:y="533.3333333333334" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="G_glyph_" layout:id="df845e68_a63d_4ecc_a12c_e1a4d387a3cd" layout:originOfText="G">
+          <layout:textGlyph layout:graphicalObject="G_glyph_" layout:id="_1d6d675e_e03f_4505_b8c0_fd596beb264c" layout:originOfText="G">
             <layout:boundingBox>
               <layout:position layout:x="321.6286330276703" layout:y="507.86893258332634" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="H_glyph_" layout:id="_4956adb8_cb8c_4c1f_b225_65ebd1952191" layout:originOfText="H">
+          <layout:textGlyph layout:graphicalObject="H_glyph_" layout:id="c75a94c4_8e26_4b5e_a7fc_554756cfd764" layout:originOfText="H">
             <layout:boundingBox>
               <layout:position layout:x="273.1924644939795" layout:y="441.20226591665966" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="I_glyph_" layout:id="_95bbe5c8_6dad_4072_b19a_83d787d5d47c" layout:originOfText="I">
+          <layout:textGlyph layout:graphicalObject="I_glyph_" layout:id="cf2ce1e0_e051_4448_b9de_2109e397b7e3" layout:originOfText="I">
             <layout:boundingBox>
               <layout:position layout:x="273.1924644939795" layout:y="358.79773408334034" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>

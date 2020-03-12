@@ -3,12 +3,9 @@
 	xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" 
 	level="3" version="1" layout:required="false" >
 	
-	<!-- This example-file is based on the complete layout-example given in the SBML-layout-specification for layout v1-release1:
-		 In addition to the Hexokinase-reaction from that file, this file contains examples of all SBGN-elements supported by the 
-		 org.sbml.jsbml.ext.render.director-classes.
-		 Some of the layout-decisions (such as the overcomplicated curve from NDPK to the denaturation-reaction-node or the rotation of 
-		 the ribosome-reaction-node) are made specifically to test/showcase implementation-features.
-		 The textglyphs are not fully laid out! -->
+	<!-- This example-file contains an entirely fictional system of reactions/species, which lacks layout-information. 
+		 It serves solely to demonstrate the RingLayoutAlgorithm's layout-abilities, and to produce a rendered result. 
+		 Author: David Emanuel Vetter -->
 	<model id="Ring" timeUnits="time">
 	  <listOfUnitDefinitions>
 		<unitDefinition id="volume">

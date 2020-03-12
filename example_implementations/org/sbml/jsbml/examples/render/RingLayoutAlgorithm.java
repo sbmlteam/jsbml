@@ -33,7 +33,7 @@ import org.sbml.jsbml.ext.render.director.Geometry;
  * To understand them in detail, draw out any geometric arrangements which are
  * implemented here. Basic trigonometry and linear algebra should suffice.
  * 
- * @author DavidVetter
+ * @author David Emanuel Vetter
  */
 public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
 
@@ -74,11 +74,6 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
   /** Collect the unlaid-out SRGs for each reactionGlyph (id) */
   private HashMap<String, List<SpeciesReferenceGlyph>> unlaidoutSpeciesReferenceGlyphs;
   
-  /**
-   * 
-   * @param width the width of the surrounding layout
-   * @param height the height of the surrounding layout
-   */
   public RingLayoutAlgorithm() {
     /**
      *  This implementation will draw a ring for all the unlaid-out glyphs, while
@@ -167,11 +162,13 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
 
   @Override
   public Set<GraphicalObject> completeGlyphs() {
-    // Main method: Side effects are main purpose.
+    /** Main method: Side effects are main purpose. */
     
-    // Note: LayoutDirector will only set SBO-terms/roles AFTER this has been
-    // called, thus, have to retrieve SBO/role robustly (for
-    // SpeciesReferenceGlyphs)
+    /**
+     * Note: LayoutDirector will only set SBO-terms/roles AFTER this has been
+     * called, thus, have to retrieve SBO/role robustly (for
+     * SpeciesReferenceGlyphs)
+     */
     if(!getLayout().isSetDimensions()) {
       getLayout().setDimensions(createLayoutDimension());
     }
@@ -180,8 +177,10 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
     double totalHeight = getLayout().getDimensions().getHeight();
     
     interspeciesRadians = 2d * Math.PI / speciesCount;
-    // Circumference linear in number of species. Arbitrary (and not
-    // particularly robust) formula used here
+    /**
+     *  Circumference is linear in number of species. Arbitrary (and not
+     *  particularly robust) formula used here
+     */
     ringRadius = Math.min(totalWidth, totalHeight) * speciesCount / 60d;  
     
     /**
@@ -227,13 +226,22 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
     double from = (Math.PI / 2d) - (startIndex * interspeciesRadians);
     double to = (Math.PI / 2d) - (endIndex * interspeciesRadians);
     
+    /**
+     * Since we are working in a ring, the startIndex and endIndex may specify a
+     * circle-arc passing through the right-/left-/top-/bottom-most point of the
+     * ring (e.g. start may be 12 o'clock, end may be 8 o'clock -- then, the
+     * Compartment should include both 3 o'clock and 6 o'clock, which is
+     * implemented by min/maxX/Y and the interval-checks here
+     */
     double minX = Math.min(Math.cos(from), Math.cos(to));
     double maxX = Math.max(Math.cos(from), Math.cos(to));
     double minY = Math.min(-Math.sin(from), -Math.sin(to));
     double maxY = Math.max(-Math.sin(from), -Math.sin(to));
     
-    // due to the way the angles are defined (90° - i*interspeciesRadians), 'from'
-    // is numerically larger than 'to'
+    /**
+     *  due to the way the angles are defined (90° - i*interspeciesRadians), 'from'
+     *  is numerically larger than 'to'
+     */
     if(to <= Math.PI / 2d && Math.PI / 2d <= from)
       minY = -1d;
     if(to <= 0 && 0 <= from)
@@ -343,8 +351,9 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
       }
       
       /**
-       *  Note that the endIndex is actually one too large and would, if
-       *  uncorrected, lead to overlapping compartments
+       * Note that the endIndex is actually one too large and would, if
+       * uncorrected, lead to overlapping compartments (in terms of Species
+       * contained)
        */
       compartmentEnd--;
       
@@ -361,7 +370,8 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
   /**
    * Helper-method of {@link RingLayoutAlgorithm#completeGlyphs()}, to structure
    * the code. Places reactionGlyphs in between their substrates/products
-   * (except for exchange-reactions, which are to be placed outside the circle),
+   * (except for exchange-reactions, which are to be placed outside the
+   * circle&#185;),
    * and lays out speciesReferenceGlyphs. <br>
    * The method has two semantic parts:
    * <ol>
@@ -371,6 +381,9 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
    * </ol>
    * Requires, that all {@link SpeciesGlyph}s be laid out already (i.e. call
    * after {@link RingLayoutAlgorithm#layoutSpeciesAndCompartments})
+   * <br>
+   * &#185<i>Note that the GlyphCreator will take care of exchange reactions by
+   * adding source/sink-nodes, which is generally recommendable</i>
    * 
    * @param totalWidth
    *        of the layout
@@ -470,10 +483,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
         centerOfSRGs.getY() - REACTION_GLYPH_SIZE / 2d, 0);
 
       
-      // TODO: might add nonlinearity
       
-      
-     
       /**
        * The center of substrate and product-port might not yet be the center of
        * the reactionGlyph: Shift it (parallel)
@@ -564,7 +574,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
         Curve curve = srg.createCurve();
         CubicBezier connection = new CubicBezier(layout.getLevel(), layout.getVersion());
         
-        /** Specifies the ,force' with which the CubicBezier leaves the reactionGlyph */
+        /** Specifies the 'force' with which the CubicBezier leaves the reactionGlyph */
         double force = 1.3d;
         
         Point basePoint1, basePoint2, start, end;
@@ -592,7 +602,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
            * If the SpeciesGlyph is closer to the wrong port (which may happen
            * by chance), the layout hitherto may force the arc through the
            * reactionGlyph itself (ambiguous). To avoid this, check for the
-           * direction, in which the speciesGlyph is found, and potentially add
+           * direction in which the speciesGlyph is found, and potentially add
            * an orthogonal component to the basepoint (to try to redirect the
            * arc around the reactionGlyph)
            */
@@ -609,7 +619,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
           start = speciesPort;
           end = closest(orthoPort1, orthoPort2, speciesPort);
           basePoint1 = speciesControlPoint;
-          // Modifiers etc use twice the force
+          /** Arbitrarily, Modifiers etc use twice the force */
           basePoint2 =
             Geometry.weightedSum(1 + 2*force, end, -2*force, centerOfSRGs);
         }      
@@ -683,6 +693,7 @@ public class RingLayoutAlgorithm extends SimpleLayoutAlgorithm {
       return super.calculateReactionGlyphRotationAngle(reactionGlyph);
     }
   }
+  
   
   /**
    * Unused methods:
