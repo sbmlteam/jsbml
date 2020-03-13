@@ -28,6 +28,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 public class LinearGradient extends GradientBase {

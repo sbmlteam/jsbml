@@ -64,12 +64,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
    */
   @Deprecated
   private GlobalRenderInformation renderInformation; 
-  // TODO - one or a ListOf GlobalRenderInformation?
-  // TODO: actually: none; RenderLayoutPlugin holds the
-  // ListOfLocalRenderInformation and RenderListOfLayoutsPlugin holds the
-  // ListOfGlobalRenderInformation (cf Render Spec pages 14/15)
-
-
+  
   /**
    * Creates an AbstractRenderPlugin instance
    * 
@@ -98,7 +93,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   public AbstractRenderPlugin(AbstractRenderPlugin obj) {
     super(obj);
 
-    // TODO: remove this already? Definitely remove when removing the deprecated
+    // TODO 2020/02: remove this already? Definitely remove when removing the deprecated
     // methods!
     if (obj.isSetRenderInformation()) {
       setRenderInformation(obj.getRenderInformation().clone());
@@ -194,7 +189,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    return false; // TODO - implement
+    return false;
   }
 
   /* (non-Javadoc)
@@ -203,7 +198,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public TreeNode getChildAt(int childIndex) {
-    return null; // TODO - implement
+    return null; // TODO 2015/04: implement
   }
 
   /* (non-Javadoc)
@@ -212,7 +207,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public int getChildCount() {
-    return 0; // TODO - implement
+    return 0; // TODO 2015/04: implement
   }
 
   /* (non-Javadoc)
@@ -221,7 +216,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public boolean getAllowsChildren() {
-    return false; // TODO - implement
+    return false; // TODO 2015/04: implement
   }
 
   /* (non-Javadoc)
@@ -230,7 +225,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
   // @Override
   @Override
   public Map<String, String> writeXMLAttributes() {
-    return null; // TODO - implement
+    return null; // TODO 2015/04: implement
   }
 
 }

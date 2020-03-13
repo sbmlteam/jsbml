@@ -46,6 +46,7 @@ public class EllipseTest {
   @Test
   public void testEvents() {
     Ellipse ellipse = new Ellipse();
+    new RelAbsVector("50-30%");
     ellipse.setCx(new RelAbsVector("50-30%"));
     StringBuffer change = new StringBuffer();
     String ARROW = " -> ";
@@ -65,12 +66,18 @@ public class EllipseTest {
     ellipse.addTreeNodeChangeListener(listener);
     // Initially: nothing changed
     assertEquals("", change.toString());
+    
+    // This trivially should produce a property-change-event
     ellipse.setCx(new RelAbsVector("70-30%"));
     String expected = new RelAbsVector("50-30%") + ARROW + new RelAbsVector("70-30%");
     assertEquals(expected, change.toString());
+    
+    // This will fly under the radar
     ellipse.getCx().setAbsoluteValue(10d);
-    expected = new RelAbsVector("70-30%") + ARROW + new RelAbsVector("10-30%");
+    
+    // I.e. No change-event was registered!
     assertEquals(expected, change.toString());
+    
   }
   
   

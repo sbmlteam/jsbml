@@ -1,6 +1,27 @@
+/*
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2018 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
 package org.sbml.jsbml.ext.render;
 
-import org.sbml.jsbml.AbstractSBase;
+import javax.swing.tree.TreeNode;
+
+import org.sbml.jsbml.AbstractTreeNode;
 
 /**
  * Implements the RelAbsVector-datatype defined in the render-specification:
@@ -12,7 +33,7 @@ import org.sbml.jsbml.AbstractSBase;
  * 
  * @author DavidVetter
  */
-public class RelAbsVector extends AbstractSBase {
+public class RelAbsVector extends AbstractTreeNode {
 
   private static final long serialVersionUID = 7621009594700491178L;
   
@@ -24,7 +45,6 @@ public class RelAbsVector extends AbstractSBase {
   
   public RelAbsVector() {
     super();
-    initDefaults();
   }
   
   /**
@@ -33,8 +53,8 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(RelAbsVector original) {
     super(original);
-    absolute = original.getAbsoluteValue();
-    relative = original.getRelativeValue();
+    absolute = original.absolute;
+    relative = original.relative;
   }
   
   /**
@@ -43,7 +63,6 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(double absolute) {
     super();
-    initDefaults();
     this.absolute = absolute;
   }
   
@@ -59,7 +78,6 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(double absolute, double relative) {
     super();
-    initDefaults();
     this.absolute = absolute;
     this.relative = relative;
   }
@@ -75,16 +93,7 @@ public class RelAbsVector extends AbstractSBase {
    */
   public RelAbsVector(String coordinate) {
     super();
-    initDefaults();
     setCoordinate(coordinate);
-  }
-  
-  /**
-   * Initializes the default values using the namespace.
-   */
-  public void initDefaults() {
-    setPackageVersion(-1);
-    packageName = RenderConstants.shortLabel;
   }
   
   /* (non-Javadoc)
@@ -268,7 +277,8 @@ public class RelAbsVector extends AbstractSBase {
       result.append(getAbsoluteValue());
     }
     if(isSetRelativeValue() && getRelativeValue() != 0) {
-      if(getRelativeValue() > 0)
+      // Only, if there is a preceding absolute value is the '+' needed
+      if(getRelativeValue() > 0 && isSetAbsoluteValue())
         result.append("+");
       result.append(getRelativeValue());
       result.append("%");
@@ -299,5 +309,20 @@ public class RelAbsVector extends AbstractSBase {
     result = prime * result + ((absolute == null) ? 0 : absolute.hashCode());
     result = prime * result + ((relative == null) ? 0 : relative.hashCode());
     return result;
+  }
+
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    return null;
+  }
+
+  @Override
+  public int getChildCount() {
+    return 0;
+  }
+
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
   }
 }

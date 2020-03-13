@@ -32,6 +32,7 @@ import org.sbml.jsbml.SBase;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 public class GradientStop extends AbstractSBase {
@@ -64,7 +65,17 @@ public class GradientStop extends AbstractSBase {
     this.offset = offset;
     this.stopColor = stopColor;
   }
-  // TODO: add Constructor(double absolute, String stopColor)?
+  
+  /**
+   * Convenience-constructor: As by the specification, the offset ought to be purely relative-valued 
+   * (i.e.e.g. 25d for 25%), the absolute part of the RelAbsVector is to be ignored anyways.
+   * 
+   * @param offset
+   * @param stopColor
+   */
+  public GradientStop(double offset, String stopColor) {
+    this(new RelAbsVector(0, offset), stopColor);
+  }
 
   /**
    * Creates a GradientStop instance with an offset, color, level, and version.
