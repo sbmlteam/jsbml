@@ -146,7 +146,8 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
 
         @Override
         public boolean check(ValidationContext ctx, LayoutModelPlugin layoutMP) {
-          
+          // TODO 2020/03: this will return true (i.e. 'constraint not broken'),
+          // if the list is set and empty
           return layoutMP.isSetListOfLayouts() && layoutMP.getListOfLayouts().size() == 0; 
         }
       };
