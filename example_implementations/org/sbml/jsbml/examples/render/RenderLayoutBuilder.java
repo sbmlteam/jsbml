@@ -88,9 +88,19 @@ public class RenderLayoutBuilder
 
   private LocalRenderInformation product;
   private Layout                 layout;
+  
+  /** Ids for the various Color-definitions */
   private static String          STROKE    = "black";
   private static String          HIGHLIGHT = "red";
   private static String          FILL      = "white";
+  private static String COMPARTMENT_FILL   = "compartmentFill";
+  private static String COMPARTMENT_STROKE = "compartmentStroke";
+  private static String          GENE_FILL = "geneFill";
+  private static String MACROMOLECULE_FILL = "macromoleculeFill";
+  private static String SIMPLE_CHEMICAL_FILL = "simpleChemicalFill";
+  private static String SOURCE_SINK_FILL   = "sourceSinkFill";
+  private static String PERTURBING_AGENT_FILL = "perturbingAgentFill";
+  
   private double arrowScale = 6;
   
   public static final String          STYLE_CATALYSIS              =
@@ -134,6 +144,25 @@ public class RenderLayoutBuilder
     product.addColorDefinition(new ColorDefinition(HIGHLIGHT, Color.RED));
     product.addColorDefinition(new ColorDefinition(STROKE, Color.BLACK));
     product.addColorDefinition(new ColorDefinition(FILL, Color.WHITE));
+    
+    /**
+     * Fill colors for different SBGN-glyphs: Compare
+     * github.com/draeger-lab/SysBio/blob/master/src/de/zbit/graph/io/def/SBGNVisualizationProperties.java
+     */
+    product.addColorDefinition(
+      new ColorDefinition(COMPARTMENT_FILL, new Color(243, 243, 191)));
+    product.addColorDefinition(
+      new ColorDefinition(COMPARTMENT_STROKE, new Color(204, 204, 0)));
+    product.addColorDefinition(
+      new ColorDefinition(GENE_FILL, new Color(255, 255, 0)));
+    product.addColorDefinition(
+      new ColorDefinition(MACROMOLECULE_FILL, new Color(0, 205, 0)));
+    product.addColorDefinition(
+      new ColorDefinition(SIMPLE_CHEMICAL_FILL, new Color(176, 226, 255)));
+    product.addColorDefinition(
+      new ColorDefinition(SOURCE_SINK_FILL, new Color(255, 204, 204)));
+    product.addColorDefinition(
+      new ColorDefinition(PERTURBING_AGENT_FILL, new Color(255, 0, 255)));
     
     buildLineEndings();
     
@@ -275,7 +304,7 @@ public class RenderLayoutBuilder
 
   @Override
   public Compartment<LocalStyle> createCompartment() {
-    return new RenderCompartment(0.3, STROKE, FILL);
+    return new RenderCompartment(0.3, COMPARTMENT_STROKE, COMPARTMENT_FILL);
   }
 
   @Override
@@ -285,12 +314,12 @@ public class RenderLayoutBuilder
 
   @Override
   public Macromolecule<LocalStyle> createMacromolecule() {
-    return new RenderMacromolecule(1, STROKE, FILL, HIGHLIGHT, 4);
+    return new RenderMacromolecule(1, STROKE, MACROMOLECULE_FILL, HIGHLIGHT, 4);
   }
 
   @Override
   public NucleicAcidFeature<LocalStyle> createNucleicAcidFeature() {
-    return new RenderNucleicAcidFeature(1, STROKE, FILL, HIGHLIGHT, 4);
+    return new RenderNucleicAcidFeature(1, STROKE, GENE_FILL, HIGHLIGHT, 4);
   }
 
   @Override
@@ -300,7 +329,7 @@ public class RenderLayoutBuilder
 
   @Override
   public PerturbingAgent<LocalStyle> createPerturbingAgent() {
-    return new RenderPerturbingAgent(1, STROKE, FILL, HIGHLIGHT);
+    return new RenderPerturbingAgent(1, STROKE, PERTURBING_AGENT_FILL, HIGHLIGHT);
   }
 
   @Override
@@ -310,12 +339,12 @@ public class RenderLayoutBuilder
 
   @Override
   public SimpleChemical<LocalStyle> createSimpleChemical() {
-    return new RenderSimpleChemical(1, STROKE, FILL, HIGHLIGHT);
+    return new RenderSimpleChemical(1, STROKE, SIMPLE_CHEMICAL_FILL, HIGHLIGHT);
   }
 
   @Override
   public SourceSink<LocalStyle> createSourceSink() {
-    return new RenderSourceSink(1, STROKE, FILL);
+    return new RenderSourceSink(1, STROKE, SOURCE_SINK_FILL);
   }
 
   @Override
