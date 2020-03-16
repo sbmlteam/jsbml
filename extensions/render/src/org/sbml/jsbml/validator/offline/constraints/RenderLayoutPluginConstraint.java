@@ -21,6 +21,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.render.ListOfLocalRenderInformation;
 import org.sbml.jsbml.ext.render.RenderConstants;
@@ -28,14 +29,16 @@ import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
+import org.sbml.jsbml.xml.XMLNode;
 
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the
- * {@link RenderLayoutPluginConstraint} class.
+ * {@link RenderLayoutPlugin} class.
  * 
  * @author David Emanuel Vetter
  */
@@ -113,19 +116,82 @@ public class RenderLayoutPluginConstraint extends AbstractConstraintDeclaration 
       };
       break;
       
+    // Core attributes on ListOfLocalRenderInformation
     case RENDER_20304:
       func = new ValidationFunction<RenderLayoutPlugin>() {
 
         @Override
         public boolean check(ValidationContext ctx, RenderLayoutPlugin rlp) {
           if(rlp.isSetListOfLocalRenderInformation()) {
-            return new UnknownAttributeValidationFunction<ListOfLocalRenderInformation>().check(
+            return new UnknownCoreAttributeValidationFunction<ListOfLocalRenderInformation>().check(
               ctx, rlp.getListOfLocalRenderInformation());
           }
           return true;
         }
       };
       break;
+      
+    // Package attributes on ListOfLocalRenderInformation
+    case RENDER_20305:
+      func = new ValidationFunction<RenderLayoutPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, RenderLayoutPlugin rlp) {
+          if(rlp.isSetListOfLocalRenderInformation()) {
+            return new UnknownPackageAttributeValidationFunction<ListOfLocalRenderInformation>(
+              RenderConstants.shortLabel).check(ctx,
+                rlp.getListOfLocalRenderInformation());
+          }
+          return true;
+        }
+      };
+      break;
+      
+    case RENDER_20306:
+      func=new ValidationFunction<RenderLayoutPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, RenderLayoutPlugin rlp) {
+
+          if (rlp.isSetListOfLocalRenderInformation()) {
+            ListOfLocalRenderInformation lris = rlp.getListOfLocalRenderInformation();
+            // a) Check that versionMajor is nonnegative, if it is a correct number
+            if (lris.isSetVersionMajor()) {
+              return lris.getVersionMajor() >= 0;
+            } else if (lris.getUserObject(JSBML.UNKNOWN_XML) != null) {
+              XMLNode unknown = (XMLNode) lris.getUserObject(JSBML.UNKNOWN_XML);
+              // If the versionMajor is found in the unknown-object: There was a
+              // numberformat-exception, and the file is invalid (return false);
+              // If it isn't, the index will be -1 and the file is not invalid
+              return unknown.getAttrIndex(RenderConstants.versionMajor) == -1;
+            }
+          }
+                    
+          return true;
+        }
+      };
+      break;
+      
+    case RENDER_20307:
+      func=new ValidationFunction<RenderLayoutPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, RenderLayoutPlugin rlp) {
+
+          if (rlp.isSetListOfLocalRenderInformation()) {
+            ListOfLocalRenderInformation lris = rlp.getListOfLocalRenderInformation();
+            if (lris.isSetVersionMinor()) {
+              return lris.getVersionMinor() >= 0;
+            } else if (lris.getUserObject(JSBML.UNKNOWN_XML) != null) {
+              XMLNode unknown = (XMLNode) lris.getUserObject(JSBML.UNKNOWN_XML);
+              return unknown.getAttrIndex(RenderConstants.versionMinor) == -1;
+            }
+          }
+                    
+          return true;
+        }
+      };
+      break;    
     }
     
     return func;
