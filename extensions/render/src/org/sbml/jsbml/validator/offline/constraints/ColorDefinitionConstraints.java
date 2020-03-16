@@ -30,7 +30,8 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementVal
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
 /**
- * Defines validation rules (as {@link ValidationFunction} instances) for the {@link ColorDefinition} class.
+ * Defines validation rules (as {@link ValidationFunction} instances) for the
+ * {@link ColorDefinition} class.
  * 
  * @author David Emanuel Vetter
  */

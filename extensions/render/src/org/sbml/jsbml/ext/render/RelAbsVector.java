@@ -178,6 +178,7 @@ public class RelAbsVector extends AbstractTreeNode {
    * @return whether the absolute value is set to a number
    */
   public boolean isSetAbsoluteValue() {
+    // Note: second check is relied upon by Validator (e.g. EllipseConstraint)!
     return absolute != null && !absolute.isNaN();
   }
   
@@ -185,6 +186,7 @@ public class RelAbsVector extends AbstractTreeNode {
    * @return whether the relative value is set to a number
    */
   public boolean isSetRelativeValue() {
+    // Note: second check is relied upon by Validator (e.g. EllipseConstraint)!
     return relative != null && !relative.isNaN();
   }
   
