@@ -42,7 +42,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * 
  * @author David Emanuel Vetter
  */
-public class RenderLayoutPluginConstraint extends AbstractConstraintDeclaration {
+public class RenderLayoutPluginConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,

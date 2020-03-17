@@ -42,7 +42,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * 
  * @author David Emanuel Vetter
  */
-public class RenderListOfLayoutsPluginConstraint
+public class RenderListOfLayoutsPluginConstraints
   extends AbstractConstraintDeclaration {
 
   @Override

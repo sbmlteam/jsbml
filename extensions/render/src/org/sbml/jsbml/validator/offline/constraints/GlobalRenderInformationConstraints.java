@@ -40,7 +40,7 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElement
  * 
  * @author David Emanuel Vetter
  */
-public class GlobalRenderInformationConstraint
+public class GlobalRenderInformationConstraints
   extends AbstractConstraintDeclaration {
 
   @Override

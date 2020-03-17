@@ -33,7 +33,7 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementVal
  * 
  * @author David Emanuel Vetter
  */
-public class GlobalStyleConstraint extends AbstractConstraintDeclaration {
+public class StyleConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,

@@ -38,7 +38,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * 
  * @author David Emanuel Vetter
  */
-public class GradientBaseConstraint extends AbstractConstraintDeclaration {
+public class GradientBaseConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
