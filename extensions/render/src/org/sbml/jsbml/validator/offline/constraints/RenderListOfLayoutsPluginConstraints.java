@@ -21,7 +21,6 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.render.ListOfGlobalRenderInformation;
@@ -30,11 +29,11 @@ import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
-import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the
@@ -154,9 +153,9 @@ public class RenderListOfLayoutsPluginConstraints
             ListOfGlobalRenderInformation gris = rlp.getListOfGlobalRenderInformation();
             if (gris.isSetVersionMajor()) {
               return gris.getVersionMajor() >= 0;
-            } else if (gris.getUserObject(JSBML.UNKNOWN_XML) != null) {
-              XMLNode unknown = (XMLNode) gris.getUserObject(JSBML.UNKNOWN_XML);
-              return unknown.getAttrIndex(RenderConstants.versionMajor) == -1;
+            } else {
+              return new InvalidAttributeValidationFunction<ListOfGlobalRenderInformation>(
+                  RenderConstants.versionMajor).check(ctx, gris); 
             }
           }
                     
@@ -175,9 +174,9 @@ public class RenderListOfLayoutsPluginConstraints
             ListOfGlobalRenderInformation gris = rlp.getListOfGlobalRenderInformation();
             if (gris.isSetVersionMinor()) {
               return gris.getVersionMinor() >= 0;
-            } else if (gris.getUserObject(JSBML.UNKNOWN_XML) != null) {
-              XMLNode unknown = (XMLNode) gris.getUserObject(JSBML.UNKNOWN_XML);
-              return unknown.getAttrIndex(RenderConstants.versionMinor) == -1;
+            } else {
+              return new InvalidAttributeValidationFunction<ListOfGlobalRenderInformation>(
+                  RenderConstants.versionMinor).check(ctx, gris); 
             }
           }
                     

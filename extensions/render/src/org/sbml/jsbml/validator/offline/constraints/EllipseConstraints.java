@@ -21,15 +21,14 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
-import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the
@@ -111,17 +110,8 @@ public class EllipseConstraints extends AbstractConstraintDeclaration {
       };
       break;
     case RENDER_20607:
-      func = new ValidationFunction<Ellipse>() {
-        @Override
-        public boolean check(ValidationContext ctx, Ellipse ellipse) {
-          if(ellipse.getUserObject(JSBML.UNKNOWN_XML) != null) {
-            XMLNode unknown = (XMLNode) ellipse.getUserObject(JSBML.UNKNOWN_XML);
-            return unknown.getAttrIndex(RenderConstants.ratio) == -1;
-            // != -1 means that ratio was not in a Number-format (invalid)
-          }
-          return true; // ratio may be infinite
-        }
-      };
+      func =
+        new InvalidAttributeValidationFunction<Ellipse>(RenderConstants.ratio);
       break;
     case RENDER_20608:
       func = new ValidationFunction<Ellipse>() {

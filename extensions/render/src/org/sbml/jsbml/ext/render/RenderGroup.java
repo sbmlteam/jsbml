@@ -1088,10 +1088,24 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         setFontSize(Short.valueOf(value));
       }
       else if (attributeName.equals(RenderConstants.fontWeightBold)) {
-        setFontWeightBold(XMLTools.parseFontWeightBold(value));
+        if (value.toLowerCase().equals(RenderConstants.fontWeightBoldFalse)
+          || value.toLowerCase().equals(RenderConstants.fontWeightBoldTrue)) {
+          setFontWeightBold(XMLTools.parseFontWeightBold(value));
+        } else {
+          throw new SBMLException(
+            "Could not recognized the value '" + value + "' for the attribute "
+              + RenderConstants.fontWeightBold + " on the 'g' element.");
+        }
       }
       else if (attributeName.equals(RenderConstants.fontStyleItalic)) {
-        setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
+        if (value.toLowerCase().equals(RenderConstants.fontStyleItalicFalse)
+          || value.toLowerCase().equals(RenderConstants.fontStyleItalicTrue)) {
+          setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
+        } else {
+          throw new SBMLException(
+            "Could not recognized the value '" + value + "' for the attribute "
+              + RenderConstants.fontStyleItalic + " on the 'g' element.");
+        }
       }
       else if (attributeName.equals(RenderConstants.textAnchor)) {
         try {

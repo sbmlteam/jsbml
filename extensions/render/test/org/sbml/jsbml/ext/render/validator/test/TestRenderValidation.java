@@ -28,7 +28,6 @@ public class TestRenderValidation {
         error.getCode() + (("" + error.getCode()).startsWith("13")
           ? (": " + error.getMessage() + "\n") : "")); // Do assertions here
     }
-      
     
     fail("Not yet implemented");
   }

@@ -21,31 +21,29 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.JSBML;
-import org.sbml.jsbml.ext.render.GradientBase;
+import org.sbml.jsbml.ext.render.GradientStop;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
-import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the
- * {@link GradientBase} class.
+ * {@link GradientStop} class.
  * 
  * @author David Emanuel Vetter
  */
-public class GradientBaseConstraints extends AbstractConstraintDeclaration {
+public class GradientStopConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category, ValidationContext context) {
     switch(category) {
     case GENERAL_CONSISTENCY:
-      addRangeToSet(set, RENDER_20901, RENDER_20906);
+      addRangeToSet(set, RENDER_21001, RENDER_21005);
+      // TODO 2020/03: there are two more constraints, but they are soft
       break;
     default:
       break;
@@ -63,54 +61,38 @@ public class GradientBaseConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<GradientBase> func = null;
+    ValidationFunction<GradientStop> func = null;
     switch(errorCode) {
-    case RENDER_20901:
-      func = new UnknownCoreAttributeValidationFunction<GradientBase>();
+    case RENDER_21001:
+      func = new UnknownCoreAttributeValidationFunction<GradientStop>();
       break;
-    case RENDER_20902:
-      func = new UnknownCoreElementValidationFunction<GradientBase>();
+    case RENDER_21002:
+      func = new UnknownCoreElementValidationFunction<GradientStop>();
       break;
-    case RENDER_20903:
-      func = new UnknownPackageAttributeValidationFunction<GradientBase>(RenderConstants.shortLabel) {
+    case RENDER_21003:
+      func = new UnknownPackageAttributeValidationFunction<GradientStop>(RenderConstants.shortLabel) {
         @Override
-        public boolean check(ValidationContext ctx, GradientBase base) {
-          return super.check(ctx, base) && base.isSetId();
+        public boolean check(ValidationContext ctx, GradientStop stop) {
+          return super.check(ctx, stop) && stop.isSetStopColor() && stop.isSetOffset();
         }
       };
       break;
-    case RENDER_20904:
-      func = new UnknownPackageElementValidationFunction<GradientBase>(RenderConstants.shortLabel) {
+    case RENDER_21004:
+      func = new ValidationFunction<GradientStop>() {
         @Override
-        public boolean check(ValidationContext ctx, GradientBase base) {
-          boolean hasGradientStops = base.isSetListOfGradientStops()
-            && !base.getListOfGradientStops().isEmpty();
-          return hasGradientStops && super.check(ctx, base);
-        }
-      };
-      break;
-    case RENDER_20905:
-      func = new ValidationFunction<GradientBase>() {
-        @Override
-        public boolean check(ValidationContext ctx, GradientBase t) {
-          // Optional 'name' is a String: nothing to check.
+        public boolean check(ValidationContext ctx, GradientStop t) {
+          // Any string ok.
           return true;
         }
       };
       break;
-    case RENDER_20906:
-      func = new ValidationFunction<GradientBase>() {
-
+    case RENDER_21005:
+      func = new ValidationFunction<GradientStop>() {
         @Override
-        public boolean check(ValidationContext ctx, GradientBase base) {
-          if(base.getUserObject(JSBML.UNKNOWN_XML) != null) {
-            XMLNode unknown = (XMLNode) base.getUserObject(JSBML.UNKNOWN_XML);
-            return unknown.getAttrIndex(RenderConstants.spreadMethod) == -1;
-            // TODO 2020/03: does this work? it should
-          }
-          return true;
+        public boolean check(ValidationContext ctx, GradientStop stop) {
+          return stop.isSetOffset() && (stop.getOffset().isSetAbsoluteValue()
+            || stop.getOffset().isSetRelativeValue());
         }
-        
       };
       break;
     }
