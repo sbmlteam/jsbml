@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<!-- Created by Render-example version 1 on 2020-03-13 at 09:52:23 MEZ with JSBML version 1.5-SNAPSHOT. -->
+<!-- Created by Render-example version 1 on 2020-03-17 at 11:03:45 MEZ with JSBML version 1.5-SNAPSHOT. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" layout:required="false" level="3" render:required="false" version="1" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
   <model id="Ring" timeUnits="time">
     <layout:listOfLayouts xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <layout:layout layout:id="_350d07b1_2736_4748_9871_bc244b7b2000" layout:name="auto_layout">
+      <layout:layout layout:id="e4443365_0f29_4c83_a8a8_cd6a490fec81" layout:name="auto_layout">
         <render:listOfRenderInformation xmlns:render="http://www.sbml.org/sbml/level3/version1/render/version1">
-          <render:renderInformation render:id="_350d07b1_2736_4748_9871_bc244b7b2000_render">
+          <render:renderInformation render:id="e4443365_0f29_4c83_a8a8_cd6a490fec81_render">
             <render:listOfColorDefinitions>
               <render:colorDefinition render:id="red" render:value="#FF0000FF"/>
               <render:colorDefinition render:id="black" render:value="#000000FF"/>
@@ -138,17 +138,17 @@
               <render:style id="TextGylphStyle" render:typeList="TEXTGLYPH">
                 <render:g render:font-family="monospace" render:font-size="10" render:text-anchor="middle" render:vtext-anchor="middle"/>
               </render:style>
-              <render:style id="styleOf__92316df2_d22b_4b44_af26_74c082559170" render:idList="_92316df2_d22b_4b44_af26_74c082559170">
+              <render:style id="styleOf__6bee86a4_ee78_488c_9a2a_ad8f4f7c9195" render:idList="_6bee86a4_ee78_488c_9a2a_ad8f4f7c9195">
                 <render:g>
                   <render:rectangle render:fill="compartmentFill" render:height="122.13106741667367" render:stroke="compartmentStroke" render:stroke-width="0.3" render:width="176.80753550602049" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
-              <render:style id="styleOf__10a4c427_0db0_4b50_885b_61e256a5da58" render:idList="_10a4c427_0db0_4b50_885b_61e256a5da58">
+              <render:style id="styleOf__941e5043_8eda_464d_9fd9_4a49dd1fe7d7" render:idList="_941e5043_8eda_464d_9fd9_4a49dd1fe7d7">
                 <render:g>
                   <render:rectangle render:fill="compartmentFill" render:height="122.13106741667367" render:stroke="compartmentStroke" render:stroke-width="0.3" render:width="255.1789024783502" render:x="0" render:y="0"/>
                 </render:g>
               </render:style>
-              <render:style id="styleOf__44634e92_9ba8_4b4b_86a8_b866ab4ca27e" render:idList="_44634e92_9ba8_4b4b_86a8_b866ab4ca27e">
+              <render:style id="styleOf__02bdf2cc_18ca_475f_99cf_d6f11d38d716" render:idList="_02bdf2cc_18ca_475f_99cf_d6f11d38d716">
                 <render:g>
                   <render:rectangle render:fill="compartmentFill" render:height="112.40453183331931" render:stroke="compartmentStroke" render:stroke-width="0.3" render:width="50.000000000000014" render:x="0" render:y="0"/>
                 </render:g>
@@ -161,14 +161,14 @@
               </render:style>
               <render:style id="styleOf_B_glyph_" render:idList="B_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_C_glyph_" render:idList="C_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_D_glyph_" render:idList="D_glyph_">
@@ -179,14 +179,14 @@
               </render:style>
               <render:style id="styleOf_E_glyph_" render:idList="E_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_F_glyph_" render:idList="F_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_G_glyph_" render:idList="G_glyph_">
@@ -197,14 +197,14 @@
               </render:style>
               <render:style id="styleOf_H_glyph_" render:idList="H_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_I_glyph_" render:idList="I_glyph_">
                 <render:g>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
-                  <render:ellipse render:cx="+50.0%" render:cy="+50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:fill="simpleChemicalFill" render:rx="10.0" render:stroke="black" render:stroke-width="0.0"/>
+                  <render:ellipse render:cx="50.0%" render:cy="50.0%" render:rx="10.0" render:stroke="black" render:stroke-width="1.0"/>
                 </render:g>
               </render:style>
               <render:style id="styleOf_empty_glyph_" render:idList="empty_glyph_">
@@ -218,7 +218,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_4641e4aa_2fb4_47d5_beef_f7865441ba9a">
+              <render:style render:idList="c2a5f753_fe54_4f03_935a_fedc8d166beb">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -230,7 +230,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_4037dff4_c70e_4431_a53b_75813a602854">
+              <render:style render:idList="_7e68a061_6e95_4408_a456_f8e7db6a9b16">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -242,7 +242,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_2ba86b91_45fb_49ab_8a5c_0be0a09db021">
+              <render:style render:idList="_87c6949f_7d39_4755_a83e_70a1e9ca9003">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -254,7 +254,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="_98713161_2be6_4f31_ae59_25511e2b2fd6">
+              <render:style render:idList="df94c99d_8b7b_4b73_a09b_4e12f92d749d">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -266,7 +266,7 @@
                   </render:polygon>
                 </render:g>
               </render:style>
-              <render:style render:idList="c63e47e3_86a3_446e_9440_e434c85ad7d3">
+              <render:style render:idList="c17a9a94_f1a0_44ad_b8b8_a23ff04ab53e">
                 <render:g render:stroke="black" render:stroke-width="1.0">
                   <render:polygon render:fill="white">
                     <render:listOfElements>
@@ -283,19 +283,19 @@
         </render:listOfRenderInformation>
         <layout:dimensions layout:depth="100" layout:height="800" layout:width="800"/>
         <layout:listOfCompartmentGlyphs>
-          <layout:compartmentGlyph layout:compartment="extracellular" layout:id="_92316df2_d22b_4b44_af26_74c082559170">
+          <layout:compartmentGlyph layout:compartment="extracellular" layout:id="_6bee86a4_ee78_488c_9a2a_ad8f4f7c9195">
             <layout:boundingBox>
               <layout:position layout:x="395" layout:y="261.66666666666663" layout:z="-2"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="176.80753550602049"/>
             </layout:boundingBox>
           </layout:compartmentGlyph>
-          <layout:compartmentGlyph layout:compartment="cytosol" layout:id="_10a4c427_0db0_4b50_885b_61e256a5da58">
+          <layout:compartmentGlyph layout:compartment="cytosol" layout:id="_941e5043_8eda_464d_9fd9_4a49dd1fe7d7">
             <layout:boundingBox>
               <layout:position layout:x="316.6286330276703" layout:y="436.20226591665966" layout:z="-3"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="255.1789024783502"/>
             </layout:boundingBox>
           </layout:compartmentGlyph>
-          <layout:compartmentGlyph layout:compartment="vesicle" layout:id="_44634e92_9ba8_4b4b_86a8_b866ab4ca27e">
+          <layout:compartmentGlyph layout:compartment="vesicle" layout:id="_02bdf2cc_18ca_475f_99cf_d6f11d38d716">
             <layout:boundingBox>
               <layout:position layout:x="268.1924644939795" layout:y="353.79773408334034" layout:z="-1"/>
               <layout:dimensions layout:depth="1" layout:height="112.40453183331931" layout:width="50.000000000000014"/>
@@ -365,7 +365,7 @@
           </layout:speciesGlyph>
         </layout:listOfSpeciesGlyphs>
         <layout:listOfReactionGlyphs>
-          <layout:reactionGlyph layout:id="_4641e4aa_2fb4_47d5_beef_f7865441ba9a" layout:reaction="R1">
+          <layout:reactionGlyph layout:id="c2a5f753_fe54_4f03_935a_fedc8d166beb" layout:reaction="R1">
             <layout:boundingBox>
               <layout:position layout:x="474.4360806896183" layout:y="317.24245248926627" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -417,7 +417,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="_4037dff4_c70e_4431_a53b_75813a602854" layout:reaction="R2">
+          <layout:reactionGlyph layout:id="_7e68a061_6e95_4408_a456_f8e7db6a9b16" layout:reaction="R2">
             <layout:boundingBox>
               <layout:position layout:x="450.14185839563527" layout:y="415.43273898766824" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -469,7 +469,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="_2ba86b91_45fb_49ab_8a5c_0be0a09db021" layout:reaction="R3">
+          <layout:reactionGlyph layout:id="_87c6949f_7d39_4755_a83e_70a1e9ca9003" layout:reaction="R3">
             <layout:boundingBox>
               <layout:position layout:x="438.7908513947403" layout:y="410.20226585616547" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -545,7 +545,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="_98713161_2be6_4f31_ae59_25511e2b2fd6" layout:reaction="R4">
+          <layout:reactionGlyph layout:id="df94c99d_8b7b_4b73_a09b_4e12f92d749d" layout:reaction="R4">
             <layout:boundingBox>
               <layout:position layout:x="338.81194329538914" layout:y="459.9448844024854" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -609,7 +609,7 @@
               </layout:speciesReferenceGlyph>
             </layout:listOfSpeciesReferenceGlyphs>
           </layout:reactionGlyph>
-          <layout:reactionGlyph layout:id="c63e47e3_86a3_446e_9440_e434c85ad7d3" layout:reaction="EX1">
+          <layout:reactionGlyph layout:id="c17a9a94_f1a0_44ad_b8b8_a23ff04ab53e" layout:reaction="EX1">
             <layout:boundingBox>
               <layout:position layout:x="344.1898111697849" layout:y="404.29422478735734" layout:z="0"/>
               <layout:dimensions layout:depth="0" layout:height="10" layout:width="10"/>
@@ -651,73 +651,73 @@
           </layout:reactionGlyph>
         </layout:listOfReactionGlyphs>
         <layout:listOfTextGlyphs>
-          <layout:textGlyph layout:graphicalObject="_92316df2_d22b_4b44_af26_74c082559170" layout:id="_796423e1_1146_4b81_8793_923c84632946" layout:originOfText="extracellular">
+          <layout:textGlyph layout:graphicalObject="_6bee86a4_ee78_488c_9a2a_ad8f4f7c9195" layout:id="ec4fb70e_2f4d_49c7_8483_ed3f88eb636c" layout:originOfText="extracellular">
             <layout:boundingBox>
               <layout:position layout:x="395" layout:y="261.66666666666663" layout:z="-2"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="176.80753550602049"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="_10a4c427_0db0_4b50_885b_61e256a5da58" layout:id="_70fa5f7c_e000_4103_94e0_de89999e6090" layout:originOfText="cytosol">
+          <layout:textGlyph layout:graphicalObject="_941e5043_8eda_464d_9fd9_4a49dd1fe7d7" layout:id="_06dfbafc_c04a_4aa2_868c_91c480b63427" layout:originOfText="cytosol">
             <layout:boundingBox>
               <layout:position layout:x="316.6286330276703" layout:y="436.20226591665966" layout:z="-3"/>
               <layout:dimensions layout:depth="1" layout:height="122.13106741667367" layout:width="255.1789024783502"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="_44634e92_9ba8_4b4b_86a8_b866ab4ca27e" layout:id="_6a6c8edb_af57_49db_bdf3_bbbed160b41a" layout:originOfText="vesicle">
+          <layout:textGlyph layout:graphicalObject="_02bdf2cc_18ca_475f_99cf_d6f11d38d716" layout:id="_23805b59_30d8_44df_a1b3_0d9bed9846e3" layout:originOfText="vesicle">
             <layout:boundingBox>
               <layout:position layout:x="268.1924644939795" layout:y="353.79773408334034" layout:z="-1"/>
               <layout:dimensions layout:depth="1" layout:height="112.40453183331931" layout:width="50.000000000000014"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="A_glyph_" layout:id="_02314a81_0917_479e_9b60_ce8d03e3f70c" layout:originOfText="A">
+          <layout:textGlyph layout:graphicalObject="A_glyph_" layout:id="_3675e7a5_e6df_4cf6_879f_8d079c6123a6" layout:originOfText="A">
             <layout:boundingBox>
               <layout:position layout:x="400" layout:y="266.66666666666663" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="B_glyph_" layout:id="ce87d64c_f1bb_4269_8700_9c84955bd7d3" layout:originOfText="B">
+          <layout:textGlyph layout:graphicalObject="B_glyph_" layout:id="_77a70260_e63f_4be8_bc73_893cdae6c2bf" layout:originOfText="B">
             <layout:boundingBox>
               <layout:position layout:x="478.3713669723297" layout:y="292.13106741667366" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="C_glyph_" layout:id="_4b6232d3_bdc1_4e13_9453_d56f041c0995" layout:originOfText="C">
+          <layout:textGlyph layout:graphicalObject="C_glyph_" layout:id="_9f87243a_c08a_48ae_b06c_83e1c0dbf3e6" layout:originOfText="C">
             <layout:boundingBox>
               <layout:position layout:x="526.8075355060205" layout:y="358.79773408334034" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="D_glyph_" layout:id="f420a3ec_3ea9_4f26_bfd7_692df42ec56f" layout:originOfText="D">
+          <layout:textGlyph layout:graphicalObject="D_glyph_" layout:id="ff8ab5b6_5cee_46bd_9aa7_145e019aa3af" layout:originOfText="D">
             <layout:boundingBox>
               <layout:position layout:x="526.8075355060205" layout:y="441.20226591665966" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="E_glyph_" layout:id="_2ea3e9a6_6019_4ab2_87fe_84fa40b8107a" layout:originOfText="E">
+          <layout:textGlyph layout:graphicalObject="E_glyph_" layout:id="c6850277_a64c_42c0_a5bb_f5e430307773" layout:originOfText="E">
             <layout:boundingBox>
               <layout:position layout:x="478.3713669723297" layout:y="507.86893258332634" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="F_glyph_" layout:id="e6fda986_2962_43d5_9d30_b913e7c45641" layout:originOfText="F">
+          <layout:textGlyph layout:graphicalObject="F_glyph_" layout:id="_05cfd41e_a999_484a_8a63_467990d19d5f" layout:originOfText="F">
             <layout:boundingBox>
               <layout:position layout:x="400" layout:y="533.3333333333334" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="G_glyph_" layout:id="_44ac3580_3e29_446a_9940_43adc5a04e00" layout:originOfText="G">
+          <layout:textGlyph layout:graphicalObject="G_glyph_" layout:id="f2a4f624_bf6f_48cd_8f9e_1624370b5a9a" layout:originOfText="G">
             <layout:boundingBox>
               <layout:position layout:x="321.6286330276703" layout:y="507.86893258332634" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="H_glyph_" layout:id="_4f1e0a62_3293_47ab_b52b_bf9aed2d6baa" layout:originOfText="H">
+          <layout:textGlyph layout:graphicalObject="H_glyph_" layout:id="_189cc1d5_14dd_4a35_91ad_ee6049031609" layout:originOfText="H">
             <layout:boundingBox>
               <layout:position layout:x="273.1924644939795" layout:y="441.20226591665966" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>
             </layout:boundingBox>
           </layout:textGlyph>
-          <layout:textGlyph layout:graphicalObject="I_glyph_" layout:id="e04b2718_4e0d_4710_aaf5_389bd840a832" layout:originOfText="I">
+          <layout:textGlyph layout:graphicalObject="I_glyph_" layout:id="be5e4f11_2d87_4301_a13f_c7f6b5eba892" layout:originOfText="I">
             <layout:boundingBox>
               <layout:position layout:x="273.1924644939795" layout:y="358.79773408334034" layout:z="0"/>
               <layout:dimensions layout:depth="1" layout:height="20" layout:width="40"/>

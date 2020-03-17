@@ -62,7 +62,6 @@ public class EllipseConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    System.out.println("Checking ellipse for " + errorCode);
     ValidationFunction<Ellipse> func = null;
     switch(errorCode) {
     case RENDER_20601:
@@ -97,7 +96,6 @@ public class EllipseConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<Ellipse>() {
         @Override
         public boolean check(ValidationContext ctx, Ellipse ellipse) {
-          System.out.println("605: " + ellipse.isSetCy() + " " + ellipse.getCy());
           return ellipse.isSetCy() && (ellipse.getCy().isSetAbsoluteValue()
             || ellipse.getCy().isSetRelativeValue());
         }
