@@ -238,8 +238,10 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
     return false;
   }
 
+  
   /**
-   * Unsets the reference.
+   * Unsets the reference. (This method corresponds to {@link #setReference},
+   * {@link #setNamedSBase} and {@link #setSBase})
    * 
    * @return {@code true} if this operation caused any change.
    */

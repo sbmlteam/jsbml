@@ -45,6 +45,7 @@ import org.sbml.jsbml.util.StringTools;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
@@ -62,15 +63,15 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * 
    */
-  private double depth;
+  private Double depth;
   /**
    * 
    */
-  private double height;
+  private Double height;
   /**
    * 
    */
-  private double width;
+  private Double width;
 
   /**
    * 
@@ -231,21 +232,21 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return
    */
   public boolean isSetDepth() {
-    return !Double.isNaN(depth);
+    return depth != null && !Double.isNaN(depth);
   }
 
   /**
    * @return
    */
   public boolean isSetHeight() {
-    return !Double.isNaN(height);
+    return height != null && !Double.isNaN(height);
   }
 
   /**
    * @return
    */
   public boolean isSetWidth() {
-    return !Double.isNaN(width);
+    return width != null && !Double.isNaN(width);
   }
 
   /* (non-Javadoc)
@@ -356,6 +357,39 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
     firePropertyChange(LayoutConstants.width, oldWidth, this.width);
   }
 
+  /**
+   * Unsets the (optional) depth-attribute
+   * 
+   * @param depth
+   */
+  public void unsetDepth() {
+    Double oldDepth = depth;
+    depth = null;
+    firePropertyChange(LayoutConstants.depth, oldDepth, depth);
+  }
+
+  /**
+   * Unsets the required height-attribute
+   * 
+   * @param height
+   */
+  public void unsetHeight() {
+    Double oldHeight = height;
+    height = null;
+    firePropertyChange(LayoutConstants.height, oldHeight, height);
+  }
+
+  /**
+   * Unsets the required width-attribute
+   * 
+   * @param width
+   */
+  public void unsetWidth() {
+    Double oldWidth = width;
+    width = null;
+    firePropertyChange(LayoutConstants.width, oldWidth, width);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
@@ -372,7 +406,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
       logger.warn(MessageFormat.format(
         ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
         "name", getLevel(), getVersion(), getElementName()));
-      // TODO: This must be generally solved. Here we have an SBase with ID but without name!
+      // TODO 2013/12: This must be generally solved. Here we have an SBase with ID but without name!
     }
 
     if (isSetDepth()) {

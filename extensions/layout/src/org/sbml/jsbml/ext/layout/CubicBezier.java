@@ -36,6 +36,7 @@ import javax.swing.tree.TreeNode;
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class CubicBezier extends LineSegment {
@@ -264,9 +265,14 @@ public class CubicBezier extends LineSegment {
     return basePoint2 != null;
   }
 
+  
   /**
+   * Removes the basepoint 1 from this {@link CubicBezier} 
+   * <br/>
+   * After calling this method, {@link CubicBezier#isSetBasePoint1} is
+   * {@code false}
    * 
-   * @return
+   * @return The removed basepoint 1
    */
   public Point removeBasePoint1() {
     if (!isSetBasePoint1()) {
@@ -278,8 +284,12 @@ public class CubicBezier extends LineSegment {
   }
 
   /**
+   * Removes the basepoint 2 from this {@link CubicBezier} 
+   * <br/>
+   * After calling this method, {@link CubicBezier#isSetBasePoint2} is
+   * {@code false}
    * 
-   * @return
+   * @return The removed basepoint 2
    */
   public Point removeBasePoint2() {
     if (!isSetBasePoint2()) {
@@ -297,8 +307,8 @@ public class CubicBezier extends LineSegment {
    * @param basePoint1
    */
   public void setBasePoint1(Point basePoint1) {
+    Point oldValue = this.basePoint1;
     if (this.basePoint1 != null) {
-      Point oldValue = this.basePoint1;
       this.basePoint1 = null;
       oldValue.fireNodeRemovedEvent();
     }
@@ -308,6 +318,7 @@ public class CubicBezier extends LineSegment {
       basePoint1.setElementName(LayoutConstants.basePoint1);
     }
     registerChild(this.basePoint1);
+    firePropertyChange(LayoutConstants.basePoint1, oldValue, this.basePoint1);
   }
 
   /**
@@ -315,8 +326,8 @@ public class CubicBezier extends LineSegment {
    * @param basePoint2
    */
   public void setBasePoint2(Point basePoint2) {
+    Point oldValue = this.basePoint2;
     if (this.basePoint2 != null) {
-      Point oldValue = this.basePoint2;
       this.basePoint2 = null;
       oldValue.fireNodeRemovedEvent();
     }
@@ -326,6 +337,20 @@ public class CubicBezier extends LineSegment {
       basePoint2.setElementName(LayoutConstants.basePoint2);
     }
     registerChild(this.basePoint2);
+    firePropertyChange(LayoutConstants.basePoint2, oldValue, this.basePoint2);
   }
 
+  /**
+   * Unsets the Base point 1 (and fires appropriate event)
+   */
+  public void unsetBasePoint1() {
+    removeBasePoint1();
+  }
+  
+  /**
+   * Unsets the Base point 2 (and fires appropriate event)
+   */
+  public void unsetBasePoint2() {
+    removeBasePoint2();
+  }
 }

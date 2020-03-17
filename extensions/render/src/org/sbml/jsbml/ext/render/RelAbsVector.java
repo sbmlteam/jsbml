@@ -277,9 +277,10 @@ public class RelAbsVector extends AbstractTreeNode {
       result.append(getAbsoluteValue());
     }
     if(isSetRelativeValue() && getRelativeValue() != 0) {
-      // Only, if there is a preceding absolute value is the '+' needed
-      if(getRelativeValue() > 0 && isSetAbsoluteValue())
-        result.append("+");
+      // Only, if there is a preceding absolute value (!= 0) is the '+' needed
+      if(getRelativeValue() > 0 && isSetAbsoluteValue() && getAbsoluteValue() != 0) {
+        result.append("+"); 
+      }
       result.append(getRelativeValue());
       result.append("%");
     }

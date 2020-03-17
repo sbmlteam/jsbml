@@ -42,6 +42,7 @@ import org.sbml.jsbml.ListOf;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class GeneralGlyph extends AbstractReferenceGlyph {
@@ -710,6 +711,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   /**
    * Unsets the {@link #listOfReferenceGlyphs}.
    */
+  // TODO 2020/03: why is this private?
   private void unsetListOfReferenceGlyph() {
     if (listOfReferenceGlyphs != null) {
       ListOf<ReferenceGlyph> oldValue = listOfReferenceGlyphs;
@@ -723,6 +725,17 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   public void unsetReaction() {
     unsetReference();
+  }
+  
+  /**
+   * Unsets the curve (and fires appropriate Event)
+   */
+  public void unsetCurve() {
+    if (isSetCurve()) {
+      Curve oldValue = curve;
+      curve = null; 
+      firePropertyChange(LayoutConstants.curve, oldValue, curve);
+    }   
   }
 
   /* (non-Javadoc)

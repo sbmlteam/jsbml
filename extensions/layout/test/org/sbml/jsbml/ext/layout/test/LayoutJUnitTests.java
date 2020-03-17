@@ -30,6 +30,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @since 1.0
  */
 @RunWith(value=Suite.class)
-@SuiteClasses(value={TextGlyphTest.class, SpeciesReferenceGlyphTest.class, LayoutExtentionTest.class})
+@SuiteClasses(value = {TextGlyphTest.class, SpeciesReferenceGlyphTest.class,
+  LayoutExtentionTest.class, CurveSegmentTest.class})
 public class LayoutJUnitTests {
 }

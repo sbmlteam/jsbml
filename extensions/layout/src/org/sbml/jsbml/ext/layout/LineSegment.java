@@ -32,6 +32,7 @@ import javax.swing.tree.TreeNode;
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class LineSegment extends CurveSegment {
@@ -287,6 +288,7 @@ public class LineSegment extends CurveSegment {
    */
   @Override
   public void setEnd(Point end) {
+    Point old = this.end;
     if (this.end != null) {
       this.end.fireNodeRemovedEvent();
     }
@@ -296,6 +298,7 @@ public class LineSegment extends CurveSegment {
       end.setElementName(LayoutConstants.end);
     }
     registerChild(this.end);
+    firePropertyChange(LayoutConstants.end, old, this.end);
   }
 
   /* (non-Javadoc)
@@ -303,6 +306,7 @@ public class LineSegment extends CurveSegment {
    */
   @Override
   public void setStart(Point start) {
+    Point old = this.start;
     if (this.start != null) {
       this.start.fireNodeRemovedEvent();
     }
@@ -312,6 +316,20 @@ public class LineSegment extends CurveSegment {
       start.setElementName(LayoutConstants.start);
     }
     registerChild(this.start);
+    firePropertyChange(LayoutConstants.start, old, this.start);
   }
 
+  /**
+   * Unsets the end-point of this {@link LineSegment}
+   */
+  public void unsetEnd() {
+    setEnd(null);
+  }
+  
+  /**
+   * Unsets the start-point of this {@link LineSegment}
+   */
+  public void unsetStart() {
+    setStart(null);
+  }
 }

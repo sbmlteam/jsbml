@@ -165,10 +165,40 @@ public class Geometry {
   public static double euclideanDistance(Point a, Point b) {
     double d = 0d;
     double r = 2d;
-    d += Math.pow(a.x() - b.x(), r);
-    d += Math.pow(a.y() - b.y(), r);
-    d += Math.pow(a.z() - b.z(), r);
+    d += Math.pow(a.getX() - b.getX(), r);
+    d += Math.pow(a.getY() - b.getY(), r);
+    d += Math.pow(a.getZ() - b.getZ(), r);
     return Math.pow(d, 1d/r);
   }
   
+  
+  /**
+   * Adds the given points a and b, weighted by the respective weight, i.e.:<br>
+   * weightA * a + weightB * b<br>
+   * <b>Attention!</b> z may be NaN -- in this case, the weighted sum for z will
+   * be NaN too.
+   * 
+   * @param weightA
+   *        scalar weight of vector a
+   * @param a
+   * @param weightB
+   *        scalar weight of vector b
+   * @param b
+   * @return weightA * a + weightB * b
+   */
+  public static Point weightedSum(double weightA, Point a, double weightB, Point b) {
+    return new Point(weightA * a.getX() + weightB * b.getX(),
+      weightA * a.getY() + weightB * b.getY(),
+      weightA * a.getZ() + weightB * b.getZ());
+  }
+  
+  /**
+   * Computes the dot product of the given two points
+   * @param a
+   * @param b
+   * @return a * b (i.e. a.x*b.x + a.y*b.y + a.z * b.z)
+   */
+  public static double dotProduct(Point a, Point b) {
+    return a.getX() * b.getX() + a.getY() * b.getY() + a.getZ() * b.getZ();
+  }
 }
