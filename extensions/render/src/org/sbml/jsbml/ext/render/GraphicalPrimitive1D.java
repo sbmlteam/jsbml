@@ -333,6 +333,10 @@ public class GraphicalPrimitive1D extends Transformation2D {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
         getStrokeWidth().toString().toLowerCase());
     }
+    if(isSetId()) {
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.id,
+        getId());
+    }
     return attributes;
   }
 
@@ -354,6 +358,9 @@ public class GraphicalPrimitive1D extends Transformation2D {
       }
       else if (attributeName.equals(RenderConstants.strokeWidth)) {
         setStrokeWidth(StringTools.parseSBMLDouble(value));
+      } 
+      else if (attributeName.equals(RenderConstants.id)) {
+        setId(value);
       }
       else {
         isAttributeRead = false;
