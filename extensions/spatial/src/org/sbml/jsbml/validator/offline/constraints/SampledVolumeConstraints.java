@@ -191,22 +191,6 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
     
     case SPATIAL_21750:
     {
-//      func = new ValidationFunction<SampledVolume>() {
-//        
-//        @Override
-//        public boolean check(ValidationContext ctx, SampledVolume sv) {
-//          
-//          if(sv.isSetMinValue()) {
-//            if(!sv.isSetMaxValue()) {
-//              return false;
-//            }
-//          }
-//          
-//          return true;
-//        }
-//      };
-//      break;
-      
       func = new ValidationFunction<SampledVolume>() {
         @Override
         public boolean check(ValidationContext ctx, SampledVolume sv) {
@@ -223,31 +207,16 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
     
     case SPATIAL_21751:
     {
-//      func = new ValidationFunction<SampledVolume>() {
-//        
-//        @Override
-//        public boolean check(ValidationContext ctx, SampledVolume sv) {
-//          
-//          if(sv.isSetMaxValue()) {
-//            if(!sv.isSetMinValue()) {
-//              return false;
-//            }
-//          }
-//          
-//          return true;
-//        }
-//      };
-//      break;
-      
       func = new ValidationFunction<SampledVolume>() {
 
         @Override
         public boolean check(ValidationContext ctx, SampledVolume sv) {
 
-          if(sv.getMinValue() > sv.getMaxValue()) {
-            return false;
+          if(sv.isSetMaxValue() && sv.isSetMinValue()) {
+            if(sv.getMinValue() > sv.getMaxValue()) {
+              return false;
+            }
           }
-
           return true;
         }
       };
