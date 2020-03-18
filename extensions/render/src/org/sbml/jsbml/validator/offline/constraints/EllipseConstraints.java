@@ -111,7 +111,11 @@ public class EllipseConstraints extends AbstractConstraintDeclaration {
       break;
     case RENDER_20607:
       func =
-        new InvalidAttributeValidationFunction<Ellipse>(RenderConstants.ratio);
+        new InvalidAttributeValidationFunction<Ellipse>(RenderConstants.ratio) {
+        public boolean check(ValidationContext ctx, Ellipse ellipse) {
+          return super.check(ctx, ellipse);
+        }
+      };
       break;
     case RENDER_20608:
       func = new ValidationFunction<Ellipse>() {
