@@ -37,6 +37,7 @@ import org.sbml.jsbml.SimpleSpeciesReference;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
@@ -321,7 +322,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   public boolean isSetSpeciesReferenceRole() {
     return role != null;
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
@@ -464,6 +465,27 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
     return false;
   }
 
+  /**
+   * Unsets the {@link #role} (and fires appropriate Event)
+   * @return whether the {@link #role} could indeed be unset
+   */
+  public boolean unsetRole() {
+    if (isSetSpeciesReferenceRole()) {
+      SpeciesReferenceRole oldValue = role;
+      role = null; 
+      firePropertyChange(LayoutConstants.role, oldValue, role);
+      return true;
+    }   
+    return false;
+  }
+  
+  /**
+   * Unsets the {@link #speciesGlyph}
+   */
+  public void unsetSpeciesGlyph() {
+    setSpeciesGlyph(null);
+  }
+  
   /**
    * 
    */

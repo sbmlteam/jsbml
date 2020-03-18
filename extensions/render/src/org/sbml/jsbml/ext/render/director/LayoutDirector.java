@@ -720,7 +720,7 @@ public class LayoutDirector<P> implements Runnable {
               srg.getId(), reactionGlyph.getId()));
             srg.setSBOTerm(SBO.getConsumption());
           }
-          // Problems can occur when we have reverisble consumption arcs with sidesubstrates.
+          // Problems can occur when we have reversible consumption arcs with sidesubstrates.
           builder.buildConnectingArc(srg, reactionGlyph, curveWidth);
         } catch (ClassCastException exc) {
           logger.fine("tried to access object with id = " + srg.getReference());

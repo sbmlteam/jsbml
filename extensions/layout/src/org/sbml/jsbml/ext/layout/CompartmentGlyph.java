@@ -65,6 +65,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph implements Compartm
    */
   public CompartmentGlyph(CompartmentGlyph compartmentGlyph) {
     super(compartmentGlyph);
+    order = compartmentGlyph.order;
     initDefaults();
   }
 

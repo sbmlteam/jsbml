@@ -31,6 +31,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * 
  * @author Sebastian Fr&ouml;hlich
  * @author Nicolas Rodriguez
+ * @author David Vetter
  * @since 1.0
  */
 public abstract class CurveSegment extends AbstractSBase {
@@ -298,7 +299,6 @@ public abstract class CurveSegment extends AbstractSBase {
     logger.debug("reading CurveSegmentImpl: " + prefix + ":" + attributeName);
 
     if (!isAttributeRead) {
-      //TODO: will the xsi:type element be properly read? Create test for this...
       if (attributeName.equals("type")) {
         try
         {
@@ -369,6 +369,28 @@ public abstract class CurveSegment extends AbstractSBase {
     firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
   }
 
+  /**
+   * Unsets the end-point of this CurveSegment
+   */
+  public void unsetEnd() {
+    Point oldValue = getEnd();
+    if(oldValue != null) {
+      removeEnd();
+      firePropertyChange(LayoutConstants.end, oldValue, getEnd());
+    }
+  }
+  
+  /**
+   * Unsets the start-point of this CurveSegment
+   */
+  public void unsetStart() {
+    Point oldValue = getStart();
+    if(oldValue != null) {
+      removeStart();
+      firePropertyChange(LayoutConstants.start, oldValue, getStart());
+    }
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
