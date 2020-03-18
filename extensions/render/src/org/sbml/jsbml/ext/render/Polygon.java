@@ -105,6 +105,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
    */
   @Override
   public SBase getChildAt(int childIndex) {
+    // TODO 2020/03: what about notes and annotation?
     if (childIndex < 0) {
       throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
     }

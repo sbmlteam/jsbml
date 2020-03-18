@@ -7519,6 +7519,8 @@ public interface SBMLErrorCodes {
 	  */
  	 public static final int RENDER_21208 = 1321208; 
 
+ 	 // render-21209 see end of file
+ 	 
 	 /**
 	  * Error code 1321210:
 	  * The value of the attribute 'render:z' of an &lt;image&gt; object must conform to the 
@@ -13752,4 +13754,14 @@ public interface SBMLErrorCodes {
  	 public static final int SPATIAL_21651 = 1221651;
  	 
  	 public static final int SPATIAL_21652 = 1221652;
+ 	 
+   /**
+   * Error code 1321209:
+   * 
+   * Reference: L3V1 Render V1 Section
+   * The attribute render:href on an Image must point to a local file of type
+   * "jpeg" or "png". 
+   * Reference: L3V1 Render V1 Section 3.10.5
+   */
+   public static final int RENDER_21209 = 1321209; 
 }
