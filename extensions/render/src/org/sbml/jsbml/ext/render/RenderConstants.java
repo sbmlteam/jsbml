@@ -344,9 +344,9 @@ public class RenderConstants {
    */
   public static final String href = "href";
   /**
-   * 
+   * This previously (before 2020/03) held the outdated value "enable-rotation-mapping" 
    */
-  public static final String enableRotationMapping = "enable-rotation-mapping";
+  public static final String enableRotationMapping = "enableRotationalMapping"; 
   /**
    * 
    */

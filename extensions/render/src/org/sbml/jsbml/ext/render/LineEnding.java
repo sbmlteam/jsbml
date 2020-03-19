@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.IBoundingBox;
@@ -363,7 +364,13 @@ public class LineEnding extends GraphicalPrimitive2D implements IBoundingBox {
         setId(value);
       }
       else if (attributeName.equals(RenderConstants.enableRotationMapping)) {
-        setEnableRotationMapping(StringTools.parseSBMLBoolean(value));
+        if (value.trim().toLowerCase().equals("true")
+          || value.trim().toLowerCase().equals("false")
+          || value.trim().equals("1") || value.trim().equals("0")) {
+          setEnableRotationMapping(StringTools.parseSBMLBoolean(value));
+        } else {
+          putUserObject(JSBML.INVALID_XML, value);
+        }
       }
       else {
         isAttributeRead = false;
