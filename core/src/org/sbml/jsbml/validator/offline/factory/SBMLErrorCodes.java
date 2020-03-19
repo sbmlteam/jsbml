@@ -7760,18 +7760,27 @@ public interface SBMLErrorCodes {
 	 /**
 	  * Error code 1321703:
 	  * A &lt;polygon&gt; object may contain one and only one instance of the 
-	  * &lt;listOfRenderPoints&gt; element. No other elements from the SBML Level 3 Render 
+	  * &lt;listOfElements&gt; element. No other elements from the SBML Level 3 Render 
 	  * namespaces are permitted on a &lt;polygon&gt; object. Reference: L3V1 Render V1 
 	  * Section 
 	  */
  	 public static final int RENDER_21703 = 1321703; 
 
-	 /**
+	 /*
 	  * Error code 1321704:
 	  * The &lt;listOfRenderPoints&gt; subobject on a &lt;polygon&gt; object is optional, but if 
 	  * present, this container object must not be empty. Reference: L3V1 Render V1 
 	  * Section 
 	  */
+   // TODO 2020/03: there is a mismatch between the specification and the
+   // implemented constraints here!
+ 	 /**
+   * Error code 1321704:
+   * A &lt;polygon&gt; object may contain one and only one instance of the
+   * &lt;listOfCurveSegments&gt; element from the Layout package. No other
+   * elements from the SBML Level 3 Layout namespaces are permitted on a
+   * &lt;polygon&gt; object. Reference: L3V1 Render V1 Section 3.10.1
+   */
  	 public static final int RENDER_21704 = 1321704; 
 
 	 /**
