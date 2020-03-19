@@ -89,7 +89,14 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       break;
     case UNITS_CONSISTENCY:
       break;
+    case VALIDATION_CONSISTENCY: //new check category for validation supportlevel 
+      if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
+        set.add(1); //add SBML Errors for both no support for validation, and for partial support
+        set.add(2); //the codes are dummies for now
+      }
+      break;
     }
+ 
   }
 
 
@@ -98,6 +105,8 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SBMLDocument> func = null;
 
     switch (errorCode) {
+    
+    //implement functions for the new Errors
 
       case CORE_10101: {
         func = new ValidationFunction<SBMLDocument>() {
