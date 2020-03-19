@@ -29,6 +29,9 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.distrib.DistribConstants;
+import org.sbml.jsbml.ext.groups.GroupsConstants;
+import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
@@ -105,26 +108,57 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SBMLDocument> func = null;
 
     switch (errorCode) {
-    
+
     //implement functions for the new Errors
+    case 1: {
+      func = new ValidationFunction<SBMLDocument>() {
 
-      case CORE_10101: {
-        func = new ValidationFunction<SBMLDocument>() {
-
-          @Override
-          public boolean check(ValidationContext ctx, SBMLDocument d) {
-
-            String encoding = (d.isSetUserObjects() ? (String) d.getUserObject(XML_DECLARED_ENCODING) : null);
-
-            if (encoding != null && !encoding.equalsIgnoreCase("UTF-8")) {
-              return false;
-            }
-
-            return true;
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument t) {
+          // TODO check if package has no constraints -> no validation support
+          String packageName = t.getPackageName();
+          
+          if(packageName.equals(DistribConstants.shortLabel) || 
+             packageName.equals(GroupsConstants.shortLabel) ||
+             packageName.equals(RenderConstants.shortLabel)) {
+            
+            //Some error message maybe
+            return false;
           }
-        };
-        break;
-      }
+          return true;
+        }    
+      };
+    }
+
+    //implement functions for the new Errors
+    case 2: {
+      func = new ValidationFunction<SBMLDocument>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument t) {
+          // TODO check if package has only partial support 
+          return false;
+        }    
+      };
+    }
+
+    case CORE_10101: {
+      func = new ValidationFunction<SBMLDocument>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument d) {
+
+          String encoding = (d.isSetUserObjects() ? (String) d.getUserObject(XML_DECLARED_ENCODING) : null);
+
+          if (encoding != null && !encoding.equalsIgnoreCase("UTF-8")) {
+            return false;
+          }
+
+          return true;
+        }
+      };
+      break;
+    }
 
     case CORE_10102:
       func = new ValidationFunction<SBMLDocument>() {
