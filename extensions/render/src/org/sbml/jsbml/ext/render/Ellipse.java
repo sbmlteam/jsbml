@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.render;
 import java.util.Locale;
 import java.util.Map;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
@@ -517,7 +516,7 @@ public class Ellipse extends GraphicalPrimitive2D {
         try {
           setRatio(Double.parseDouble(value));
         } catch(NumberFormatException e){
-          putUserObject(JSBML.INVALID_XML, value);
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
         }
       }
       else {

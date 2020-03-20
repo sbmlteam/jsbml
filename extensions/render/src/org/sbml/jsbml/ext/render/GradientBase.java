@@ -428,6 +428,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
         try {
           setSpreadMethod(Spread.valueOf(value.toUpperCase()));
         } catch (Exception e) {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.spreadMethod
               + " on the 'gradient' element.");

@@ -627,7 +627,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
         try {
           setFontFamily(value);
         } catch (Exception e) {
-          putUserObject(JSBML.INVALID_XML, value);
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognize the value '" + value
               + "' for the attribute " + RenderConstants.fontFamily
               + " on the 'text' element.");
@@ -637,7 +637,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
         try {
           setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
         } catch (Exception e) {
-          putUserObject(JSBML.INVALID_XML, value);
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognize the value '" + value
               + "' for the attribute " + RenderConstants.textAnchor
               + " on the 'text' element.");
@@ -647,7 +647,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
         try {
           setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
         } catch (Exception e) {
-          putUserObject(JSBML.INVALID_XML, value);
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognize the value '" + value
               + "' for the attribute " + RenderConstants.vTextAnchor
               + " on the 'text' element.");
@@ -670,7 +670,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
             || value.toLowerCase().equals(RenderConstants.fontStyleItalicTrue)) {
             setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
           } else {
-            putUserObject(JSBML.INVALID_XML, value);
+            XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
             throw new SBMLException(
               "Could not recognize the value '" + value + "' for the attribute "
                 + RenderConstants.fontStyleItalic + " on the 'text' element.");
@@ -681,7 +681,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
             || value.toLowerCase().equals(RenderConstants.fontWeightBoldTrue)) {
             setFontWeightBold(XMLTools.parseFontWeightBold(value));
           } else {
-            putUserObject(JSBML.INVALID_XML, value);
+            XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
             throw new SBMLException(
               "Could not recognize the value '" + value + "' for the attribute "
                 + RenderConstants.fontWeightBold + " on the 'text' element.");

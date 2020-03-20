@@ -253,6 +253,7 @@ public abstract class RenderCurveSegment extends AbstractSBase implements Point3
         }
         catch (Exception e)
         {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
             + "' for the attribute " + RenderConstants.type
             + " on a 'RenderPoint' or 'RenderCubicBezier' element.");

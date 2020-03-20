@@ -384,10 +384,20 @@ public abstract class ListOfRenderInformation<T extends RenderInformationBase> e
       isAttributeRead = true;
 
       if (attributeName.equals(RenderConstants.versionMajor)) {
-        setVersionMajor(StringTools.parseSBMLShort(value));
+        try {
+          Short.parseShort(value);
+          setVersionMajor(StringTools.parseSBMLShort(value));  
+        } catch (NumberFormatException e) {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
+        }
       }
       else if (attributeName.equals(RenderConstants.versionMinor)) {
-        setVersionMinor(StringTools.parseSBMLShort(value));
+        try {
+          Short.parseShort(value);
+          setVersionMinor(StringTools.parseSBMLShort(value));
+        } catch (NumberFormatException e) {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
+        }
       }
       else {
         isAttributeRead = false;
