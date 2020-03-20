@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.render;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
@@ -564,7 +565,14 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
         setRy(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.ratio)) {
-        setRatio(XMLTools.parsePosition(value));
+        try {
+          // Note: this is done for validation; XMLTools would take care of
+          // invalid doubles
+          Double.parseDouble(value.trim());
+          setRatio(XMLTools.parsePosition(value)); 
+        } catch (NumberFormatException e) {
+          putUserObject(JSBML.INVALID_XML, value);
+        }
       }
       else {
         isAttributeRead = false;
