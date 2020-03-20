@@ -68,7 +68,7 @@ public class TextTest {
    */
   @Test
   public void testGetFontSize() {
-    short fontSize=18;
+    RelAbsVector fontSize=new RelAbsVector(18);
     Text textType=new Text();
     assertTrue(!textType.isSetFontSize());
     textType.setFontSize(fontSize);
@@ -177,7 +177,7 @@ public class TextTest {
    */
   @Test
   public void testIsSetFontSize() {
-    short fontSize=18;
+    RelAbsVector fontSize=new RelAbsVector(18);
     Text textType=new Text();
     assertTrue(!textType.isSetFontSize());
     textType.setFontSize(fontSize);
@@ -311,7 +311,7 @@ public class TextTest {
    */
   @Test
   public void testSetFontSize() {
-    short fontSize=19;
+    RelAbsVector fontSize=new RelAbsVector(19);
     Text textType=new Text();
     assertTrue(!textType.isSetFontSize());
     textType.setFontSize(fontSize);

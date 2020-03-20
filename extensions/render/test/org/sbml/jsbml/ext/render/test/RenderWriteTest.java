@@ -190,7 +190,7 @@ public class RenderWriteTest {
   public void testWriteReadText() throws SBMLException, XMLStreamException {
     RenderGroup group = new RenderGroup();
     Text questionmark = group.createText();
-    questionmark.setFontSize((short) 10);
+    questionmark.setFontSize(new RelAbsVector(10));
     questionmark.setFontFamily("monospace");
     questionmark.setTextAnchor(HTextAnchor.START);
     questionmark.setVTextAnchor(VTextAnchor.TOP);    

@@ -74,7 +74,7 @@ public class RenderUncertainProcessNode extends RenderSBGNProcessNode
     Text questionmark = group.createText();
     double breadth = 13; // based on font-size, found manually
     double fontHeight = 20; // based on font-size, found manually 
-    questionmark.setFontSize((short) 10);
+    questionmark.setFontSize(new RelAbsVector(10));
     questionmark.setFontFamily("monospace");
     questionmark.setTextAnchor(HTextAnchor.START);
     questionmark.setVTextAnchor(VTextAnchor.TOP);

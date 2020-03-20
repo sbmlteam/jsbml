@@ -21,6 +21,7 @@ package org.sbml.jsbml.ext.render;
 
 import java.util.Map;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 
@@ -45,7 +46,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /**
    * 
    */
-  private Short fontSize;
+  private RelAbsVector fontSize;
   /**
    * 
    */
@@ -130,7 +131,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getFontSize()
    */
   @Override
-  public short getFontSize() {
+  public RelAbsVector getFontSize() {
     if (isSetFontSize()) {
       return fontSize;
     }
@@ -337,8 +338,8 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setFontSize(short)
    */
   @Override
-  public void setFontSize(short fontSize) {
-    Short oldFontSize = this.fontSize;
+  public void setFontSize(RelAbsVector fontSize) {
+    RelAbsVector oldFontSize = this.fontSize;
     this.fontSize = fontSize;
     firePropertyChange(RenderConstants.fontSize, oldFontSize, this.fontSize);
   }
@@ -443,7 +444,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetFontSize() {
     if (isSetFontSize()) {
-      Short oldFontSize = fontSize;
+      RelAbsVector oldFontSize = fontSize;
       fontSize = null;
       firePropertyChange(RenderConstants.fontSize, oldFontSize, fontSize);
       return true;
@@ -586,7 +587,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     }
     if (isSetFontSize()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontSize,
-        Short.toString(getFontSize()));
+        getFontSize().getCoordinate());
     }
     if (isSetX()) {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
@@ -626,7 +627,8 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
         try {
           setFontFamily(value);
         } catch (Exception e) {
-          throw new SBMLException("Could not recognized the value '" + value
+          putUserObject(JSBML.INVALID_XML, value);
+          throw new SBMLException("Could not recognize the value '" + value
               + "' for the attribute " + RenderConstants.fontFamily
               + " on the 'text' element.");
         }
@@ -635,7 +637,8 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
         try {
           setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
         } catch (Exception e) {
-          throw new SBMLException("Could not recognized the value '" + value
+          putUserObject(JSBML.INVALID_XML, value);
+          throw new SBMLException("Could not recognize the value '" + value
               + "' for the attribute " + RenderConstants.textAnchor
               + " on the 'text' element.");
         }
@@ -644,13 +647,14 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
         try {
           setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
         } catch (Exception e) {
-          throw new SBMLException("Could not recognized the value '" + value
+          putUserObject(JSBML.INVALID_XML, value);
+          throw new SBMLException("Could not recognize the value '" + value
               + "' for the attribute " + RenderConstants.vTextAnchor
               + " on the 'text' element.");
         }
       }
       else if (attributeName.equals(RenderConstants.fontSize)) {
-        setFontSize(Short.valueOf(value));
+        setFontSize(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.x)) {
         setX(new RelAbsVector(value));
@@ -662,10 +666,26 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
         setZ(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.fontStyleItalic)) {
-        setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
+        if (value.toLowerCase().equals(RenderConstants.fontStyleItalicFalse)
+            || value.toLowerCase().equals(RenderConstants.fontStyleItalicTrue)) {
+            setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
+          } else {
+            putUserObject(JSBML.INVALID_XML, value);
+            throw new SBMLException(
+              "Could not recognize the value '" + value + "' for the attribute "
+                + RenderConstants.fontStyleItalic + " on the 'text' element.");
+          }
       }
       else if (attributeName.equals(RenderConstants.fontWeightBold)) {
-        setFontWeightBold(XMLTools.parseFontWeightBold(value));
+        if (value.toLowerCase().equals(RenderConstants.fontWeightBoldFalse)
+            || value.toLowerCase().equals(RenderConstants.fontWeightBoldTrue)) {
+            setFontWeightBold(XMLTools.parseFontWeightBold(value));
+          } else {
+            putUserObject(JSBML.INVALID_XML, value);
+            throw new SBMLException(
+              "Could not recognize the value '" + value + "' for the attribute "
+                + RenderConstants.fontWeightBold + " on the 'text' element.");
+          }
       }
       else {
         isAttributeRead = false;
