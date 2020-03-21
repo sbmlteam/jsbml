@@ -21,31 +21,29 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.ext.layout.LayoutConstants;
-import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.GraphicalPrimitive2D;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
-import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the
- * {@link Polygon} class.
+ * {@link GraphicalPrimitive2D} class.
  * 
  * @author David Emanuel Vetter
  */
-public class PolygonConstraints extends AbstractConstraintDeclaration {
+public class GraphicalPrimitive2DConstraints extends AbstractConstraintDeclaration {
 
   @Override
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category, ValidationContext context) {
     switch(category) {
     case GENERAL_CONSISTENCY:
-      addRangeToSet(set, RENDER_21701, RENDER_21704);
-      // addRangeToSet(set, RENDER_23040, RENDER_23043); // TODO 2020/03: These constraints need be checked on RenderCurve and Polygon
+      addRangeToSet(set, RENDER_22701, RENDER_22705);
       break;
     default:
       break;
@@ -63,31 +61,30 @@ public class PolygonConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<Polygon> func = null;
+    ValidationFunction<GraphicalPrimitive2D> func = null;
     switch(errorCode) {
-    case RENDER_21701:
-      func = new UnknownCoreAttributeValidationFunction<Polygon>();
+    case RENDER_22701:
+      func = new UnknownCoreAttributeValidationFunction<GraphicalPrimitive2D>();
       break;
-    case RENDER_21702:
-      func = new UnknownCoreElementValidationFunction<Polygon>();
+    case RENDER_22702:
+      func = new UnknownCoreElementValidationFunction<GraphicalPrimitive2D>();
       break;
-    case RENDER_21703:
-      func = new UnknownPackageElementValidationFunction<Polygon>(RenderConstants.shortLabel) {
-        public boolean check(ValidationContext ctx, Polygon poly) {
-          return super.check(ctx, poly)
-            && new DuplicatedElementValidationFunction<Polygon>(
-              RenderConstants.listOfElements).check(ctx, poly);
+    case RENDER_22703:
+      func =
+        new UnknownPackageAttributeValidationFunction<GraphicalPrimitive2D>(
+          RenderConstants.shortLabel);
+      break;
+    case RENDER_22704:
+      func = new ValidationFunction<GraphicalPrimitive2D>() {
+        @Override
+        public boolean check(ValidationContext ctx, GraphicalPrimitive2D t) {
+          // Any string
+          return true;
         }
       };
       break;
-    case RENDER_21704:
-      func = new UnknownPackageElementValidationFunction<Polygon>(LayoutConstants.shortLabel) {
-        public boolean check(ValidationContext ctx, Polygon poly) {
-          return super.check(ctx, poly)
-            && new DuplicatedElementValidationFunction<Polygon>(
-              LayoutConstants.listOfCurveSegments).check(ctx, poly);
-        }
-      };
+    case RENDER_22705:
+      func = new InvalidAttributeValidationFunction<GraphicalPrimitive2D>(RenderConstants.fillRule);
       break;
     }
     return func;

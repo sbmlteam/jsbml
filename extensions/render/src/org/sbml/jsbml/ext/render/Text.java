@@ -21,7 +21,6 @@ package org.sbml.jsbml.ext.render;
 
 import java.util.Map;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 

@@ -82,22 +82,12 @@ public class ColorDefinitionConstraints extends AbstractConstraintDeclaration {
       };
       break;
     case RENDER_20504:
-      func = new ValidationFunction<ColorDefinition>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, ColorDefinition t) {
-          // Check that render:value is of type String
-          // TODO 2020/03: on p. 79, only String is required, but value is
-          // actually supposed to be a colorString
-          return true;
-        }
-      };
-      break;
     case RENDER_20505:
       func = new ValidationFunction<ColorDefinition>() {
         @Override
         public boolean check(ValidationContext ctx, ColorDefinition t) {
-          // cf. ReferenceGlyphConstraints->LAYOUT_21112
+          // TODO 2020/03: For render:value, on p. 79, only String is required, but value is
+          // actually supposed to be a colorString
           return true;
         }
       };

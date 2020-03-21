@@ -8609,11 +8609,8 @@ public interface SBMLErrorCodes {
 	  * Error code 1322910:
 	  * The &lt;listOfColorDefinitions,&gt; &lt;listOfGradientBases&gt; and &lt;listOfLineEndings&gt; 
 	  * subobjects on a &lt;renderInformationBase&gt; object are optional, but if present, 
-	  * these container objects must not be empty.The &lt;listOfColorDefinitions&gt; must 
-	  * contain at least zero instances of the &lt;colorDefinition&gt; object.The 
-	  * &lt;listOfGradientBases&gt; must contain at least one instances of the &lt;gradientBase&gt; 
-	  * object.The &lt;listOfLineEndings&gt; must contain at least one instances of the 
-	  * &lt;lineEnding&gt; object. Reference: L3V1 Render V1 Section 
+	  * these container objects must not be empty.
+	  * Reference: L3V1 Render V1 Section 
 	  */
  	 public static final int RENDER_22910 = 1322910; 
 

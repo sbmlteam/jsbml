@@ -48,6 +48,7 @@ public class RenderCurveConstraints extends AbstractConstraintDeclaration {
     switch(category) {
     case GENERAL_CONSISTENCY:
       addRangeToSet(set, RENDER_22101, RENDER_22106);
+      // addRangeToSet(set, RENDER_23040, RENDER_23043); // TODO 2020/03: These constraints need be checked on RenderCurve and Polygon
       break;
     default:
       break;
