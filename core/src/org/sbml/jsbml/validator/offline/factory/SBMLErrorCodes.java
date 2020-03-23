@@ -13761,13 +13761,45 @@ public interface SBMLErrorCodes {
  	 
  	 public static final int SPATIAL_21652 = 1221652;
  	 
-   /**
+  /**
    * Error code 1321209:
-   * 
-   * Reference: L3V1 Render V1 Section
    * The attribute render:href on an Image must point to a local file of type
-   * "jpeg" or "png". 
+   * "jpeg" or "png".
    * Reference: L3V1 Render V1 Section 3.10.5
    */
-   public static final int RENDER_21209 = 1321209; 
+  public static final int RENDER_21209  = 1321209; 
+  
+  /**
+   * Error code 1323040:
+   * The ListOfElements subobject on a RenderCurve or a Polygon object is
+   * optional, but if present, this container object must not be empty.
+   * Reference: L3V1 Render V1 Section 3.9.3
+   */
+  public static final int RENDER_23040  = 1323040;
+  
+  /**
+   * Error code 1323041:
+   * Apart from the general notes and annotations subobjects permitted on all
+   * SBML objects, a ListOfElements container object may only contain
+   * RenderPoint or the derived RenderCubicBezier objects.
+   * Reference: L3V1 Render V1 Section 3.9.3
+   */
+  public static final int RENDER_23041  = 1323041;
+   
+  /**
+   * Error code 1323042:
+   * A ListOfElements object may have the optional SBML Level 3 Core attributes
+   * metaid and sboTerm. No other attributes from the SBML Level 3 Core
+   * namespaces are permitted on a ListOfElements object.
+   * Reference: L3V1 Render V1 Section 3.9.3
+   */
+  public static final int RENDER_23042  = 1323042;
+  
+  /**
+   * Error code 1323043:
+   * The first element within a ListOfElements container object must be of type
+   * RenderPoint (but not of the derived RenderCubicBezier)
+   * Reference: L3V1 Render V1 Section 3.9.3
+   */
+  public static final int RENDER_23043  = 1323043;
 }

@@ -262,7 +262,7 @@ public class RenderCubicBezier extends RenderPoint {
     if (isSetX1()) {
       RelAbsVector oldX1 = x1;
       x1 = null;
-      firePropertyChange(RenderConstants.x1, oldX1, x1);
+      firePropertyChange(RenderConstants.basepoint1_x, oldX1, x1);
       return true;
     }
     return false;

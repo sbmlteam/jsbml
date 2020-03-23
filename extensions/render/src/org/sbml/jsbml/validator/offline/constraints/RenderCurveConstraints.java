@@ -21,10 +21,13 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.RenderConstants;
+import org.sbml.jsbml.ext.render.RenderCubicBezier;
 import org.sbml.jsbml.ext.render.RenderCurve;
+import org.sbml.jsbml.ext.render.RenderPoint;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
@@ -48,7 +51,7 @@ public class RenderCurveConstraints extends AbstractConstraintDeclaration {
     switch(category) {
     case GENERAL_CONSISTENCY:
       addRangeToSet(set, RENDER_22101, RENDER_22106);
-      // addRangeToSet(set, RENDER_23040, RENDER_23043); // TODO 2020/03: These constraints need be checked on RenderCurve and Polygon
+      addRangeToSet(set, RENDER_23040, RENDER_23043);
       break;
     default:
       break;
@@ -105,6 +108,60 @@ public class RenderCurveConstraints extends AbstractConstraintDeclaration {
           if (rc.isSetEndHead()) {
             SBase referenced = rc.getModel().getSBaseById(rc.getEndHead());
             return referenced != null && referenced instanceof LineEnding;
+          }
+          return true;
+        }
+      };
+      break;
+      
+    // Cases common to RenderCurve and Polygon:
+    case RENDER_23040:
+      func = new ValidationFunction<RenderCurve>() {
+        @Override
+        public boolean check(ValidationContext ctx, RenderCurve t) {
+          if(t.isSetListOfElements()) {
+            // TODO 2020/03: add methods isListOf___Empty() to all the relevant classes
+            return t.getListOfElements().isEmpty();
+          }
+          return true;
+        }
+      };
+      break;
+    case RENDER_23041:
+      func = new ValidationFunction<RenderCurve>() {
+        @Override
+        public boolean check(ValidationContext ctx, RenderCurve t) {
+          if(t.isSetListOfElements()) {
+            return new UnknownCoreElementValidationFunction<ListOf<RenderPoint>>().check(
+              ctx, t.getListOfElements())
+              && new UnknownPackageElementValidationFunction<ListOf<RenderPoint>>(
+                RenderConstants.shortLabel).check(ctx, t.getListOfElements());
+          }
+          return true;
+        }
+      };
+      break;
+    case RENDER_23042:
+      func = new ValidationFunction<RenderCurve>() {
+        @Override
+        public boolean check(ValidationContext ctx, RenderCurve t) {
+          if(t.isSetListOfElements()) {
+            return new UnknownCoreAttributeValidationFunction<ListOf<RenderPoint>>().check(
+              ctx, t.getListOfElements());
+          }
+          return true;
+        }
+      };
+      break;
+    case RENDER_23043:
+      func = new ValidationFunction<RenderCurve>() {
+        @Override
+        public boolean check(ValidationContext ctx, RenderCurve t) {
+          if(t.isSetListOfElements()) {
+            ListOf<RenderPoint> list = t.getListOfElements();
+            return !list.isEmpty() 
+                && (list.get(0) instanceof RenderPoint) // not really needed, but here for completeness
+                && !(list.get(0) instanceof RenderCubicBezier);
           }
           return true;
         }

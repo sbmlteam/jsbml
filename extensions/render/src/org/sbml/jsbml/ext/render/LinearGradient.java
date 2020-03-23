@@ -485,6 +485,7 @@ public class LinearGradient extends GradientBase {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
+      // TODO 2020/03: issue: spec says ,linearGradient_x1/x2/etc'
       if (attributeName.equals(RenderConstants.x1)) {
         setX1(new RelAbsVector(value));
       }

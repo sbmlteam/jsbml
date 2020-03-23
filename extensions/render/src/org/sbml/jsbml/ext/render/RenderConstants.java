@@ -173,7 +173,7 @@ public class RenderConstants {
    */
   public static final String z1 = "z1";
   /**
-   * 
+   *
    */
   public static final String x2 = "x2";
   /**
@@ -184,6 +184,7 @@ public class RenderConstants {
    * 
    */
   public static final String z2 = "z2";
+
   
   // COPASI and the render-specification (January 2020) use camel-case basePoint 
   /**
@@ -547,6 +548,35 @@ public class RenderConstants {
   
   /** Refers to the relative part of a RelAbsVector */
   public static final String relativeValue = "relativeValue";
+
+  /** For DefaultValues */
+  public static final String linearGradient_x1 = "linearGradient_x1";
+  /** For DefaultValues */
+  public static final String linearGradient_y1 = "linearGradient_y1";
+  /** For DefaultValues */
+  public static final String linearGradient_z1 = "linearGradient_z1";
+  /** For DefaultValues */
+  public static final String linearGradient_x2 = "linearGradient_x2";
+  /** For DefaultValues */
+  public static final String linearGradient_y2 = "linearGradient_y2";
+  /** For DefaultValues */
+  public static final String linearGradient_z2 = "linearGradient_z2";
+  /** For DefaultValues */
+  public static final String radialGradient_cx = "radialGradient_cx";
+  /** For DefaultValues */
+  public static final String radialGradient_cy = "radialGradient_cy";
+  /** For DefaultValues */
+  public static final String radialGradient_cz = "radialGradient_cz";
+  /** For DefaultValues */
+  public static final String radialGradient_r = "radialGradient_r";
+  /** For DefaultValues */
+  public static final String radialGradient_fx = "radialGradient_fx";
+  /** For DefaultValues */
+  public static final String radialGradient_fy = "radialGradient_fy";
+  /** For DefaultValues */
+  public static final String radialGradient_fz = "radialGradient_fz";
+  /** For DefaultValues */
+  public static final String default_z = "default_z";
   
   /**
    * Returns the namespace URI corresponding to the given level and version.
