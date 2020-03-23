@@ -2,14 +2,12 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- *
  * Copyright (C) 2009-2018 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -20,6 +18,8 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
@@ -37,21 +37,20 @@ import org.sbml.jsbml.ext.layout.LineSegment;
  * @since 1.0
  */
 public class Polygon extends GraphicalPrimitive2D implements ICurve {
+
   /**
    * Generated serial version identifier
    */
-  private static final long serialVersionUID = 9207043017589271103L;
-
+  private static final long    serialVersionUID = 9207043017589271103L;
   /**
    * 
    */
-  private ListOf<RenderPoint> listOfElements;
-
+  private ListOf<RenderPoint>  listOfElements;
   /**
    * 
    */
   private ListOf<CurveSegment> listOfCurveSegments;
-  
+
   /**
    * Creates an Polygon instance
    */
@@ -60,14 +59,15 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     initDefaults();
   }
 
+
   /**
    * Clone constructor
    * 
-   * @param obj the {@link Polygon} instance to clone
+   * @param obj
+   *        the {@link Polygon} instance to clone
    */
   public Polygon(Polygon obj) {
     super(obj);
-    
     if (obj.isSetListOfElements()) {
       setListOfElements(obj.getListOfElements().clone());
     }
@@ -75,6 +75,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
       setListOfCurveSegments(obj.getListOfCurveSegments().clone());
     }
   }
+
 
   /**
    * @param element
@@ -84,7 +85,9 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return getListOfElements().add(element);
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#clone()
    */
   @Override
@@ -92,7 +95,9 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return new Polygon(this);
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
    */
   @Override
@@ -100,14 +105,19 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return true;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
+
+  /**
+   * The listOfElements and listOfCurveSegments will take the indices 0 and 1,
+   * or 0 (if only one is set). ChildElements like Annotation will be shifted
+   * accordingly
    */
   @Override
-  public SBase getChildAt(int childIndex) {
+  public TreeNode getChildAt(int childIndex) {
     // TODO 2020/03: what about notes and annotation?
     if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(MessageFormat.format(resourceBundle.getString("IndexSurpassesBoundsException"), childIndex, 0));
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        resourceBundle.getString("IndexSurpassesBoundsException"), childIndex,
+        0));
     }
     int pos = 0;
     if (isSetListOfElements()) {
@@ -123,27 +133,30 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
       pos++;
     }
     
+    return super.getChildAt(childIndex - pos);
+    /*
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
-      Math.min(pos, 0)));
+      Math.min(pos, 0))); */
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildCount()
    */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
-    
     if (isSetListOfElements()) {
       count++;
     }
     if (isSetListOfCurveSegments()) {
       count++;
     }
-    
     return count;
   }
+
 
   /**
    * @return the value of listOfElements
@@ -157,14 +170,14 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
       listOfElements.setPackageName(RenderConstants.shortLabel);
       listOfElements.setSBaseListType(ListOf.Type.other);
       listOfElements.setOtherListName(RenderConstants.listOfElements);
-      
       registerChild(listOfElements);
     }
-    
     return listOfElements;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#initDefaults()
    */
   @Override
@@ -173,7 +186,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     packageName = RenderConstants.shortLabel;
   }
 
-  
+
   /**
    * To check, whether {@link #listOfElements} is non-{@code null}, but empty,
    * use {@link #isListOfElementsEmpty()}
@@ -183,7 +196,8 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
   public boolean isSetListOfElements() {
     return listOfElements != null && !listOfElements.isEmpty();
   }
-  
+
+
   /**
    * @return {@code true} iff listOfElements is not {@code null}, but empty
    *         (relevant for validation)
@@ -191,41 +205,45 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
   public boolean isListOfElementsEmpty() {
     return listOfElements != null && listOfElements.isEmpty();
   }
-  
+
 
   /**
    * Set the value of listOfElements
+   * 
    * @param listOfElements
    */
   public void setListOfElements(ListOf<RenderPoint> listOfElements) {
     unsetListOfElements();
     this.listOfElements = listOfElements;
-
     if (listOfElements != null) {
       listOfElements.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'render'
       listOfElements.setPackageName(null);
       listOfElements.setPackageName(RenderConstants.shortLabel);
       listOfElements.setSBaseListType(ListOf.Type.other);
-
       registerChild(this.listOfElements);
     }
   }
 
+
   /**
    * Unsets the variable listOfElements
+   * 
    * @return {@code true}, if listOfElements was set before,
    *         otherwise {@code false}
    */
   public boolean unsetListOfElements() {
     if (isSetListOfElements()) {
       ListOf<RenderPoint> oldListOfElements = listOfElements;
+      unregisterChild(listOfElements);
       listOfElements = null;
-      firePropertyChange(RenderConstants.listOfElements, oldListOfElements, listOfElements);
+      firePropertyChange(RenderConstants.listOfElements, oldListOfElements,
+        listOfElements);
       return true;
     }
     return false;
   }
+
 
   /**
    * @param element
@@ -238,6 +256,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return false;
   }
 
+
   /**
    * @param i
    */
@@ -248,8 +267,10 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     getListOfElements().remove(i);
   }
 
+
   /**
-   * Creates a new {@link RenderCubicBezier} instance and adds it to the ListOfElements list
+   * Creates a new {@link RenderCubicBezier} instance and adds it to the
+   * ListOfElements list
    * 
    * @return a new {@link RenderCubicBezier} instance
    */
@@ -259,8 +280,10 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return element;
   }
 
+
   /**
-   * Creates a new {@link RenderPoint} instance and adds it to the ListOfElements list
+   * Creates a new {@link RenderPoint} instance and adds it to the
+   * ListOfElements list
    * 
    * @return a new {@link RenderPoint} instance
    */
@@ -269,7 +292,8 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     addElement(element);
     return element;
   }
-  
+
+
   /**
    * Returns {@code true} if {@link #listOfCurveSegments} contains at least
    * one element.
@@ -280,7 +304,8 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
   public boolean isSetListOfCurveSegments() {
     return listOfCurveSegments != null && !listOfCurveSegments.isEmpty();
   }
-  
+
+
   /**
    * @return {@code true} iff listOfCurveSegments is not {@code null}, but empty
    *         (relevant for validation)
@@ -288,6 +313,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
   public boolean isListOfCurveSegmentsEmpty() {
     return listOfCurveSegments != null && listOfCurveSegments.isEmpty();
   }
+
 
   /**
    * Returns the {@link #listOfCurveSegments}.
@@ -304,23 +330,23 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
       listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
       listOfCurveSegments.setSBaseListType(ListOf.Type.other);
       listOfCurveSegments.setOtherListName(LayoutConstants.listOfCurveSegments);
-      
       registerChild(listOfCurveSegments);
     }
     return listOfCurveSegments;
   }
+
 
   /**
    * Sets the given {@code ListOf<CurveSegment>}.
    * If {@link #listOfCurveSegments} was defined before and contains some
    * elements, they are all unset.
    *
-   * @param listOfCurveSegments the list of {@link CurveSegment}s
+   * @param listOfCurveSegments
+   *        the list of {@link CurveSegment}s
    */
   public void setListOfCurveSegments(ListOf<CurveSegment> listOfCurveSegments) {
     unsetListOfCurveSegments();
     this.listOfCurveSegments = listOfCurveSegments;
-
     if (listOfCurveSegments != null) {
       listOfCurveSegments.setPackageVersion(-1);
       // changing the ListOf package name from 'core' to 'layout'
@@ -328,11 +354,10 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
       listOfCurveSegments.setPackageName(LayoutConstants.shortLabel);
       listOfCurveSegments.setSBaseListType(ListOf.Type.other);
       listOfCurveSegments.setOtherListName(LayoutConstants.listOfCurveSegments);
-
       registerChild(listOfCurveSegments);
     }
-
   }
+
 
   /**
    * Returns {@code true} if {@link #listOfCurveSegments} contains at least
@@ -351,28 +376,33 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return false;
   }
 
+
   /**
    * Adds a new {@link CurveSegment} to the {@link #listOfCurveSegments}.
-   * <p>The listOfCurveSegments is initialized if necessary.
+   * <p>
+   * The listOfCurveSegments is initialized if necessary.
    *
-   * @param curveSegment the element to add to the list
+   * @param curveSegment
+   *        the element to add to the list
    * @return {@code true} (as specified by {@link java.util.Collection#add})
    * @see java.util.Collection#add(Object)
    */
   public boolean addCurveSegment(CurveSegment curveSegment) {
     return getListOfCurveSegments().add(curveSegment);
   }
-  
+
+
   @Override
   public void addCurveSegment(int index, CurveSegment element) {
     getListOfCurveSegments().add(index, element);
   }
-  
+
 
   /**
    * Removes an element from the {@link #listOfCurveSegments}.
    *
-   * @param curveSegment the element to be removed from the list.
+   * @param curveSegment
+   *        the element to be removed from the list.
    * @return {@code true} if the list contained the specified element and it was
    *         removed.
    * @see java.util.List#remove(Object)
@@ -384,12 +414,16 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return false;
   }
 
+
   /**
-   * Removes an element from the {@link #listOfCurveSegments} at the given index.
+   * Removes an element from the {@link #listOfCurveSegments} at the given
+   * index.
    *
-   * @param i the index where to remove the {@link CurveSegment}.
+   * @param i
+   *        the index where to remove the {@link CurveSegment}.
    * @return the specified element if it was successfully found and removed.
-   * @throws IndexOutOfBoundsException if the listOf is not set or if the index is
+   * @throws IndexOutOfBoundsException
+   *         if the listOf is not set or if the index is
    *         out of bound ({@code (i < 0) || (i > listOfCurveSegments)}).
    */
   public CurveSegment removeCurveSegment(int i) {
@@ -398,6 +432,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     }
     return getListOfCurveSegments().remove(i);
   }
+
 
   /**
    * Creates a new {@link LineSegment} instance and adds it to the
@@ -412,6 +447,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return curveSegment;
   }
 
+
   /**
    * Creates a new {@link CubicBezier} instance and adds it to the
    * {@link #listOfCurveSegments} list.
@@ -425,13 +461,16 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return curveSegment;
   }
 
+
   /**
    * Gets an element from the {@link #listOfCurveSegments} at the given index.
    *
-   * @param i the index of the {@link CurveSegment} element to get.
+   * @param i
+   *        the index of the {@link CurveSegment} element to get.
    * @return an element from the listOfCurveSegments at the given index.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * @throws IndexOutOfBoundsException
+   *         if the listOf is not set or
+   *         if the index is out of bound (index < 0 || index > list.size).
    */
   public CurveSegment getCurveSegment(int i) {
     if (!isSetListOfCurveSegments()) {
@@ -439,6 +478,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     }
     return getListOfCurveSegments().get(i);
   }
+
 
   /**
    * Returns the number of {@link CurveSegment}s in this
@@ -450,6 +490,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
   public int getCurveSegmentCount() {
     return isSetListOfCurveSegments() ? getListOfCurveSegments().size() : 0;
   }
+
 
   /**
    * Returns the number of {@link CurveSegment}s in this
@@ -463,8 +504,9 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     return getCurveSegmentCount();
   }
 
-  
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -472,13 +514,15 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     final int prime = 3167;
     int result = super.hashCode();
     result = prime * result
-        + ((listOfCurveSegments == null) ? 0 : listOfCurveSegments.hashCode());
+      + ((listOfCurveSegments == null) ? 0 : listOfCurveSegments.hashCode());
     result = prime * result
-        + ((listOfElements == null) ? 0 : listOfElements.hashCode());
+      + ((listOfElements == null) ? 0 : listOfElements.hashCode());
     return result;
   }
 
-  /* (non-Javadoc)
+
+  /*
+   * (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -509,6 +553,4 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     }
     return true;
   }
-
-  
 }

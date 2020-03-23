@@ -75,19 +75,13 @@ public class GlobalRenderInformationConstraints
       func = new UnknownCoreElementValidationFunction<GlobalRenderInformation>();
       break;
     case RENDER_20703:
-      func = new ValidationFunction<GlobalRenderInformation>() {
-
+      func = new UnknownPackageElementValidationFunction<GlobalRenderInformation>(RenderConstants.shortLabel) {
         @Override
         public boolean check(ValidationContext ctx, GlobalRenderInformation t) {
-          return new DuplicatedElementValidationFunction<GlobalRenderInformation>(
-            RenderConstants.shortLabel + ":" + RenderConstants.listOfStyles)
-                                                                            .check(
-                                                                              ctx,
-                                                                              t)
-            && new UnknownPackageElementValidationFunction<GlobalRenderInformation>(
-              RenderConstants.shortLabel).check(ctx, t);
+            return super.check(ctx, t)
+              && new DuplicatedElementValidationFunction<GlobalRenderInformation>(
+                RenderConstants.listOfStyles).check(ctx, t);
         }
-        
       };
       break;
     case RENDER_20704:

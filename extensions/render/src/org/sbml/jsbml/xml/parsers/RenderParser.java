@@ -187,6 +187,10 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       }
     }
     else if (contextObject instanceof RenderInformationBase) {
+      // TODO 2020/03: calls like this might need be added to more of the cases (wherever child-elements play a role)
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       RenderInformationBase renderInformation = (RenderInformationBase) contextObject;
       SBase newElement = null;
 
