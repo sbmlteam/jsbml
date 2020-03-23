@@ -180,6 +180,16 @@ public class LocalRenderInformation extends RenderInformationBase {
     }
     return true;
   }
+  
+  /**
+   * @return {@code true} iff listOfLocalStyles is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfLocalStylesEmpty() {
+    return listOfLocalStyles != null && listOfLocalStyles.isEmpty();
+  }
+  
+  
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()

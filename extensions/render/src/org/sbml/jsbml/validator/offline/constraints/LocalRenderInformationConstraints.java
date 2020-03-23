@@ -86,8 +86,7 @@ public class LocalRenderInformationConstraints
       func = new ValidationFunction<LocalRenderInformation>() {
         @Override
         public boolean check(ValidationContext ctx, LocalRenderInformation lri) {
-          // TODO 2020/03: problem: isSet also considers empty to be unset. Go via userObjects?
-          return !lri.isSetListOfLocalStyles() || !lri.getListOfLocalStyles().isEmpty();
+          return !lri.isListOfLocalStylesEmpty();
         }
       };
       break;

@@ -119,11 +119,7 @@ public class RenderCurveConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<RenderCurve>() {
         @Override
         public boolean check(ValidationContext ctx, RenderCurve t) {
-          if(t.isSetListOfElements()) {
-            // TODO 2020/03: add methods isListOf___Empty() to all the relevant classes
-            return t.getListOfElements().isEmpty();
-          }
-          return true;
+          return !t.isListOfElementsEmpty();
         }
       };
       break;

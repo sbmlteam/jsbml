@@ -173,12 +173,25 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
     packageName = RenderConstants.shortLabel;
   }
 
+  
   /**
-   * @return whether listOfElements is set
+   * To check, whether {@link #listOfElements} is non-{@code null}, but empty,
+   * use {@link #isListOfElementsEmpty()}
+   * 
+   * @return whether listOfElements is set (to a non-empty and non-null list)
    */
   public boolean isSetListOfElements() {
-    return listOfElements != null;
+    return listOfElements != null && !listOfElements.isEmpty();
   }
+  
+  /**
+   * @return {@code true} iff listOfElements is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfElementsEmpty() {
+    return listOfElements != null && listOfElements.isEmpty();
+  }
+  
 
   /**
    * Set the value of listOfElements
@@ -265,10 +278,15 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
    *         one element, otherwise {@code false}.
    */
   public boolean isSetListOfCurveSegments() {
-    if (listOfCurveSegments == null) {
-      return false;
-    }
-    return true;
+    return listOfCurveSegments != null && !listOfCurveSegments.isEmpty();
+  }
+  
+  /**
+   * @return {@code true} iff listOfCurveSegments is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfCurveSegmentsEmpty() {
+    return listOfCurveSegments != null && listOfCurveSegments.isEmpty();
   }
 
   /**

@@ -26,7 +26,6 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
@@ -756,6 +755,14 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
       return false;
     }
     return true;
+  }
+  
+  /**
+   * @return {@code true} iff listOfCurveSegments is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfElementsEmpty() {
+    return listOfElements != null && listOfElements.isEmpty();
   }
 
 

@@ -83,9 +83,7 @@ public class GradientBaseConstraints extends AbstractConstraintDeclaration {
       func = new UnknownPackageElementValidationFunction<GradientBase>(RenderConstants.shortLabel) {
         @Override
         public boolean check(ValidationContext ctx, GradientBase base) {
-          boolean hasGradientStops = base.isSetListOfGradientStops()
-            && !base.getListOfGradientStops().isEmpty();
-          return hasGradientStops && super.check(ctx, base);
+          return base.isSetListOfGradientStops() && super.check(ctx, base);
         }
       };
       break;

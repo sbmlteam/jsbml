@@ -123,10 +123,15 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    *         otherwise {@code false}
    */
   public boolean isSetListOfLocalRenderInformation() {
-    if ((listOfLocalRenderInformation == null) || listOfLocalRenderInformation.isEmpty()) {
-      return false;
-    }
-    return true;
+    return listOfLocalRenderInformation != null && !listOfLocalRenderInformation.isEmpty();
+  }
+  
+  /**
+   * @return {@code true} iff listOfLocalRenderInformation is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfLocalRenderInformationEmpty() {
+    return listOfLocalRenderInformation != null && listOfLocalRenderInformation.isEmpty();
   }
 
   /**

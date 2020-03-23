@@ -86,17 +86,9 @@ public class RenderLayoutPluginConstraints extends AbstractConstraintDeclaration
       
     case RENDER_20302:
       func = new ValidationFunction<RenderLayoutPlugin>() {
-
         @Override
         public boolean check(ValidationContext ctx, RenderLayoutPlugin t) {
-          if(t.isSetListOfLocalRenderInformation()) {
-            // TODO 2020/03: isSet will ignore empty List (i.e. empty-list is
-            // considered not set) -> Figure out how to check whether empty
-            // (getList... will set the list)
-            return !t.getListOfLocalRenderInformation().isEmpty();
-          }
-          // Need not be set:
-          return true;
+          return !t.isListOfLocalRenderInformationEmpty();
         }
       };
       break;

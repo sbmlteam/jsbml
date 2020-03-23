@@ -7275,12 +7275,12 @@ public interface SBMLErrorCodes {
  	 public static final int RENDER_20903 = 1320903; 
 
 	 /**
-	  * Error code 1320904:
-	  * A &lt;gradientBase&gt; object may contain one and only one instance of the 
-	  * &lt;listOfGradientStops&gt; element. No other elements from the SBML Level 3 Render 
-	  * namespaces are permitted on a &lt;gradientBase&gt; object. Reference: L3V1 Render V1 
-	  * Section 
-	  */
+   * Error code 1320904:
+   * A GradientBase object must contain at least one instance of the
+   * GradientStop element. No other elements from the SBML Level 3 Render
+   * namespaces are permitted on a GradientBase object.
+   * Reference: L3V1 Render V1 Section 3.7.2
+   */
  	 public static final int RENDER_20904 = 1320904; 
 
 	 /**

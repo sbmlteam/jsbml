@@ -459,6 +459,14 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     }
     return true;
   }
+  
+  /**
+   * @return {@code true} iff listOfColorDefinitions is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfColorDefinitionsEmpty() {
+    return listOfColorDefinitions != null && listOfColorDefinitions.isEmpty();
+  }
 
   /**
    * @return the listOfColorDefinitions
@@ -558,6 +566,14 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
       return false;
     }
     return true;
+  }
+  
+  /**
+   * @return {@code true} iff listOfGradientDefinitions is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfGradientDefinitionsEmpty() {
+    return listOfGradientDefinitions != null && listOfGradientDefinitions.isEmpty();
   }
 
   /**
@@ -711,6 +727,14 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
       return false;
     }
     return true;
+  }
+  
+  /**
+   * @return {@code true} iff listOfLineEndings is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfLineEndingsEmpty() {
+    return listOfLineEndings != null && listOfLineEndings.isEmpty();
   }
 
 

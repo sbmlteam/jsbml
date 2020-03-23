@@ -91,11 +91,7 @@ public class RenderListOfLayoutsPluginConstraints
 
         @Override
         public boolean check(ValidationContext ctx, RenderListOfLayoutsPlugin t) {
-          if(t.isSetListOfGlobalRenderInformation()) {
-            return !t.getListOfGlobalRenderInformation().isEmpty();
-          }
-          // Need not be set:
-          return true;
+          return !t.isListOfGlobalRenderInformationEmpty();
         }
       };
       break;

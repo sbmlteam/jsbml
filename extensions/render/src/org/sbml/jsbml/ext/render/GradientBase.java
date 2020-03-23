@@ -292,6 +292,15 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
     }
     return true;
   }
+  
+  /**
+   * @return {@code true} iff listOfGradientStops is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfGradientStopsEmpty() {
+    return listOfGradientStops != null && listOfGradientStops.isEmpty();
+  }
+  
 
   /**
    * @return the listOfGradientStops

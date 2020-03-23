@@ -170,12 +170,17 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    *         otherwise {@code false}
    */
   public boolean isSetListOfGlobalRenderInformation() {
-    if (listOfGlobalRenderInformation == null) {
-      return false;
-    }
-    return true;
+    return listOfGlobalRenderInformation != null && !listOfGlobalRenderInformation.isEmpty();
   }
 
+  /**
+   * @return {@code true} iff listOfGlobalRenderInformation is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfGlobalRenderInformationEmpty() {
+    return listOfGlobalRenderInformation != null && listOfGlobalRenderInformation.isEmpty();
+  }
+  
   /**
    * @param field
    * @return

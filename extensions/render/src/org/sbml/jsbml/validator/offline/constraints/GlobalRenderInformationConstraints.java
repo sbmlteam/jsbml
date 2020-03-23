@@ -94,11 +94,7 @@ public class GlobalRenderInformationConstraints
       func = new ValidationFunction<GlobalRenderInformation>() {
         @Override
         public boolean check(ValidationContext ctx, GlobalRenderInformation t) {
-          if(t.isSetListOfStyles()) {
-            // TODO 2020/03: Issue: GlobalRenderInformation#isSetListOfStyles counts empty as unset
-            return !t.getListOfStyles().isEmpty();
-          }
-          return true;
+          return !t.isListOfStylesEmpty();
         }
       };
       break;

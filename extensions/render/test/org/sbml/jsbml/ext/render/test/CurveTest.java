@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.render.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -140,5 +141,30 @@ public class CurveTest {
     assertTrue(!curve.isSetListOfElements());
     curve.setListOfElements(list);
     assertTrue(curve.isSetListOfElements());
+  }
+  
+  
+  /**
+   * Tests {@link org.sbml.jsbml.ext.render.RenderCurve#isSetListOfElements()}
+   * and {@link org.sbml.jsbml.ext.render.RenderCurve#isListOfElementsEmpty()}.
+   */
+  @Test
+  public void testIsSetListOfElements() {
+    RenderCurve curve=new RenderCurve();
+    assertFalse(curve.isSetListOfElements());
+    assertFalse(curve.isListOfElementsEmpty()); // there is none
+    
+    ListOf<RenderPoint> list=new ListOf<RenderPoint>();
+    curve.setListOfElements(list);
+    assertFalse(curve.isSetListOfElements());
+    assertTrue(curve.isListOfElementsEmpty());
+    
+    RenderPoint point=new RenderPoint();
+    point.setX(new RelAbsVector(.01d));
+    point.setY(new RelAbsVector(.01d));
+    point.setZ(new RelAbsVector(.01d));
+    curve.addElement(point);
+    assertTrue(curve.isSetListOfElements());
+    assertFalse(curve.isListOfElementsEmpty());
   }
 }

@@ -129,18 +129,9 @@ public class RenderInformationBaseConstraints
       func = new ValidationFunction<RenderInformationBase>() {
         @Override
         public boolean check(ValidationContext ctx, RenderInformationBase t) {
-          // TODO 2020/03: the isSet-methods count empty lists as not set, thus
-          // rendering these checks futile
-          if(t.isSetListOfColorDefinitions() && t.getListOfColorDefinitions().isEmpty()) {
-            return false;
-          }
-          if(t.isSetListOfGradientDefinitions() && t.getListOfGradientDefinitions().isEmpty()) {
-            return false;
-          }
-          if(t.isSetListOfLineEndings() && t.getListOfLineEndings().isEmpty()) {
-            return false;
-          }
-          return true;
+          return !(t.isListOfColorDefinitionsEmpty()
+            || t.isListOfGradientDefinitionsEmpty()
+            || t.isListOfLineEndingsEmpty());
         }
       };
       break;

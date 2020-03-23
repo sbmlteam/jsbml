@@ -177,6 +177,15 @@ public class GlobalRenderInformation extends RenderInformationBase {
     }
     return true;
   }
+  
+  
+  /**
+   * @return {@code true} iff listOfStyles is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfStylesEmpty() {
+    return listOfStyles != null && listOfStyles.isEmpty();
+  }
 
 
   /**
