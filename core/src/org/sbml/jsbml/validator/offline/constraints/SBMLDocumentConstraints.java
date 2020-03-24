@@ -108,32 +108,29 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SBMLDocument> func = null;
 
     switch (errorCode) {
-
+    
     //implement functions for the new Errors
     case 1: {
       func = new ValidationFunction<SBMLDocument>() {
 
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
-          // TODO check if package has no constraints -> no validation support
           String packageName = t.getPackageName();
-          
+
           if(packageName.equals(DistribConstants.shortLabel) || 
-             packageName.equals(GroupsConstants.shortLabel) ||
-             packageName.equals(RenderConstants.shortLabel)) {
-            
+              packageName.equals(GroupsConstants.shortLabel) ||
+              packageName.equals(RenderConstants.shortLabel)) {
+
             //Some error message maybe
             return false;
           }
           return true;
-        }    
+        }
       };
     }
-
-    //implement functions for the new Errors
+    
     case 2: {
       func = new ValidationFunction<SBMLDocument>() {
-
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
           // TODO check if package has only partial support 
@@ -141,24 +138,25 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         }    
       };
     }
+      
 
-    case CORE_10101: {
-      func = new ValidationFunction<SBMLDocument>() {
+      case CORE_10101: {
+        func = new ValidationFunction<SBMLDocument>() {
 
-        @Override
-        public boolean check(ValidationContext ctx, SBMLDocument d) {
+          @Override
+          public boolean check(ValidationContext ctx, SBMLDocument d) {
 
-          String encoding = (d.isSetUserObjects() ? (String) d.getUserObject(XML_DECLARED_ENCODING) : null);
+            String encoding = (d.isSetUserObjects() ? (String) d.getUserObject(XML_DECLARED_ENCODING) : null);
 
-          if (encoding != null && !encoding.equalsIgnoreCase("UTF-8")) {
-            return false;
+            if (encoding != null && !encoding.equalsIgnoreCase("UTF-8")) {
+              return false;
+            }
+
+            return true;
           }
-
-          return true;
-        }
-      };
-      break;
-    }
+        };
+        break;
+      }
 
     case CORE_10102:
       func = new ValidationFunction<SBMLDocument>() {
