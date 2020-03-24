@@ -290,7 +290,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, SBase sb) {
 
           if (sb.isSetMetaId()) {
-            return SyntaxChecker.isValidMetaId(sb.getMetaId()); 
+            return SyntaxChecker.isValidMetaId(sb.getMetaId(), sb.getLevel(), sb.getVersion()); 
           }
           
           return true;

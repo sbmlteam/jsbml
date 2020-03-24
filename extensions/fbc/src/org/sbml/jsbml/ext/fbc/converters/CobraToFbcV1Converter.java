@@ -140,22 +140,23 @@ public class CobraToFbcV1Converter implements SBMLConverter {
         if (reaction.isSetFast() == false) {
           reaction.setFast(false);
         }
-        // get lower and upper flux bound from the kinetic law, set them in the list of flux bounds, and delete the kinetic law
-        if (reaction.getKineticLaw().getParameter("LOWER_BOUND").isSetValue()) {
-          FluxBound fluxBoundLo = new FluxBound();
-          fluxBoundLo.setReaction(reaction.getId());
-          fluxBoundLo.setOperation(FluxBound.Operation.GREATER_EQUAL);
-          fluxBoundLo.setValue(reaction.getKineticLaw().getParameter("LOWER_BOUND").getValue());
-          fbcModelPlugin.addFluxBound(fluxBoundLo);
-        }
-        if (reaction.getKineticLaw().getParameter("UPPER_BOUND").isSetValue()) {
-          FluxBound fluxBoundUp = new FluxBound();
-          fluxBoundUp.setReaction(reaction.getId());
-          fluxBoundUp.setOperation(FluxBound.Operation.LESS_EQUAL);
-          fluxBoundUp.setValue(reaction.getKineticLaw().getParameter("UPPER_BOUND").getValue());
-          fbcModelPlugin.addFluxBound(fluxBoundUp);
-        }
         if (reaction.isSetKineticLaw()) {
+          // get lower and upper flux bound from the kinetic law, set them in the list of flux bounds, and delete the kinetic law
+          if (reaction.getKineticLaw().getParameter("LOWER_BOUND") != null && reaction.getKineticLaw().getParameter("LOWER_BOUND").isSetValue()) {
+            FluxBound fluxBoundLo = new FluxBound();
+            fluxBoundLo.setReaction(reaction.getId());
+            fluxBoundLo.setOperation(FluxBound.Operation.GREATER_EQUAL);
+            fluxBoundLo.setValue(reaction.getKineticLaw().getParameter("LOWER_BOUND").getValue());
+            fbcModelPlugin.addFluxBound(fluxBoundLo);
+          }
+          if (reaction.getKineticLaw().getParameter("UPPER_BOUND") != null && reaction.getKineticLaw().getParameter("UPPER_BOUND").isSetValue()) {
+            FluxBound fluxBoundUp = new FluxBound();
+            fluxBoundUp.setReaction(reaction.getId());
+            fluxBoundUp.setOperation(FluxBound.Operation.LESS_EQUAL);
+            fluxBoundUp.setValue(reaction.getKineticLaw().getParameter("UPPER_BOUND").getValue());
+            fbcModelPlugin.addFluxBound(fluxBoundUp);
+          }
+          // then unset the KineticLaw of the reaction
           reaction.unsetKineticLaw();
         }
         // set attribute constant for products and reactants

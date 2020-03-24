@@ -279,7 +279,7 @@ public class SBaseRefConstraints extends AbstractConstraintDeclaration {
           
           if (sbaseRef.isSetMetaIdRef()) {
                   
-            return SyntaxChecker.isValidMetaId(sbaseRef.getMetaIdRef());
+            return SyntaxChecker.isValidMetaId(sbaseRef.getMetaIdRef(), sbaseRef.getLevel(), sbaseRef.getVersion());
           }
           
           return true;

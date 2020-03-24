@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.render;
  * @author Jakob Matthes
  * @author Eugen Netz
  * @author Jan Rudolph
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public interface FontRenderStyle { // TODO - FontWeight (bold, normal) and FontStyle (italic, normal) ?
@@ -31,7 +32,8 @@ public interface FontRenderStyle { // TODO - FontWeight (bold, normal) and FontS
   /**
    * @return the value of fontFamily
    */
-  public abstract FontFamily getFontFamily();
+  public abstract String getFontFamily();
+ 
 
   /**
    * @return whether fontFamily is set
@@ -42,7 +44,13 @@ public interface FontRenderStyle { // TODO - FontWeight (bold, normal) and FontS
    * Set the value of fontFamily
    * @param fontFamily
    */
-  public abstract void setFontFamily(FontFamily fontFamily);
+  public abstract void setFontFamily(String fontFamily);
+  
+  /**
+   * Set the value of fontFamily by using a {@link FontFamily} type. 
+   * @param fontFamily
+   */
+  public abstract void setFontFamily(FontFamily fontFamily); //TODO default implementation for interface possible? 
 
   /**
    * Unsets the variable fontFamily

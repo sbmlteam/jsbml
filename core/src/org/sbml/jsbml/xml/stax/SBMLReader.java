@@ -24,8 +24,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -81,6 +79,9 @@ import com.ctc.wstx.stax.WstxInputFactory;
 
 /**
  * Provides all the methods to read a SBML file.
+ * 
+ * <p>Warning: This class is not thread safe, so if using several thread to process SBML files in parallel
+ * you should make sure to use new instances of SBMLReader in each thread.</p> 
  *
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
@@ -101,10 +102,25 @@ public class SBMLReader {
   //    System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
   //  }
 
-  /**
-   * Contains all the initialized parsers.
-   */
-  private Map<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
+  private static Map<String, Class<? extends AnnotationReader>> annotationParserClasses = new HashMap<String, Class<? extends AnnotationReader>>();
+
+ static {
+   
+   // loading the annotation parsers once
+   JSBML.loadClasses("org/sbml/jsbml/resources/cfg/annotationParsers.xml", annotationParserClasses);
+
+  }
+
+ 
+ /**
+  * Contains all the initialized parsers.
+  */
+ private Map<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
+
+ /**
+  *
+  */
+ private List<AnnotationReader> annotationParsers = new ArrayList<AnnotationReader>();
 
   /**
    * The parent of the mathML we are parsing through the readMathML methods.
@@ -113,10 +129,6 @@ public class SBMLReader {
    */
   private MathContainer astNodeParent;
 
-  /**
-   *
-   */
-  private List<AnnotationReader> annotationParsers = new ArrayList<AnnotationReader>();
 
   /**
    * Initialize a static instance of the core parser.
@@ -134,11 +146,11 @@ public class SBMLReader {
    *
    * @return the map containing the ReadingParser instances.
    */
-  private Map<String, ReadingParser> initializePackageParsers() {
+  private  Map<String, ReadingParser> initializePackageParsers() {
     Logger logger = Logger.getLogger(SBMLReader.class);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("initializePackageParsers called for " + this);
+      logger.debug("initializePackageParsers called.");
     }
 
     if ((initializedParsers == null) || (initializedParsers.size() == 0)) {
@@ -175,15 +187,6 @@ public class SBMLReader {
   public void initializeAnnotationParsers() {
 
     // TODO - make use of the java6 annotation to know which annotationParsers to initialize
-
-    // to prevent several call to this method
-    annotationParsers.clear();
-
-    Map<String, Class<? extends AnnotationReader>> annotationParserClasses = new HashMap<String, Class<? extends AnnotationReader>>();
-
-    JSBML.loadClasses(
-      "org/sbml/jsbml/resources/cfg/annotationParsers.xml",
-      annotationParserClasses);
 
     for (Class<? extends AnnotationReader> annotationReaderClass : annotationParserClasses.values()) {
       try {

@@ -21,6 +21,7 @@ package org.sbml.jsbml.ext.fbc.converters;
 
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.ext.fbc.CobraConstants;
 import org.sbml.jsbml.util.converters.SBMLConverter;
 
 /**
@@ -28,10 +29,18 @@ import org.sbml.jsbml.util.converters.SBMLConverter;
  * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
+ * @author Thorsten Tiede
  * @since 1.3
  */
 public class FbcV2ToCobraConverter implements SBMLConverter {
 
+  // Options for FbcV2ToFbcV1Converter
+  String defaultGeneAssociationSpelling = null;
+  
+  // Options for FbcV1ToCobraConverter
+  Double defaultLowerBound = null;
+  Double defaultUpperBound = null;
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#convert(org.sbml.jsbml.SBMLDocument)
    */
@@ -39,9 +48,20 @@ public class FbcV2ToCobraConverter implements SBMLConverter {
   public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
    // convert SBML FBCV2 file to SBML FBCV1
     FbcV2ToFbcV1Converter fbcV2ToFbcV1Converter = new FbcV2ToFbcV1Converter();
+    if (this.defaultGeneAssociationSpelling != null) {
+      fbcV2ToFbcV1Converter.setOption(CobraConstants.DEFAULT_GENE_ASSOCIATION_SPELLING, defaultGeneAssociationSpelling);
+    }
     sbmlDocument = fbcV2ToFbcV1Converter.convert(sbmlDocument);
    // convert SBML FBCV1 file to old COBRA SBML
     FbcV1ToCobraConverter fbcV1ToCobraConverter = new FbcV1ToCobraConverter();
+    if (this.defaultLowerBound != null)
+    {
+      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_LOWER_BOUND_NAME, this.defaultLowerBound.toString());
+    }
+    if (this.defaultUpperBound != null)
+    {
+      fbcV1ToCobraConverter.setOption(CobraConstants.DEFAULT_UPPER_BOUND_NAME, this.defaultUpperBound.toString());
+    }
     sbmlDocument = fbcV1ToCobraConverter.convert(sbmlDocument);  
     
     return sbmlDocument;
@@ -52,7 +72,23 @@ public class FbcV2ToCobraConverter implements SBMLConverter {
    */
   @Override
   public void setOption(String name, String value) {
-    // TODO Auto-generated method stub
-    
+    if (value == null) return;
+    if (name.equals(CobraConstants.DEFAULT_LOWER_BOUND_NAME)) {
+      try {
+        this.defaultLowerBound = Double.valueOf(value);
+      } catch (NumberFormatException e) {
+        this.defaultLowerBound = null;
+      }
+    }
+    if (name.equals(CobraConstants.DEFAULT_UPPER_BOUND_NAME)) {
+      try {
+        this.defaultUpperBound = Double.valueOf(value);
+      } catch (NumberFormatException e) {
+        this.defaultUpperBound = null;
+      }
+    }
+    if (name.equals(CobraConstants.DEFAULT_GENE_ASSOCIATION_SPELLING)) {
+      this.defaultGeneAssociationSpelling = value;
+    }
   }
 }

@@ -54,7 +54,7 @@ import org.sbml.jsbml.ext.comp.ReplacedElement;
 import org.sbml.jsbml.ext.comp.Submodel;
 
 /**
- * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level 3
+ * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level 3
  * Hierarchical Model Composition package into a 'flattened' version of the same model. This means the the hierarchical
  * structure is dissolved and all objects are built into a single model that does no longer require the comp package.
  *
@@ -778,6 +778,7 @@ public class CompFlatteningConverter {
           ModelDefinition localisedMain = new ModelDefinition(flattened.getModel());
           workingList.add(0, localisedMain);
         }
+        
         
         
         

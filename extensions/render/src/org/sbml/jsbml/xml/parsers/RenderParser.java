@@ -58,13 +58,16 @@ import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
 import org.sbml.jsbml.ext.render.RenderPoint;
 import org.sbml.jsbml.ext.render.Style;
+import org.sbml.jsbml.ext.render.Text;
 import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Eugen Netz
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 @ProviderFor(ReadingParser.class)
@@ -107,6 +110,34 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
     return super.processAttribute(elementName, attributeName, value, uri, prefix,
         isLastAttribute, contextObject);
   }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
+   */
+  @Override
+  public void processCharactersOf(String elementName, String characters,
+    Object contextObject) {
+    super.processCharactersOf(elementName, characters, contextObject);
+    if(contextObject instanceof Text) {
+      ((Text) contextObject).setText(characters);
+    }
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
+   */
+  @Override
+  public void writeCharacters(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+    super.writeCharacters(xmlObject, sbmlElementToWrite);
+    
+    // As by the render-specification, text-objects have their text simply as an XML-child 
+    if(sbmlElementToWrite instanceof Text) {
+      if(((Text) sbmlElementToWrite).isSetText()) {
+        xmlObject.setCharacters(((Text) sbmlElementToWrite).getText()); 
+      }
+    }
+  }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
@@ -122,6 +153,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
     }
     
     if (contextObject instanceof LayoutModelPlugin) {
+      // TODO: This seems to never actually get used.
       LayoutModelPlugin layoutModel = (LayoutModelPlugin) contextObject;
       
       ListOf<Layout> listOfLayouts = layoutModel.getListOfLayouts();
@@ -313,7 +345,21 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
       SBase newElement = null;
 
-      if (elementName.equals(RenderConstants.element)) { 
+      if(elementName.equals(RenderConstants.listOfGlobalRenderInformation)) {
+        // If we encounter a listOfGlobalRenderInformation, as by the
+        // specification, the contextObject ought to be a ListOf<Layout>
+        
+        RenderListOfLayoutsPlugin plugin = new RenderListOfLayoutsPlugin((ListOf<Layout>) contextObject);
+        listOf.addExtension(RenderConstants.shortLabel, plugin);
+        newElement = plugin.getListOfGlobalRenderInformation();
+        
+        // Specifically abort here early, because newElement would otherwise be
+        // added to the list again (which would cause a warning)
+        if (newElement != null) {
+          return newElement;
+        }
+      } 
+      else if (elementName.equals(RenderConstants.element)) { 
         newElement = new RenderCubicBezier();
       }
       // JSBML used "renderPoint" for a few years so we are keeping the test using "renderPoint"
@@ -366,7 +412,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
         } else {
           newElement = new GlobalRenderInformation();
         }
-      }
+      }      
       // JSBML used "localRenderInformation" for a few years so we are keeping the test using "localRenderInformation"
       // here to be able to read any incorrect files with JSBML.
       else if (elementName.equals("localRenderInformation")) 

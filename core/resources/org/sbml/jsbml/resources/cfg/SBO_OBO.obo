@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 21:03:2018 07:00
-data-version: 17:02:2018 11:54
+date: 10:03:2020 07:00
+data-version: 25:02:2020 12:14
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -4459,15 +4459,15 @@ is_a: SBO:0000182 ! conversion
 
 [Term]
 id: SBO:0000657
-name: transmembrane active transport
+name: active transport
 def: "Protein assisted movement of molecules across a membrane from a region of low concentration to high concentration involving the consumption of cellular energy (ATP molecules)." [src_code:NR]
 comment: Term created in response to \[SF req #121\]
 is_a: SBO:0000655 ! transport reaction
 
 [Term]
 id: SBO:0000658
-name: transmembrane passive transport
-def: "Transmembrane movement of molecules without the need for external energy, and usually from a region of high concentration to low concentration." [src_code:NR]
+name: passive transport
+def: "Movement of molecules without the need for external energy, and usually from a region of high concentration to low concentration." [src_code:NR]
 comment: Term created in response to \[SF req #121\]
 is_a: SBO:0000655 ! transport reaction
 
@@ -4484,6 +4484,69 @@ name: antiporter-mediated transport
 def: "A membrane protein mediated transport of two or more molecules in opposite directions across a membrane." [src_code:NR]
 comment: Term created in response to \[SF req #121\]
 is_a: SBO:0000654 ! co-transport reaction
+
+[Term]
+id: SBO:0000661
+name: capacity
+def: "Total amount that can be contained or produced by a specific entity. This can refer to diverse items, such as the carrying capacity of a membrane with respect to proteins, the capacity of high-energy phosphate bonds, or the maximal count of bacteria in the gut, etc." [src_code:NR]
+comment: Term created in response to \[SF req #123\]
+is_a: SBO:0000002 ! quantitative systems description parameter
+
+[Term]
+id: SBO:0000662
+name: occupancy
+def: "Occopancy is a quantitative systemic property that indicates which number of available places is occupied. This can refer to diverse things, such as the number of occupied high-energy phosphate bonds in ATP, the number of bacteria in the gut, or the number of electrons loaded onto redox carriers, etc." [src_code:NR]
+comment: Term created in response to \[SF req #124\]
+is_a: SBO:0000002 ! quantitative systems description parameter
+
+[Term]
+id: SBO:0000663
+name: fractional occupancy
+def: "Fractional occupancy is a quantitative dynamic property of a system that can be calculated as the fraction of occupancy over capacity." [src_code:NR]
+comment: Term created in response to \[SF req #125\]
+is_a: SBO:0000545 ! systems description parameter
+
+[Term]
+id: SBO:0000664
+name: contained entity
+def: "an entity which physical constituents are partially or totally contained in a defined compartment." [src_code:NR]
+is_a: SBO:0000003 ! participant role
+
+[Term]
+id: SBO:0000665
+name: inactivation
+def: "a conformation changes to a protein leading to its inactivation" [src_code:NR]
+is_a: SBO:0000182 ! conversion
+
+[Term]
+id: SBO:0000666
+name: chain length
+def: "describes the number of amino acids,nucleic acid in a protein/DNA/RNA chain" [src_code:NR]
+is_a: SBO:0000002 ! quantitative systems description parameter
+
+[Term]
+id: SBO:0000667
+name: protein chain length
+def: "length of amino acid sequence in a protein" [src_code:NR]
+is_a: SBO:0000666 ! chain length
+
+[Term]
+id: SBO:0000668
+name: yield
+def: "output generated as biomass or product from a/set of chemical reaction/s." [src_code:NR]
+is_a: SBO:0000241 ! functional entity
+
+[Term]
+id: SBO:0000669
+name: biomass yield on substrate
+def: "generation of biomass for an substrate through a defined reaction/s." [src_code:NR]
+is_a: SBO:0000668 ! yield
+
+[Term]
+id: SBO:0000670
+name: product yield on substrate
+def: "generation of product from substrate in a defined chemical reaction." [src_code:NR]
+is_a: SBO:0000668 ! yield
 
 [Typedef]
 id: is_a

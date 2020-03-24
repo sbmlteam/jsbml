@@ -32,6 +32,7 @@ import org.sbml.jsbml.ext.render.VTextAnchor;
 
 /**
  * @author Ibrahim Vazirabad
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public class GroupTest {
@@ -95,11 +96,12 @@ public class GroupTest {
    */
   @Test
   public void testGetFontFamily() {
-    FontFamily fontType=FontFamily.MONOSPACE;
+    FontFamily fontType= FontFamily.MONOSPACE;
+    String fontTypeString = fontType.toString();
     RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
-    g.setFontFamily(fontType);
-    assertEquals("getFontFamily",fontType,g.getFontFamily());
+    g.setFontFamily(fontTypeString);
+    assertTrue("getFontFamily", fontType.toString().equals(g.getFontFamily()));
   }
 
 
@@ -111,7 +113,7 @@ public class GroupTest {
     FontFamily fontType=FontFamily.MONOSPACE;
     RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
-    g.setFontFamily(fontType);
+    g.setFontFamily(fontType.toString());
     assertTrue(g.isSetFontFamily());
   }
 
@@ -124,8 +126,8 @@ public class GroupTest {
     FontFamily fontType=FontFamily.MONOSPACE;
     RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
-    g.setFontFamily(fontType);
-    assertEquals("setFontFamilyError",g.getFontFamily(),fontType);
+    g.setFontFamily(fontType.toString());
+    assertTrue("setFontFamilyError", fontType.toString().equals(g.getFontFamily()));
   }
 
 

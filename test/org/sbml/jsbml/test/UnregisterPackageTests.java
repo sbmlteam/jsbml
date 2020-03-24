@@ -76,6 +76,7 @@ import org.sbml.jsbml.ext.qual.QualitativeSpecies;
 import org.sbml.jsbml.ext.render.Image;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
@@ -810,11 +811,10 @@ public class UnregisterPackageTests {
     LocalStyle ls1 = new LocalStyle(3, 1, g1);
     ls1.setId("RLS1");
     lri1.addLocalStyle(ls1);
-    g1.createRectangle().setX(4.5);
-    g1.createText().setAbsoluteX(true);
+    g1.createRectangle().setX(new RelAbsVector(4.5));
+    g1.createText();
     Image image = g1.createImage();
-    image.setAbsoluteX(false);
-    image.setX(33.);
+    image.setX(new RelAbsVector(33d));
 
     image.setMetaId("RI1");
 

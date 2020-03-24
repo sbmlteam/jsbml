@@ -26,6 +26,7 @@ import java.util.Arrays;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 public class Transformation2D extends Transformation {
@@ -33,12 +34,6 @@ public class Transformation2D extends Transformation {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -1737694519381619398L;
-
-
-  /**
-   * 
-   */
-  protected Double[] transform;
 
   /**
    * Creates an Transformation2D instance
@@ -65,6 +60,7 @@ public class Transformation2D extends Transformation {
     super(obj);
     
     if (obj.isSetTransform()) {
+      transform = new Double[obj.transform.length];
       System.arraycopy(obj.getTransform(), 0, transform, 0, obj.getTransform().length);
     }
   }
@@ -80,8 +76,10 @@ public class Transformation2D extends Transformation {
   /**
    * @return the value of transform
    */
+  @Override
   public Double[] getTransform() {
     if (!isSetTransform()) {
+      // Note render specification page 25: exactly 6 values
       transform = new Double[6];
     }
     return transform;
@@ -96,23 +94,6 @@ public class Transformation2D extends Transformation {
     packageName = RenderConstants.shortLabel;
   }
 
-  /**
-   * @return whether transform is set
-   */
-  public boolean isSetTransform() {
-    return transform != null;
-  }
-
-  /**
-   * Set the value of transform
-   * @param transform
-   */
-  public boolean setTransform(Double[] transform) {
-    Double[] oldTransform = this.transform;
-    this.transform = transform;
-    firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
-    return transform != oldTransform;
-  }
 
   /**
    * Unsets the variable transform
@@ -151,7 +132,8 @@ public class Transformation2D extends Transformation {
       return false;
     }
     Transformation2D other = (Transformation2D) obj;
-    if (!Arrays.equals(transform, other.transform)) {
+    // deepEquals: We are working on Double[], not on double[]
+    if (!Arrays.deepEquals(transform, other.transform)) {
       return false;
     }
     return true;

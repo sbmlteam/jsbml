@@ -159,7 +159,8 @@ public class PerformanceTest {
     }
 
     if (modelLongerThanThresholdList.size() > 0) {
-      System.out.println("Models longer than '" + THRESHOLD + "' secondes: " + modelLongerThanThresholdList);
+      System.out.println("Models longer than '" + THRESHOLD + "' secondes (" + modelLongerThanThresholdList.size() + 
+        "): " + modelLongerThanThresholdList);
     }
 
     if (files.length > 1)

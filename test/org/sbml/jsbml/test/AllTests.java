@@ -27,6 +27,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.sbml.jsbml.ext.arrays.test.ArraysJUnitTests;
 import org.sbml.jsbml.ext.comp.test.CompJUnitTests;
 import org.sbml.jsbml.ext.dyn.test.TestL3Dyn;
+import org.sbml.jsbml.ext.fbc.test.FbcJUnitTests;
 import org.sbml.jsbml.ext.groups.test.GroupsJUnitTests;
 import org.sbml.jsbml.ext.layout.test.LayoutJUnitTests;
 import org.sbml.jsbml.ext.render.test.RenderJUnitTests;
@@ -42,7 +43,7 @@ import org.sbml.jsbml.xml.test.Tests;
 @RunWith(value=Suite.class)
 @SuiteClasses(value={Tests.class, LibsbmlCompatibilityTests.class, LayoutJUnitTests.class, RenderJUnitTests.class,
   UnregisterPackageTests.class, ArraysJUnitTests.class, DisablePackageTests.class, TestL3Dyn.class,
-  PackageVersionTests.class, CompJUnitTests.class, UTF8Tests.class, GroupsJUnitTests.class})
+  PackageVersionTests.class, CompJUnitTests.class, UTF8Tests.class, GroupsJUnitTests.class, FbcJUnitTests.class})
 public class AllTests {
 
   /**

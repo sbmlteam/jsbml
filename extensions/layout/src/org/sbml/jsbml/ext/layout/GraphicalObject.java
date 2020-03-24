@@ -296,9 +296,10 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
    */
   @Override
   public void setBoundingBox(BoundingBox boundingBox) {
-    unsetBoundingBox();
+    BoundingBox oldValue = this.boundingBox;
     this.boundingBox = boundingBox;
     registerChild(this.boundingBox);
+    firePropertyChange(LayoutConstants.boundingBox, oldValue, this.boundingBox);
   }
 
   /* (non-Javadoc)
@@ -310,6 +311,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
       BoundingBox oldValue = boundingBox;
       boundingBox = null;
       oldValue.fireNodeRemovedEvent();
+      firePropertyChange(LayoutConstants.boundingBox, oldValue, boundingBox);
     }
   }
 
@@ -329,8 +331,8 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
       logger.warn(MessageFormat.format(
         ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
         "name", getLevel(), getVersion(), getElementName()));
-      // TODO: This must be generally solved. Here we have an SBase with ID but without name!
-      // TODO: This does not have to be done at this level, however... also, why is this AbstractNamedSbase?
+      // TODO 2013/11: This must be generally solved. Here we have an SBase with ID but without name!
+      // TODO 2014/04: This does not have to be done at this level, however... also, why is this AbstractNamedSbase?
     }
     if (isSetMetaidRef())
     {

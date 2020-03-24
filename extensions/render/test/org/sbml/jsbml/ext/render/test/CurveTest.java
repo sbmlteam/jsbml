@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderCurve;
 import org.sbml.jsbml.ext.render.RenderPoint;
 
@@ -115,9 +116,9 @@ public class CurveTest {
     RenderCurve curve=new RenderCurve();
     ListOf<RenderPoint> list=new ListOf<RenderPoint>();
     RenderPoint point=new RenderPoint();
-    point.setX(.01d);
-    point.setY(.01d);
-    point.setZ(.01d);
+    point.setX(new RelAbsVector(.01d));
+    point.setY(new RelAbsVector(.01d));
+    point.setZ(new RelAbsVector(.01d));
     list.add(point);
     curve.setListOfElements(list);
     assertEquals("ElementError",point,curve.getListOfElements().get(0));
@@ -131,9 +132,9 @@ public class CurveTest {
   public void testSetListOfElements() {
     ListOf<RenderPoint> list=new ListOf<RenderPoint>();
     RenderPoint point=new RenderPoint();
-    point.setX(.01d);
-    point.setY(.01d);
-    point.setZ(.01d);
+    point.setX(new RelAbsVector(.01d));
+    point.setY(new RelAbsVector(.01d));
+    point.setZ(new RelAbsVector(.01d));
     list.add(point);
     RenderCurve curve=new RenderCurve();
     assertTrue(!curve.isSetListOfElements());

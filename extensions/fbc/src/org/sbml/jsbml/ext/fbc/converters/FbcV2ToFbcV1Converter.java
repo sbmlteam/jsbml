@@ -37,6 +37,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fbc.And;
 import org.sbml.jsbml.ext.fbc.Association;
+import org.sbml.jsbml.ext.fbc.CobraConstants;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCReactionPlugin;
@@ -55,12 +56,13 @@ import org.sbml.jsbml.util.filters.Filter;
  * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
+ * @author Thorsten Tiede
  * @since 1.3
  */
 @SuppressWarnings("deprecation")
 public class FbcV2ToFbcV1Converter implements SBMLConverter {
 
-  String userKey = null;
+  String defaultGeneAssociationSpelling = null;
   
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.converters.SBMLConverter#convert(org.sbml.jsbml.SBMLDocument)
@@ -69,7 +71,7 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
   @Override
   public SBMLDocument convert(SBMLDocument sbmlDocument) throws SBMLException {
     Model model = sbmlDocument.getModel();
-    FBCModelPlugin fbcModelPlugin = (FBCModelPlugin)model.getPlugin("fbc");
+    FBCModelPlugin fbcModelPlugin = (FBCModelPlugin)model.getPlugin(FBCConstants.shortLabel);
 
     // only SBMLDocuments with FBC Version 2 and "fbc:strict = true" are converted 
     if (sbmlDocument.isPackageEnabled(FBCConstants.getNamespaceURI(3, 1, 2)) && fbcModelPlugin.isSetStrict()) {
@@ -87,10 +89,10 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
             SBase sBase = (SBase) o;
             
             if (sBase.getNumPlugins() > 0) {
-              SBasePlugin sBasePlugin = sBase.getPlugin("fbc");
+              SBasePlugin sBasePlugin = sBase.getPlugin(FBCConstants.shortLabel);
               
               if (sBasePlugin != null) {
-                if (sBasePlugin.getPackageName().equals("fbc")) {
+                if (sBasePlugin.getPackageName().equals(FBCConstants.shortLabel)) {
                   sBasePlugin.setPackageVersion(1);
                 }
                 if (! sBasePlugin.getElementNamespace().equals(FBCConstants.namespaceURI_L3V1V1)) {
@@ -111,7 +113,7 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
         public boolean accepts(Object o) {
           if (o instanceof SBase) {
             SBase sBase = (SBase) o;
-            if (sBase.getPackageName().equals("fbc")) {
+            if (sBase.getPackageName().equals(FBCConstants.shortLabel)) {
               if (sBase.getPackageVersion() != 1) {
                 sBase.setPackageVersion(1);
               }
@@ -129,11 +131,12 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
       fbcModelPlugin.unsetStrict();
       
       // delete lower and upper flux bounds in the reactions; delete flux bounds from the list of parameters; create the list of flux bounds
+      // use a set to hold all parameters that need to be deleted after processing all reactions
+      Set<String> parametersToDelete = new HashSet<String>();
       for (Reaction reaction : model.getListOfReactions()) {
-        FBCReactionPlugin fbcReactionPlugin = (FBCReactionPlugin)reaction.getPlugin("fbc");
+        FBCReactionPlugin fbcReactionPlugin = (FBCReactionPlugin)reaction.getPlugin(FBCConstants.shortLabel);
         String lowerFluxBound = fbcReactionPlugin.getLowerFluxBound();
         String upperFluxBound = fbcReactionPlugin.getUpperFluxBound();
-        Set<String> parametersToDelete = new HashSet<String>();
         for (Parameter parameter : model.getListOfParameters()) {
           if (parameter.getId().equals(lowerFluxBound)) {
             FluxBound fluxBoundLo = new FluxBound();
@@ -153,23 +156,24 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
             parametersToDelete.add(parameter.getId());  
           } 
         }
-        for (String parameterToDelete : parametersToDelete) {
-          model.removeParameter(parameterToDelete);
-        }
         fbcReactionPlugin.unsetLowerFluxBound();
         fbcReactionPlugin.unsetUpperFluxBound();
+      }
+      // now delete the upper/lower bound parameters from the model after the fluxBounds have been created for all reactions
+      for (String parameterToDelete : parametersToDelete) {
+        model.removeParameter(parameterToDelete);
       }
       
       // write the gene associations to the notes of every reaction; delete fbc:geneProductAssociation for every reaction; delete fbc:listOfGeneProducts in model
       for (Reaction reaction : model.getListOfReactions()) {
-        FBCReactionPlugin fbcReactionPlugin = (FBCReactionPlugin)reaction.getPlugin("fbc");
+        FBCReactionPlugin fbcReactionPlugin = (FBCReactionPlugin)reaction.getPlugin(FBCConstants.shortLabel);
         
         // if there is an old gene association entry in the notes of this reaction it will be deleted
         Properties pElementsReactionNotes = new Properties();
         Pattern p;
-        if (userKey != null) {
-        // userKey is a way of writing “gene association” specified by the user    
-          p = Pattern.compile(userKey);
+        if (defaultGeneAssociationSpelling != null) {
+        // defaultGeneAssociationSpelling is a way of writing “gene association” specified by the user    
+          p = Pattern.compile(defaultGeneAssociationSpelling);
         } else {
         // regular expression to match the most common ways of writing “gene association”  
           p = Pattern.compile("(?i)gene[\\-_ ]*association");
@@ -207,7 +211,12 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
    */
   @Override
   public void setOption(String name, String value) {
-    this.userKey = value;
+    if (name == null) {
+      return;
+    }
+    if (name.equals(CobraConstants.DEFAULT_GENE_ASSOCIATION_SPELLING)) {
+      this.defaultGeneAssociationSpelling = value;
+    }
   }
   
   private ASTNode processAssociation(Association association, FBCModelPlugin fbcModelPlugin) {

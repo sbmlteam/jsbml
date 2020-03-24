@@ -43,6 +43,17 @@ public class ParserManager {
   private static ParserManager manager;
 
   /**
+   *  Loading the ReadingParsers
+   */
+  private static Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
+  
+  /**
+   *  Loading the WritingParsers
+   */
+  private static Iterator<WritingParser> writingParserList = ServiceLoader.load(WritingParser.class).iterator();
+
+
+  /**
    * 
    */
   public Map<String, ReadingParser> readingParsers = new HashMap<String, ReadingParser>();
@@ -97,8 +108,6 @@ public class ParserManager {
    * 
    */
   private void init() {
-    // loading the ReadingParsers
-    Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
     List<String> classNames = new ArrayList<String>();
     
     // TODO - each time we add one HashMap entry, check that it was not defined already
@@ -134,11 +143,9 @@ public class ParserManager {
       }
     }
 
-    // loading the WritingParsers
-    Iterator<WritingParser> service_list2 = ServiceLoader.load(WritingParser.class).iterator();
-    while (service_list2.hasNext()) {
+    while (writingParserList.hasNext()) {
       try {
-        WritingParser writingParser = service_list2.next();
+        WritingParser writingParser = writingParserList.next();
 
         if (writingParser != null) {
 
@@ -309,8 +316,6 @@ public class ParserManager {
     Map<String, ReadingParser> clonedMap = new HashMap<String, ReadingParser>();
     List<String> classNames = new ArrayList<String>();
 
-    Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
-
     while (readingParserList.hasNext()) {
       try {
         ReadingParser readingParser = readingParserList.next();
@@ -379,8 +384,6 @@ public class ParserManager {
     Map<String, WritingParser> clonedMap = new HashMap<String, WritingParser>();
     List<String> classNames = new ArrayList<String>();
 
-    Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
-
     while (readingParserList.hasNext()) {
       try {
         ReadingParser readingParser = readingParserList.next();
@@ -399,11 +402,9 @@ public class ParserManager {
       }
     }
 
-    Iterator<WritingParser> service_list2 = ServiceLoader.load(WritingParser.class).iterator();
-
-    while (service_list2.hasNext()) {
+    while (writingParserList.hasNext()) {
       try {
-        WritingParser writingParser = service_list2.next();
+        WritingParser writingParser = writingParserList.next();
 
         if (writingParser != null) {
 

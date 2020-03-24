@@ -33,6 +33,7 @@ import org.sbml.jsbml.NamedSBase;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class TextGlyph extends AbstractReferenceGlyph {
@@ -331,6 +332,21 @@ public class TextGlyph extends AbstractReferenceGlyph {
     firePropertyChange(LayoutConstants.text, oldText, this.text);
   }
 
+  /**
+   * Unsets the origin of text
+   */
+  public void unsetOriginOfText() {
+    // TODO 2019/12: could return boolean
+    unsetReference();
+  }
+  
+  /**
+   * Unsets the {@link #text} attribute
+   */
+  public void unsetText() {
+    setText(null);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
    */

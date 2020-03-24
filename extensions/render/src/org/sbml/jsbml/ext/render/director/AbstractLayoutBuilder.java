@@ -132,6 +132,11 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
       return createNucleicAcidFeature();
     }
     
+    // mRNA also counts as nucleic Acid feature, 278
+    if (SBO.isChildOf(sboTerm, SBO.getMessengerRNA())) {
+      return createNucleicAcidFeature();
+    }
+    
     // source or sink, 291
     if (SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
       return createSourceSink();

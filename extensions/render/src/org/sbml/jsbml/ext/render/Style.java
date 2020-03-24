@@ -37,6 +37,7 @@ import org.sbml.jsbml.ext.layout.GraphicalObject;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Emanuel Vetter
  * @since 1.0
  */
 public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
@@ -106,7 +107,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * 
    */
-  protected List<String> typeList;
+  protected List<Type> typeList;
 
   /**
    * Creates a Style instance with a group
@@ -175,7 +176,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     
     if (obj.isSetTypeList()) {
-      setTypeList(new ArrayList<String>(obj.typeList));
+      setTypeList(new ArrayList<Type>(obj.typeList));
     }
 
     if (obj.isSetGroup()) {
@@ -403,9 +404,9 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * @return the value of typeList
    */
-  public List<String> getTypeList() {
+  public List<Type> getTypeList() {
     if (!isSetTypeList()) {
-      typeList = new ArrayList<String>();
+      typeList = new ArrayList<Type>();
     }
     return typeList;
   }
@@ -423,8 +424,8 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * Set the value of typeList
    * @param typeList
    */
-  public boolean setTypeList(List<String> typeList) {
-    List<String> oldTypeList = this.typeList;
+  public boolean setTypeList(List<Type> typeList) {
+    List<Type> oldTypeList = this.typeList;
     this.typeList = typeList;
     firePropertyChange(RenderConstants.typeList, oldTypeList, this.typeList);
     return typeList != oldTypeList;
@@ -464,8 +465,12 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     if (isSetTypeList()) {
       attributes.remove(RenderConstants.typeList);
+      String[] typeListAsStrings = new String[getTypeList().size()];
+      for(int i = 0; i < getTypeList().size(); i++) {
+        typeListAsStrings[i] = getTypeList().get(i).toString();
+      }
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.typeList,
-        XMLTools.arrayToWhitespaceSeparatedString(getTypeList().toArray(new String[0])));
+        XMLTools.arrayToWhitespaceSeparatedString(typeListAsStrings));
     }
     return attributes;
   }
@@ -482,7 +487,11 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
         setRoleList(Arrays.asList(value.split(" ")));
       }
       else if (attributeName.equals(RenderConstants.typeList)) {
-        setTypeList(Arrays.asList(value.split(" ")));
+        ArrayList<Type> readTypeList = new ArrayList<Type>();
+        for(String entry : value.split(" ")) {
+          readTypeList.add(Type.valueOf(entry));
+        }
+        setTypeList(readTypeList);
       }
       else {
         isAttributeRead = false;

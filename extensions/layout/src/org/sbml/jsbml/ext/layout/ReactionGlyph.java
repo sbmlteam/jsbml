@@ -44,6 +44,7 @@ import org.sbml.jsbml.Species;
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
+ * @author David Vetter
  * @since 1.0
  */
 public class ReactionGlyph extends AbstractReferenceGlyph {
@@ -495,6 +496,17 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     setReference(reaction, LayoutConstants.reaction);
   }
 
+  /**
+   * Unsets the curve (and fires appropriate Event)
+   */
+  public void unsetCurve() {
+    if (isSetCurve()) {
+      Curve oldValue = curve;
+      curve = null; 
+      firePropertyChange(LayoutConstants.curve, oldValue, curve);
+    }   
+  }
+  
   /**
    * Unsets the list of {@link SpeciesReferenceGlyph}s.
    * 

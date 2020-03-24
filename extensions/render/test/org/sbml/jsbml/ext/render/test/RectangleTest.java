@@ -21,10 +21,12 @@
 package org.sbml.jsbml.ext.render.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ext.render.Rectangle;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 
 
 /**
@@ -49,8 +51,8 @@ public class RectangleTest {
   public void testGetRx() {
     Rectangle rectangle=new Rectangle();
     double d=0.02d;
-    rectangle.setRx(d);
-    assertEquals(rectangle.getRx(),d,0.0001d);
+    rectangle.setRx(new RelAbsVector(d));
+    assertEquals(rectangle.getRx().getAbsoluteValue(),d,0.0001d);
   }
 
 
@@ -60,7 +62,7 @@ public class RectangleTest {
   public void testIsSetRx() {
     Rectangle rectangle=new Rectangle();
     double d=0.02d;
-    rectangle.setRx(d);
+    rectangle.setRx(new RelAbsVector(d));
     assertTrue(rectangle.isSetRx());
   }
 
@@ -72,8 +74,8 @@ public class RectangleTest {
   public void testSetRx() {
     Rectangle rectangle=new Rectangle();
     double d=0.02d;
-    rectangle.setRx(d);
-    assertTrue(Double.compare(rectangle.getRx(),0.02d)==0);
+    rectangle.setRx(new RelAbsVector(d));
+    assertEquals(rectangle.getRx(), new RelAbsVector(d));
   }
 
 
@@ -84,8 +86,8 @@ public class RectangleTest {
   public void testGetRy() {
     Rectangle rectangle=new Rectangle();
     double d=0.02d;
-    rectangle.setRy(d);
-    assertEquals(rectangle.getRy(),d,0.0001d);
+    rectangle.setRy(new RelAbsVector(d));
+    assertEquals(rectangle.getRy().getAbsoluteValue(),d,0.0001d);
   }
 
 
@@ -96,7 +98,7 @@ public class RectangleTest {
   public void testIsSetRy() {
     Rectangle rectangle=new Rectangle();
     double d=0.02d;
-    rectangle.setRy(d);
+    rectangle.setRy(new RelAbsVector(d));
     assertTrue(rectangle.isSetRy());
   }
 
@@ -108,219 +110,9 @@ public class RectangleTest {
   public void testSetRy() {
     Rectangle rectangle=new Rectangle();
     double d=0.02d;
-    rectangle.setRy(d);
-    assertTrue(Double.compare(rectangle.getRy(),0.02d)==0);
+    rectangle.setRy(new RelAbsVector(d));
+    assertEquals(rectangle.getRy(), new RelAbsVector(d));
   }
-
-
-  /**
-   * Test method for {@link Rectangle#isSetAbsoluteX()}.
-   */
-  @Test
-  public void testIsSetAbsoluteX() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteX(true);
-    assertTrue(rectangle.isSetAbsoluteX());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#setAbsoluteX(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteX() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteX(true);
-    assertEquals("AbsoluteVarError",true,rectangle.isAbsoluteX());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isAbsoluteY()}.
-   */
-  @Test
-  public void testIsAbsoluteY() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteY(true);
-    assertTrue(rectangle.isAbsoluteY());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isSetAbsoluteY()}.
-   */
-  @Test
-  public void testIsSetAbsoluteY() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteY(true);
-    assertTrue(rectangle.isSetAbsoluteY());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#setAbsoluteY(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteY() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteY(true);
-    assertEquals("AbsoluteVarError",true,rectangle.isAbsoluteY());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isAbsoluteZ()}.
-   */
-  @Test
-  public void testIsAbsoluteZ() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteZ(true);
-    assertTrue(rectangle.isAbsoluteZ());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isSetAbsoluteZ()}.
-   */
-  @Test
-  public void testIsSetAbsoluteZ() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteZ(true);
-    assertTrue(rectangle.isSetAbsoluteZ());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#setAbsoluteZ(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteZ() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteZ(true);
-    assertTrue(rectangle.isAbsoluteZ());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isAbsoluteRx()}.
-   */
-  @Test
-  public void testIsAbsoluteRx() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteRx(true);
-    assertTrue(rectangle.isAbsoluteRx());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isSetAbsoluteRx()}.
-   */
-  @Test
-  public void testIsSetAbsoluteRx() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteRx(false);
-    assertTrue(rectangle.isSetAbsoluteRx());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#setAbsoluteRx(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteRx() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteRx(true);
-    assertTrue(rectangle.isAbsoluteRx());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isAbsoluteRy()}.
-   */
-  @Test
-  public void testIsAbsoluteRy() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteRy(true);
-    assertTrue(rectangle.isAbsoluteRy());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isSetAbsoluteRy()}.
-   */
-  @Test
-  public void testIsSetAbsoluteRy() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteRy(false);
-    assertTrue(rectangle.isSetAbsoluteRy());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#setAbsoluteRy(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteRy() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteRy(true);
-    assertTrue(rectangle.isAbsoluteRy());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isSetAbsoluteHeight()}.
-   */
-  @Test
-  public void testIsSetAbsoluteHeight() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteHeight(false);
-    assertTrue(rectangle.isSetAbsoluteHeight());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#setAbsoluteHeight(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteHeight() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteHeight(true);
-    assertTrue(rectangle.isAbsoluteHeight());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isAbsoluteWidth()}.
-   */
-  @Test
-  public void testIsAbsoluteWidth() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteWidth(false);
-    assertTrue(!rectangle.isAbsoluteWidth());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#isSetAbsoluteWidth()}.
-   */
-  @Test
-  public void testIsSetAbsoluteWidth() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteWidth(false);
-    assertTrue(rectangle.isSetAbsoluteWidth());
-  }
-
-
-  /**
-   * Test method for {@link Rectangle#setAbsoluteWidth(boolean)}.
-   */
-  @Test
-  public void testSetAbsoluteWidth() {
-    Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteWidth(false);
-    assertTrue(rectangle.isSetAbsoluteWidth());
-  }
-
 
   /**
    * Test method for {@link Rectangle#getX()}.
@@ -328,8 +120,8 @@ public class RectangleTest {
   @Test
   public void testGetX() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setX(0.02d);
-    assertEquals(rectangle.getX(),0.02d,0.0001d);
+    rectangle.setX(new RelAbsVector(0.02d));
+    assertEquals(rectangle.getX().getAbsoluteValue(),0.02d,0.0001d);
   }
 
 
@@ -339,7 +131,7 @@ public class RectangleTest {
   @Test
   public void testIsSetX() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setX(0.02d);
+    rectangle.setX(new RelAbsVector(0.02d));
     assertTrue(rectangle.isSetX());
   }
 
@@ -350,8 +142,8 @@ public class RectangleTest {
   @Test
   public void testSetX() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setX(0.02d);
-    assertEquals(rectangle.getX(),0.02d,0.0001d);
+    rectangle.setX(new RelAbsVector(0.02d));
+    assertEquals(rectangle.getX().getAbsoluteValue(),0.02d,0.0001d);
   }
 
 
@@ -361,8 +153,8 @@ public class RectangleTest {
   @Test
   public void testGetY() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setY(0.02d);
-    assertEquals(rectangle.getY(),0.02d,0.0001d);
+    rectangle.setY(new RelAbsVector(0.02d));
+    assertEquals(rectangle.getY().getAbsoluteValue(),0.02d,0.0001d);
   }
 
 
@@ -372,7 +164,7 @@ public class RectangleTest {
   @Test
   public void testIsSetY() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setY(0.02d);
+    rectangle.setY(new RelAbsVector(0.02d));
     assertTrue(rectangle.isSetY());
   }
 
@@ -383,8 +175,8 @@ public class RectangleTest {
   @Test
   public void testSetY() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setY(0.02d);
-    assertEquals(rectangle.getY(),0.02d,0.0001d);
+    rectangle.setY(new RelAbsVector(0.02d));
+    assertEquals(rectangle.getY().getAbsoluteValue(),0.02d,0.0001d);
   }
 
 
@@ -394,8 +186,8 @@ public class RectangleTest {
   @Test
   public void testGetZ() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setZ(0.02d);
-    assertEquals(rectangle.getZ(),0.02d,0.0001d);
+    rectangle.setZ(new RelAbsVector(0.02d));
+    assertEquals(rectangle.getZ().getAbsoluteValue(),0.02d,0.0001d);
   }
 
 
@@ -405,7 +197,7 @@ public class RectangleTest {
   @Test
   public void testIsSetZ() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setZ(0.02d);
+    rectangle.setZ(new RelAbsVector(0.02d));
     assertTrue(rectangle.isSetZ());
   }
 
@@ -416,8 +208,8 @@ public class RectangleTest {
   @Test
   public void testSetZ() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setZ(0.02d);
-    assertEquals(rectangle.getZ(),0.02d,0.0001d);
+    rectangle.setZ(new RelAbsVector(0.02d));
+    assertEquals(rectangle.getZ().getAbsoluteValue(),0.02d,0.0001d);
   }
 
 
@@ -428,8 +220,8 @@ public class RectangleTest {
   public void testGetHeight() {
     Rectangle rectangle=new Rectangle();
     double height=12d;
-    rectangle.setHeight(height);
-    assertEquals(height,rectangle.getHeight(),.00001d);
+    rectangle.setHeight(new RelAbsVector(height));
+    assertEquals(height,rectangle.getHeight().getAbsoluteValue(),.00001d);
   }
 
 
@@ -440,7 +232,7 @@ public class RectangleTest {
   public void testIsSetHeight() {
     Rectangle rectangle=new Rectangle();
     double height=12d;
-    rectangle.setHeight(height);
+    rectangle.setHeight(new RelAbsVector(height));
     assertTrue(rectangle.isSetHeight());
   }
 
@@ -452,8 +244,8 @@ public class RectangleTest {
   public void testSetHeight() {
     Rectangle rectangle=new Rectangle();
     double height=12d;
-    rectangle.setHeight(height);
-    assertEquals(height,rectangle.getHeight(),.00001d);
+    rectangle.setHeight(new RelAbsVector(height));
+    assertEquals(height,rectangle.getHeight().getAbsoluteValue(),.00001d);
   }
 
 
@@ -464,8 +256,8 @@ public class RectangleTest {
   public void testGetWidth() {
     Rectangle rectangle=new Rectangle();
     double width=10d;
-    rectangle.setWidth(width);
-    assertEquals(width,rectangle.getWidth(),.00001d);
+    rectangle.setWidth(new RelAbsVector(width));
+    assertEquals(width,rectangle.getWidth().getAbsoluteValue(),.00001d);
   }
 
 
@@ -476,7 +268,7 @@ public class RectangleTest {
   public void testIsSetWidth() {
     Rectangle rectangle=new Rectangle();
     double width=132d;
-    rectangle.setWidth(width);
+    rectangle.setWidth(new RelAbsVector(width));
     assertTrue(rectangle.isSetWidth());
   }
 
@@ -488,7 +280,32 @@ public class RectangleTest {
   public void testSetWidth() {
     Rectangle rectangle=new Rectangle();
     double width=10d;
-    rectangle.setWidth(width);
-    assertEquals(width,rectangle.getWidth(),.00001d);
+    rectangle.setWidth(new RelAbsVector(width));
+    assertEquals(width,rectangle.getWidth().getAbsoluteValue(),.00001d);
+  }
+  
+  @Test
+  public void testGetSetRatio() {
+    Rectangle rectangle = new Rectangle();
+    rectangle.setRatio(2.87d);
+    assertEquals(rectangle.getRatio(), 2.87d, 1e-7);
+  }
+  
+  @Test
+  public void testIsSetRatio() {
+    Rectangle rectangle = new Rectangle();
+    assertFalse(rectangle.isSetRatio());
+    rectangle.setRatio(2.87d);
+    assertTrue(rectangle.isSetRatio());
+  }
+  
+  @Test
+  public void testUnsetRatio() {
+    Rectangle rectangle = new Rectangle();
+    assertFalse(rectangle.isSetRatio());
+    rectangle.setRatio(2.87d);
+    assertTrue(rectangle.isSetRatio());
+    rectangle.unsetRatio();
+    assertFalse(rectangle.isSetRatio());
   }
 }

@@ -28,6 +28,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Vetter
  * @since 1.0
  */
 public class LinearGradient extends GradientBase {
@@ -38,27 +39,27 @@ public class LinearGradient extends GradientBase {
   /**
    * 
    */
-  private String x1;
+  private RelAbsVector x1;
   /**
    * 
    */
-  private String y1;
+  private RelAbsVector y1;
   /**
    * 
    */
-  private String z1;
+  private RelAbsVector z1;
   /**
    * 
    */
-  private String x2;
+  private RelAbsVector x2;
   /**
    * 
    */
-  private String y2;
+  private RelAbsVector y2;
   /**
    * 
    */
-  private String z2;
+  private RelAbsVector z2;
 
   /**
    * Creates an LinearGradient instance
@@ -186,7 +187,7 @@ public class LinearGradient extends GradientBase {
   /**
    * @return the value of x1
    */
-  public String getX1() {
+  public RelAbsVector getX1() {
     if (isSetX1()) {
       return x1;
     }
@@ -205,8 +206,8 @@ public class LinearGradient extends GradientBase {
    * Set the value of x1
    * @param x1
    */
-  public void setX1(String x1) {
-    String oldX1 = this.x1;
+  public void setX1(RelAbsVector x1) {
+    RelAbsVector oldX1 = this.x1;
     this.x1 = x1;
     firePropertyChange(RenderConstants.x1, oldX1, this.x1);
   }
@@ -218,7 +219,7 @@ public class LinearGradient extends GradientBase {
    */
   public boolean unsetX1() {
     if (isSetX1()) {
-      String oldX1 = x1;
+      RelAbsVector oldX1 = x1;
       x1 = null;
       firePropertyChange(RenderConstants.x1, oldX1, x1);
       return true;
@@ -229,7 +230,7 @@ public class LinearGradient extends GradientBase {
   /**
    * @return the value of x2
    */
-  public String getX2() {
+  public RelAbsVector getX2() {
     if (isSetX2()) {
       return x2;
     }
@@ -248,8 +249,8 @@ public class LinearGradient extends GradientBase {
    * Set the value of x2
    * @param x2
    */
-  public void setX2(String x2) {
-    String oldX2 = this.x2;
+  public void setX2(RelAbsVector x2) {
+    RelAbsVector oldX2 = this.x2;
     this.x2 = x2;
     firePropertyChange(RenderConstants.x2, oldX2, this.x2);
   }
@@ -261,7 +262,7 @@ public class LinearGradient extends GradientBase {
    */
   public boolean unsetX2() {
     if (isSetX2()) {
-      String oldX2 = x2;
+      RelAbsVector oldX2 = x2;
       x2 = null;
       firePropertyChange(RenderConstants.x2, oldX2, x2);
       return true;
@@ -272,7 +273,7 @@ public class LinearGradient extends GradientBase {
   /**
    * @return the value of y1
    */
-  public String getY1() {
+  public RelAbsVector getY1() {
     if (isSetY1()) {
       return y1;
     }
@@ -291,8 +292,8 @@ public class LinearGradient extends GradientBase {
    * Set the value of y1
    * @param y1
    */
-  public void setY1(String y1) {
-    String oldY1 = this.y1;
+  public void setY1(RelAbsVector y1) {
+    RelAbsVector oldY1 = this.y1;
     this.y1 = y1;
     firePropertyChange(RenderConstants.y1, oldY1, this.y1);
   }
@@ -304,7 +305,7 @@ public class LinearGradient extends GradientBase {
    */
   public boolean unsetY1() {
     if (isSetY1()) {
-      String oldY1 = y1;
+      RelAbsVector oldY1 = y1;
       y1 = null;
       firePropertyChange(RenderConstants.y1, oldY1, y1);
       return true;
@@ -315,7 +316,7 @@ public class LinearGradient extends GradientBase {
   /**
    * @return the value of y2
    */
-  public String getY2() {
+  public RelAbsVector getY2() {
     if (isSetY2()) {
       return y2;
     }
@@ -334,8 +335,8 @@ public class LinearGradient extends GradientBase {
    * Set the value of y2
    * @param y2
    */
-  public void setY2(String y2) {
-    String oldY2 = this.y2;
+  public void setY2(RelAbsVector y2) {
+    RelAbsVector oldY2 = this.y2;
     this.y2 = y2;
     firePropertyChange(RenderConstants.y2, oldY2, this.y2);
   }
@@ -347,7 +348,7 @@ public class LinearGradient extends GradientBase {
    */
   public boolean unsetY2() {
     if (isSetY2()) {
-      String oldY2 = y2;
+      RelAbsVector oldY2 = y2;
       y2 = null;
       firePropertyChange(RenderConstants.y2, oldY2, y2);
       return true;
@@ -358,7 +359,7 @@ public class LinearGradient extends GradientBase {
   /**
    * @return the value of z1
    */
-  public String getZ1() {
+  public RelAbsVector getZ1() {
     if (isSetZ1()) {
       return z1;
     }
@@ -377,8 +378,8 @@ public class LinearGradient extends GradientBase {
    * Set the value of z1
    * @param z1
    */
-  public void setZ1(String z1) {
-    String oldZ1 = this.z1;
+  public void setZ1(RelAbsVector z1) {
+    RelAbsVector oldZ1 = this.z1;
     this.z1 = z1;
     firePropertyChange(RenderConstants.z1, oldZ1, this.z1);
   }
@@ -390,7 +391,7 @@ public class LinearGradient extends GradientBase {
    */
   public boolean unsetZ1() {
     if (isSetZ1()) {
-      String oldZ1 = z1;
+      RelAbsVector oldZ1 = z1;
       z1 = null;
       firePropertyChange(RenderConstants.z1, oldZ1, z1);
       return true;
@@ -401,7 +402,7 @@ public class LinearGradient extends GradientBase {
   /**
    * @return the value of z2
    */
-  public String getZ2() {
+  public RelAbsVector getZ2() {
     if (isSetZ2()) {
       return z2;
     }
@@ -420,8 +421,8 @@ public class LinearGradient extends GradientBase {
    * Set the value of z2
    * @param z2
    */
-  public void setZ2(String z2) {
-    String oldZ2 = this.z2;
+  public void setZ2(RelAbsVector z2) {
+    RelAbsVector oldZ2 = this.z2;
     this.z2 = z2;
     firePropertyChange(RenderConstants.z2, oldZ2, this.z2);
   }
@@ -433,7 +434,7 @@ public class LinearGradient extends GradientBase {
    */
   public boolean unsetZ2() {
     if (isSetZ2()) {
-      String oldZ2 = z2;
+      RelAbsVector oldZ2 = z2;
       z2 = null;
       firePropertyChange(RenderConstants.z2, oldZ2, z2);
       return true;
@@ -448,24 +449,29 @@ public class LinearGradient extends GradientBase {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    
     if (isSetX1()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x1, getX1());
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x1,
+        getX1().getCoordinate());
     }
     if (isSetX2()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x2, getX2());
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x2,
+        getX2().getCoordinate());
     }
     if (isSetY1()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y1, getY1());
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y1,
+        getY1().getCoordinate());
     }
     if (isSetY2()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y2, getY2());
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y2,
+        getY2().getCoordinate());
     }
     if (isSetZ1()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z1, getZ1());
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z1,
+        getZ1().getCoordinate());
     }
     if (isSetZ2()) {
-      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z2, getZ2());
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z2,
+        getZ2().getCoordinate());
     }
     return attributes;
   }
@@ -480,22 +486,22 @@ public class LinearGradient extends GradientBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.x1)) {
-        setX1(value);
+        setX1(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.x2)) {
-        setX2(value);
+        setX2(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.y1)) {
-        setY1(value);
+        setY1(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.y2)) {
-        setY2(value);
+        setY2(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.z1)) {
-        setZ1(value);
+        setZ1(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.z2)) {
-        setZ2(value);
+        setZ2(new RelAbsVector(value));
       }
       else {
         isAttributeRead = false;

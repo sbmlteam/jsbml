@@ -146,7 +146,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Deprecated
   public static final boolean isValidMetaId(String idCandidate) {
-    return SyntaxChecker.isValidMetaId(idCandidate);
+    return SyntaxChecker.isValidMetaId(idCandidate, 2, 4);
   }
 
   /**

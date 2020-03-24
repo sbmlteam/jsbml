@@ -36,7 +36,6 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.ListOfWithName;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -53,6 +52,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @author Clemens Wrzodek
+ * @author David Vetter
  * @since 1.0
  */
 public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
@@ -271,8 +271,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
 
-  // TODO - add methods to create GraphicalObject
-  // TODO - check the libsbml Layout java API to see if we could add some methods
+  // TODO 2014/06: add methods to create GraphicalObject
+  // TODO 2014/05: check the libsbml Layout java API to see if we could add some methods
 
   /**
    * Creates and adds a new {@link CompartmentGlyph}.
@@ -502,11 +502,11 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @SuppressWarnings("unchecked")
   private <T> List<T> findGlyphs(ListOf<? extends T> listOfGlyphs, String id) {
-    // TODO - use the Model findUniqueNamedSBase method if model is not null ?
+    // TODO 2014/05: use the Model findUniqueNamedSBase method if model is not null ?
     if (isSetListOfReactionGlyphs() && (listOfGlyphs != null) && (!listOfGlyphs.isEmpty())) {
       NamedSBaseReferenceFilter filter = new NamedSBaseReferenceFilter(id);
       filter.setFilterForReference(true);
-      return (List<T>) listOfReactionGlyphs.filter(filter);
+      return (List<T>) listOfGlyphs.filter(filter);
     }
     return new ArrayList<T>(0);
   }
@@ -1291,6 +1291,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * This element is optional. If set, this list cannot be empty.
    * 
+   * Can be unset with {@link Layout#unsetListOfAdditionalGraphicalObjects}
+   * 
    * @param addGraphicalObjects
    */
   public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
@@ -1440,6 +1442,17 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     }
   }
 
+  /**
+   * Unsets the {@link #dimensions} (and fires appropriate event)
+   */
+  public void unsetDimensions() {
+    if (isSetDimensions()) {
+      Dimensions oldValue = dimensions;
+      dimensions = null; 
+      firePropertyChange(LayoutConstants.dimensions, oldValue, dimensions);
+    } 
+  }
+  
   /**
    * Removes the {@link #listOfAdditionalGraphicalObjects} from this {@link org.sbml.jsbml.Model} and notifies
    * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.

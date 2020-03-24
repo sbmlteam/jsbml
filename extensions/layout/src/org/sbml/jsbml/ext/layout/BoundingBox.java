@@ -39,6 +39,7 @@ import org.sbml.jsbml.util.ResourceManager;
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @author Clemens Wrzodek
+ * @author David Vetter
  * @since 1.0
  */
 public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase {
@@ -321,6 +322,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
     if (this.dimensions != null) {
       Dimensions oldValue = this.dimensions;
       this.dimensions = null;
+      firePropertyChange(LayoutConstants.dimensions, oldValue, dimensions);
       oldValue.fireNodeRemovedEvent();
     }
     this.dimensions = dimensions;
@@ -339,6 +341,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   public void setPosition(Point point) {
     Point oldValue = position;
     position = point;
+    firePropertyChange(LayoutConstants.position, oldValue, dimensions);
     if (oldValue != null) {
       oldValue.fireNodeRemovedEvent();
     }
@@ -348,6 +351,20 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
     registerChild(position);
   }
 
+  /**
+   * Unsets the dimensions (and fires an appropriate event)
+   */
+  public void unsetDimensions() {
+    setDimensions(null);
+  }
+  
+  /**
+   * Unsets the position (and fires an appropriate event)
+   */
+  public void unsetPosition() {
+    setPosition(null);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
@@ -364,7 +381,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
       logger.warn(MessageFormat.format(
         ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
         "name", getLevel(), getVersion(), getElementName()));
-      // TODO: This must be generally solved. Here we have an SBase with ID but without name!
+      // TODO 2013/12: This must be generally solved. Here we have an SBase with ID but without name!
     }
 
     return attributes;

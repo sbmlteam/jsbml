@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" 
+	xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" 
+	level="3" version="1" layout:required="false" >
+	
+	<!-- This example-file contains an entirely fictional system of reactions/species, which lacks layout-information. 
+		 It serves solely to demonstrate the RingLayoutAlgorithm's layout-abilities, and to produce a rendered result. 
+		 Author: David Emanuel Vetter -->
+	<model id="Ring" timeUnits="time">
+	  <listOfUnitDefinitions>
+		<unitDefinition id="volume">
+		  <listOfUnits>
+			<unit kind="litre" exponent="1" scale="0" multiplier="1"/>
+		  </listOfUnits>
+		</unitDefinition>
+		<unitDefinition id="substance">
+		  <listOfUnits>
+			<unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+		  </listOfUnits>
+		</unitDefinition> 
+		<unitDefinition id="time">
+		  <listOfUnits>
+			<unit kind="second" exponent="1" scale="0" multiplier="1"/>
+		  </listOfUnits>
+		</unitDefinition>
+	  </listOfUnitDefinitions>
+	  
+	  <listOfCompartments>
+		<compartment id="extracellular" spatialDimensions="3" units="volume" constant="true"/>
+		<compartment id="cytosol" spatialDimensions="3" units="volume" constant="true"/>
+		<compartment id="vesicle" spatialDimensions="3" units="volume" constant="true"/>
+	  </listOfCompartments>
+	  <listOfSpecies>
+		<species id="A" sboTerm="SBO:0000245" name="A" compartment="extracellular" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="B" sboTerm="SBO:0000247" name="B" compartment="extracellular" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="C" sboTerm="SBO:0000247" name="C" compartment="extracellular" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="D" sboTerm="SBO:0000245" name="D" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="E" sboTerm="SBO:0000247" name="E" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="F" sboTerm="SBO:0000247" name="F" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="G" sboTerm="SBO:0000245" name="G" compartment="cytosol" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="H" sboTerm="SBO:0000247" name="H" compartment="vesicle" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+		<species id="I" sboTerm="SBO:0000247" name="I" compartment="vesicle" substanceUnits="substance" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+	  </listOfSpecies>
+	
+	<listOfReactions>
+	  <reaction id="R1" reversible="false" fast="false">
+		<listOfReactants>
+		  <speciesReference id="SR_R1_A" species="A" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R1_B" species="B" stoichiometry="1" constant="true"/>
+		</listOfReactants>
+		<listOfProducts>
+		  <speciesReference id="SR_R1_C" species="C" stoichiometry="1" constant="true"/>
+		</listOfProducts>
+	  </reaction>
+	  <reaction id="R2" reversible="false" fast="false">
+		<listOfReactants>
+		  <speciesReference id="SR_R2_A" species="A" stoichiometry="1" constant="true"/>
+		</listOfReactants>
+		<listOfProducts>
+		  <speciesReference id="SR_R2_F" species="F" stoichiometry="1" constant="true"/>
+		</listOfProducts>
+		<listOfModifiers>
+		  <modifierSpeciesReference id="MSR_R2_D" species="D"/>
+		</listOfModifiers>
+	  </reaction>
+	  <reaction id="R3" reversible="false" fast="false">
+		<listOfReactants>
+		  <speciesReference id="SR_R3_C" species="C" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R3_D" species="D" stoichiometry="1" constant="true"/>
+		</listOfReactants>
+		<listOfProducts>
+		  <speciesReference id="SR_R3_B" species="B" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R3_G" species="G" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R3_H" species="H" stoichiometry="1" constant="true"/>
+		</listOfProducts>
+	  </reaction>
+	  <reaction id="R4" reversible="false" fast="false">
+		<listOfReactants>
+		  <speciesReference id="SR_R4_F" species="F" stoichiometry="1" constant="true"/>
+		</listOfReactants>
+		<listOfProducts>
+		  <speciesReference id="SR_R4_H" species="H" stoichiometry="1" constant="true"/>
+		  <speciesReference id="SR_R4_I" species="I" stoichiometry="1" constant="true"/>
+		</listOfProducts>
+		<listOfModifiers>
+		  <modifierSpeciesReference id="MSR_R4_G" species="G" sboTerm="SBO:0000172"/>
+		</listOfModifiers>
+	  </reaction>
+	  <reaction id="EX1" reversible="true" fast="false">
+		<listOfReactants>
+		  <speciesReference id="SR_EX1_G" species="G" stoichiometry="1" constant="true"/>
+		</listOfReactants>
+	  </reaction>
+	</listOfReactions>
+  </model>
+</sbml> 

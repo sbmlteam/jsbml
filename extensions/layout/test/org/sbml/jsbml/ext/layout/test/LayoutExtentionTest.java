@@ -21,8 +21,6 @@ package org.sbml.jsbml.ext.layout.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.stream.XMLStreamException;

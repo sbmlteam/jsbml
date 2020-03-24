@@ -24,19 +24,36 @@ package org.sbml.jsbml.ext.render;
  * The FontFamily enumeration gives a hint as to which font is to be used when rendering {@link Text} elements.
  * 
  * @author Jakob Matthes
+ * @author Onur &Oumlzel
  * @since 1.0
  */
 public enum FontFamily {
+  
+  SERIF("serif"), SANS_SERIF("sans-serif"), MONOSPACE("monospace");
+  
+  private String fontFamily;
+  
+  private FontFamily(String fontFamily) {
+    this.fontFamily = fontFamily;
+  }
+  
+  @Override
+  public String toString() { 
+    return this.fontFamily;
+  }
+  
   /**
-   * 
+   * Checks if a given String value matches one of the 
+   * {@link FontFamily} hints. 
+   * @param value
+   * @return the matching FontFamily, or null otherwise
    */
-  SERIF,
-  /**
-   * 
-   */
-  SANS_SERIF,
-  /**
-   * 
-   */
-  MONOSPACE;
+  public static FontFamily toFontFamily(String value) {
+    for (FontFamily f : FontFamily.values()) {
+      if(f.toString().equals(value)) {
+        return f; 
+      }
+    }
+    return null;
+  }
 }

@@ -30,6 +30,7 @@ import java.util.List;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author David Emanuel Vetter
  * @since 1.0
  */
 public class RenderConstants {
@@ -132,41 +133,32 @@ public class RenderConstants {
    * 
    */
   public static final String z = "z";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteX = "absolute-x";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteY = "absolute-y";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteZ = "absolute-z";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteX1 = "absolute-x1";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteY1 = "absolute-y1";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteZ1 = "absolute-z1";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteX2 = "absolute-x2";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteY2 = "absolute-y2";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteZ2 = "absolute-z2";
   /**
    * 
@@ -192,30 +184,32 @@ public class RenderConstants {
    * 
    */
   public static final String z2 = "z2";
+  
+  // COPASI and the render-specification (January 2020) use camel-case basePoint 
   /**
    * 
    */
-  public static final String basepoint1_x = "basepoint1_x"; // JSBML used "x1" for a few years
+  public static final String basepoint1_x = "basePoint1_x"; // JSBML used "x1" for a few years
   /**
    * 
    */
-  public static final String basepoint1_y = "basepoint1_y"; // JSBML used "y1" for a few years
+  public static final String basepoint1_y = "basePoint1_y"; // JSBML used "y1" for a few years
   /**
    * 
    */
-  public static final String basepoint1_z = "basepoint1_z"; // JSBML used "z1" for a few years
+  public static final String basepoint1_z = "basePoint1_z"; // JSBML used "z1" for a few years
   /**
    * 
    */
-  public static final String basepoint2_x = "basepoint2_x"; // JSBML used "x2" for a few years
+  public static final String basepoint2_x = "basePoint2_x"; // JSBML used "x2" for a few years
   /**
    * 
    */
-  public static final String basepoint2_y = "basepoint2_y"; // JSBML used "y2" for a few years
+  public static final String basepoint2_y = "basePoint2_y"; // JSBML used "y2" for a few years
   /**
    * 
    */
-  public static final String basepoint2_z = "basepoint2_z"; // JSBML used "z2" for a few years
+  public static final String basepoint2_z = "basePoint2_z"; // JSBML used "z2" for a few years
   /**
    * 
    */
@@ -233,20 +227,20 @@ public class RenderConstants {
    */
   public static final String rx = "rx";
   /**
-   * 
+   * The rx/ry-ratio of an ellipse
    */
+  public static final String ratio = "ratio";
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteWidth = "absolute-width";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteHeight = "absolute-height";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteRx = "absolute-rx";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteRy = "absolute-ry";
   /**
    * 
@@ -304,17 +298,14 @@ public class RenderConstants {
    * 
    */
   public static final String r = "r";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteCy = "absolute-cx";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteCx = "absolute-cy";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteCz = "absolute-cz";
   /**
    * 
@@ -324,21 +315,17 @@ public class RenderConstants {
    * 
    */
   public static final String offset = "offset";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteR = "absolute-r";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteFx = "absolute-fx";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteFy = "absolute-fy";
-  /**
-   * 
-   */
+  /** @deprecated Made obsolete by the introduction of {@link RelAbsVector} */
+  @Deprecated
   public static final String absoluteFz = "absolute-fz";
   /**
    * 
@@ -555,6 +542,12 @@ public class RenderConstants {
    */
   public static final String defaultValues = "defaultValues";
 
+  /** Refers to the absolute part of a RelAbsVector */
+  public static final String absoluteValue = "absoluteValue";
+  
+  /** Refers to the relative part of a RelAbsVector */
+  public static final String relativeValue = "relativeValue";
+  
   /**
    * Returns the namespace URI corresponding to the given level and version.
    * 
