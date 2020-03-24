@@ -72,12 +72,10 @@ public class EllipseTest {
     String expected = new RelAbsVector("50-30%") + ARROW + new RelAbsVector("70-30%");
     assertEquals(expected, change.toString());
     
-    // This could easily be hidden from the events (only producing one on the
-    // RelAbsVector, whose meaning will not be inferable from the event):
-    // With redirection, the user can just listen to the ellipse and be sure that
-    // changes to the RelAbsVectors do not fly under the radar:
+    // This will fly under the radar
     ellipse.getCx().setAbsoluteValue(10d);
-    expected = new RelAbsVector("70-30%") + ARROW + new RelAbsVector("10-30%");
+    
+    // I.e. No change-event was registered!
     assertEquals(expected, change.toString());
     
   }

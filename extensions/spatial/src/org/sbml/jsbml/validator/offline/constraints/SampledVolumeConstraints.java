@@ -22,6 +22,7 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.ext.spatial.Geometry;
+import org.sbml.jsbml.ext.spatial.SampledFieldGeometry;
 import org.sbml.jsbml.ext.spatial.SampledVolume;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
 import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
@@ -191,17 +192,14 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
     case SPATIAL_21750:
     {
       func = new ValidationFunction<SampledVolume>() {
-        
         @Override
         public boolean check(ValidationContext ctx, SampledVolume sv) {
           
-          if(sv.isSetMinValue()) {
-            if(!sv.isSetMaxValue()) {
-              return false;
-            }
+          if(sv.isSetSampledValue() ^ (sv.isSetMinValue() && sv.isSetMaxValue())) {
+            return true; 
           }
           
-          return true;
+          return false;
         }
       };
       break;
@@ -210,16 +208,15 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
     case SPATIAL_21751:
     {
       func = new ValidationFunction<SampledVolume>() {
-        
+
         @Override
         public boolean check(ValidationContext ctx, SampledVolume sv) {
-          
-          if(sv.isSetMaxValue()) {
-            if(!sv.isSetMinValue()) {
+
+          if(sv.isSetMaxValue() && sv.isSetMinValue()) {
+            if(sv.getMinValue() > sv.getMaxValue()) {
               return false;
             }
           }
-          
           return true;
         }
       };
@@ -228,16 +225,28 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
     
     case SPATIAL_21752:
     {
+//      func = new ValidationFunction<SampledVolume>() {
+//        
+//        @Override
+//        public boolean check(ValidationContext ctx, SampledVolume sv) {
+//          
+//          if(sv.isSetMinValue() && sv.isSetMaxValue()) {
+//            if(sv.isSetSampledValue()) {
+//              return false;
+//            }
+//          }
+//          
+//          return true;
+//        }
+//      };
+//      break;
+      
       func = new ValidationFunction<SampledVolume>() {
         
         @Override
         public boolean check(ValidationContext ctx, SampledVolume sv) {
           
-          if(sv.isSetMinValue() && sv.isSetMaxValue()) {
-            if(sv.isSetSampledValue()) {
-              return false;
-            }
-          }
+          //TODO - how do I get the SampledFieldGeometry sv is in? 
           
           return true;
         }

@@ -119,6 +119,9 @@
  * layout. further modification of the layout should be performed separately.
  * </ul>
  * 
+ * <h4>Examples</h4>
+ * Some commented example-implementations can be found in the {@link org.sbml.jsbml.examples} package
+ * 
  * @since 1.4
  */
 package org.sbml.jsbml.ext.render.director;
