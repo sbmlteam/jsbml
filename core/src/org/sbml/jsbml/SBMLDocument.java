@@ -49,6 +49,7 @@ import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
 import org.sbml.jsbml.xml.parsers.PackageParser;
+import org.sbml.jsbml.xml.parsers.PackageUtil;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 
 /**
@@ -238,7 +239,7 @@ public class SBMLDocument extends AbstractSBase {
     // cloning the enabledPackageMap
     for (String namespace : sb.enabledPackageMap.keySet()) {
       enabledPackageMap.put(new String(namespace),
-        new Boolean(sb.enabledPackageMap.get(namespace)));
+        Boolean.valueOf(sb.enabledPackageMap.get(namespace)));
     }
 
     if (sb.isSetModel()) {
@@ -370,6 +371,14 @@ public class SBMLDocument extends AbstractSBase {
 
     ctx.enableCheckCategories(checks.toArray(new CHECK_CATEGORY[checks.size()]), true);
     ctx.loadConstraints(this.getClass());
+    
+    // setting the package versions in the ValidationContext
+    for (String packageNamespace : enabledPackageMap.keySet()) {
+      
+      int packageVersion = PackageUtil.extractPackageVersion(packageNamespace);
+      String packageName = ParserManager.getManager().getPackageName(packageNamespace);
+      ctx.setPackageVersion(packageName, packageVersion);        
+    }
 
     SBMLDocument docToValidate = this;
 
@@ -654,7 +663,6 @@ public class SBMLDocument extends AbstractSBase {
    *         {@link IllegalArgumentException} will be thrown in such
    *         cases.
    */
-  @SuppressWarnings("unchecked")
   private void collectMetaIds(Map<String, SBase> metaIds, SBase sbase,
     boolean recursively, boolean delete) {
     if (sbase.isSetMetaId()) {

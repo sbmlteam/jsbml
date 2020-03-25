@@ -524,23 +524,30 @@ public class ValidationContext {
   }
 
   /**
+   * Sets the package version to validate
    * 
-   * @param packageShortName
-   * @param packageVersion
+   * @param packageShortName the package short label
+   * @param packageVersion the package version
    */
   public void setPackageVersion(String packageShortName, int packageVersion) {
-    // TODO
+    packageVersions.put(packageShortName, packageVersion);
   }
 
   /**
+   * Gets the package version to validate.
+   * 
+   * <p>It can return {@code Null} or '-1', in which case it means that we do not need to validate
+   * the package.</p>
    * 
    * @param packageShortName
-   * @param packageVersion
+   * @return the package version to validate.
    */
-  public void setPackageVersion(String packageNamespace) {
-    // TODO    
+  public Integer getPackageVersion(String packageShortName) {
+    return packageVersions.get(packageShortName);
   }
 
+  
+  
   /**
    * Sets the root constraints and the root constraint class type.
    * 
