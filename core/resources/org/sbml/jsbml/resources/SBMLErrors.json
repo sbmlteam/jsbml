@@ -5845,6 +5845,27 @@
         "Package": "spatial", 
         "ShortMessage": "The 'maxValue' attribute must be Double."
     }, 
+    "1221752": {
+        "Category": "SBML component consistency", 
+        "DefaultSeverity": "error", 
+        "Message": "A <sampledVolume> object may have the optional SBML Level 3 Core attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are permitted on a <sampledVolume>.\nReference: L3V1 Spatial V1 Section\n", 
+        "Package": "spatial", 
+        "ShortMessage": "Core attributes allowed on <sampledVolume>."
+    }, 
+    "1221753": {
+        "Category": "SBML component consistency", 
+        "DefaultSeverity": "error", 
+        "Message": "A <sampledVolume> object may have the optional SBML Level 3 Core attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are permitted on a <sampledVolume>.\nReference: L3V1 Spatial V1 Section\n", 
+        "Package": "spatial", 
+        "ShortMessage": "Core attributes allowed on <sampledVolume>."
+    }, 
+    "1221754": {
+        "Category": "SBML component consistency", 
+        "DefaultSeverity": "error", 
+        "Message": "A <sampledVolume> object may have the optional SBML Level 3 Core attributes 'metaid' and 'sboTerm'. No other attributes from the SBML Level 3 Core namespaces are permitted on a <sampledVolume>.\nReference: L3V1 Spatial V1 Section\n", 
+        "Package": "spatial", 
+        "ShortMessage": "Core attributes allowed on <sampledVolume>."
+    }, 
     "1221801": {
         "Category": "SBML component consistency", 
         "DefaultSeverity": "error", 

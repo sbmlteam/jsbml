@@ -19,6 +19,7 @@
 
 package org.sbml.jsbml.validator.offline.constraints;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.sbml.jsbml.ListOf;
@@ -36,6 +37,7 @@ import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementVal
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link SampledFieldGeometry} class.
@@ -66,6 +68,7 @@ public class SampledFieldGeometryConstraints extends AbstractConstraintDeclarati
     case GENERAL_CONSISTENCY:
       if(level >= 3){        
         addRangeToSet(set, SPATIAL_21501, SPATIAL_21507);
+        set.add(SPATIAL_21752);
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -207,6 +210,83 @@ public class SampledFieldGeometryConstraints extends AbstractConstraintDeclarati
             return new UnknownAttributeValidationFunction<ListOf<SampledVolume>>().check(ctx, sfg.getListOfSampledVolumes());
           }
           return true;
+        }
+      };
+      break;
+    }
+    
+    case SPATIAL_21752: // as well SPATIAL_21753 and SPATIAL_21754
+    {
+      // SPATIAL_21752: The spatial:sampledValue of one SampledVolume may not be the same as a spatial:sam-
+      // pledValue from a different SampledVolume from the same SampledFieldGeometry. 
+
+      // spatial-21753: The spatial:sampledValue from one SampledVolume may not be less than the value of
+      // the attribute spatial:maxValue and greater than or equal to the value of the attribute
+      // spatial:minValue of a different SampledVolume from the same SampledFieldGeometry.
+
+      // spatial-21754: The spatial:minValue and spatial:maxValue attribute values from one SampledVolume
+      //  may not define a range that overlaps the spatial:minValue and spatial:maxValue attribute
+      //  values of a different SampledVolume from the same SampledFieldGeometry, with the exception
+      //  that the spatial:maxValue of one SampledVolume may equal the spatial:minValue
+      //  of another SampledVolume from the same SampledFieldGeometry.
+      func = new AbstractValidationFunction<SampledFieldGeometry>() {
+        
+        @Override
+        public boolean check(ValidationContext ctx, SampledFieldGeometry sfg) {
+          
+          boolean check = true;
+          ArrayList<Double> sampledValues = new ArrayList<Double>();
+          ArrayList<Double> minValues = new ArrayList<Double>();
+          ArrayList<Double> maxValues = new ArrayList<Double>();
+
+          for (SampledVolume sv : sfg.getListOfSampledVolumes()) {
+
+            if (sv.isSetMinValue() && sv.isSetMaxValue() && sv.getMinValue() < sv.getMaxValue()) {
+
+              for (int i = 0; i < minValues.size(); i++) {
+                if (sv.getMinValue() >= minValues.get(i) && sv.getMinValue() < maxValues.get(i)) {
+                  // adding error SPATIAL_21754
+                  ValidationConstraint.logError(ctx, SBMLErrorCodes.SPATIAL_21754, sfg);
+                  check = false;
+                }
+                if (sv.getMaxValue() > minValues.get(i) && sv.getMaxValue() < maxValues.get(i)) {
+                  // adding error SPATIAL_21754
+                  ValidationConstraint.logError(ctx, SBMLErrorCodes.SPATIAL_21754, sfg);
+                  check = false;
+                }
+                if (sv.getMinValue() <= minValues.get(i) && sv.getMaxValue() >= maxValues.get(i)) {
+                  // adding error SPATIAL_21754
+                  ValidationConstraint.logError(ctx, SBMLErrorCodes.SPATIAL_21754, sfg);
+                  check = false;
+                }
+              }
+
+              minValues.add(sv.getMinValue());
+              maxValues.add(sv.getMaxValue());
+            }            
+          }
+
+          for (SampledVolume sv : sfg.getListOfSampledVolumes()) {
+            if (sv.isSetSampledValue()) {
+              if (sampledValues.contains(sv.getSampledValue())) {
+                // adding error SPATIAL_21752
+                ValidationConstraint.logError(ctx, SBMLErrorCodes.SPATIAL_21752, sfg);                
+                check = false;
+              } else {
+                sampledValues.add(sv.getSampledValue());
+              }
+              
+              for (int i = 0; i < minValues.size(); i++) {
+                if (sv.getSampledValue() >= minValues.get(i) && sv.getSampledValue() < maxValues.get(i)) {
+                  // adding error SPATIAL_21753
+                  ValidationConstraint.logError(ctx, SBMLErrorCodes.SPATIAL_21753, sfg);
+                  check = false;
+                }
+              }
+            }
+          }
+          
+          return check;
         }
       };
       break;
