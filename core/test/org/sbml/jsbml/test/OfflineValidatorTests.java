@@ -34,6 +34,8 @@ import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.util.converters.ExpandFunctionDefinitionConverter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.LoggingValidationContext;
+import org.sbml.jsbml.xml.parsers.PackageUtil;
+import org.sbml.jsbml.xml.parsers.ParserManager;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -48,6 +50,9 @@ public class OfflineValidatorTests {
    * Enables or not unit validation.
    */
   private static boolean ENABLE_UNITS_VALIDATION = true;
+
+  private static String[] packageLabels = {"comp", "fbc", "qual", "groups", "layout", "multi",
+    "arrays", "dyn", "spatial", "render", "L3v2extendedmath", "distrib"};
 
   private static int nbDirValidated = 0;
   // private static int dirsMissed = 0;
@@ -120,7 +125,7 @@ public class OfflineValidatorTests {
     }
 
     if (!testDataDir.isDirectory()) {
-      System.out.println("First arg ist not a directory!");
+      System.out.println("First arg is not a directory!");
       System.exit(0);
     }
 
@@ -453,9 +458,22 @@ public class OfflineValidatorTests {
 
       // Reset context if necessary
       ctx.clearErrorLog();
-
+      
       if (ctx.getConstraintType() != SBMLDocument.class) {
         ctx.loadConstraints(SBMLDocument.class);
+      }
+    }
+
+    // set/reset the package versions in the ValidationContext
+    for (String packageName : packageLabels) {
+      
+      String enabledNamepsace = doc.getEnabledPackageNamespace(packageName);
+      
+      if (enabledNamepsace != null) {
+        int packageVersion = PackageUtil.extractPackageVersion(enabledNamepsace);
+        ctx.setPackageVersion(packageName, packageVersion);
+      } else {
+        ctx.setPackageVersion(packageName, -1);
       }
     }
 

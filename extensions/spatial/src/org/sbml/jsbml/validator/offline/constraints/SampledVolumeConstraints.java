@@ -61,7 +61,8 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
     case GENERAL_CONSISTENCY:
       if(level >= 3){
         addRangeToSet(set, SPATIAL_21701, SPATIAL_21708);
-        addRangeToSet(set, SPATIAL_21750, SPATIAL_21754);
+        addRangeToSet(set, SPATIAL_21750, SPATIAL_21751);
+        // SPATIAL_21752, SPATIAL_21753 and SPATIAL_21754 implemented in SampledFieldGeometry  
       }
       break;
     case IDENTIFIER_CONSISTENCY:
@@ -191,14 +192,16 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
     case SPATIAL_21750:
     {
       func = new ValidationFunction<SampledVolume>() {
-        
         @Override
         public boolean check(ValidationContext ctx, SampledVolume sv) {
           
-          if(sv.isSetMinValue()) {
-            if(!sv.isSetMaxValue()) {
-              return false;
-            }
+          if (!(sv.isSetSampledValue() || (sv.isSetMinValue() && sv.isSetMaxValue()))) 
+          {
+            return false;
+          }
+          
+          if (sv.isSetSampledValue()) {
+            return !sv.isSetMinValue() && !sv.isSetMaxValue(); 
           }
           
           return true;
@@ -210,76 +213,23 @@ public class SampledVolumeConstraints extends AbstractConstraintDeclaration {
     case SPATIAL_21751:
     {
       func = new ValidationFunction<SampledVolume>() {
-        
+
         @Override
         public boolean check(ValidationContext ctx, SampledVolume sv) {
-          
-          if(sv.isSetMaxValue()) {
-            if(!sv.isSetMinValue()) {
+
+          if(sv.isSetMaxValue() && sv.isSetMinValue()) {
+            if(sv.getMinValue() > sv.getMaxValue()) {
               return false;
             }
           }
-          
           return true;
         }
       };
       break;
     }
     
-    case SPATIAL_21752:
-    {
-      func = new ValidationFunction<SampledVolume>() {
-        
-        @Override
-        public boolean check(ValidationContext ctx, SampledVolume sv) {
-          
-          if(sv.isSetMinValue() && sv.isSetMaxValue()) {
-            if(sv.isSetSampledValue()) {
-              return false;
-            }
-          }
-          
-          return true;
-        }
-      };
-      break;
-    }
+    // SPATIAL_21752, SPATIAL_21753 and SPATIAL_21754 implemented in one go in SampledFieldGeometry
     
-    case SPATIAL_21753:
-    {
-      func = new ValidationFunction<SampledVolume>() {
-        
-        @Override
-        public boolean check(ValidationContext ctx, SampledVolume sv) {
-          
-          if(sv.isSetSampledValue()) {
-            if(sv.isSetMinValue() || sv.isSetMaxValue()) {
-              return false;
-            }
-          }
-          
-          return true;
-        }
-      };
-      break;
-    }
-    
-    case SPATIAL_21754:
-    {
-      func = new ValidationFunction<SampledVolume>() {
-        
-        @Override
-        public boolean check(ValidationContext ctx, SampledVolume sv) {
-          
-          if(sv.isSetSampledValue() || (sv.isSetMinValue() && sv.isSetMaxValue())) {
-            return true;
-          }
-          
-          return false;
-        }
-      };
-      break;
-    }
     }    
 
     return func;

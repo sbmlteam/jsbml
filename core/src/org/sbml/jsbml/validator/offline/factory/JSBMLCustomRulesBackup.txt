@@ -1,0 +1,28 @@
+
+  // below the lines for the org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes class
+
+ 	// JSBML custom rules 70000 to 70099 - should not clash with libsbml or packages rules
+ 	/**
+    * Error code 70001:
+    * No validation support for this package in JSBML
+    */
+   public static final int CORE_70001 = 70001;
+ 	 
+   /**
+    * Error code 70002:
+    * Partial validation support for this package in JSBML
+    */
+   public static final int CORE_70002 = 70002;
+
+
+  // below the lines for the org.sbml.jsbml.validator.offline.i18n.SBMLErrorMessage class
+  
+       // JSBML custom error messages
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_70001), "The package '{0}' is not validated in the current JSBML version.");
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_70002), "The package '{0}' has partial validation implemented in the current JSBML version.");
+
+
+
+
+   
+   

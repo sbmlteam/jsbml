@@ -13705,6 +13705,18 @@ public interface SBMLErrorCodes {
 	  */
  	 public static final int ARRAYS_20403 = 8020403; 
  	 
+ 	 // JSBML custom rules 70000 to 70099 - should not clash with libsbml or packages rules
+ 	/**
+    * Error code 70001:
+    * No validation support for this package in JSBML
+    */
+   public static final int CORE_70001 = 70001;
+ 	 
+   /**
+    * Error code 70002:
+    * Partial validation support for this package in JSBML
+    */
+   public static final int CORE_70002 = 70002;
  	 
  	 // TODO: Finalize the following rules for SPATIAL
  	 
