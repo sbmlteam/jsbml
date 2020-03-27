@@ -22,7 +22,6 @@ import java.text.MessageFormat;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.ICurve;
@@ -113,7 +112,6 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
    */
   @Override
   public TreeNode getChildAt(int childIndex) {
-    // TODO 2020/03: what about notes and annotation?
     if (childIndex < 0) {
       throw new IndexOutOfBoundsException(MessageFormat.format(
         resourceBundle.getString("IndexSurpassesBoundsException"), childIndex,
@@ -132,12 +130,8 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
       }
       pos++;
     }
-    
+    // Super will throw exception, if necessary
     return super.getChildAt(childIndex - pos);
-    /*
-    throw new IndexOutOfBoundsException(MessageFormat.format(
-      resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
-      Math.min(pos, 0))); */
   }
 
 

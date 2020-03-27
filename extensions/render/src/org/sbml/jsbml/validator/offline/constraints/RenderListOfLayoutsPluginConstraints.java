@@ -75,6 +75,8 @@ public class RenderListOfLayoutsPluginConstraints
         @Override
         public boolean check(ValidationContext ctx,
           RenderListOfLayoutsPlugin rlp) {
+          // Coupling: RenderListOfLayouts is known to extend a ListOf<Layout>
+          @SuppressWarnings("unchecked") 
           ListOf<Layout> extendedList = (ListOf<Layout>) rlp.getExtendedSBase();
           return new DuplicatedElementValidationFunction<ListOf<Layout>>(
             RenderConstants.shortLabel + ":"

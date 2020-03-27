@@ -699,7 +699,7 @@ public class RenderCurve extends GraphicalPrimitive1D implements ICurve {
       }
       pos++;
     }
-    
+    // TODO 2020/03: cf Polygon: Can cause problems, bc super can also have children (notes, annotation)
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
       Math.min(pos, 0)));

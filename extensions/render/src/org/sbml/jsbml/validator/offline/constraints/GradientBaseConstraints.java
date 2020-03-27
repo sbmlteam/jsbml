@@ -21,16 +21,15 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ext.render.GradientBase;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
-import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the
@@ -97,19 +96,7 @@ public class GradientBaseConstraints extends AbstractConstraintDeclaration {
       };
       break;
     case RENDER_20906:
-      func = new ValidationFunction<GradientBase>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, GradientBase base) {
-          if(base.getUserObject(JSBML.UNKNOWN_XML) != null) {
-            XMLNode unknown = (XMLNode) base.getUserObject(JSBML.UNKNOWN_XML);
-            return unknown.getAttrIndex(RenderConstants.spreadMethod) == -1;
-            // TODO 2020/03: does this work? it should
-          }
-          return true;
-        }
-        
-      };
+      func = new InvalidAttributeValidationFunction<GradientBase>(RenderConstants.spreadMethod);
       break;
     }
     return func;

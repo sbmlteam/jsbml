@@ -90,8 +90,8 @@ public class GradientStopConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<GradientStop>() {
         @Override
         public boolean check(ValidationContext ctx, GradientStop stop) {
-          return stop.isSetOffset() && (stop.getOffset().isSetAbsoluteValue()
-            || stop.getOffset().isSetRelativeValue());
+          return stop.isSetOffset() && !stop.getOffset().isSetAbsoluteValue()
+            && stop.getOffset().isSetRelativeValue();
         }
       };
       break;

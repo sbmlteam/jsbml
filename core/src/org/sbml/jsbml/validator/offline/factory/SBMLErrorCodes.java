@@ -7332,13 +7332,13 @@ public interface SBMLErrorCodes {
  	 public static final int RENDER_21004 = 1321004; 
 
 	 /**
-	  * Error code 1321005:
-	  * The value of the attribute 'render:offset' of a &lt;gradientStop&gt; object must 
-	  * conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
-	  * optionally an absolute number followed by an optional relative number followed 
-	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
-	  * required. Reference: L3V1 Render V1 Section 
-	  */
+   * Error code 1321005:
+   * The value of the attribute render:offset of a GradientStop object must
+   * conform to the syntax of SBML data type RelAbsVector but in this case <b>can
+   * only encode a relative value</b> i.e. a string encoding a number followed by a
+   * % sign.
+   * Reference: L3V1 Render V1 Section 3.7.3
+   */
  	 public static final int RENDER_21005 = 1321005; 
 
 	 /**
