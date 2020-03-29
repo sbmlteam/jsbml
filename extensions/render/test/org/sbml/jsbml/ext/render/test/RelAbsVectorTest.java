@@ -291,6 +291,10 @@ public class RelAbsVectorTest {
     rav.setCoordinate((String) null);
     assertFalse(rav.isSetAbsoluteValue());
     assertFalse(rav.isSetRelativeValue());
+    
+    rav.setCoordinate("%2");
+    assertFalse(rav.isSetAbsoluteValue());
+    assertFalse(rav.isSetRelativeValue());
   }
 
   /** Test for {@link RelAbsVector#getCoordinate()} 

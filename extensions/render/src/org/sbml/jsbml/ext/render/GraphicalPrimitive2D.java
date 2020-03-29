@@ -286,6 +286,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
         try {
           setFillRule(FillRule.valueOf(value.toUpperCase()));
         } catch (Exception e) {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.fillRule
               + " on the '" + getElementName() + "' element.");

@@ -146,8 +146,7 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
 
         @Override
         public boolean check(ValidationContext ctx, LayoutModelPlugin layoutMP) {
-          
-          return layoutMP.isSetListOfLayouts() && layoutMP.getListOfLayouts().size() == 0; 
+          return !(layoutMP.isSetListOfLayouts() && layoutMP.getListOfLayouts().size() == 0); 
         }
       };
       break;

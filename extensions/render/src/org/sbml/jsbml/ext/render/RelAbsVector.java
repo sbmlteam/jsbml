@@ -40,7 +40,7 @@ public class RelAbsVector extends AbstractTreeNode {
   private Double absolute;
   private Double relative;
   
-  private static final String ABSOLUTE_PATTERN = "-?((.\\d+)|(\\d+(\\.\\d*)?))";
+  private static final String ABSOLUTE_PATTERN = "-?((\\.\\d+)|(\\d+(\\.\\d*)?))";
   private static final String RELATIVE_PATTERN = ABSOLUTE_PATTERN + "\\%";
   
   public RelAbsVector() {
@@ -178,6 +178,7 @@ public class RelAbsVector extends AbstractTreeNode {
    * @return whether the absolute value is set to a number
    */
   public boolean isSetAbsoluteValue() {
+    // Note: second check is relied upon by Validator (e.g. EllipseConstraint)!
     return absolute != null && !absolute.isNaN();
   }
   
@@ -185,6 +186,7 @@ public class RelAbsVector extends AbstractTreeNode {
    * @return whether the relative value is set to a number
    */
   public boolean isSetRelativeValue() {
+    // Note: second check is relied upon by Validator (e.g. EllipseConstraint)!
     return relative != null && !relative.isNaN();
   }
   
@@ -248,7 +250,6 @@ public class RelAbsVector extends AbstractTreeNode {
         // Allowed variant 2: Absolute followed by relative
         } else if (entries.length == 2 && entries[0].matches(ABSOLUTE_PATTERN)
           && entries[1].matches(RELATIVE_PATTERN)) {
-          
           setAbsoluteValue(Double.parseDouble(entries[0]));
           setRelativeValue(Double.parseDouble(
             entries[1].substring(0, entries[1].length() - 1)));

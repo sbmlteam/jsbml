@@ -62,7 +62,7 @@ public interface FontRenderStyle { // TODO - FontWeight (bold, normal) and FontS
   /**
    * @return the value of fontSize
    */
-  public abstract short getFontSize();
+  public abstract RelAbsVector getFontSize();
 
   /**
    * @return whether fontSize is set
@@ -73,7 +73,7 @@ public interface FontRenderStyle { // TODO - FontWeight (bold, normal) and FontS
    * Set the value of fontSize
    * @param fontSize
    */
-  public abstract void setFontSize(short fontSize);
+  public abstract void setFontSize(RelAbsVector fontSize);
 
   /**
    * Unsets the variable fontSize

@@ -756,6 +756,14 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     }
     return true;
   }
+  
+  /**
+   * @return {@code true} iff listOfCurveSegments is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfElementsEmpty() {
+    return listOfElements != null && listOfElements.isEmpty();
+  }
 
 
   /**
@@ -1079,6 +1087,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         try {
           setFontFamily(value);
         } catch (Exception e) {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.fontFamily
               + " on the 'g' element.");
@@ -1088,15 +1097,32 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         setFontSize(Short.valueOf(value));
       }
       else if (attributeName.equals(RenderConstants.fontWeightBold)) {
-        setFontWeightBold(XMLTools.parseFontWeightBold(value));
+        if (value.toLowerCase().equals(RenderConstants.fontWeightBoldFalse)
+          || value.toLowerCase().equals(RenderConstants.fontWeightBoldTrue)) {
+          setFontWeightBold(XMLTools.parseFontWeightBold(value));
+        } else {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
+          throw new SBMLException(
+            "Could not recognized the value '" + value + "' for the attribute "
+              + RenderConstants.fontWeightBold + " on the 'g' element.");
+        }
       }
       else if (attributeName.equals(RenderConstants.fontStyleItalic)) {
-        setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
+        if (value.toLowerCase().equals(RenderConstants.fontStyleItalicFalse)
+          || value.toLowerCase().equals(RenderConstants.fontStyleItalicTrue)) {
+          setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
+        } else {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
+          throw new SBMLException(
+            "Could not recognized the value '" + value + "' for the attribute "
+              + RenderConstants.fontStyleItalic + " on the 'g' element.");
+        }
       }
       else if (attributeName.equals(RenderConstants.textAnchor)) {
         try {
           setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
         } catch (Exception e) {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.textAnchor
               + " on the 'g' element.");
@@ -1106,6 +1132,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         try {
           setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
         } catch (Exception e) {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.vTextAnchor
               + " on the 'g' element.");

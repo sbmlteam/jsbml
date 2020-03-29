@@ -314,6 +314,14 @@ public class RenderCurve extends GraphicalPrimitive1D implements ICurve {
     }
     return true;
   }
+  
+  /**
+   * @return {@code true} iff listOfElements is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfElementsEmpty() {
+    return listOfElements != null && listOfElements.isEmpty();
+  }
 
   /**
    * @return the listOfElements
@@ -439,6 +447,14 @@ public class RenderCurve extends GraphicalPrimitive1D implements ICurve {
       return false;
     }
     return true;
+  }
+  
+  /**
+   * @return {@code true} iff listOfCurveSegments is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfCurveSegmentsEmpty() {
+    return listOfCurveSegments != null && listOfCurveSegments.isEmpty();
   }
 
   /**
@@ -683,7 +699,7 @@ public class RenderCurve extends GraphicalPrimitive1D implements ICurve {
       }
       pos++;
     }
-    
+    // TODO 2020/03: cf Polygon: Can cause problems, bc super can also have children (notes, annotation)
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"), childIndex,
       Math.min(pos, 0)));

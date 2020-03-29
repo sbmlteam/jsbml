@@ -153,7 +153,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
     }
     
     if (contextObject instanceof LayoutModelPlugin) {
-      // TODO: This seems to never actually get used.
+      // TODO 2020/03: This seems to never actually get used.
       LayoutModelPlugin layoutModel = (LayoutModelPlugin) contextObject;
       
       ListOf<Layout> listOfLayouts = layoutModel.getListOfLayouts();
@@ -187,6 +187,10 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
       }
     }
     else if (contextObject instanceof RenderInformationBase) {
+      // TODO 2020/03: calls like this might need be added to more of the cases (wherever child-elements play a role)
+      // keep order of elements for later validation
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+      
       RenderInformationBase renderInformation = (RenderInformationBase) contextObject;
       SBase newElement = null;
 

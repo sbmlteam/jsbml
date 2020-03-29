@@ -333,6 +333,10 @@ public class GraphicalPrimitive1D extends Transformation2D {
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
         getStrokeWidth().toString().toLowerCase());
     }
+    if(isSetId()) {
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.id,
+        getId());
+    }
     return attributes;
   }
 
@@ -342,7 +346,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
 
@@ -350,10 +354,22 @@ public class GraphicalPrimitive1D extends Transformation2D {
         setStroke(value);
       }
       else if (attributeName.equals(RenderConstants.strokeDashArray)) {
-        setStrokeDashArray(XMLTools.decodeStringToArrayShort(value));
+        if(XMLTools.canDecodeStringToArrayUnsignedInt(value)) {
+          setStrokeDashArray(XMLTools.decodeStringToArrayShort(value));
+        } else {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
+        }
       }
       else if (attributeName.equals(RenderConstants.strokeWidth)) {
-        setStrokeWidth(StringTools.parseSBMLDouble(value));
+        try {
+          Double.parseDouble(value);
+          setStrokeWidth(StringTools.parseSBMLDouble(value));
+        } catch (NumberFormatException e) {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
+        }
+      } 
+      else if (attributeName.equals(RenderConstants.id)) {
+        setId(value);
       }
       else {
         isAttributeRead = false;

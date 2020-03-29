@@ -292,6 +292,15 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
     }
     return true;
   }
+  
+  /**
+   * @return {@code true} iff listOfGradientStops is not {@code null}, but empty
+   *         (relevant for validation)
+   */
+  public boolean isListOfGradientStopsEmpty() {
+    return listOfGradientStops != null && listOfGradientStops.isEmpty();
+  }
+  
 
   /**
    * @return the listOfGradientStops
@@ -428,6 +437,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
         try {
           setSpreadMethod(Spread.valueOf(value.toUpperCase()));
         } catch (Exception e) {
+          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.spreadMethod
               + " on the 'gradient' element.");

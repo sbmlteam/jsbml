@@ -7275,12 +7275,12 @@ public interface SBMLErrorCodes {
  	 public static final int RENDER_20903 = 1320903; 
 
 	 /**
-	  * Error code 1320904:
-	  * A &lt;gradientBase&gt; object may contain one and only one instance of the 
-	  * &lt;listOfGradientStops&gt; element. No other elements from the SBML Level 3 Render 
-	  * namespaces are permitted on a &lt;gradientBase&gt; object. Reference: L3V1 Render V1 
-	  * Section 
-	  */
+   * Error code 1320904:
+   * A GradientBase object must contain at least one instance of the
+   * GradientStop element. No other elements from the SBML Level 3 Render
+   * namespaces are permitted on a GradientBase object.
+   * Reference: L3V1 Render V1 Section 3.7.2
+   */
  	 public static final int RENDER_20904 = 1320904; 
 
 	 /**
@@ -7332,13 +7332,13 @@ public interface SBMLErrorCodes {
  	 public static final int RENDER_21004 = 1321004; 
 
 	 /**
-	  * Error code 1321005:
-	  * The value of the attribute 'render:offset' of a &lt;gradientStop&gt; object must 
-	  * conform to the syntax of SBML data type &lt;relAbsVector,&gt; i.e., a string encoding 
-	  * optionally an absolute number followed by an optional relative number followed 
-	  * by a &lt;% sign&gt;. Adding spaces between the coordinates is encouraged, but not 
-	  * required. Reference: L3V1 Render V1 Section 
-	  */
+   * Error code 1321005:
+   * The value of the attribute render:offset of a GradientStop object must
+   * conform to the syntax of SBML data type RelAbsVector but in this case <b>can
+   * only encode a relative value</b> i.e. a string encoding a number followed by a
+   * % sign.
+   * Reference: L3V1 Render V1 Section 3.7.3
+   */
  	 public static final int RENDER_21005 = 1321005; 
 
 	 /**
@@ -7519,6 +7519,8 @@ public interface SBMLErrorCodes {
 	  */
  	 public static final int RENDER_21208 = 1321208; 
 
+ 	 // render-21209 see end of file
+ 	 
 	 /**
 	  * Error code 1321210:
 	  * The value of the attribute 'render:z' of an &lt;image&gt; object must conform to the 
@@ -7758,18 +7760,27 @@ public interface SBMLErrorCodes {
 	 /**
 	  * Error code 1321703:
 	  * A &lt;polygon&gt; object may contain one and only one instance of the 
-	  * &lt;listOfRenderPoints&gt; element. No other elements from the SBML Level 3 Render 
+	  * &lt;listOfElements&gt; element. No other elements from the SBML Level 3 Render 
 	  * namespaces are permitted on a &lt;polygon&gt; object. Reference: L3V1 Render V1 
 	  * Section 
 	  */
  	 public static final int RENDER_21703 = 1321703; 
 
-	 /**
+	 /*
 	  * Error code 1321704:
 	  * The &lt;listOfRenderPoints&gt; subobject on a &lt;polygon&gt; object is optional, but if 
 	  * present, this container object must not be empty. Reference: L3V1 Render V1 
 	  * Section 
 	  */
+   // TODO 2020/03: there is a mismatch between the specification and the
+   // implemented constraints here!
+ 	 /**
+   * Error code 1321704:
+   * A &lt;polygon&gt; object may contain one and only one instance of the
+   * &lt;listOfCurveSegments&gt; element from the Layout package. No other
+   * elements from the SBML Level 3 Layout namespaces are permitted on a
+   * &lt;polygon&gt; object. Reference: L3V1 Render V1 Section 3.10.1
+   */
  	 public static final int RENDER_21704 = 1321704; 
 
 	 /**
@@ -8598,11 +8609,8 @@ public interface SBMLErrorCodes {
 	  * Error code 1322910:
 	  * The &lt;listOfColorDefinitions,&gt; &lt;listOfGradientBases&gt; and &lt;listOfLineEndings&gt; 
 	  * subobjects on a &lt;renderInformationBase&gt; object are optional, but if present, 
-	  * these container objects must not be empty.The &lt;listOfColorDefinitions&gt; must 
-	  * contain at least zero instances of the &lt;colorDefinition&gt; object.The 
-	  * &lt;listOfGradientBases&gt; must contain at least one instances of the &lt;gradientBase&gt; 
-	  * object.The &lt;listOfLineEndings&gt; must contain at least one instances of the 
-	  * &lt;lineEnding&gt; object. Reference: L3V1 Render V1 Section 
+	  * these container objects must not be empty.
+	  * Reference: L3V1 Render V1 Section 
 	  */
  	 public static final int RENDER_22910 = 1322910; 
 
@@ -13764,4 +13772,46 @@ public interface SBMLErrorCodes {
  	 public static final int SPATIAL_21651 = 1221651;
  	 
  	 public static final int SPATIAL_21652 = 1221652;
+ 	 
+  /**
+   * Error code 1321209:
+   * The attribute render:href on an Image must point to a local file of type
+   * "jpeg" or "png".
+   * Reference: L3V1 Render V1 Section 3.10.5
+   */
+  public static final int RENDER_21209  = 1321209; 
+  
+  /**
+   * Error code 1323040:
+   * The ListOfElements subobject on a RenderCurve or a Polygon object is
+   * optional, but if present, this container object must not be empty.
+   * Reference: L3V1 Render V1 Section 3.9.3
+   */
+  public static final int RENDER_23040  = 1323040;
+  
+  /**
+   * Error code 1323041:
+   * Apart from the general notes and annotations subobjects permitted on all
+   * SBML objects, a ListOfElements container object may only contain
+   * RenderPoint or the derived RenderCubicBezier objects.
+   * Reference: L3V1 Render V1 Section 3.9.3
+   */
+  public static final int RENDER_23041  = 1323041;
+   
+  /**
+   * Error code 1323042:
+   * A ListOfElements object may have the optional SBML Level 3 Core attributes
+   * metaid and sboTerm. No other attributes from the SBML Level 3 Core
+   * namespaces are permitted on a ListOfElements object.
+   * Reference: L3V1 Render V1 Section 3.9.3
+   */
+  public static final int RENDER_23042  = 1323042;
+  
+  /**
+   * Error code 1323043:
+   * The first element within a ListOfElements container object must be of type
+   * RenderPoint (but not of the derived RenderCubicBezier)
+   * Reference: L3V1 Render V1 Section 3.9.3
+   */
+  public static final int RENDER_23043  = 1323043;
 }
