@@ -61,7 +61,7 @@ public class GraphicalPrimitive2DConstraints extends AbstractConstraintDeclarati
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<GraphicalPrimitive2D> func = null;
+    ValidationFunction<GraphicalPrimitive2D> func;
     switch(errorCode) {
     case RENDER_22701:
       func = new UnknownCoreAttributeValidationFunction<GraphicalPrimitive2D>();
@@ -85,6 +85,10 @@ public class GraphicalPrimitive2DConstraints extends AbstractConstraintDeclarati
       break;
     case RENDER_22705:
       func = new InvalidAttributeValidationFunction<GraphicalPrimitive2D>(RenderConstants.fillRule);
+      break;
+      
+    default:
+      func = null;
       break;
     }
     return func;

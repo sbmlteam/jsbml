@@ -67,7 +67,7 @@ public class StyleConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<Style> func = null;
+    ValidationFunction<Style> func;
     switch(errorCode) {
     case RENDER_20801:
     case RENDER_22801:
@@ -97,6 +97,10 @@ public class StyleConstraints extends AbstractConstraintDeclaration {
         @Override // any string
         public boolean check(ValidationContext ctx, Style t) { return true; }
       };    
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

@@ -66,7 +66,7 @@ public class PolygonConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<Polygon> func = null;
+    ValidationFunction<Polygon> func;
     switch(errorCode) {
     case RENDER_21701:
       func = new UnknownCoreAttributeValidationFunction<Polygon>();
@@ -141,6 +141,10 @@ public class PolygonConstraints extends AbstractConstraintDeclaration {
             return true;
           }
         };
+        break;
+
+      default:
+        func = null;
         break;
     }
     return func;

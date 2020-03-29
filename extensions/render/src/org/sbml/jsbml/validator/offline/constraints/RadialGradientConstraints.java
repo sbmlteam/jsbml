@@ -60,7 +60,7 @@ public class RadialGradientConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<RadialGradient> func = null;
+    ValidationFunction<RadialGradient> func;
     switch(errorCode) {
     case RENDER_21801:
       func = new UnknownCoreAttributeValidationFunction<RadialGradient>();
@@ -133,6 +133,10 @@ public class RadialGradientConstraints extends AbstractConstraintDeclaration {
             || gradient.getFz().isSetRelativeValue();
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

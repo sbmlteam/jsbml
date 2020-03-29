@@ -67,7 +67,7 @@ public class DefaultValuesConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<DefaultValues> func = null;
+    ValidationFunction<DefaultValues> func;
     switch(errorCode) {
     case RENDER_23001:
       func = new UnknownCoreAttributeValidationFunction<DefaultValues>();
@@ -430,6 +430,10 @@ public class DefaultValuesConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+      
+    default:
+      func = null;
       break;
     }
     return func;

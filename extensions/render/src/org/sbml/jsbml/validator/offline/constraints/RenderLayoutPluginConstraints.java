@@ -66,7 +66,7 @@ public class RenderLayoutPluginConstraints extends AbstractConstraintDeclaration
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<RenderLayoutPlugin> func = null;
+    ValidationFunction<RenderLayoutPlugin> func;
     switch(errorCode) {
     case RENDER_20301:
       func = new ValidationFunction<RenderLayoutPlugin>() {
@@ -179,7 +179,11 @@ public class RenderLayoutPluginConstraints extends AbstractConstraintDeclaration
           return true;
         }
       };
-      break;    
+      break;  
+
+    default:
+      func = null;
+      break;
     }
     
     return func;

@@ -61,7 +61,7 @@ public class EllipseConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<Ellipse> func = null;
+    ValidationFunction<Ellipse> func;
     switch(errorCode) {
     case RENDER_20601:
       func = new UnknownCoreAttributeValidationFunction<Ellipse>();
@@ -134,6 +134,10 @@ public class EllipseConstraints extends AbstractConstraintDeclaration {
             || ellipse.getRy().isSetRelativeValue();
         }
       };
+      break;
+      
+    default:
+      func = null;
       break;
     }
     return func;

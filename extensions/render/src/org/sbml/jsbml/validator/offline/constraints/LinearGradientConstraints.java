@@ -60,7 +60,7 @@ public class LinearGradientConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<LinearGradient> func = null; 
+    ValidationFunction<LinearGradient> func; 
     switch(errorCode) {
     case RENDER_21401:
       func = new UnknownCoreAttributeValidationFunction<LinearGradient>();
@@ -124,6 +124,10 @@ public class LinearGradientConstraints extends AbstractConstraintDeclaration {
             || gradient.getZ2().isSetRelativeValue();
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

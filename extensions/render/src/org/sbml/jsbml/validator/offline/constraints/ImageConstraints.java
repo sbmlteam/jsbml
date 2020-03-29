@@ -61,7 +61,7 @@ public class ImageConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<Image> func = null;
+    ValidationFunction<Image> func;
     switch(errorCode) {
     case RENDER_21201:
       func = new UnknownCoreAttributeValidationFunction<Image>();
@@ -151,6 +151,10 @@ public class ImageConstraints extends AbstractConstraintDeclaration {
             || image.getZ().isSetRelativeValue();
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

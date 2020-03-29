@@ -62,7 +62,7 @@ public class GradientBaseConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<GradientBase> func = null;
+    ValidationFunction<GradientBase> func;
     switch(errorCode) {
     case RENDER_20901:
       func = new UnknownCoreAttributeValidationFunction<GradientBase>();
@@ -97,6 +97,10 @@ public class GradientBaseConstraints extends AbstractConstraintDeclaration {
       break;
     case RENDER_20906:
       func = new InvalidAttributeValidationFunction<GradientBase>(RenderConstants.spreadMethod);
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

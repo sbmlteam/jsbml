@@ -61,7 +61,7 @@ public class RenderPointConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<RenderPoint> func = null;
+    ValidationFunction<RenderPoint> func;
     switch(errorCode) {
     case RENDER_22201:
       func = new UnknownCoreAttributeValidationFunction<RenderPoint>();
@@ -102,6 +102,10 @@ public class RenderPointConstraints extends AbstractConstraintDeclaration {
             || r.getZ().isSetRelativeValue();
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

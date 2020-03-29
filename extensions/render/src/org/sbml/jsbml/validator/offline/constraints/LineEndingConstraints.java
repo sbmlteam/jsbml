@@ -63,7 +63,7 @@ public class LineEndingConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<LineEnding> func = null;
+    ValidationFunction<LineEnding> func;
     switch(errorCode) {
     case RENDER_21301:
       func = new UnknownCoreAttributeValidationFunction<LineEnding>();
@@ -93,6 +93,10 @@ public class LineEndingConstraints extends AbstractConstraintDeclaration {
       break;
     case RENDER_21305:
       func = new InvalidAttributeValidationFunction<LineEnding>(RenderConstants.enableRotationMapping);
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

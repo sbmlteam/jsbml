@@ -63,7 +63,7 @@ public class ColorDefinitionConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<ColorDefinition> func = null;
+    ValidationFunction<ColorDefinition> func;
     switch(errorCode) {
     case RENDER_20501:
       func = new UnknownCoreAttributeValidationFunction<ColorDefinition>();
@@ -91,6 +91,10 @@ public class ColorDefinitionConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+      
+    default:
+      func = null;
       break;
     }
     return func;

@@ -61,7 +61,7 @@ public class GradientStopConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<GradientStop> func = null;
+    ValidationFunction<GradientStop> func;
     switch(errorCode) {
     case RENDER_21001:
       func = new UnknownCoreAttributeValidationFunction<GradientStop>();
@@ -94,6 +94,10 @@ public class GradientStopConstraints extends AbstractConstraintDeclaration {
             && stop.getOffset().isSetRelativeValue();
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

@@ -60,7 +60,7 @@ public class RenderGraphicalObjectPluginConstraints
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<RenderGraphicalObjectPlugin> func = null;
+    ValidationFunction<RenderGraphicalObjectPlugin> func;
     switch(errorCode) {
     case RENDER_20201:
       func =
@@ -76,6 +76,10 @@ public class RenderGraphicalObjectPluginConstraints
           return true;
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

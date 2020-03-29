@@ -61,7 +61,7 @@ public class RectangleConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<Rectangle> func = null;
+    ValidationFunction<Rectangle> func;
     switch(errorCode) {
     case RENDER_21901:
       func = new UnknownCoreAttributeValidationFunction<Rectangle>();
@@ -143,6 +143,10 @@ public class RectangleConstraints extends AbstractConstraintDeclaration {
             || r.getRy().isSetRelativeValue();
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

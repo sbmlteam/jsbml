@@ -61,7 +61,7 @@ public class TransformationConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<Transformation> func = null;
+    ValidationFunction<Transformation> func;
     switch(errorCode) {
     case RENDER_22501:
       func = new UnknownCoreAttributeValidationFunction<Transformation>();
@@ -80,6 +80,10 @@ public class TransformationConstraints extends AbstractConstraintDeclaration {
         @Override // Any string
         public boolean check(ValidationContext ctx, Transformation t) { return true; }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

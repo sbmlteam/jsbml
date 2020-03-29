@@ -62,7 +62,7 @@ public class RenderCubicBezierConstraints
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<RenderCubicBezier> func = null;
+    ValidationFunction<RenderCubicBezier> func;
     switch(errorCode) {
     case RENDER_22001:
       func = new UnknownCoreAttributeValidationFunction<RenderCubicBezier>();
@@ -132,6 +132,10 @@ public class RenderCubicBezierConstraints
             || r.getZ2().isSetRelativeValue());
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

@@ -62,7 +62,7 @@ public class GraphicalPrimitive1DConstraints
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<GraphicalPrimitive1D> func = null;
+    ValidationFunction<GraphicalPrimitive1D> func;
     switch(errorCode) {
     case RENDER_22601:
       func = new UnknownCoreAttributeValidationFunction<GraphicalPrimitive1D>();
@@ -88,6 +88,10 @@ public class GraphicalPrimitive1DConstraints
     case RENDER_22606:
       func = new InvalidAttributeValidationFunction<GraphicalPrimitive1D>(
         RenderConstants.strokeDashArray);
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

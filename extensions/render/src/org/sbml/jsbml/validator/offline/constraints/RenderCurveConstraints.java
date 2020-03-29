@@ -69,7 +69,7 @@ public class RenderCurveConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<RenderCurve> func = null;
+    ValidationFunction<RenderCurve> func;
     switch(errorCode) {
     case RENDER_22101:
       func = new UnknownCoreAttributeValidationFunction<RenderCurve>();
@@ -162,6 +162,10 @@ public class RenderCurveConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

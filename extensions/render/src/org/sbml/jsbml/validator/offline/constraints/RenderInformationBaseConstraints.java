@@ -68,7 +68,7 @@ public class RenderInformationBaseConstraints
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<RenderInformationBase> func = null;
+    ValidationFunction<RenderInformationBase> func;
     switch(errorCode) {
     case RENDER_22901:
       func = new UnknownCoreAttributeValidationFunction<RenderInformationBase>();
@@ -214,6 +214,10 @@ public class RenderInformationBaseConstraints
           return true;
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

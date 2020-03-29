@@ -60,7 +60,7 @@ public class LocalStyleConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<LocalStyle> func = null;
+    ValidationFunction<LocalStyle> func;
     switch(errorCode) {
     case RENDER_21601:
       func = new UnknownCoreAttributeValidationFunction<LocalStyle>();
@@ -79,6 +79,10 @@ public class LocalStyleConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

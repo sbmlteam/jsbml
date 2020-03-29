@@ -64,7 +64,7 @@ public class LocalRenderInformationConstraints
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<LocalRenderInformation> func = null;
+    ValidationFunction<LocalRenderInformation> func;
     switch(errorCode) {
     case RENDER_21501:
       func = new UnknownCoreAttributeValidationFunction<LocalRenderInformation>();
@@ -117,6 +117,10 @@ public class LocalRenderInformationConstraints
           return true;
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

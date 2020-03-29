@@ -66,7 +66,7 @@ public class GlobalRenderInformationConstraints
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<GlobalRenderInformation> func = null;
+    ValidationFunction<GlobalRenderInformation> func;
     switch(errorCode) {
     case RENDER_20701:
       func = new UnknownCoreAttributeValidationFunction<GlobalRenderInformation>();
@@ -125,6 +125,10 @@ public class GlobalRenderInformationConstraints
           return true;
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

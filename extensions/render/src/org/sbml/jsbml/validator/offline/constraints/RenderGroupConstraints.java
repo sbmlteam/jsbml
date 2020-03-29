@@ -65,7 +65,7 @@ public class RenderGroupConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<RenderGroup> func = null;
+    ValidationFunction<RenderGroup> func;
     switch(errorCode) {
     case RENDER_21101:
       func = new UnknownCoreAttributeValidationFunction<RenderGroup>();
@@ -137,6 +137,10 @@ public class RenderGroupConstraints extends AbstractConstraintDeclaration {
     case RENDER_21111:
       func = new InvalidAttributeValidationFunction<RenderGroup>(
         RenderConstants.vTextAnchor);
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

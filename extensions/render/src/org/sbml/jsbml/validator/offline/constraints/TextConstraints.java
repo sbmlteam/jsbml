@@ -61,7 +61,7 @@ public class TextConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<Text> func = null;
+    ValidationFunction<Text> func;
     switch(errorCode) {
     case RENDER_22301:
       func = new UnknownCoreAttributeValidationFunction<Text>();
@@ -136,6 +136,10 @@ public class TextConstraints extends AbstractConstraintDeclaration {
             || t.getZ().isSetRelativeValue();
         }
       };
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;

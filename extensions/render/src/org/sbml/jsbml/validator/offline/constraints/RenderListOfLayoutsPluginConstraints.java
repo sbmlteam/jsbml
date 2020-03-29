@@ -67,7 +67,7 @@ public class RenderListOfLayoutsPluginConstraints
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<RenderListOfLayoutsPlugin> func = null;
+    ValidationFunction<RenderListOfLayoutsPlugin> func;
     switch(errorCode) {
     case RENDER_20401:
       func = new ValidationFunction<RenderListOfLayoutsPlugin>() {
@@ -181,7 +181,11 @@ public class RenderListOfLayoutsPluginConstraints
           return true;
         }
       };
-      break;    
+      break;   
+
+    default:
+      func = null;
+      break;
     }
     
     return func;

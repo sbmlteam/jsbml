@@ -58,13 +58,17 @@ public class Transformation2DConstraints extends AbstractConstraintDeclaration {
   @Override
   public ValidationFunction<?> getValidationFunction(int errorCode,
     ValidationContext context) {
-    ValidationFunction<Transformation2D> func = null;
+    ValidationFunction<Transformation2D> func;
     switch(errorCode) {
     case RENDER_22401:
       func = new UnknownCoreAttributeValidationFunction<Transformation2D>();
       break;
     case RENDER_22402:
       func = new UnknownCoreElementValidationFunction<Transformation2D>();
+      break;
+
+    default:
+      func = null;
       break;
     }
     return func;
