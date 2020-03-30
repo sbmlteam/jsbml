@@ -22,9 +22,11 @@ package org.sbml.jsbml.xml.parsers;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -56,6 +58,7 @@ import org.sbml.jsbml.ext.fbc.GeneProductAssociation;
 import org.sbml.jsbml.ext.fbc.LogicalOperator;
 import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.ext.fbc.Or;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -71,6 +74,12 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @SuppressWarnings("deprecation")
 @ProviderFor(ReadingParser.class)
 public class FBCParser extends AbstractReaderWriter implements PackageParser {
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager
+      .getBundle("org.sbml.jsbml.resources.cfg.Messages");
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
@@ -190,6 +199,9 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       Model model = (Model) contextObject;
       FBCModelPlugin fbcModel = (FBCModelPlugin) model.getPlugin(FBCConstants.shortLabel);
 
+      // keep order of elements for later validation of order or duplication
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+
       if (elementName.equals(FBCList.listOfFluxBounds.name())) {
 
         ListOf<FluxBound> listOfFluxBounds = fbcModel.getListOfFluxBounds();
@@ -206,19 +218,31 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         ListOf<GeneProduct> listOfGeneProducts = fbcModel.getListOfGeneProducts();
         groupList = FBCList.listOfGeneProducts;
         return listOfGeneProducts;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof Objective) {
       Objective objective = (Objective) contextObject;
+
+      // keep order of elements for later validation of order or duplication
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
 
       if (elementName.equals(FBCConstants.listOfFluxObjectives) || elementName.equals(FBCConstants.listOfFluxes)) {
         // listOfFluxes was the first name of listOfFluxObjectives in the preliminary specifications
         ListOf<FluxObjective> listOfFluxObjectives = objective.getListOfFluxObjectives();
         groupList = FBCList.listOfFluxObjectives;
         return listOfFluxObjectives;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof Reaction) {
       Reaction reaction = (Reaction) contextObject;
       FBCReactionPlugin fbcReaction = (FBCReactionPlugin) reaction.getPlugin(FBCConstants.shortLabel);
+
+      // keep order of elements for later validation of order or duplication
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
 
       if (elementName.equals(FBCConstants.geneProductAssociation)) {
         GeneProductAssociation gPA = fbcReaction.createGeneProductAssociation();
@@ -231,6 +255,9 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
           + "'. It was only used for few FBC V2 release candidates.");
         GeneProductAssociation gPA = fbcReaction.createGeneProductAssociation();
         return gPA;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof GeneProductAssociation) {
       GeneProductAssociation gPA = (GeneProductAssociation) contextObject;
@@ -248,6 +275,9 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         GeneProductRef genePR = new GeneProductRef();
         gPA.setAssociation(genePR);
         return genePR;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
     } else if (contextObject instanceof And || contextObject instanceof Or) {
       LogicalOperator logicalOp = (LogicalOperator) contextObject;
@@ -262,8 +292,10 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       } else if (elementName.equals(FBCConstants.geneProductReference)) {
         GeneProductRef genePR = logicalOp.createGeneProductRef();
         return genePR;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
-
     }
 
     else if (contextObject instanceof ListOf<?>) {
@@ -304,6 +336,9 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         extendeModel.addGeneProduct(geneProduct);
 
         return geneProduct;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
       }
 
     }
