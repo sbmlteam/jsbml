@@ -473,7 +473,7 @@ public class StringTools {
    * 
    * @param valueAsStr
    *            an int as a {@link String}
-   * @throw IllegalArgumentException
+   * @throws IllegalArgumentException if the String cannot be converted into an int.
    * @return the {@link String} as an int. If the {@link String} is not a valid
    *         int number, 0 is returned.
    */
@@ -484,7 +484,7 @@ public class StringTools {
     } catch (NumberFormatException e) {
       Logger logger = Logger.getLogger(StringTools.class);
       logger.warn("Could not create an integer from the string " + valueAsStr);
-      throw new IllegalArgumentException("Must be of type int!");
+      throw new IllegalArgumentException("Must be of type int!", e);
     }
     return value;
   }
@@ -505,6 +505,28 @@ public class StringTools {
     } catch (NumberFormatException e) {
       Logger logger = Logger.getLogger(StringTools.class);
       logger.warn("Could not create a short from the string " + value);
+    }
+    return v;
+  }
+
+  /**
+   * Parses a {@link String} into an short number following the rules of the SBML
+   * specifications, section 3.1.3.
+   * 
+   * @param value
+   *            an int as a String
+   * @throws IllegalArgumentException if the String cannot be converted into a short.
+   * @return the {@link String} as an short. If the {@link String} is not a valid
+   *         short number, 0 is returned.
+   */
+  public static short parseSBMLShortStrict(String value) {
+    short v = 0;
+    try {
+      v = Short.parseShort(value.trim());
+    } catch (NumberFormatException e) {
+      Logger logger = Logger.getLogger(StringTools.class);
+      logger.warn("Could not create a short from the string " + value);
+      throw new IllegalArgumentException("Must be of type short!", e);
     }
     return v;
   }

@@ -513,11 +513,7 @@ public class Ellipse extends GraphicalPrimitive2D {
         setRy(new RelAbsVector(value));
       }
       else if(attributeName.equals(RenderConstants.ratio)) {
-        try {
-          setRatio(Double.parseDouble(value));
-        } catch(NumberFormatException e){
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
-        }
+        setRatio(Double.parseDouble(value));
       }
       else {
         isAttributeRead = false;

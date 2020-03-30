@@ -132,7 +132,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
     if (obj.isSetStrokeDashArray()) {
       for (int i = 0; i < obj.getStrokeDashArray().size(); i++) {
-        addStrokeDash(new Short(obj.getStrokeDash(i)));
+        addStrokeDash(Short.valueOf(obj.getStrokeDash(i)));
       }
     }
   }
@@ -354,19 +354,10 @@ public class GraphicalPrimitive1D extends Transformation2D {
         setStroke(value);
       }
       else if (attributeName.equals(RenderConstants.strokeDashArray)) {
-        if(XMLTools.canDecodeStringToArrayUnsignedInt(value)) {
-          setStrokeDashArray(XMLTools.decodeStringToArrayShort(value));
-        } else {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
-        }
+        setStrokeDashArray(XMLTools.decodeStringToArrayShort(value));
       }
       else if (attributeName.equals(RenderConstants.strokeWidth)) {
-        try {
-          Double.parseDouble(value);
-          setStrokeWidth(StringTools.parseSBMLDouble(value));
-        } catch (NumberFormatException e) {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
-        }
+        setStrokeWidth(StringTools.parseSBMLDoubleStrict(value));
       } 
       else if (attributeName.equals(RenderConstants.id)) {
         setId(value);

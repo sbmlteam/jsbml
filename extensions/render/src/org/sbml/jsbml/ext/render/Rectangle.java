@@ -564,14 +564,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
         setRy(new RelAbsVector(value));
       }
       else if (attributeName.equals(RenderConstants.ratio)) {
-        try {
-          // Note: this is done for validation; XMLTools would take care of
-          // invalid doubles
-          Double.parseDouble(value.trim());
-          setRatio(XMLTools.parsePosition(value)); 
-        } catch (NumberFormatException e) {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
-        }
+        setRatio(XMLTools.parsePosition(value)); 
       }
       else {
         isAttributeRead = false;

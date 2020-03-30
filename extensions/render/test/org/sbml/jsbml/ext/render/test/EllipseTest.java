@@ -48,8 +48,8 @@ public class EllipseTest {
     Ellipse ellipse = new Ellipse();
     new RelAbsVector("50-30%");
     ellipse.setCx(new RelAbsVector("50-30%"));
-    StringBuffer change = new StringBuffer();
-    String ARROW = " -> ";
+    final StringBuffer change = new StringBuffer();
+    final String ARROW = " -> ";
     TreeNodeChangeListener listener = new TreeNodeChangeListener() {
 
       @Override

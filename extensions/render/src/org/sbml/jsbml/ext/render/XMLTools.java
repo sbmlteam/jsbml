@@ -23,13 +23,7 @@ package org.sbml.jsbml.ext.render;
 import java.awt.Color;
 import java.util.Locale;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
-import org.sbml.jsbml.xml.XMLAttributes;
-import org.sbml.jsbml.xml.XMLNamespaces;
-import org.sbml.jsbml.xml.XMLNode;
-import org.sbml.jsbml.xml.XMLTriple;
 
 /**
  * Utility class to help write the XML
@@ -90,10 +84,10 @@ public class XMLTools {
    */
   public static Double parsePosition(String value) {
     if (isAbsolutePosition(value)) {
-      return StringTools.parseSBMLDouble(value);
+      return StringTools.parseSBMLDoubleStrict(value);
     }
     else {
-      return StringTools.parseSBMLDouble(value.substring(0, value.length() - 1));
+      return StringTools.parseSBMLDoubleStrict(value.substring(0, value.length() - 1));
     }
   }
 
@@ -255,23 +249,4 @@ public class XMLTools {
     return true;
   }
   
-
-  /**
-   * (not quite object-oriented style)
-   * Helper to add an entry to the {@link JSBML.INVALID_XML}-{@link XMLNode} on given TreeNode
-   * @param t to which to add the UserObject/where to modify the userObject
-   * @param attributeName
-   * @param invalidValue
-   */
-  public static void addToInvalidXMLUserObject(TreeNodeWithChangeSupport t, String attributeName, String invalidValue) {
-    if(!t.isSetUserObjects() || !t.containsUserObjectKey(JSBML.INVALID_XML)) {
-      // TODO 2020/03: this is somewhat abusive code
-      t.putUserObject(JSBML.INVALID_XML,
-        new XMLNode(new XMLTriple(JSBML.INVALID_XML, "", ""),
-          (XMLAttributes) null, (XMLNamespaces) null, 0l, 0l));
-    }
-    XMLNode invalidNode = (XMLNode) t.getUserObject(JSBML.INVALID_XML);
-    invalidNode.addAttr(attributeName, invalidValue);
-  }
-
 }

@@ -1239,6 +1239,7 @@
         "DefaultSeverity": "na", 
         "Message": "The XHTML content inside a <notes> element can only take one of the following general forms: (1) a complete XHTML document beginning with the element <html> and ending with </html>; (2) the \"body\" portion of a document beginning with the element <body> and ending with </body>; or (3) XHTML content that is permitted within a <body> ... </body> elements. \n", 
         "Package": "core", 
+        "SeverityL2V1": "warning", 
         "SeverityL2V2": "error", 
         "SeverityL2V3": "error", 
         "SeverityL2V4": "error", 

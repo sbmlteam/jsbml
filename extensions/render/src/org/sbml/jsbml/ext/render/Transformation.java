@@ -160,11 +160,7 @@ public class Transformation extends AbstractSBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(RenderConstants.transform)) {
-        if(XMLTools.canDecodeStringToArrayDouble(value)) {
-          setTransform(XMLTools.decodeStringToArrayDouble(value));
-        } else {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
-        }
+        setTransform(XMLTools.decodeStringToArrayDouble(value));
       }
       else {
         isAttributeRead = false;

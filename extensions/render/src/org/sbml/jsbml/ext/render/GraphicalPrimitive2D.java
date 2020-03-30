@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.render;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBMLException;
 
 /**
  * @author Eugen Netz
@@ -283,14 +282,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
         setFill(value);
       }
       else if (attributeName.equals(RenderConstants.fillRule)) {
-        try {
-          setFillRule(FillRule.valueOf(value.toUpperCase()));
-        } catch (Exception e) {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
-          throw new SBMLException("Could not recognized the value '" + value
-              + "' for the attribute " + RenderConstants.fillRule
-              + " on the '" + getElementName() + "' element.");
-        }
+        setFillRule(FillRule.valueOf(value.toUpperCase()));
       }
       else {
         isAttributeRead = false;

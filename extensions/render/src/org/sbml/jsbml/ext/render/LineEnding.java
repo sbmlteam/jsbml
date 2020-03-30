@@ -363,13 +363,7 @@ public class LineEnding extends GraphicalPrimitive2D implements IBoundingBox {
         setId(value);
       }
       else if (attributeName.equals(RenderConstants.enableRotationMapping)) {
-        if (value.trim().toLowerCase().equals("true")
-          || value.trim().toLowerCase().equals("false")
-          || value.trim().equals("1") || value.trim().equals("0")) {
-          setEnableRotationMapping(StringTools.parseSBMLBoolean(value));
-        } else {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
-        }
+        setEnableRotationMapping(StringTools.parseSBMLBooleanStrict(value));
       }
       else {
         isAttributeRead = false;

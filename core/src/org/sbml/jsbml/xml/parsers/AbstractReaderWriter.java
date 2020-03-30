@@ -178,7 +178,6 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
    * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
    */
   @Override
-  @SuppressWarnings("unchecked")
   public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
     if (logger.isDebugEnabled()) {

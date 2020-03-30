@@ -1087,7 +1087,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         try {
           setFontFamily(value);
         } catch (Exception e) {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.fontFamily
               + " on the 'g' element.");
@@ -1101,7 +1100,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
           || value.toLowerCase().equals(RenderConstants.fontWeightBoldTrue)) {
           setFontWeightBold(XMLTools.parseFontWeightBold(value));
         } else {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException(
             "Could not recognized the value '" + value + "' for the attribute "
               + RenderConstants.fontWeightBold + " on the 'g' element.");
@@ -1112,7 +1110,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
           || value.toLowerCase().equals(RenderConstants.fontStyleItalicTrue)) {
           setFontStyleItalic(XMLTools.parseFontStyleItalic(value));
         } else {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException(
             "Could not recognized the value '" + value + "' for the attribute "
               + RenderConstants.fontStyleItalic + " on the 'g' element.");
@@ -1122,7 +1119,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         try {
           setTextAnchor(HTextAnchor.valueOf(value.toUpperCase()));
         } catch (Exception e) {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.textAnchor
               + " on the 'g' element.");
@@ -1132,7 +1128,6 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
         try {
           setVTextAnchor(VTextAnchor.valueOf(value.toUpperCase()));
         } catch (Exception e) {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
           throw new SBMLException("Could not recognized the value '" + value
               + "' for the attribute " + RenderConstants.vTextAnchor
               + " on the 'g' element.");

@@ -27,7 +27,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
@@ -434,14 +433,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
       isAttributeRead = true;
     
       if (attributeName.equals(RenderConstants.spreadMethod)) {
-        try {
-          setSpreadMethod(Spread.valueOf(value.toUpperCase()));
-        } catch (Exception e) {
-          XMLTools.addToInvalidXMLUserObject(this, attributeName, value);
-          throw new SBMLException("Could not recognized the value '" + value
-              + "' for the attribute " + RenderConstants.spreadMethod
-              + " on the 'gradient' element.");
-        }
+        setSpreadMethod(Spread.valueOf(value.toUpperCase()));
       }
       else {
         isAttributeRead = false;
