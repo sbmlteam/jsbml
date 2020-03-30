@@ -19,12 +19,18 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
+import org.sbml.jsbml.ext.fbc.FluxObjective;
 import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedOrMissingElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;;
 
 /**
@@ -51,7 +57,7 @@ public class ObjectiveConstraints extends AbstractConstraintDeclaration {
   public void addErrorCodesForCheck(Set<Integer> set, int level, int version,
     CHECK_CATEGORY category, ValidationContext context) 
   {
-    // TODO - may be package version not need for Objective
+    // may be package version not need for Objective
     Integer packageVersionToCheck = context.getPackageVersion(FBCConstants.shortLabel);
 
     if (packageVersionToCheck == null || packageVersionToCheck == -1) {
@@ -90,7 +96,6 @@ public class ObjectiveConstraints extends AbstractConstraintDeclaration {
       func = new UnknownCoreAttributeValidationFunction<Objective>();
       break;
     case FBC_20502:{
-      // TODO - make sure the unknown element is processed 
       func = new UnknownCoreElementValidationFunction<Objective>();
       break;
     }
@@ -114,28 +119,12 @@ public class ObjectiveConstraints extends AbstractConstraintDeclaration {
     case FBC_20505:{
       // The attribute fbc:type on an Objective must be of the data type FbcType and thus its value
       // must be one of 'minimize' or 'maximize'.
-      func = new ValidationFunction<Objective>(){
-        
-        @Override
-        public boolean check(ValidationContext ctx, Objective o) {
-
-          // TODO
-          return true;
-        }
-      };
+      func = new InvalidAttributeValidationFunction<>(FBCConstants.type);
       break;
     }
     case FBC_20506:{
       // An Objective object must have one and only one instance of the ListOfFluxObjectives object.
-      func = new ValidationFunction<Objective>(){
-        
-        @Override
-        public boolean check(ValidationContext ctx, Objective rp) {
-
-          // TODO
-          return true;
-        }
-      };
+      func = new DuplicatedOrMissingElementValidationFunction<Objective>(FBCConstants.listOfFluxObjectives);
       break;
     }
     case FBC_20507:{
@@ -143,9 +132,12 @@ public class ObjectiveConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<Objective>(){
         
         @Override
-        public boolean check(ValidationContext ctx, Objective rp) {
+        public boolean check(ValidationContext ctx, Objective o) {
 
-          // TODO
+          if (o.isSetListOfFluxObjectives()) {
+            return o.getListOfFluxObjectives().size() > 0;
+          }
+          
           return true;
         }
       };
@@ -157,9 +149,12 @@ public class ObjectiveConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<Objective>(){
         
         @Override
-        public boolean check(ValidationContext ctx, Objective rp) {
+        public boolean check(ValidationContext ctx, Objective o) {
 
-          // TODO
+          if (o.isSetListOfFluxObjectives()) {
+            return new UnknownElementValidationFunction<ListOf<FluxObjective>>().check(ctx, o.getListOfFluxObjectives());
+          }
+          
           return true;
         }
       };
@@ -172,9 +167,12 @@ public class ObjectiveConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<Objective>(){
         
         @Override
-        public boolean check(ValidationContext ctx, Objective rp) {
+        public boolean check(ValidationContext ctx, Objective o) {
 
-          // TODO
+          if (o.isSetListOfFluxObjectives()) {
+            return new UnknownAttributeValidationFunction<ListOf<FluxObjective>>().check(ctx, o.getListOfFluxObjectives());
+          }
+
           return true;
         }
       };

@@ -419,7 +419,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return
    */
   public boolean isSetListOfFluxObjectives() {
-    return (listOfFluxObjectives != null) && (listOfFluxObjectives.size() > 0);
+    return listOfFluxObjectives != null;
   }
 
   /**
