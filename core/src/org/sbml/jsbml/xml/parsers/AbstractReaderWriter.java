@@ -71,34 +71,40 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 
     boolean isAttributeRead = false;
 
-    if (contextObject instanceof SBase) {
+    try {
+      if (contextObject instanceof SBase) {
 
-      SBase sbase = (SBase) contextObject;
+        SBase sbase = (SBase) contextObject;
 
-      // logger.debug("processAttribute: level, version = " + sbase.getLevel() + ", " + sbase.getVersion());
+        // logger.debug("processAttribute: level, version = " + sbase.getLevel() + ", " + sbase.getVersion());
 
-      try {
-        isAttributeRead = sbase.readAttribute(attributeName, prefix,
-          value);
-      } catch (Throwable exc) {
-        if (logger.isDebugEnabled()) {
-          exc.printStackTrace();
-        }
-        logger.error(exc.getMessage());
+        isAttributeRead = sbase.readAttribute(attributeName, prefix, value);
       }
-    }
-    else if (contextObject instanceof Annotation)
-    {
-      Annotation annotation = (Annotation) contextObject;
-      isAttributeRead = annotation.readAttribute(attributeName, prefix, value);
-    }
-    else if (contextObject instanceof SBasePlugin)
-    {
-      isAttributeRead = ((SBasePlugin) contextObject).readAttribute(attributeName, prefix, value);
-    }
-    else if (contextObject instanceof ASTNodePlugin)
-    {
-      isAttributeRead = ((ASTNodePlugin) contextObject).readAttribute(attributeName, prefix, value);
+      else if (contextObject instanceof Annotation)
+      {
+        Annotation annotation = (Annotation) contextObject;
+        isAttributeRead = annotation.readAttribute(attributeName, prefix, value);
+      }
+      else if (contextObject instanceof SBasePlugin)
+      {
+        isAttributeRead = ((SBasePlugin) contextObject).readAttribute(attributeName, prefix, value);
+      }
+      else if (contextObject instanceof ASTNodePlugin)
+      {
+        isAttributeRead = ((ASTNodePlugin) contextObject).readAttribute(attributeName, prefix, value);
+      }
+    } catch (Throwable exc) {
+      // The attribute was present but an invalid value resulted in an exception thrown        
+      if (logger.isDebugEnabled()) {
+        exc.printStackTrace();
+      }
+      logger.error(exc.getMessage());
+      // store the invalidAttribute
+      AbstractReaderWriter.processInvalidAttribute(attributeName, uri, value, prefix, contextObject);
+
+      // We are putting the 'isAttributeRead' boolean to true so that it is not register, as well, as unknown attribute
+      // later on in the reading process.
+      isAttributeRead = true;
     }
 
     if (!isAttributeRead) {

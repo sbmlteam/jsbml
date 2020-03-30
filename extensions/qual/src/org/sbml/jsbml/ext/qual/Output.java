@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2020 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -30,7 +30,6 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * Each {@link Output} refers to a {@link QualitativeSpecies} that participates
@@ -160,7 +159,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
       setTransitionEffect(out.getTransitionEffect());
     }
     if (out.isSetOutputLevel()) {
-      setOutputLevel(new Integer(out.getOutputLevel()));
+      setOutputLevel(Integer.valueOf(out.getOutputLevel()));
     }
   }
 
@@ -461,17 +460,9 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
       if (attributeName.equals(QualConstants.qualitativeSpecies)) {
         setQualitativeSpecies(value);
       } else if (attributeName.equals(QualConstants.outputLevel)) {
-        try {
-          setOutputLevel(StringTools.parseSBMLInt(value));
-        } catch (IllegalArgumentException e) {
-          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
-        }
+        setOutputLevel(StringTools.parseSBMLInt(value));
       } else if (attributeName.equals(QualConstants.transitionEffect)) {
-        try {
-          setTransitionEffect(OutputTransitionEffect.valueOf(value));
-        } catch (IllegalArgumentException e) {
-          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
-        }
+        setTransitionEffect(OutputTransitionEffect.valueOf(value));
       } else {
         isAttributeRead = false;
       }

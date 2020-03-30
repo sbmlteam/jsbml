@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2020 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -25,7 +25,6 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * Each {@link FunctionTerm} is also associated with a result and in addition to a Boolean
@@ -248,11 +247,7 @@ public class FunctionTerm extends AbstractMathContainer {
       isAttributeRead = true;
 
       if (attributeName.equals(QualConstants.resultLevel)) {
-        try {
-          setResultLevel(StringTools.parseSBMLInt(value));
-        } catch (IllegalArgumentException e) {
-          AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
-        }
+        setResultLevel(StringTools.parseSBMLInt(value));
       } else {
         isAttributeRead = false;
       }

@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2020 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -30,7 +30,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 
 /**
  * Similarly to the {@link Species} in SBML, the components of qualitative
@@ -424,28 +423,13 @@ public class QualitativeSpecies extends AbstractNamedSBase implements Compartmen
 			isAttributeRead = true;
 
 			if (attributeName.equals(QualConstants.constant)) {
-				try {
-					setConstant(StringTools.parseSBMLBooleanStrict(value));
-				} catch (IllegalArgumentException e) {
-					// the String does not represent a boolean value
-					AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
-					// we do not modify isAttributeRead to false to avoid the attribute to be put
-					// into the unknown attributes as well.
-				}
+			  setConstant(StringTools.parseSBMLBooleanStrict(value));
 			} else if (attributeName.equals(QualConstants.compartment)) {
-				setCompartment(value);
+			  setCompartment(value);
 			} else if (attributeName.equals(QualConstants.initialLevel)) {
-				try {
-					setInitialLevel(StringTools.parseSBMLInt(value));
-				} catch (IllegalArgumentException e) {
-					AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
-				}
+			  setInitialLevel(StringTools.parseSBMLInt(value));
 			} else if (attributeName.equals(QualConstants.maxLevel)) {
-				try {
-					setMaxLevel(StringTools.parseSBMLInt(value));
-				} catch (IllegalArgumentException e) {
-					AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
-				}
+			  setMaxLevel(StringTools.parseSBMLInt(value));
 			} else {
 				isAttributeRead = false;
 			}
