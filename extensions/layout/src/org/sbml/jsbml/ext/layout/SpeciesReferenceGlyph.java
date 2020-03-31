@@ -363,6 +363,8 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
     return isAttributeRead;
   }
 
+  
+  
   /**
    * The curve is an optional element of type {@link Curve}. When present, the glyphs
    * bounding box (as inherited from the {@link GraphicalObject}) is to be disregarded.

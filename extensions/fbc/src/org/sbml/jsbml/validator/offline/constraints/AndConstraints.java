@@ -74,7 +74,6 @@ public class AndConstraints extends AbstractConstraintDeclaration {
 
 
   @Override
-  @SuppressWarnings("deprecation")
   public ValidationFunction<?> getValidationFunction(int errorCode, ValidationContext context) {
     ValidationFunction<And> func = null;
 

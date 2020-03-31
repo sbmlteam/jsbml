@@ -30,6 +30,7 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedOrMissingElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownElementValidationFunction;
@@ -110,7 +111,7 @@ public class ReactionGlyphConstraints extends AbstractConstraintDeclaration {
           return reactionGlyph.isSetListOfSpeciesReferenceGlyphs()
               && new DuplicatedElementValidationFunction<ReactionGlyph>(LayoutConstants.boundingBox).check(ctx, reactionGlyph)
               && new DuplicatedElementValidationFunction<ReactionGlyph>(LayoutConstants.curve).check(ctx, reactionGlyph)
-              && new DuplicatedElementValidationFunction<ReactionGlyph>(LayoutConstants.listOfSpeciesReferenceGlyphs).check(ctx, reactionGlyph)
+              && new DuplicatedOrMissingElementValidationFunction<ReactionGlyph>(LayoutConstants.listOfSpeciesReferenceGlyphs).check(ctx, reactionGlyph)
               && new UnknownPackageElementValidationFunction<ReactionGlyph>(LayoutConstants.shortLabel).check(ctx, reactionGlyph);
         }
       };

@@ -21,7 +21,6 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.Set;
 
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.layout.Layout;
@@ -32,11 +31,11 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.SyntaxChecker;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
+import org.sbml.jsbml.validator.offline.constraints.helper.InvalidAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreAttributeValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownCoreElementValidationFunction;
 import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageAttributeValidationFunction;
-import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;
-import org.sbml.jsbml.xml.XMLNode;;
+import org.sbml.jsbml.validator.offline.constraints.helper.UnknownPackageElementValidationFunction;;
 
 /**
  * Defines validation rules (as {@link ValidationFunction} instances) for the {@link SpeciesReferenceGlyph} class.
@@ -246,42 +245,43 @@ public class SpeciesReferenceGlyphConstraints extends AbstractConstraintDeclarat
         public boolean check(ValidationContext ctx, SpeciesReferenceGlyph speciesRefGlyph) {
           
           if (speciesRefGlyph.isSetSpeciesGlyph()) {
-            Layout layout = (Layout) speciesRefGlyph.getParent().getParent().getParent().getParent();
-            SBase sbase = layout.getElementBySId(speciesRefGlyph.getSpeciesGlyph()); // TODO - do a separate HashMap on Layout for validation ?
+            Layout layout = getLayout(speciesRefGlyph);
             
-            return sbase != null && sbase instanceof SpeciesGlyph;
+            if (layout != null) {
+              SBase sbase = layout.getElementBySId(speciesRefGlyph.getSpeciesGlyph()); // TODO - do a separate HashMap on Layout for validation ?
+
+              return sbase != null && sbase instanceof SpeciesGlyph;
+            }
           }
           
           return true;
         }
+
       };
       break;
     }
     case LAYOUT_21012:
     {
-      func = new ValidationFunction<SpeciesReferenceGlyph>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SpeciesReferenceGlyph speciesRefGlyph) {
-
-          // check if role is valid
-          if (!speciesRefGlyph.isSetSpeciesReferenceRole() && speciesRefGlyph.getUserObject(JSBML.UNKNOWN_XML) != null) {
-            // checking if the role attribute is there (meaning a wrong enum value was encountered).
-            XMLNode unknown = (XMLNode) speciesRefGlyph.getUserObject(JSBML.UNKNOWN_XML);
-
-            if (unknown.getAttrIndex(LayoutConstants.role) != -1) {
-              // TODO - create error message
-              return false;
-            }
-          }            
-
-          return true;
-        }
-      };
+      func = new InvalidAttributeValidationFunction<>(LayoutConstants.role);
       break;
     }
     }
 
     return func;
   }
+  
+  /**
+   * Returns the first parent Layout encountered.
+   * 
+   * @param sbase
+   * @return the first parent Layout encountered or null is none are encountered.
+   */
+  private static Layout getLayout(SBase sbase) {
+    if (sbase instanceof Layout) {
+      return (Layout) sbase;
+    }
+    
+    return sbase.getParentSBMLObject() != null ? getLayout(sbase.getParentSBMLObject()) : null;
+  }
+
 }
