@@ -26,12 +26,12 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ext.layout.CubicBezier;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
-import org.sbml.jsbml.ext.layout.LineSegment;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
@@ -72,6 +72,7 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
 
       set.add(CORE_10102);
       
+      addRangeToSet(set, LAYOUT_20101, LAYOUT_20103);
       addRangeToSet(set, LAYOUT_20201, LAYOUT_20204);
       
       break;
@@ -119,6 +120,74 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
           
           if (wrongCurveSegmentList != null && wrongCurveSegmentList.size() > 0) {
             
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+    
+    case LAYOUT_20101:
+    {
+      // must have a value for the layout:required attribute
+      func = new ValidationFunction<LayoutModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, LayoutModelPlugin lm) {
+
+          SBMLDocument doc = lm.getSBMLDocument();
+          
+          // For this one, we add automatically the required attribute if not present
+          // TODO - we might have to do a check before creating the LayoutModelPlugin 
+          String required = doc.getSBMLDocumentAttributes().get(LayoutConstants.shortLabel + ":required");
+          
+          return required != null;
+        }
+      };
+      break;
+    }
+    case LAYOUT_20102: 
+    {
+      // layout:required should be of type boolean
+      func = new ValidationFunction<LayoutModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, LayoutModelPlugin lm) {
+
+          SBMLDocument doc = lm.getSBMLDocument();
+          
+          String required = doc.getSBMLDocumentAttributes().get(LayoutConstants.shortLabel + ":required");
+
+          try {
+            StringTools.parseSBMLBooleanStrict(required);
+          } catch (IllegalArgumentException e) {
+            return false;
+          }
+          return true;
+        }
+      };
+      break;
+    }    
+    case LAYOUT_20103: 
+    {
+      // layout:required should be of type boolean
+      func = new ValidationFunction<LayoutModelPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, LayoutModelPlugin lm) {
+
+          SBMLDocument doc = lm.getSBMLDocument();
+          
+          String requiredStr = doc.getSBMLDocumentAttributes().get(LayoutConstants.shortLabel + ":required");
+
+          try {
+            boolean required = StringTools.parseSBMLBooleanStrict(requiredStr);
+            
+            return required == false;
+            
+          } catch (IllegalArgumentException e) {
+            // Do nothing for this check
           }
           
           return true;
