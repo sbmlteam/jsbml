@@ -171,7 +171,7 @@ public class LayoutModelPluginConstraints extends AbstractConstraintDeclaration 
     }    
     case LAYOUT_20103: 
     {
-      // layout:required should be of type boolean
+      // layout:required should be false
       func = new ValidationFunction<LayoutModelPlugin>() {
 
         @Override

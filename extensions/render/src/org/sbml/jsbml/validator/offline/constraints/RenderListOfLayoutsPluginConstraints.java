@@ -22,10 +22,12 @@ package org.sbml.jsbml.validator.offline.constraints;
 import java.util.Set;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.render.ListOfGlobalRenderInformation;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.ValidationContext;
 import org.sbml.jsbml.validator.offline.constraints.helper.DuplicatedElementValidationFunction;
@@ -49,6 +51,8 @@ public class RenderListOfLayoutsPluginConstraints
     CHECK_CATEGORY category, ValidationContext context) {
     switch(category) {
     case GENERAL_CONSISTENCY:
+      
+      addRangeToSet(set, RENDER_20101, RENDER_20103);
       addRangeToSet(set, RENDER_20401, RENDER_20407);
       break;
     default:
@@ -69,6 +73,77 @@ public class RenderListOfLayoutsPluginConstraints
     ValidationContext context) {
     ValidationFunction<RenderListOfLayoutsPlugin> func;
     switch(errorCode) {
+    
+    case RENDER_20101:
+    {
+      // must have a value for the render:required attribute
+      func = new ValidationFunction<RenderListOfLayoutsPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, RenderListOfLayoutsPlugin lm) {
+
+          SBMLDocument doc = lm.getSBMLDocument();
+          
+          // For this one, we add automatically the required attribute if not present
+          // TODO - we might have to do a check before creating the RenderListOfLayoutsPlugin 
+          String required = doc.getSBMLDocumentAttributes().get(RenderConstants.shortLabel + ":required");
+          
+          return required != null;
+        }
+      };
+      break;
+    }
+    case RENDER_20102: 
+    {
+      // render:required should be of type boolean
+      func = new ValidationFunction<RenderListOfLayoutsPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, RenderListOfLayoutsPlugin lm) {
+
+          SBMLDocument doc = lm.getSBMLDocument();
+          
+          String required = doc.getSBMLDocumentAttributes().get(RenderConstants.shortLabel + ":required");
+
+          try {
+            StringTools.parseSBMLBooleanStrict(required);
+          } catch (IllegalArgumentException e) {
+            return false;
+          }
+          return true;
+        }
+      };
+      break;
+    }    
+    case RENDER_20103: 
+    {
+      // render:required should be false
+      func = new ValidationFunction<RenderListOfLayoutsPlugin>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, RenderListOfLayoutsPlugin lm) {
+
+          SBMLDocument doc = lm.getSBMLDocument();
+          
+          String requiredStr = doc.getSBMLDocumentAttributes().get(RenderConstants.shortLabel + ":required");
+
+          try {
+            boolean required = StringTools.parseSBMLBooleanStrict(requiredStr);
+            
+            // For this one, do we automatically correct the required attribute if wrong ?
+            // TODO - we might have to do a check before creating the RenderListOfLayoutsPlugin 
+            return required == false;
+            
+          } catch (IllegalArgumentException e) {
+            // Do nothing for this check
+          }
+          
+          return true;
+        }
+      };
+      break;
+    }
+
     case RENDER_20401:
       func = new ValidationFunction<RenderListOfLayoutsPlugin>() {
 
