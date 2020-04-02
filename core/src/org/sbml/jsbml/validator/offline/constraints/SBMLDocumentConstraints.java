@@ -124,19 +124,19 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
-          
+
           Iterator<Entry<String, Integer>> it = packageValidationAvailability.entrySet().iterator();
           while (it.hasNext()) {
             Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
             Integer errorCode = pair.getValue();
             String packageName = pair.getKey();
 
-           if(t.isPackageEnabled(packageName) && errorCode == CORE_70001) {
-             return false; 
-           }
+            if(t.isPackageEnabled(packageName) && errorCode == CORE_70001) {
+              return false; 
+            }
             it.remove();
           }
-            return true;
+          return true;
         }
       };
     }
@@ -145,8 +145,19 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       func = new ValidationFunction<SBMLDocument>() {
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
-          // TODO check if package has only partial support 
-          return false;
+
+          Iterator<Entry<String, Integer>> it = packageValidationAvailability.entrySet().iterator();
+          while (it.hasNext()) {
+            Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
+            Integer errorCode = pair.getValue();
+            String packageName = pair.getKey();
+
+            if(t.isPackageEnabled(packageName) && errorCode == CORE_70002) {
+              return false; 
+            }
+            it.remove();
+          }
+          return true;
         }    
       };
     } 
