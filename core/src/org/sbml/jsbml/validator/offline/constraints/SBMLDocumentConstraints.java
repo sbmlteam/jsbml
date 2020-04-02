@@ -21,6 +21,7 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +48,8 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
    * 
    */
   public static final transient String XML_DECLARED_ENCODING = "jsbml.validator.xml.declared.encoding";
+  
+  private HashMap<String, Integer> packageValidationAvailability; 
 
   
   @Override
@@ -89,6 +92,21 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       break;
     case UNITS_CONSISTENCY:
       break;
+    case VALIDATION_CONSISTENCY: //new check category for validation supportlevel 
+      if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
+        set.add(CORE_70001);
+        set.add(CORE_70002);
+        
+        //add entries to hashmap to store if only partial or no support for validation is available
+        //no support packages: 
+        packageValidationAvailability.put("groups", CORE_70001);
+        //partial support packages:
+        packageValidationAvailability.put("comp", CORE_70002);
+        packageValidationAvailability.put("fbc", CORE_70002);
+        packageValidationAvailability.put("multi", CORE_70002);
+        packageValidationAvailability.put("spatial", CORE_70002);
+      }
+      break;
     }
   }
 
@@ -98,24 +116,45 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     ValidationFunction<SBMLDocument> func = null;
 
     switch (errorCode) {
+    
+    case CORE_70001: {
+      func = new ValidationFunction<SBMLDocument>() {
 
-      case CORE_10101: {
-        func = new ValidationFunction<SBMLDocument>() {
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument t) {
+            //Some error message maybe
+            return false;
+        }
+      };
+    }
+    
+    case CORE_70002: {
+      func = new ValidationFunction<SBMLDocument>() {
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument t) {
+          // TODO check if package has only partial support 
+          return false;
+        }    
+      };
+    } 
+    
+    case CORE_10101: {
+      func = new ValidationFunction<SBMLDocument>() {
 
-          @Override
-          public boolean check(ValidationContext ctx, SBMLDocument d) {
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument d) {
 
-            String encoding = (d.isSetUserObjects() ? (String) d.getUserObject(XML_DECLARED_ENCODING) : null);
+          String encoding = (d.isSetUserObjects() ? (String) d.getUserObject(XML_DECLARED_ENCODING) : null);
 
-            if (encoding != null && !encoding.equalsIgnoreCase("UTF-8")) {
-              return false;
-            }
-
-            return true;
+          if (encoding != null && !encoding.equalsIgnoreCase("UTF-8")) {
+            return false;
           }
-        };
-        break;
-      }
+
+          return true;
+        }
+      };
+      break;
+    }
 
     case CORE_10102:
       func = new ValidationFunction<SBMLDocument>() {
