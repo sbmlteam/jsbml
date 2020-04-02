@@ -51,7 +51,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
    */
   public static final transient String XML_DECLARED_ENCODING = "jsbml.validator.xml.declared.encoding";
   
-  private HashMap<String, Integer> packageValidationAvailability; 
+  private Map<String, Integer> packageValidationAvailability; 
 
   
   @Override
