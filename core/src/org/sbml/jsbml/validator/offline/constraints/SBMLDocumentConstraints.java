@@ -94,8 +94,8 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       break;
     case VALIDATION_CONSISTENCY: //new check category for validation supportlevel 
       if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
-        set.add(1); //add SBML Errors for both no support for validation, and for partial support
-        set.add(2); //the codes are dummies for now
+        set.add(CORE_70001);
+        set.add(CORE_70002);
       }
       break;
     }
@@ -110,7 +110,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     switch (errorCode) {
     
     //implement functions for the new Errors
-    case 1: {
+    case CORE_70001: {
       func = new ValidationFunction<SBMLDocument>() {
 
         @Override
@@ -129,7 +129,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       };
     }
     
-    case 2: {
+    case CORE_70002: {
       func = new ValidationFunction<SBMLDocument>() {
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
