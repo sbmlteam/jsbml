@@ -94,7 +94,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       break;
     case UNITS_CONSISTENCY:
       break;
-    case VALIDATION_CONSISTENCY: //new check category for validation supportlevel 
+    case VALIDATION_CONSISTENCY:
       if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
         set.add(CORE_70001);
         set.add(CORE_70002);
