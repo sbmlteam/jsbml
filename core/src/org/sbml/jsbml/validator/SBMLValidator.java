@@ -648,7 +648,12 @@ public class SBMLValidator {
      * tests performed by <a href="http://sbml.org/Software/libSBML">libSBML</a>
      *  and do not have equivalent SBML validation rules.)
      */
-    MODELING_PRACTICE
+    MODELING_PRACTICE,
+    
+    /**
+     * Checks for validationsupport level. 
+     */
+    VALIDATION_CONSISTENCY
   };
 
 }
