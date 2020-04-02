@@ -22,9 +22,11 @@ package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
@@ -122,8 +124,19 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
-            //Some error message maybe
-            return false;
+          
+          Iterator<Entry<String, Integer>> it = packageValidationAvailability.entrySet().iterator();
+          while (it.hasNext()) {
+            Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
+            Integer errorCode = pair.getValue();
+            String packageName = pair.getKey();
+
+           if(t.isPackageEnabled(packageName) && errorCode == CORE_70001) {
+             return false; 
+           }
+            it.remove();
+          }
+            return true;
         }
       };
     }
