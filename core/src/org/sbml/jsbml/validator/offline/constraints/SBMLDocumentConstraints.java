@@ -126,13 +126,16 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, SBMLDocument t) {
 
           Iterator<Entry<String, Integer>> it = packageValidationAvailability.entrySet().iterator();
+          
           while (it.hasNext()) {
             Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
             Integer errorCode = pair.getValue();
             String packageName = pair.getKey();
 
-            if(t.isPackageEnabled(packageName) && errorCode == CORE_70001) {
-              return false; 
+            if(errorCode == CORE_70001) {
+              if(t.isPackageEnabled(packageName)) {
+                return false; 
+              } 
             }
             it.remove();
           }
@@ -147,13 +150,16 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         public boolean check(ValidationContext ctx, SBMLDocument t) {
 
           Iterator<Entry<String, Integer>> it = packageValidationAvailability.entrySet().iterator();
+          
           while (it.hasNext()) {
             Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
             Integer errorCode = pair.getValue();
             String packageName = pair.getKey();
 
-            if(t.isPackageEnabled(packageName) && errorCode == CORE_70002) {
-              return false; 
+            if(errorCode == CORE_70002) {
+              if(t.isPackageEnabled(packageName)) {
+                return false; 
+              } 
             }
             it.remove();
           }
