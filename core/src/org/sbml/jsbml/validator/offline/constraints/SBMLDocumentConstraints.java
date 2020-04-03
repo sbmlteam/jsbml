@@ -137,7 +137,6 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
                 return false; 
               } 
             }
-            it.remove();
           }
           return true;
         }
@@ -161,7 +160,6 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
                 return false; 
               } 
             }
-            it.remove();
           }
           return true;
         }    
