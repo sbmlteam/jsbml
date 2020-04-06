@@ -51,7 +51,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
    */
   public static final transient String XML_DECLARED_ENCODING = "jsbml.validator.xml.declared.encoding";
   
-  private Map<String, Integer> packageValidationAvailability; 
+  private Map<String, Integer> packageValidationAvailability = new HashMap<String, Integer>(); 
 
   
   @Override
@@ -101,7 +101,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
         
         //add entries to hashmap to store if only partial or no support for validation is available
         //no support packages: 
-        packageValidationAvailability.put("groups", CORE_70001);
+          packageValidationAvailability.put("groups", CORE_70001);
         //partial support packages:
         packageValidationAvailability.put("comp", CORE_70002);
         packageValidationAvailability.put("fbc", CORE_70002);
@@ -141,6 +141,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
           return true;
         }
       };
+      break;
     }
     
     case CORE_70002: {
@@ -164,6 +165,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
           return true;
         }    
       };
+      break;
     } 
     
     case CORE_10101: {
