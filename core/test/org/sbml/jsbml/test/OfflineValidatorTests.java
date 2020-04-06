@@ -374,7 +374,7 @@ public class OfflineValidatorTests {
     System.out.println("Constraint " + errorCode);
     printStrongHLine();
     System.out.println("File: " + name);
-    System.out.println("Should pass: " + shouldPass);
+    System.out.println("Constraint should pass: " + shouldPass);
 
     try {
       long startRead = Calendar.getInstance().getTimeInMillis();
@@ -411,10 +411,10 @@ public class OfflineValidatorTests {
 
       if (constraintBroken == !shouldPass) {
         filesCorrectly++;
-        System.out.println("PASSED");
+        System.out.println("TEST PASSED");
       } else {
         didNotDetect(errorCode, file.getName());
-        System.out.println("FAILED!!!");
+        System.out.println("TEST FAILED!!!");
       }
     } catch (Exception e) {
       exceptions.put(name, e);
