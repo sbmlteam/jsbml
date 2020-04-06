@@ -42,6 +42,7 @@ import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstrai
 /**
  * 
  * @author Roman
+ * @author Onur &Ouml;zel
  * @since 1.2
  */
 public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
