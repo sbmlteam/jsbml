@@ -12611,14 +12611,14 @@
     "70001": {
         "Category": "SBML component consistency", 
         "DefaultSeverity": "warning", 
-        "Message": "The validation support is partial ", 
+        "Message": "", 
         "Package": "core", 
         "ShortMessage": "Validation is partial for the package."
     }, 
     "70002": {
         "Category": "SBML component consistency", 
         "DefaultSeverity": "warning", 
-        "Message": "The validation is not implemented ", 
+        "Message": "", 
         "Package": "core", 
         "ShortMessage": "Validation is not implemented for the package."
     }    

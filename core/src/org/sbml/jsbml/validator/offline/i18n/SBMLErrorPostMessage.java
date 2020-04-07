@@ -292,7 +292,10 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_21203), "The <event> with id ''{0}'' does not contain any <eventAssignment> elements.");
       
-      
+      // JSBML custom error messages
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_70001), "The package ''{0}'' is not validated in the current JSBML version.");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_70002), "The package ''{0}'' has partial validation implemented in the current JSBML version.");
+
       // 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_80501), "The <compartment> with the id ''{0}'' does not have a ''size'' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
       

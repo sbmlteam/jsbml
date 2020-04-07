@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
@@ -52,7 +52,18 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
    */
   public static final transient String XML_DECLARED_ENCODING = "jsbml.validator.xml.declared.encoding";
   
-  private Map<String, Integer> packageValidationAvailability = new HashMap<String, Integer>(); 
+  private static Map<String, Integer> packageValidationAvailability = new HashMap<String, Integer>();
+  
+  static {
+    //add entries to hashmap to store if only partial or no support for validation is available
+    //no support packages: 
+    packageValidationAvailability.put("groups", CORE_70001);
+    //partial support packages:
+    packageValidationAvailability.put("comp", CORE_70002);
+    packageValidationAvailability.put("fbc", CORE_70002);
+    packageValidationAvailability.put("multi", CORE_70002);
+    packageValidationAvailability.put("spatial", CORE_70002);
+  }
 
   
   @Override
@@ -99,15 +110,6 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
         set.add(CORE_70001);
         set.add(CORE_70002);
-
-        //add entries to hashmap to store if only partial or no support for validation is available
-        //no support packages: 
-        packageValidationAvailability.put("groups", CORE_70001);
-        //partial support packages:
-        packageValidationAvailability.put("comp", CORE_70002);
-        packageValidationAvailability.put("fbc", CORE_70002);
-        packageValidationAvailability.put("multi", CORE_70002);
-        packageValidationAvailability.put("spatial", CORE_70002);
       }
       break;
     }
@@ -121,12 +123,13 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     switch (errorCode) {
 
     case CORE_70001: {
-      func = new ValidationFunction<SBMLDocument>() {
+      func = new AbstractValidationFunction<SBMLDocument>() {
 
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
 
           Iterator<Entry<String, Integer>> it = packageValidationAvailability.entrySet().iterator();
+          boolean check = true;
 
           while (it.hasNext()) {
             Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
@@ -134,24 +137,26 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
             String packageName = pair.getKey();
 
             if(errorCode == CORE_70001) {
-              if(t.isPackageEnabled(packageName)) {              
-                return false; 
+              if(t.isPackageEnabled(packageName)) {
+                ValidationConstraint.logError(ctx, CORE_70001, t, packageName);
+                check = false; 
               } 
             }
           }
           
-          return true;
+          return check;
         }
       };
       break;
     }
     
     case CORE_70002: {
-      func = new ValidationFunction<SBMLDocument>() {
+      func = new AbstractValidationFunction<SBMLDocument>() {
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
 
           Iterator<Entry<String, Integer>> it = packageValidationAvailability.entrySet().iterator();
+          boolean check = true;
 
           while (it.hasNext()) {
             Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
@@ -160,12 +165,13 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
             if(errorCode == CORE_70002) {
               if(t.isPackageEnabled(packageName)) {
-                return false; 
+                ValidationConstraint.logError(ctx, CORE_70002, t, packageName);
+                check = false; 
               } 
             }
           }
           
-          return true;
+          return check;
         }    
       };
       break;
