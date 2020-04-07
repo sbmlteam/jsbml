@@ -53,7 +53,6 @@ import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
  * 
  * @author Roman
  * @author rodrigue
- * @author Onur &Ouml;zel
  * @since 1.2
  */
 public class LoggingValidationContext extends ValidationContext implements ValidationListener {
