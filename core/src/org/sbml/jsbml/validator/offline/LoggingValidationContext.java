@@ -22,7 +22,6 @@ package org.sbml.jsbml.validator.offline;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.MissingResourceException;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
@@ -31,7 +30,6 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
 import org.sbml.jsbml.validator.offline.constraints.AbstractValidationFunction;
@@ -173,48 +171,16 @@ public class LoggingValidationContext extends ValidationContext implements Valid
     }
     
     if (e != null) {
+      
       log.add(e);
       
       // TODO - if it is an Error or above, set the current category as the maximum (or create a set of ignored categories) to validate for the next elements.
       
     } else {
-
-      //custom message and error if validation support is missing
-      if(id == 70001 || id == 70002) {
-        e = new SBMLError();
-        e.setCode(id);
-        StringBuilder messageBuilder = new StringBuilder();
-        String bundleKey = Integer.toString(id);
-        String messageI18n = null;
-        
-        try {
-          messageI18n = SBMLErrorFactory.getSBMLErrorMessageBundle().getString(bundleKey);
-          
-        } catch (MissingResourceException e1) {
-          // Can happen if the data is not up-to-date and does not contain recently added errors 
-          logger.info("Error '" + bundleKey + "' was not found in the SBMLerrorMessage class!");
-        }
-        
-        if (messageI18n != null && messageI18n.trim().length() > 0)
-        {
-          messageBuilder.append(messageI18n);
-        } 
-        Message m = new Message();
-        m.setMessage(messageBuilder.toString());
-        m.setLang("en");
-        e.setMessage(m);
-        log.add(e);
-        
-        //for testpurpose, can be deleted after review 
-        System.out.println("is error added to LoggingValidationContext? : " + log.add(e));
-        System.out.println("errormessage: " + e.getMessage());
-        
-      } else {    
-        logger.warn("Couldn't load SBMLError for error code " + id);
-        SBMLError defaultError = new SBMLError();
-        defaultError.setCode(id);
-        log.add(defaultError);
-      }
+      logger.warn("Couldn't load SBMLError for error code " + id);
+      SBMLError defaultError = new SBMLError();
+      defaultError.setCode(id);
+      log.add(defaultError);
     }
   }
 
