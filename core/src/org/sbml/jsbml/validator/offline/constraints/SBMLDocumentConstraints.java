@@ -134,7 +134,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
             String packageName = pair.getKey();
 
             if(errorCode == CORE_70001) {
-              if(t.isPackageEnabled(packageName)) {              
+              if(t.isPackageEnabled(packageName)) {
                 return false; 
               } 
             }
