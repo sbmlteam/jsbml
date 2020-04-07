@@ -3351,8 +3351,8 @@ public class SBMLErrorMessage extends ResourceBundle {
         contents.put(Integer.toString(SBMLErrorCodes.ARRAYS_20403), "The attribute 'arrays:name' on a <dimension> must have a value of data type 'string' (Reference: L3V1 Arrays V1 Section).");
         
         // JSBML custom error messages
-        contents.put(Integer.toString(SBMLErrorCodes.CORE_70001), "The package '{0}' is not validated in the current JSBML version.");
-        contents.put(Integer.toString(SBMLErrorCodes.CORE_70002), "The package '{0}' has partial validation implemented in the current JSBML version.");
+        // contents.put(Integer.toString(SBMLErrorCodes.CORE_70001), "");
+        // contents.put(Integer.toString(SBMLErrorCodes.CORE_70002), "");
   } 
 
 
