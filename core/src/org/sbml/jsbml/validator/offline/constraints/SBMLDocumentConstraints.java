@@ -137,19 +137,12 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
             Integer errorValue = pair.getValue();
             String packageName = pair.getKey();
 
-            if(errorValue == CORE_70001) {
-
-              if(t.isPackageEnabled(packageName)) {
-                ValidationConstraint.logError(ctx, CORE_70001, t, packageName);
-                check = false; 
-              } 
-
-            } else if(errorValue == CORE_70002) {
+            if(errorValue == errorCode) {
               
               if(t.isPackageEnabled(packageName)) {
-                ValidationConstraint.logError(ctx, CORE_70002, t, packageName);
+                ValidationConstraint.logError(ctx, errorCode, t, packageName);
                 check = false; 
-              }
+              } 
             }
           }
           
