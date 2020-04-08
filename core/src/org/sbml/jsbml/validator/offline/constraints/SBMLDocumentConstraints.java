@@ -122,33 +122,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-    case CORE_70001: {
-      func = new AbstractValidationFunction<SBMLDocument>() {
-
-        @Override
-        public boolean check(ValidationContext ctx, SBMLDocument t) {
-
-          Iterator<Entry<String, Integer>> it = packageValidationAvailability.entrySet().iterator();
-          boolean check = true;
-
-          while (it.hasNext()) {
-            Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
-            Integer errorCode = pair.getValue();
-            String packageName = pair.getKey();
-
-            if(errorCode == CORE_70001) {
-              if(t.isPackageEnabled(packageName)) {
-                ValidationConstraint.logError(ctx, CORE_70001, t, packageName);
-                check = false; 
-              } 
-            }
-          }
-          
-          return check;
-        }
-      };
-      break;
-    }
+    case CORE_70001: 
     
     case CORE_70002: {
       func = new AbstractValidationFunction<SBMLDocument>() {
@@ -160,12 +134,13 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
           while (it.hasNext()) {
             Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
-            Integer errorCode = pair.getValue();
+            Integer errorValue = pair.getValue();
             String packageName = pair.getKey();
 
-            if(errorCode == CORE_70002) {
+            if(errorValue == errorCode) {
+              
               if(t.isPackageEnabled(packageName)) {
-                ValidationConstraint.logError(ctx, CORE_70002, t, packageName);
+                ValidationConstraint.logError(ctx, errorCode, t, packageName);
                 check = false; 
               } 
             }
