@@ -172,10 +172,10 @@ public class FbcV2ToFbcV1Converter implements SBMLConverter {
         Properties pElementsReactionNotes = new Properties();
         Pattern p;
         if (defaultGeneAssociationSpelling != null) {
-        // defaultGeneAssociationSpelling is a way of writing “gene association” specified by the user    
+        // defaultGeneAssociationSpelling is a way of writing "gene association" specified by the user    
           p = Pattern.compile(defaultGeneAssociationSpelling);
         } else {
-        // regular expression to match the most common ways of writing “gene association”  
+        // regular expression to match the most common ways of writing "gene association"  
           p = Pattern.compile("(?i)gene[\\-_ ]*association");
         }
         pElementsReactionNotes = CobraUtil.parseCobraNotes(reaction);

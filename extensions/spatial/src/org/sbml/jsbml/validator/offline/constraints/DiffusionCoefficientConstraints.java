@@ -159,8 +159,8 @@ public class DiffusionCoefficientConstraints extends AbstractConstraintDeclarati
     {
       // The value of the attribute spatial:type of a DiffusionCoefficient object must conform to 
       // the syntax of SBML data type DiffusionKind and may only take on the allowed values of 
-      // DiffusionKind defined in SBML; that is, the value must be one of the following: “isotropic”, 
-      // “anisotropic” or “tensor”.
+      // DiffusionKind defined in SBML; that is, the value must be one of the following: "isotropic", 
+      // "anisotropic" or "tensor".
 
       func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.type);
       break;
@@ -169,9 +169,9 @@ public class DiffusionCoefficientConstraints extends AbstractConstraintDeclarati
     case SPATIAL_23406:
     {
       // The value of the attribute spatial:coordinateReferenceOne of a DiffusionCoefficient object
-      // must conform to the syntax of SBML data type CoordinateKind and may only take onthe allowed 
+      // must conform to the syntax of SBML data type CoordinateKind and may only take on the allowed 
       // values of CoordinateKind defined in SBML; that is, the value must be one of the following:
-      // “cartesianX”, “cartesianY” or “cartesianZ”.
+      // "cartesianX", "cartesianY" or "cartesianZ".
 
       func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.coordinateReference1);
       break;
@@ -182,7 +182,7 @@ public class DiffusionCoefficientConstraints extends AbstractConstraintDeclarati
       // The value of the attribute spatial:coordinateReferenceTwo of a DiffusionCoefficient object
       // must conform to the syntax of SBML data type CoordinateKind and may only take on the allowed
       // values of CoordinateKind defined in SBML; that is, the value must be one of the following:
-      // “cartesianX”, “cartesianY” or “cartesianZ”.
+      // "cartesianX", "cartesianY" or "cartesianZ".
 
       func = new InvalidAttributeValidationFunction<DiffusionCoefficient>(SpatialConstants.coordinateReference2);
       break;

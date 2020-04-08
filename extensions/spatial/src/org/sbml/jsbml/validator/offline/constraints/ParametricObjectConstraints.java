@@ -147,8 +147,8 @@ public class ParametricObjectConstraints extends AbstractConstraintDeclaration {
     {
       // The value of the attribute spatial:polygonType of a ParametricObject object must conform 
       // to the syntax of SBML data type PolygonKind and may only take on the allowed values of 
-      // PolygonKind defined in SBML; that is, the value must be one of the following: “triangle” 
-      // or “quadrilateral”. 
+      // PolygonKind defined in SBML; that is, the value must be one of the following: "triangle" 
+      // or "quadrilateral". 
 
       func = new InvalidAttributeValidationFunction<ParametricObject>(SpatialConstants.polygonType);
       break;
@@ -223,7 +223,7 @@ public class ParametricObjectConstraints extends AbstractConstraintDeclaration {
       // The value of the attribute spatial:compression of a ParametricObject object must conform 
       // to the syntax of SBML data type CompressionKind and may only take on the allowed values 
       // of CompressionKind defined in SBML; that is, the value must be one of the following: 
-      // “uncompressed” or “deflated”.
+      // "uncompressed" or "deflated".
 
       func = new InvalidAttributeValidationFunction<ParametricObject>(SpatialConstants.compression);
       break;
@@ -249,8 +249,8 @@ public class ParametricObjectConstraints extends AbstractConstraintDeclaration {
     {
       // The value of the attribute spatial:dataType of a ParametricObject object must conform to 
       // the syntax of SBML data type DataKind and may only take on the allowed values of DataKind 
-      // defined in SBML; that is, the value must be one of the following: “double”, “float”, “uint8”, 
-      // “uint16” or “uint32”.
+      // defined in SBML; that is, the value must be one of the following: "double", "float", "uint8", 
+      // "uint16" or "uint32".
 
       func = new InvalidAttributeValidationFunction<ParametricObject>(SpatialConstants.dataType);
       break;

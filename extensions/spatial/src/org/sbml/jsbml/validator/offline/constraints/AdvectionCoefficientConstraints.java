@@ -158,7 +158,7 @@ public class AdvectionCoefficientConstraints extends AbstractConstraintDeclarati
       // The value of the attribute spatial:coordinate of an AdvectionCoefficient object must conform 
       // to the syntax of SBML data type CoordinateKind and may only take on the allowed values of 
       // CoordinateKind defined in SBML; that is, the value must be one of the following: 
-      // “cartesianX”, “cartesianY” or “cartesianZ”.
+      // "cartesianX", "cartesianY" or "cartesianZ".
 
       func = new InvalidAttributeValidationFunction<AdvectionCoefficient>(SpatialConstants.coordinate);
       break;

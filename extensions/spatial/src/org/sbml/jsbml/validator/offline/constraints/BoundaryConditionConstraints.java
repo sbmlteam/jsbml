@@ -164,8 +164,8 @@ public class BoundaryConditionConstraints extends AbstractConstraintDeclaration 
       // The value of the attribute spatial:type of a BoundaryCondition object must conform to 
       // the syntax of SBML data type BoundaryKind and may only take on the allowed values of
       // BoundaryKind defined in SBML; that is, the value must be one of the following: 
-      // “Robin_sum”, "Robin_valueCoefficient”, “Robin_inwardNormalGradientCoefficient”, 
-      // “Neumann” or “Dirichlet”.
+      // "Robin_sum", "Robin_valueCoefficient", "Robin_inwardNormalGradientCoefficient", 
+      // "Neumann" or "Dirichlet".
 
       func = new InvalidAttributeValidationFunction<BoundaryCondition>(SpatialConstants.type);
       break;

@@ -130,7 +130,7 @@ public class CoordinateComponentConstraints extends AbstractConstraintDeclaratio
     case SPATIAL_21404:
     {
       // A CoordinateComponent object must contain one and only one instance of each of the two 
-      // Boundary elements “boundaryMin” and “boundaryMax”. No other elements from the SBML 
+      // Boundary elements "boundaryMin" and "boundaryMax". No other elements from the SBML 
       // Level 3 Spatial Processes namespaces are permitted on a CoordinateComponent object.
 
       func = new ValidationFunction<CoordinateComponent>() {
@@ -151,7 +151,7 @@ public class CoordinateComponentConstraints extends AbstractConstraintDeclaratio
       // The value of the attribute spatial:type of a CoordinateComponent object must conform 
       // to the syntax of SBML data type coordinateKind and may only take on the allowed values 
       // of coordinateKind defined in SBML; that is, the value must be one of the following: 
-      // ’cartesianX’, ’cartesianY’ or ’cartesianZ’
+      // 'cartesianX', 'cartesianY' or 'cartesianZ'
 
       func = new InvalidAttributeValidationFunction<CoordinateComponent>(SpatialConstants.type);
       break;
