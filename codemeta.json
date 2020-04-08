@@ -6,10 +6,10 @@
   "codeRepository": "https://github.com/sbmlteam/jsbml",
   "issueTracker": "https://github.com/sbmlteam/jsbml/issues",
   "license": "https://github.com/sbmlteam/jsbml/blob/master/LICENSE",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": [],
   "developmentStatus": "active",
-  "downloadUrl": "https://github.com/sbmlteam/jsbml/archive/jsbml-1.4.zip",
+  "downloadUrl": "https://github.com/sbmlteam/jsbml/archive/jsbml-1.5.zip",
   "keywords": [
     "software",
     "systems biology",

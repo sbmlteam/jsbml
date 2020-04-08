@@ -114,7 +114,7 @@ If you use SBML, we also urge you to sign up for [sbml-announce](https://groups.
 
 JSBML uses third-party software libraries; these software libraries have their own copyright statements and distribution terms.  Please see the files [COPYING.txt](./COPYING.txt) and [LICENSE](./LICENSE) for more information.
 
-JSBML is Copyright (C) 2009-2018 jointly by the following organizations:
+JSBML is Copyright (C) 2009-2020 jointly by the following organizations:
 
 1. The University of Tuebingen, Germany
 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -140,7 +140,7 @@ The authors gratefully acknowledge the funding and support of the following agen
 
 * The Biotechnology and Biological Sciences Research Council (BBSRC) under the grant BBS/E/B/000C0419 to the Babraham Institute, UK.
 
-* Google, Inc., as part of Google Summer of Code in 2014 and 2016.
+* Google, Inc., as part of Google Summer of Code in from 2014 to 2019.
 
 * The European Commission as part of the 7th Framework Programme for Research and Technological Development (Marie-Curie International Outgoing Fellowship project "AMBiCon," grant number 332020).
 
