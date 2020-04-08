@@ -81,7 +81,7 @@
 		<property name="Name" value="${jsbml.Name}" />
 		<property name="name" value="jsbml" />
 		<property name="version" value="1.5" />
-		<property name="api.version" value="1.4"/>
+		<property name="api.version" value="1.5"/>
 
 		<property name="year" value="${YEAR}" />
 
