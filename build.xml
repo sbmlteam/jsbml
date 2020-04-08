@@ -499,7 +499,7 @@
             header="&lt;script src=&quot;http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
                 &lt;script src=&quot;http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJava.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
                 &lt;script src=&quot;http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXML.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-                &lt;img height=&quot;40&quot; src=&quot;http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png&quot; title=&quot;JSBML&quot; alt=&quot;JSBML&quot;/&gt;"
+                &lt;img height=&quot;40&quot; src=&quot;https://github.com/sbmlteam/jsbml/blob/master/doc/common/logo/JSBML_shaddow_small.png?raw=true&quot; title=&quot;JSBML&quot; alt=&quot;JSBML&quot;/&gt;"
             footer="&lt;script type=&quot;text/javascript&quot;&gt;
                 SyntaxHighlighter.defaults[&quot;auto-links&quot;] = false;
                 SyntaxHighlighter.defaults[&quot;tab-size&quot;] = 2;
