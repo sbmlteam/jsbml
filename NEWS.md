@@ -6,7 +6,7 @@
 
 ### New Features:
 
-  - Implemented the latest draft of the distrib package.
+  - Implemented the SBML Level 3 distrib package version 1.
 
   - Implemented the render package validation constraints.
   
