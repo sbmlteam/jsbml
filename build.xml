@@ -658,13 +658,13 @@
 	  description="Build the jsbml modules"
 	  depends="init"
 	>
-
+	  <!-- 
 		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
 			<target name="clean" />
 			<target name="jar" />
 			<target name="javadoc" />
 		</ant>
-
+-->
 		<ant dir="${libSBMLio.module.base.dir}" inheritAll="false" inheritRefs="false">
 			<target name="clean" />
 			<target name="jar" />
@@ -768,7 +768,7 @@
 		<echo message="Value read from celldesigner properties file = ${celldesigner.version}" />
 	    <echo message="Value read from libSBMLio properties file = ${libSBMLio.name}" />
 		-->
-
+<!--
 		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
 			<target name="dist" />
 		</ant>
@@ -779,7 +779,7 @@
 		<copy todir="${dist.root}">
 			<fileset dir="${cellDesigner.module.base.dir}/dist/" includes="*.zip" />
 		</copy>
-
+-->
 		<ant dir="${libSBMLio.module.base.dir}" inheritAll="false" inheritRefs="true">
 			<target name="dist" />
 		</ant>
