@@ -122,9 +122,7 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-    case CORE_70001: 
-    
-    case CORE_70002: {
+    case CORE_70001:  {
       func = new AbstractValidationFunction<SBMLDocument>() {
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
@@ -137,15 +135,13 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
             Integer errorValue = pair.getValue();
             String packageName = pair.getKey();
 
-            if(errorValue == errorCode) {
-              
-              if(t.isPackageEnabled(packageName)) {
-                ValidationConstraint.logError(ctx, errorCode, t, packageName);
-                check = false; 
-              } 
-            }
+
+            if(t.isPackageEnabled(packageName)) {
+              ValidationConstraint.logError(ctx, errorValue, t, packageName);
+              check = false; 
+            } 
           }
-          
+
           return check;
         }    
       };
