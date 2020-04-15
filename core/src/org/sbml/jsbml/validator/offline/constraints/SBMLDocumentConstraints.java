@@ -109,7 +109,6 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     case VALIDATION_CONSISTENCY:
       if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
         set.add(CORE_70001);
-        set.add(CORE_70002);
       }
       break;
     }
@@ -123,6 +122,8 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
     switch (errorCode) {
 
     case CORE_70001:  {
+      //validation method handles both codes CORE_70001 and CORE_70002
+      //so also support for partial validation is detected 
       func = new AbstractValidationFunction<SBMLDocument>() {
         @Override
         public boolean check(ValidationContext ctx, SBMLDocument t) {
