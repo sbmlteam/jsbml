@@ -17,6 +17,7 @@ package org.sbml.jsbml.ext.fbc.converters;
 
 import java.util.Properties;
 
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
@@ -25,10 +26,14 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ext.fbc.CobraConstants;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
+import org.sbml.jsbml.ext.fbc.FluxObjective;
+import org.sbml.jsbml.ext.fbc.Objective;
+import org.sbml.jsbml.ext.fbc.Objective.Type;
 import org.sbml.jsbml.util.CobraUtil;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.converters.SBMLConverter;
@@ -38,6 +43,7 @@ import org.sbml.jsbml.util.converters.SBMLConverter;
  * 
  * @author Thomas Hamm
  * @author Nicolas Rodriguez
+ * @author Thorsten Tiede
  * @since 1.3
  */
 @SuppressWarnings("deprecation")
@@ -132,6 +138,11 @@ public class CobraToFbcV1Converter implements SBMLConverter {
       }
 
       FBCModelPlugin fbcModelPlugin = (FBCModelPlugin)model.getPlugin("fbc");
+      Objective objective = fbcModelPlugin.createObjective();
+      objective.setId("obj");
+      objective.setType(Type.MAXIMIZE); 
+      fbcModelPlugin.setActiveObjective(objective);
+      //ListOfObjectives listOfObjectives = fbcModelPlugin.getListOfObjectives();
       for (Reaction reaction : model.getListOfReactions()) {
         // initialize default values for reaction attributes reversible and fast
         if (reaction.isSetReversible() == false) {
@@ -141,20 +152,30 @@ public class CobraToFbcV1Converter implements SBMLConverter {
           reaction.setFast(false);
         }
         if (reaction.isSetKineticLaw()) {
+          KineticLaw kineticLaw = reaction.getKineticLaw();
           // get lower and upper flux bound from the kinetic law, set them in the list of flux bounds, and delete the kinetic law
-          if (reaction.getKineticLaw().getParameter("LOWER_BOUND") != null && reaction.getKineticLaw().getParameter("LOWER_BOUND").isSetValue()) {
+          if (kineticLaw.getParameter("LOWER_BOUND") != null && kineticLaw.getParameter("LOWER_BOUND").isSetValue()) {
             FluxBound fluxBoundLo = new FluxBound();
             fluxBoundLo.setReaction(reaction.getId());
             fluxBoundLo.setOperation(FluxBound.Operation.GREATER_EQUAL);
             fluxBoundLo.setValue(reaction.getKineticLaw().getParameter("LOWER_BOUND").getValue());
             fbcModelPlugin.addFluxBound(fluxBoundLo);
           }
-          if (reaction.getKineticLaw().getParameter("UPPER_BOUND") != null && reaction.getKineticLaw().getParameter("UPPER_BOUND").isSetValue()) {
+          if (kineticLaw.getParameter("UPPER_BOUND") != null && kineticLaw.getParameter("UPPER_BOUND").isSetValue()) {
             FluxBound fluxBoundUp = new FluxBound();
             fluxBoundUp.setReaction(reaction.getId());
             fluxBoundUp.setOperation(FluxBound.Operation.LESS_EQUAL);
             fluxBoundUp.setValue(reaction.getKineticLaw().getParameter("UPPER_BOUND").getValue());
             fbcModelPlugin.addFluxBound(fluxBoundUp);
+          }
+          
+          double obj = kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT) != null 
+                        ? kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT).getValue() 
+                        : 0d;
+          if (obj != 0d) {
+              FluxObjective fluxObjective = objective.createFluxObjective();
+              fluxObjective.setReaction(reaction);
+              fluxObjective.setCoefficient(reaction.getKineticLaw().getParameter(CobraConstants.OBJECTIVE_COEFFICIENT).getValue());
           }
           // then unset the KineticLaw of the reaction
           reaction.unsetKineticLaw();
