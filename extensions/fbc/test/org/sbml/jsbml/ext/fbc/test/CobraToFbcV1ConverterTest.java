@@ -18,37 +18,26 @@
  */
 package org.sbml.jsbml.ext.fbc.test;
 
-import static org.junit.Assert.*;
-import static org.sbml.jsbml.util.ModelBuilder.buildUnit;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
-import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.KineticLaw;
-import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.Species;
-import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.TidySBMLWriter;
-import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ext.fbc.CobraConstants;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.ListOfObjectives;
 import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.ext.fbc.Objective.Type;
 import org.sbml.jsbml.ext.fbc.converters.CobraToFbcV1Converter;
-import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.ModelBuilder;
-import org.sbml.jsbml.util.Pair;
 
 import junit.framework.Assert;
 
@@ -187,7 +176,6 @@ public class CobraToFbcV1ConverterTest {
      assertNotNull("Type of activeObjective should not be null", activeObjectiveType);
      activeObjective.getListOfFluxObjectives();
      
-      
    } catch (SBMLException e) {
      // TODO Auto-generated catch block
      e.printStackTrace();
