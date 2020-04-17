@@ -168,14 +168,15 @@ public class CobraToFbcV1Converter implements SBMLConverter {
             fluxBoundUp.setValue(reaction.getKineticLaw().getParameter("UPPER_BOUND").getValue());
             fbcModelPlugin.addFluxBound(fluxBoundUp);
           }
-          
-          double obj = kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT) != null 
+          // get objective coefficient and create fluxObjective for those with value other than 0
+          double obj = (kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT) != null &&
+                          kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT).isSetValue())
                         ? kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT).getValue() 
                         : 0d;
           if (obj != 0d) {
               FluxObjective fluxObjective = objective.createFluxObjective();
               fluxObjective.setReaction(reaction);
-              fluxObjective.setCoefficient(reaction.getKineticLaw().getParameter(CobraConstants.OBJECTIVE_COEFFICIENT).getValue());
+              fluxObjective.setCoefficient(kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT).getValue());
           }
           // then unset the KineticLaw of the reaction
           reaction.unsetKineticLaw();
