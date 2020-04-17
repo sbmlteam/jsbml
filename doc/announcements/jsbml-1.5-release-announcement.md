@@ -12,7 +12,7 @@ For more details, please visit the JSBML project home page:
 
 <http://sbml.org/Software/JSBML>
 
-This is mainly a bug fix release for SBML core. Many fixes and improvement have been made to the SBML level 3 packages implementations. We support the new SBML Level 3 distrib package version 1, we support the latest draft specification for the spatial package, the render and spatial packages validation was implemented.
+This is mainly a bug fix release for SBML core. In addition, many fixes and improvements have been made to the implementation of support for SBML Level 3 packages. JSBML now supports the new SBML Level 3 Distributions ("distrib") package, Version 1, as well as the latest draft specifications for the SBML Level 3 Spatial Processes ("spatial") package. This release of JSBML also supports SBML validation for the "spatial" and the SBML Level 3 Rendering packages.
 
 **New features**
 * We support the new SBML Level 3 `distrib` version 1 package
@@ -28,4 +28,3 @@ When using JSBML, please cite
 * A Dräger _et al_. [JSBML: a flexible Java library for working with SBML](https://doi.org/10.1093/bioinformatics/btr361). Bioinformatics (2011), 27(15):2167–2168.
 
 ## The JSBML team.
- 
