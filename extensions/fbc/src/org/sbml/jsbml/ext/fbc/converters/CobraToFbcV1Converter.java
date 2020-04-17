@@ -102,7 +102,7 @@ public class CobraToFbcV1Converter implements SBMLConverter {
         UnitDefinition unitDefinitionAre = new UnitDefinition("area");
         model.addUnitDefinition(unitDefinitionAre);
         unitDefinitionAre.createUnit(Unit.Kind.METRE);
-        unitDefinitionAre.getUnit(0).setExponent(2);
+        unitDefinitionAre.getUnit(0).setExponent(2d);
       }
 
       for (Species species : model.getListOfSpecies()) {
