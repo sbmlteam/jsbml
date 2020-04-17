@@ -105,7 +105,7 @@ public class XMLNamespaces implements Serializable  {
   private static final long serialVersionUID = 5060279526260666389L;
 
   /**
-   * Map<Prefix, URI>
+   * Map(Prefix, URI)
    */
   Map<String, String> namespaces; //  = new LinkedHashMap<String, String>();
 

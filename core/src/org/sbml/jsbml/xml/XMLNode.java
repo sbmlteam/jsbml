@@ -27,6 +27,7 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -483,7 +484,7 @@ public class XMLNode extends XMLToken {
    * <p>
    * @return a reference to the newly-inserted child {@code node}
    * @throws IndexOutOfBoundsException if n is out of range 
-   *  (negative or >= {@link XMLNode#getChildCount()})
+   *  (negative or superior or equal to {@link XMLNode#getChildCount()})
    */
   public XMLNode insertChild(int n, XMLNode node) throws IndexOutOfBoundsException {
     if (node == null) {
