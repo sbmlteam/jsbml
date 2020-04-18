@@ -72,7 +72,7 @@ implements ConstraintDeclaration, SBMLErrorCodes {
   /**
    * Gets a {@link ConstraintDeclaration} corresponding to the given class name.
    * 
-   * <p>A class has to exits in the package "org.sbml.jsbml.validator.offline.constraints"
+   * <p>A class has to exist in the package "org.sbml.jsbml.validator.offline.constraints"
    * and the class name has to be the given {@code className} + 'Constraints'.</p>
    * 
    * <p>If not corresponding constraint class is found, {@code null} will be returned

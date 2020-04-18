@@ -148,7 +148,7 @@ public class AnalyticVolumeConstraints extends AbstractConstraintDeclaration {
     {
       // The value of the attribute spatial:functionType of an AnalyticVolume object must conform 
       // to the syntax of SBML data type FunctionKind and may only take on the allowed values of 
-      // FunctionKind defined in SBML; that is, the value must be one of the following: “layered”.
+      // FunctionKind defined in SBML; that is, the value must be one of the following: "layered".
 
       func = new InvalidAttributeValidationFunction<AnalyticVolume>(SpatialConstants.functionType);
       break;

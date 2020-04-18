@@ -163,10 +163,10 @@ public class FbcV1ToFbcV2Converter implements SBMLConverter {
       
       Pattern p;
       if (userKey != null) {
-      // userKey is a way of writing “gene association” specified by the user    
+      // userKey is a way of writing "gene association" specified by the user    
        p = Pattern.compile(userKey);
       } else {
-      // regular expression to match the most common ways of writing “gene association”  
+      // regular expression to match the most common ways of writing "gene association"  
        p = Pattern.compile("(?i)gene[\\-_ ]*association");
       }
       

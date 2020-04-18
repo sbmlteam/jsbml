@@ -127,8 +127,8 @@ public class CSGPrimitiveConstraints extends AbstractConstraintDeclaration {
     {
       // The value of the attribute spatial:primitiveType of a CSGPrimitive object must conform 
       // to the syntax of SBML data type PrimitiveKind and may only take on the allowed values of 
-      // PrimitiveKind defined in SBML; that is, the value must be one of the following: “sphere”, 
-      // “cube”, “cylinder”, “cone”, “circle” or “square”. 
+      // PrimitiveKind defined in SBML; that is, the value must be one of the following: "sphere", 
+      // "cube", "cylinder", "cone", "circle" or "square". 
 
       func = new InvalidAttributeValidationFunction<CSGPrimitive>(SpatialConstants.primitiveType);
       break;

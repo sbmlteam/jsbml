@@ -12607,5 +12607,19 @@
         "Message": "The attribute 'arrays:name' on a <dimension> must have a value of data type 'string'.\nReference: L3V1 Arrays V1 Section\n", 
         "Package": "arrays", 
         "ShortMessage": "Name attribute must be String."
-    }
+    }, 
+    "70001": {
+        "Category": "SBML component consistency", 
+        "DefaultSeverity": "warning", 
+        "Message": "", 
+        "Package": "core", 
+        "ShortMessage": "Validation is partial for the package."
+    }, 
+    "70002": {
+        "Category": "SBML component consistency", 
+        "DefaultSeverity": "warning", 
+        "Message": "", 
+        "Package": "core", 
+        "ShortMessage": "Validation is not implemented for the package."
+    }    
 }

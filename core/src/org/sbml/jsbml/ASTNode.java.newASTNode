@@ -473,7 +473,11 @@ public class ASTNode extends AbstractTreeNode {
     /**
      *
      */
-    VECTOR;
+    VECTOR,
+    /**
+     * Generic csymbol to facilitate the addition of csymbol by other libraries or packages.
+     */
+    FUNCTION_CSYMBOL;
 
     /**
      * Returns the {@link Type} corresponding to the given {@link String}.

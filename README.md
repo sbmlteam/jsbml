@@ -3,7 +3,7 @@ JSBML
 
 <img align="right" src="doc/common/logo/jsbml_logo_200px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
 
-[![License](http://img.shields.io/:license-LGPL-blue.svg?style=plastic)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) [![Stable version](https://img.shields.io/badge/Stable_version-1.4-brightgreen.svg?style=plastic)](http://shields.io)
+[![License](http://img.shields.io/:license-LGPL-blue.svg?style=plastic)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) [![Stable version](https://img.shields.io/badge/Stable_version-1.5-brightgreen.svg?style=plastic)](http://shields.io)
 [![DOI](http://img.shields.io/badge/DOI-10.1093%20%2F%20bioinformatics%20%2F%20btv341-blue.svg?style=plastic)](https://doi.org/10.1093/bioinformatics/btv341)
 
 ----
@@ -59,7 +59,7 @@ and
 
 *Pivotal tracker*: [https://www.pivotaltracker.com/projects/499447](https://www.pivotaltracker.com/projects/499447)
 
-
+<div id="cite"/>
 ♥️ Please cite the JSBML papers and your version of JSBML
 ---------------------------------------------------------
 
@@ -75,6 +75,7 @@ Article citations are **critical** for us to be able to continue support for JSB
 
 Please also indicate the specific version of JSBML you use, to improve other people's ability to reproduce your results.  You can use the Zenodo DOIs we provide for this purpose:
 
+* JSBML release 1.5 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3751775.svg)](https://doi.org/10.5281/zenodo.3751775)
 * JSBML release 1.4 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1346189.svg?style=plastic)](https://doi.org/10.5281/zenodo.1346189)
 * JSBML release 1.3.1 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1118387.svg?style=plastic)](https://doi.org/10.5281/zenodo.1118387)
 * JSBML release 1.2 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.200544.svg?style=plastic)](https://doi.org/10.5281/zenodo.200544)
@@ -118,7 +119,7 @@ If you use SBML, we also urge you to sign up for [sbml-announce](https://groups.
 
 JSBML uses third-party software libraries; these software libraries have their own copyright statements and distribution terms.  Please see the files [COPYING.txt](./COPYING.txt) and [LICENSE](./LICENSE) for more information.
 
-JSBML is Copyright (C) 2009-2018 jointly by the following organizations:
+JSBML is Copyright (C) 2009-2020 jointly by the following organizations:
 
 1. The University of Tuebingen, Germany
 2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
@@ -144,7 +145,7 @@ The authors gratefully acknowledge the funding and support of the following agen
 
 * The Biotechnology and Biological Sciences Research Council (BBSRC) under the grant BBS/E/B/000C0419 to the Babraham Institute, UK.
 
-* Google, Inc., as part of Google Summer of Code in 2014 and 2016.
+* Google, Inc., as part of Google Summer of Code in from 2014 to 2019.
 
 * The European Commission as part of the 7th Framework Programme for Research and Technological Development (Marie-Curie International Outgoing Fellowship project "AMBiCon," grant number 332020).
 

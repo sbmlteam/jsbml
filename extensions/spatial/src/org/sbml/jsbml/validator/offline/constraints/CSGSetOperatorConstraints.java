@@ -156,8 +156,8 @@ public class CSGSetOperatorConstraints extends AbstractConstraintDeclaration {
     {
       // The value of the attribute spatial:operationType of a CSGSetOperator object must conform 
       // to the syntax of SBML data type SetOperation and may only take on the allowed values of 
-      // SetOperation defined in SBML; that is, the value must be one of the following: “union”, 
-      // “intersection” or “difference”.
+      // SetOperation defined in SBML; that is, the value must be one of the following: "union", 
+      // "intersection" or "difference".
 
       func = new InvalidAttributeValidationFunction<CSGSetOperator>(SpatialConstants.operationType);
       break;

@@ -152,8 +152,8 @@ public class SampledFieldConstraints extends AbstractConstraintDeclaration {
     {
       // The value of the attribute spatial:dataType of a SampledField object must conform to the 
       // syntax of SBML data type DataKind and may only take on the allowed values of DataKind 
-      // defined in SBML; that is, the value must be one of the following: “double”, “float”, “uint8”, 
-      // “uint16” or “uint32”.
+      // defined in SBML; that is, the value must be one of the following: "double", "float", "uint8", 
+      // "uint16" or "uint32".
 
       func = new InvalidAttributeValidationFunction<SampledField>(SpatialConstants.dataType);
       break;
@@ -172,7 +172,7 @@ public class SampledFieldConstraints extends AbstractConstraintDeclaration {
       // The value of the attribute spatial:interpolationType of a SampledField object must conform 
       // to the syntax of SBML data type InterpolationKind and may only take on the allowed values  
       // of InterpolationKind defined in SBML; that is, the value must be one of the following: 
-      // “nearestNeighbor” or “linear”.
+      // "nearestNeighbor" or "linear".
 
       func = new InvalidAttributeValidationFunction<SampledField>(SpatialConstants.interpolationType);
       break;
@@ -183,7 +183,7 @@ public class SampledFieldConstraints extends AbstractConstraintDeclaration {
       // The value of the attribute spatial:compression of a SampledField object must conform 
       // to the syntax of SBML data type CompressionKind and may only take on the allowed values 
       // of CompressionKind defined in SBML; that is, the value must be one of the following:
-      // “uncompressed” or “deflated”.  
+      // "uncompressed" or "deflated".  
 
       func = new InvalidAttributeValidationFunction<SampledField>(SpatialConstants.compression);
       break;

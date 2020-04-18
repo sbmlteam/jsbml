@@ -1,31 +1,44 @@
 # JSBML NEWS -- History of user-visible changes
 
 ==================================
-## Version 1.5 (XX-03-2020)
+## Version 1.5 (08-04-2020)
 ==================================
 
 ### New Features:
 
-  - Implemented the latest draft of the distrib package.
+  - Implemented the SBML Level 3 distrib package version 1.
 
-  - Implemented most of the spatial package validation constraints. (Thanks to Bhavye Jain who did this among other things during GSOC 2019)
+  - Implemented the render package validation constraints.
   
-  - Implemented most of the comp package validation constraints
-
-  - Implemented most of the multi package validation constraints
+  - Implemented most of the spatial package validation constraints (Thanks to Bhavye Jain who did this among other things during GSOC 2019).
+  
+  - Implemented some of the comp, fbc and multi package validation constraints, added a way to specify which package version you want to validate against.
 
   - Added a new FUNCTION_CSYMBOL type to ASTNode so that we can parse and write generic csymbol defined elsewhere than in the core. Allow to read and write correctly the distrib defined csymbol.
     
   - Added a converter to transfer the COBRA like SBML notes into RDF annotations when possible.
   
+  - Added removeTopLevelAnnotationElement and replaceTopLevelAnnotationElement methods on SBase.
+  
+  - Added some helper methods to converter a comp model with external model definition(s) into a comp model without external model definition(s).
+  
+  
   
 ### Bug Fixes:
 
-  - Converters from SBML Level 2 with COBRA annotations to FBC version 1 and version 2 and vice versa bug fixes.
+  - Improved the validation check for valid metaId.
   
-  - Improved the output of History.toString().
+  - Improved the layout package with addition of some missing methods like the unset methods that were not there for all attributes or elements.
   
-  - Fixes several issues to the spatial parser found when implementing validation.
+  - Fixed few layout validation constraints to have all of them pass now.
+  
+  - Fixed several issues to the render package to align properly with the specifications and the libSBML implementation, some changes to the API introduced with the use of the RelAbsVector type.
+  
+  - Fixed several issues to the converters from SBML Level 2 with COBRA annotations to FBC version 1 and version 2 and vice versa.
+  
+  - Improved the output of History.toString() and XMLNode.toString().
+  
+  - Fixed several issues to the spatial parser found when implementing validation.
   
   - Fixes for issues #157 and #158. The combined list of SpeciesFeature and SubListOfSpeciesFeatures was not created properly.
   
@@ -39,6 +52,8 @@
  
  - Fixed a bug in SBMLErrorFactory so that an exception is not thrown if some data is missing for the validation message. If nothing is found about a specific error id, the SBMLerror should still be created with the default post message.
  
+ - Fixed issue #195. Now XMLNode use a new SBMLReader each time reading notes from String. Previously, a bug could appear when JSBML was used in a multi-threaded environment. Thanks to Piotr Gawron for finding and reporting the issue (as well as several other issues).
+
 
 ==================================
 ## Version 1.4 (16-08-2018)
