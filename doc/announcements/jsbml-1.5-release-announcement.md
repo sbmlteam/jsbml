@@ -2,7 +2,7 @@
 # JSBML-1.5
 
 
-We are pleased to announce the release of JSBML-1.5, which is now available for download from GitHub.
+We are pleased to announce the release of JSBML-1.5, which is now available for download from GitHub and Maven.
 
 JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating
 [SBML](http://sbml.org) files and data streams. It is an alternative to the mixed Java/native code-based interface provided 
