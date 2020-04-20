@@ -13,11 +13,11 @@ For more details, please visit the JSBML project home page:
 <http://sbml.org/Software/JSBML>
 
 **Major new features**
-* Support the new SBML Level 3 Distributions `distrib` package, Version 1
-* Support the latest draft specification for the SBML Level 3 Spatial Processes`spatial` package
-* Validation for the `spatial` and the SBML Level 3 Rendering `render` packages
+* Support the new SBML Level 3 Distributions (`distrib`) package, Version 1
+* Support the latest draft specification for the SBML Level 3 Spatial Processes (`spatial`) package
+* Validation for the `spatial` and the SBML Level 3 Rendering (`render`) packages
 
-This release contain other features, improvements and bug fixes for SBML core and the SBML Level 3 packages. You can find a detailed list of the user-visible new features and bug fixes on the [NEWS](NEWS.md) file.
+This release contain other features, improvements and bug fixes for SBML core and the SBML Level 3 packages. You can find a detailed list of the user-visible changes on the [NEWS](NEWS.md) file.
 
 Thank you for your interest and support of JSBML and SBML in general.
 
