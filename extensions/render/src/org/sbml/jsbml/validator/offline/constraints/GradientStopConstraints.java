@@ -78,24 +78,34 @@ public class GradientStopConstraints extends AbstractConstraintDeclaration {
       };
       break;
     case RENDER_21004:
+      // The attribute render:stop-color on a GradientStop must have a value of data type string
+      // where that string is restricted to either a 6 or 8 digit hex number; the id of an existing ColorDefinition
+      // or the value 'none'. 
       func = new ValidationFunction<GradientStop>() {
         @Override
         public boolean check(ValidationContext ctx, GradientStop t) {
-          // Any string ok.
+          // TODO
           return true;
         }
       };
       break;
     case RENDER_21005:
+      // The value of the attribute render:offset of a GradientStop object must conform to the syntax
+      // of SBML data type RelAbsVector but in this case can only encode a relative value i.e. a
+      // string encoding a number followed by a % sign.
       func = new ValidationFunction<GradientStop>() {
         @Override
         public boolean check(ValidationContext ctx, GradientStop stop) {
-          return stop.isSetOffset() && !stop.getOffset().isSetAbsoluteValue()
-            && stop.getOffset().isSetRelativeValue();
+          if (stop.isSetOffset()) {
+            return  !stop.getOffset().isSetAbsoluteValue() && stop.getOffset().isSetRelativeValue();            
+          }
+          
+          return true;
         }
       };
       break;
-
+      
+    // TODO - RENDER_21006 and RENDER_21007  
     default:
       func = null;
       break;
