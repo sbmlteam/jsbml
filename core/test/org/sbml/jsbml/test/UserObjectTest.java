@@ -60,13 +60,13 @@ public class UserObjectTest {
 	  
 	  assertTrue(s.isSetUserObjects() == true);
 	  assertTrue((Integer) s.getUserObject(KEY_1) == 3);
-	  assertTrue(s.getUserObject(KEY_2) == "userObject");
+	  assertTrue(s.getUserObject(KEY_2).equals("userObject"));
 	  
 	  Species s2 = s.clone();
 	  
 	  assertTrue(s2.isSetUserObjects() == true);
 	  assertTrue((Integer) s2.getUserObject(KEY_1) == 3);
-	  assertTrue(s2.getUserObject(KEY_2) == "userObject");
+	  assertTrue(s2.getUserObject(KEY_2).equals("userObject"));
 	  
   }
 
@@ -84,13 +84,13 @@ public class UserObjectTest {
 	  
 	  assertTrue(s.isSetUserObjects() == true);
 	  assertTrue((Integer) s.getUserObject(KEY_1) == 3);
-	  assertTrue(s.getUserObject(KEY_2) == "userObject");
+	  assertTrue(s.getUserObject(KEY_2).equals("userObject"));
 	  
 	  ASTNode s2 = s.clone();
 	  
 	  assertTrue(s2.isSetUserObjects() == true);
 	  assertTrue((Integer) s2.getUserObject(KEY_1) == 3);
-	  assertTrue(s2.getUserObject(KEY_2) == "userObject");
+	  assertTrue(s2.getUserObject(KEY_2).equals("userObject"));
 	  
   }
 
@@ -108,13 +108,13 @@ public class UserObjectTest {
       
       assertTrue(s.isSetUserObjects() == true);
       assertTrue((Integer) s.getUserObject(KEY_1) == 3);
-      assertTrue(s.getUserObject(KEY_2) == "userObject");
+      assertTrue(s.getUserObject(KEY_2).equals("userObject"));
       
       ASTNode2 s2 = s.clone();
       
       assertTrue(s2.isSetUserObjects() == true);
       assertTrue((Integer) s2.getUserObject(KEY_1) == 3);
-      assertTrue(s2.getUserObject(KEY_2) == "userObject");
+      assertTrue(s2.getUserObject(KEY_2).equals("userObject"));
       
   }
 

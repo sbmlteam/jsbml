@@ -54,7 +54,7 @@ public class GetNotesStringTests {
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
     assertNotNull(doc.getModel().getNotesString());
-    assertTrue(doc.getModel().getNotesString() == "");
+    assertTrue(doc.getModel().getNotesString().equals(""));
   }
 
 }

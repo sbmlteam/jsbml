@@ -98,7 +98,7 @@ public class TestCompartment {
     //    assertTrue(C.getTypeCode() == libsbml.SBML_COMPARTMENT);
     assertTrue(C.getMetaId().equals("") == true);
     assertTrue(C.getNotes() == null);
-    assertTrue(SBMLtools.toXML(C.getNotes()) == "");
+    assertTrue(SBMLtools.toXML(C.getNotes()).equals(""));
     // assertTrue(C.getAnnotation() == null);
     assertTrue(C.getId().equals("") == true);
     assertTrue(C.getName().equals("") == true);
@@ -284,7 +284,7 @@ public class TestCompartment {
     assertTrue(C.getUnits().equals(units));
     C.setUnits("");
     assertEquals(false, C.isSetUnits());
-    assertTrue(C.getUnits() == ""); // in libsbml it returns null
+    assertTrue(C.getUnits().equals("")); // in libsbml it returns null
   }
 
   /**
