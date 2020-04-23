@@ -1,0 +1,11 @@
+org.sbml.jsbml
+org.sbml.jsbml.resources
+org.sbml.jsbml.text.parser
+org.sbml.jsbml.util
+org.sbml.jsbml.util.compilers
+org.sbml.jsbml.util.filters
+org.sbml.jsbml.validator
+org.sbml.jsbml.xml
+org.sbml.jsbml.xml.parsers
+org.sbml.jsbml.xml.stax
+org.sbml.jsbml.xml.xstream.converter
