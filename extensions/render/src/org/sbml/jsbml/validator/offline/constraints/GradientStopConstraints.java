@@ -43,7 +43,8 @@ public class GradientStopConstraints extends AbstractConstraintDeclaration {
     switch(category) {
     case GENERAL_CONSISTENCY:
       addRangeToSet(set, RENDER_21001, RENDER_21005);
-      // TODO 2020/03: there are two more constraints, but they are soft
+      // TODO - add RENDER_21006 and RENDER_21007
+       
       break;
     default:
       break;
@@ -105,7 +106,14 @@ public class GradientStopConstraints extends AbstractConstraintDeclaration {
       };
       break;
       
-    // TODO - RENDER_21006 and RENDER_21007  
+    // TODO - RENDER_21006  
+      // The value of the attribute render:offset of a GradientStop object should be between '0%'
+      // and '100%'.
+      
+   // TODO - RENDER_21007
+      // The value of the attribute render:offset of a GradientStop object should be greater than or
+      // equal to the value of the offset attribute on the previous GradientStop.
+      
     default:
       func = null;
       break;
