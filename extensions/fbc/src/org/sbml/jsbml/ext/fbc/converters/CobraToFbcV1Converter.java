@@ -154,29 +154,41 @@ public class CobraToFbcV1Converter implements SBMLConverter {
         if (reaction.isSetKineticLaw()) {
           KineticLaw kineticLaw = reaction.getKineticLaw();
           // get lower and upper flux bound from the kinetic law, set them in the list of flux bounds, and delete the kinetic law
-          if (kineticLaw.getParameter("LOWER_BOUND") != null && kineticLaw.getParameter("LOWER_BOUND").isSetValue()) {
-            FluxBound fluxBoundLo = new FluxBound();
-            fluxBoundLo.setReaction(reaction.getId());
-            fluxBoundLo.setOperation(FluxBound.Operation.GREATER_EQUAL);
-            fluxBoundLo.setValue(reaction.getKineticLaw().getParameter("LOWER_BOUND").getValue());
-            fbcModelPlugin.addFluxBound(fluxBoundLo);
-          }
-          if (kineticLaw.getParameter("UPPER_BOUND") != null && kineticLaw.getParameter("UPPER_BOUND").isSetValue()) {
-            FluxBound fluxBoundUp = new FluxBound();
-            fluxBoundUp.setReaction(reaction.getId());
-            fluxBoundUp.setOperation(FluxBound.Operation.LESS_EQUAL);
-            fluxBoundUp.setValue(reaction.getKineticLaw().getParameter("UPPER_BOUND").getValue());
-            fbcModelPlugin.addFluxBound(fluxBoundUp);
+          double LB = (kineticLaw.getParameter("LOWER_BOUND") != null && kineticLaw.getParameter("LOWER_BOUND").isSetValue()) ? 
+            reaction.getKineticLaw().getParameter("LOWER_BOUND").getValue() :
+              Double.NEGATIVE_INFINITY;
+          double UB = (kineticLaw.getParameter("UPPER_BOUND") != null && kineticLaw.getParameter("UPPER_BOUND").isSetValue()) ?
+            reaction.getKineticLaw().getParameter("UPPER_BOUND").getValue() :
+              Double.POSITIVE_INFINITY;
+          if (Double.compare(LB,  UB) == 0) {
+            // same value, Operation should be "Equal"
+            FluxBound fluxBoundEq = fbcModelPlugin.createFluxBound();
+            fluxBoundEq.setReaction(reaction.getId());
+            fluxBoundEq.setOperation(FluxBound.Operation.EQUAL);
+            fluxBoundEq.setValue(LB);
+          } else {
+            if (LB > Double.NEGATIVE_INFINITY) {
+              FluxBound fluxBoundLo = fbcModelPlugin.createFluxBound();
+              fluxBoundLo.setReaction(reaction.getId());
+              fluxBoundLo.setOperation(FluxBound.Operation.GREATER_EQUAL);
+              fluxBoundLo.setValue(reaction.getKineticLaw().getParameter("LOWER_BOUND").getValue());
+            }
+            if (UB < Double.POSITIVE_INFINITY) {
+              FluxBound fluxBoundUp = fbcModelPlugin.createFluxBound();
+              fluxBoundUp.setReaction(reaction.getId());
+              fluxBoundUp.setOperation(FluxBound.Operation.LESS_EQUAL);
+              fluxBoundUp.setValue(reaction.getKineticLaw().getParameter("UPPER_BOUND").getValue());
+            }
           }
           // get objective coefficient and create fluxObjective for those with value other than 0
-          double obj = (kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT) != null &&
+          double OBJ = (kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT) != null &&
                           kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT).isSetValue())
                         ? kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT).getValue() 
                         : 0d;
-          if (obj != 0d) {
+          if (OBJ != 0d) {
               FluxObjective fluxObjective = objective.createFluxObjective();
               fluxObjective.setReaction(reaction);
-              fluxObjective.setCoefficient(kineticLaw.getParameter(CobraConstants.OBJECTIVE_COEFFICIENT).getValue());
+              fluxObjective.setCoefficient(OBJ);
           }
           // then unset the KineticLaw of the reaction
           reaction.unsetKineticLaw();
