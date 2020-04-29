@@ -19,6 +19,7 @@
 package org.sbml.jsbml.ext.fbc.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -28,12 +29,15 @@ import java.io.IOException;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.ext.fbc.ListOfObjectives;
 import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.ext.fbc.Objective.Type;
@@ -114,6 +118,31 @@ public class CobraToFbcV1ConverterTest {
         "          </listOfParameters>\n" + 
         "        </kineticLaw>\n" + 
         "      </reaction>\n" + 
+        "      <reaction fast=\"false\" id=\"reactionEqual\" name=\"Demonstration Reaction for equal flux case\" reversible=\"true\">\n" + 
+        "        <notes>\n" + 
+        "          <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
+        "            <p>GENE_ASSOCIATION:</p>\n" + 
+        "          </body>\n" + 
+        "        </notes>\n" + 
+        "        <listOfReactants>\n" + 
+        "          <speciesReference species=\"C3H7O7P\" />\n" + 
+        "        </listOfReactants>\n" + 
+        "        <listOfProducts>\n" + 
+        "          <speciesReference species=\"C3H5O6P\" />\n" + 
+        "          <speciesReference species=\"CH4\" />\n" + 
+        "        </listOfProducts>\n" + 
+        "        <kineticLaw>\n" + 
+        "          <math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" + 
+        "            <ci>FLUX_VALUE</ci>\n" + 
+        "          </math>\n" + 
+        "          <listOfParameters>\n" + 
+        "            <parameter id=\"FLUX_VALUE\" units=\"mmol_per_gDW_per_hr\" value=\"0\" />\n" + 
+        "            <parameter constant=\"true\" id=\"UPPER_BOUND\" units=\"mmol_per_gDW_per_hr\" value=\"10\" />\n" + 
+        "            <parameter constant=\"true\" id=\"LOWER_BOUND\" units=\"mmol_per_gDW_per_hr\" value=\"10\" />\n" + 
+        "            <parameter id=\"OBJECTIVE_COEFFICIENT\" units=\"mmol_per_gDW_per_hr\" value=\"1\" />\n" + 
+        "          </listOfParameters>\n" + 
+        "        </kineticLaw>\n" + 
+        "      </reaction>\n" + 
         "      <reaction fast=\"false\" id=\"MethReact\" name=\"Fictive Methane reaction\" reversible=\"false\">\n" + 
         "        <notes>\n" + 
         "          <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
@@ -160,9 +189,39 @@ public class CobraToFbcV1ConverterTest {
      converter.convert(doc);
      assertNotNull(doc);
      Model model = doc.getModel();
+     // FBC Model checks
      FBCModelPlugin fbcModelPlugin = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
      assertNotNull(fbcModelPlugin);
-     assertEquals("Fbc Package Version should be 1", 1, fbcModelPlugin.getPackageVersion());
+     assertEquals("Fbc Package Version should be 1.", 1, fbcModelPlugin.getPackageVersion());
+     // Flux Bounds 
+     assertTrue("ListOfFluxBounds not set.", fbcModelPlugin.isSetListOfFluxBounds());
+     ListOf<FluxBound> fluxBounds = fbcModelPlugin.getListOfFluxBounds();
+     assertNotNull("ListOf<FluxBound> should not be null.", fluxBounds);
+     assertEquals("Not the right amount of FluxBounds.", 5, fluxBounds.size());
+     for (FluxBound bound : fluxBounds) {
+       assertNotNull("FluxBound should not be null.", bound);
+       assertTrue("Reaction of FluxBound should be set.", bound.isSetReaction());
+       assertTrue("Operation of FluxBound should be set.", bound.isSetOperation());
+       assertTrue("Value of FluxBound should be set.", bound.isSetValue());
+       if (bound.getReaction().equals("rnR00658")) {
+         if (bound.getOperation().equals(FluxBound.Operation.GREATER_EQUAL)) {
+           assertEquals("Value of FluxBound (Operation: " + FluxBound.Operation.GREATER_EQUAL.name() + ") for Reaction " + bound.getReaction() + " not correct.", Double.valueOf(1d), Double.valueOf(bound.getValue()));
+         } else if (bound.getOperation().equals(FluxBound.Operation.LESS_EQUAL)) {
+           assertEquals("Value of FluxBound (Operation: " + FluxBound.Operation.LESS_EQUAL.name() + ") for Reaction " + bound.getReaction() + " not correct.", Double.valueOf(100d), Double.valueOf(bound.getValue()));
+         }
+       } else if (bound.getReaction().equals("MethReact")) {
+         if (bound.getOperation().equals(FluxBound.Operation.GREATER_EQUAL)) {
+           assertEquals("Value of FluxBound (Operation: " + FluxBound.Operation.GREATER_EQUAL.name() + ") for Reaction " + bound.getReaction() + " not correct.", Double.valueOf(1d), Double.valueOf(bound.getValue()));
+         } else if (bound.getOperation().equals(FluxBound.Operation.LESS_EQUAL)) {
+           assertEquals("Value of FluxBound (Operation: " + FluxBound.Operation.LESS_EQUAL.name() + ") for Reaction " + bound.getReaction() + " not correct..", Double.valueOf(100d), Double.valueOf(bound.getValue()));
+         }
+       } else if (bound.getReaction().equals("reactionEqual")) {
+         assertEquals("FluxBound.Operation for reaction " + bound.getReaction() + " not correct.", FluxBound.Operation.EQUAL, bound.getOperation());
+         assertEquals("Value of FluxBound (Operation: " + FluxBound.Operation.EQUAL.name() + ") for Reaction " + bound.getReaction() + " not correct.", Double.valueOf(10d), Double.valueOf(bound.getValue()));
+       }
+     }
+     
+     // Objectives checks
      assertTrue("ListOfObjectives not set", fbcModelPlugin.isSetListOfObjectives());
      ListOfObjectives listOfObjectives = fbcModelPlugin.getListOfObjectives();
      assertNotNull("ListOfObjectives should not be null", listOfObjectives);
@@ -175,6 +234,19 @@ public class CobraToFbcV1ConverterTest {
      Type activeObjectiveType = activeObjective.getType();
      assertNotNull("Type of activeObjective should not be null", activeObjectiveType);
      activeObjective.getListOfFluxObjectives();
+     
+     // reactions
+     ListOf<Reaction> reactions = model.getListOfReactions();
+     assertNotNull("ListOf<Reaction> should not be null", reactions);
+     for (Reaction reaction : reactions) {
+       assertNotNull("Reaction should not be null", reaction);
+       assertFalse("KineticLaw of Reaction with Id: " + reaction.getId() + " should not be set", reaction.isSetKineticLaw());
+       assertTrue("Fast Attribute of Reaction with Id: " + reaction.getId() + " should be set ", reaction.isSetFast());
+       assertFalse("Fast Attribute of Reaction with Id: " + reaction.getId() + " should be set to false", reaction.getFast());
+       /*if (reaction.getId() == "rnR00658") {
+         // This reaction should be reversible
+       }*/
+     }
      
    } catch (SBMLException e) {
      // TODO Auto-generated catch block
