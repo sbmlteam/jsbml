@@ -42,10 +42,13 @@ public class SetParentTest {
   @Test
   public void assignedListenerTest() {
     doc.addTreeNodeChangeListener(new TreeNodeCustom());
-    Model model = doc.createModel("testListener");
+    Model listenerTestModel = doc.createModel("testListener");
     
-    System.out.println("Listener count of document: " + doc.getTreeNodeChangeListenerCount());
-    System.out.println("Listener count of model: " + model.getTreeNodeChangeListenerCount());
+    assertEquals(doc.getChildCount(), 1); 
+    assertEquals(listenerTestModel.getChildCount(), 0);
+    
+    assertEquals(doc.getTreeNodeChangeListenerCount(), 1);
+    assertEquals(listenerTestModel.getTreeNodeChangeListenerCount(), 1);
   }
 
   @Test
