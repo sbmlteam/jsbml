@@ -11,6 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.ext.fbc.FBCConstants;
+import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.GeneProduct;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 
@@ -44,11 +47,20 @@ public class SetParentTest {
     doc.addTreeNodeChangeListener(new TreeNodeCustom());
     Model listenerTestModel = doc.createModel("testListener");
     
-    assertEquals(doc.getChildCount(), 1); 
-    assertEquals(listenerTestModel.getChildCount(), 0);
-    
+    assertTrue((doc.getChildCount() == 1) == true);
+    assertTrue((listenerTestModel.getChildCount() == 0) == true);
     assertEquals(doc.getTreeNodeChangeListenerCount(), 1);
     assertEquals(listenerTestModel.getTreeNodeChangeListenerCount(), 1);
+    
+    FBCModelPlugin fbcModel = (FBCModelPlugin) listenerTestModel.getPlugin(FBCConstants.shortLabel);
+    FBCModelPlugin clonedFbcModel = fbcModel.clone();
+    GeneProduct gene = fbcModel.createGeneProduct();
+    gene.addExtension(FBCConstants.shortLabel, clonedFbcModel); 
+    
+    assertTrue((fbcModel.getChildCount() == 1) == true);
+    assertTrue((clonedFbcModel.getChildCount() == 0) == true);
+    assertTrue((fbcModel.getTreeNodeChangeListenerCount() == 1) == true); 
+    assertTrue((clonedFbcModel.getTreeNodeChangeListenerCount() == 1) == true);
   }
 
   @Test
