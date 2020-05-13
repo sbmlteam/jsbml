@@ -1,9 +1,19 @@
 package org.sbml.jsbml.ext.fbc;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.AnnotationElement;
+import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.History;
+import org.sbml.jsbml.xml.XMLAttributes;
+import org.sbml.jsbml.xml.XMLNamespaces;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * A FBCAnnotatioPlugin will contain the list Of Key Value Pairs
@@ -37,7 +47,13 @@ public class KeyValuePair  extends AnnotationElement{
    */
   private static String URI;
   
-  public KeyValuePair(KeyValuePair KeyValuePair) {
+  /**
+   * contains all the remaining annotation not mapped to Objects.
+   * 
+   */
+  private XMLNode nonRDFannotation;
+  
+  public KeyValuePair() {
     // TODO Auto-generated constructor stub
   }
 
@@ -146,16 +162,96 @@ public class KeyValuePair  extends AnnotationElement{
     }
     return false;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
+  /**
+   * This Part is reading the annotation to XMLNODE
+   * @param annotation
+   */
+  public KeyValuePair(XMLNode annotation) {
+    this();
+    nonRDFannotation = annotation;
+  }
+  
+  public KeyValuePair(String key) throws XMLStreamException {
+    // parse the String as an XMLNode
+    this(XMLNode.convertStringToXMLNode(key));
+  }
+  /**
+   * Appends some 'annotation' to the non RDF annotation {@link XMLNode} of this object.
+   * 
+   * @param annotation some non RDF annotations.
+   * @throws XMLStreamException
+   */
+  public void appendNonRDFAnnotation(String annotation) throws XMLStreamException {
+    appendNonRDFAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation)));
+  }
+  
+  /**
+   * @param annotationToAppend
+   */
+  public void appendNonRDFAnnotation(XMLNode annotationToAppend) {
+    XMLNode oldNonRDFAnnotation = null;
+    if (nonRDFannotation == null) {
+      // check if the annotation contain an annotation top level element or not
+      if (!annotationToAppend.getName().equals("annotation")) {
+        XMLNode annotationXMLNode = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
+        annotationXMLNode.addChild(new XMLNode("\n  "));
+        annotationXMLNode.addChild(annotationToAppend);
+        annotationToAppend = annotationXMLNode;
+        annotationToAppend.setParent(this);
+      }
+
+      nonRDFannotation = annotationToAppend;
+    } else {
+      oldNonRDFAnnotation = nonRDFannotation.clone();
+
+      if (annotationToAppend.getName().equals("annotation")) {
+        for (int i = 0; i < annotationToAppend.getChildCount(); i++) {
+          XMLNode child = annotationToAppend.getChildAt(i);
+          nonRDFannotation.addChild(child);
+        }
+      } else {
+        nonRDFannotation.addChild(annotationToAppend);
+      }
+    }
+
+    firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
+      oldNonRDFAnnotation, nonRDFannotation);
+  }
+  
+  
+  public Object ReadKeyFromAnnotation(XMLNode annotation, Object object) {
+    
+    Object Anot = null;
+    if (annotation.getName().equals("Key")) {      
+      
+      try {
+        Anot = annotation.toXMLString();
+        setKey((String) Anot);
+      } 
+      catch (XMLStreamException e) {
+        e.printStackTrace();
+      }
+    }
+    return Anot;
+  }
+  
+  public Object ReadValueFromAnnotation(XMLNode annotation, Object object) {
+    
+    Object Anot = null;
+    if (annotation.getName().equals("Value")) {      
+      try {
+        Anot = annotation.toXMLString();
+        setValue((String) Anot);
+      } 
+      catch (XMLStreamException e) {
+        e.printStackTrace();
+      }
+    }
+    return Anot;
+  }
+  
+  
   @Override
   public TreeNode getChildAt(int childIndex) {
     // TODO Auto-generated method stub
@@ -177,7 +273,7 @@ public class KeyValuePair  extends AnnotationElement{
   @Override
   public TreeNode clone() {
     // TODO Auto-generated method stub
-    return new KeyValuePair(this);
+    return new KeyValuePair();
 
   }
   
