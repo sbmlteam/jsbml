@@ -210,7 +210,10 @@ public class FBCConstants {
    * 
    */
   public static final String value = "value";
-
+  /**
+   * 
+   */
+  public static final String key = "key";
   /**
    * 
    */
