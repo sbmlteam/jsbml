@@ -2,6 +2,9 @@ package org.sbml.jsbml.ext.fbc;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.tree.TreeNode;
+import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fbc.KeyValuePair;
 
@@ -43,7 +46,48 @@ public class FBCSBasePlugin extends AbstractFBCSBasePlugin{
     }
     return ListofKeyValuePairS;
   }
+  /**
+   * Returns the list of ListOfKeyValue Pairs. If they are no KeyValuePairs, an empty list is returned.
+   * 
+   * @return the list of KeyValuePairs.
+   */
+  public List<KeyValuePair> setListOfKeyValuePairs() {
+    if (ListofKeyValuePairS == null) {
+      ListofKeyValuePairS = new ArrayList<KeyValuePair>();
+    }
+    return ListofKeyValuePairS;
+  }
   
+  /**
+   * Sets the given KeyValuePair list
+   */
+  public void setListOfKeyValuePairs(List<KeyValuePair> List_Key_Value) {
+    unsetListOfKeyValues();
+    this.ListofKeyValuePairS = List_Key_Value;
+
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild((SBase) this.ListofKeyValuePairS);
+    }
+  }
+  
+  public boolean isSetListOfKeyValuePairs() {
+    // cannot use the isEmpty() test here to avoid loosing the activeObject attribute
+    // when calling the getListOfObjectives() when there are not yet any objective object added to the list.
+    // This happen for example when reading a file.
+    return ListofKeyValuePairS != null;
+  }
+
+  
+  public boolean unsetListOfKeyValues() {
+    if (isSetListOfKeyValuePairs()) {
+      List<KeyValuePair> oldObjectives = ListofKeyValuePairS;
+      ListofKeyValuePairS = null;
+      ((AbstractSBase) oldObjectives).fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
   
   /**
    * Creates a new instance by cloning the given pair.
@@ -97,5 +141,10 @@ public class FBCSBasePlugin extends AbstractFBCSBasePlugin{
     // TODO Auto-generated method stub
     return null;
   }
+//
+//  public void FBCSBasePlugin() {
+//    // TODO Auto-generated method stub
+//    
+//  }
   
 }

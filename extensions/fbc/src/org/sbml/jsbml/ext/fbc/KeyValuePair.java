@@ -293,8 +293,12 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
     if (matchObject!=null) {
       XMLNode annotationToAppend = ((SBase) matchObject).getAnnotation().getNonRDFannotation();
       FBCSBasePlugin plugin = (FBCSBasePlugin) ((SBase) matchObject).getPlugin(FBCConstants.shortLabel);
-      //FBCSBasePlugin //Now I need to add key value pairs 
+      
+      //Now I need to extract the key value pairs 
+      
+      plugin.setListOfKeyValuePairs();
 
+      
     }
     
   }
