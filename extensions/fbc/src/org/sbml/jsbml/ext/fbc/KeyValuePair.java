@@ -16,7 +16,7 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
- * A FBCAnnotatioPlugin will contain the list Of Key Value Pairs
+ * A KeyValuePair will Read/Write the annotation to XMLNode and vice versa
  * 
  * @author  Mahdi Sadeghi
  * @author  Andreas Drager
