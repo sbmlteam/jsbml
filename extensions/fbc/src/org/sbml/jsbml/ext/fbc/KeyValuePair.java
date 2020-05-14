@@ -2,8 +2,6 @@ package org.sbml.jsbml.ext.fbc;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
-
-import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.AnnotationElement;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
@@ -150,7 +148,7 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
 
 
   /**
-   * Unsets the variable key.
+   * Un_sets the variable key.
    *
    * @return {@code true} if key was set before, otherwise {@code false}.
    */
@@ -179,7 +177,7 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
   }
   /**
    * Appends some 'annotation' to the non RDF annotation {@link XMLNode} of this object.
-   * 
+   * Just for the developing reasons I have added this function also here
    * @param annotation some non RDF annotations.
    * @throws XMLStreamException
    */
@@ -311,7 +309,7 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
       //Now we will extract the key value pairs and add them to the FBCSBasePlugin
       plugin.setListOfKeyValuePairs();
 
-      //Now we need to remove the elements in from namespace
+      //Now we need to remove the found elements from namespace
       int nodeIndex = annotationToAppend.getParent().getIndex(annotationToAppend);
       if (nodeIndex > 0)
       {
@@ -325,6 +323,7 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
     }
     
   }
+  
   
 }
 

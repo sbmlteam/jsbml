@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fbc.KeyValuePair;
