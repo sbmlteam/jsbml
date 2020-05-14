@@ -2,6 +2,8 @@ package org.sbml.jsbml.ext.fbc;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
+
+import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.AnnotationElement;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
@@ -217,7 +219,11 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
     firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
       oldNonRDFAnnotation, nonRDFannotation);
   }
-  
+  /**
+   * Extracting the Key from Annotation in a top level element with the right namespace
+   * 
+   * @param annotation.
+   */
   
   public Object ReadKeyFromAnnotation(XMLNode annotation, Object object) {
     
@@ -234,7 +240,11 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
     }
     return Anot;
   }
-  
+  /**
+   * Extracting the Value from Annotation in a top level element with the right namespace
+   * 
+   * @param annotation.
+   */
   public Object ReadValueFromAnnotation(XMLNode annotation, Object object) {
     
     Object Anot = null;
@@ -301,7 +311,17 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
       //Now we will extract the key value pairs and add them to the FBCSBasePlugin
       plugin.setListOfKeyValuePairs();
 
-      
+      //Now we need to remove the elements in from namespace
+      int nodeIndex = annotationToAppend.getParent().getIndex(annotationToAppend);
+      if (nodeIndex > 0)
+      {
+        XMLNode precedingChild = (XMLNode) annotationToAppend.getParent().getChildAt(nodeIndex - 1);
+
+        if (precedingChild.isText() && precedingChild.getCharacters().trim().length() == 0)
+        {
+          ((XMLNode) annotationToAppend.getParent()).removeChild(nodeIndex - 1);
+        }
+      }
     }
     
   }

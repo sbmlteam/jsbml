@@ -141,10 +141,5 @@ public class FBCSBasePlugin extends AbstractFBCSBasePlugin{
     // TODO Auto-generated method stub
     return null;
   }
-//
-//  public void FBCSBasePlugin() {
-//    // TODO Auto-generated method stub
-//    
-//  }
   
 }
