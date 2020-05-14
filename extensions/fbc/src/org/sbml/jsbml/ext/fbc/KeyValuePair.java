@@ -12,6 +12,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.ext.fbc.FBCSBasePlugin;
 
 /**
  * A KeyValuePair will Read/Write the annotation to XMLNode and vice versa
@@ -190,7 +191,7 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
   public void appendNonRDFAnnotation(XMLNode annotationToAppend) {
     XMLNode oldNonRDFAnnotation = null;
     if (nonRDFannotation == null) {
-      // check if the annotation contain an annotation top level element or not
+      // check if the annotation contain an annotation in top level element or not
       if (!annotationToAppend.getName().equals("annotation")) {
         XMLNode annotationXMLNode = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
         annotationXMLNode.addChild(new XMLNode("\n  "));
@@ -283,7 +284,12 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
 
   @Override
   public void processAnnotation(SBase contextObject) {
-    // TODO Auto-generated method stub
+
+    //Returns the Object that Matches this package name or URI
+    //And gets element name which is in the correct namespace
+    Object matchObject = contextObject.getElementName(); 
+    
+    
     
   }
   
