@@ -13,7 +13,7 @@ import org.sbml.jsbml.ext.fbc.KeyValuePair;
  * @author  Nikko Rodrigue
  */
 
-public class FBCAnnotationPlugin extends AbstractFBCSBasePlugin{
+public class FBCSBasePlugin extends AbstractFBCSBasePlugin{
   
   /**
    * 
@@ -23,9 +23,12 @@ public class FBCAnnotationPlugin extends AbstractFBCSBasePlugin{
    * contains all the KeyValue Pairs
    */
   private List<KeyValuePair> ListofKeyValuePairS;
+  /**
+   * 
+   */
   
   
-  public FBCAnnotationPlugin() {
+  public FBCSBasePlugin() {
     super();
   }
   
@@ -45,10 +48,10 @@ public class FBCAnnotationPlugin extends AbstractFBCSBasePlugin{
   /**
    * Creates a new instance by cloning the given pair.
    */
-  public FBCAnnotationPlugin(FBCAnnotationPlugin fbcannotationplugin) {
-    super(fbcannotationplugin);
+  public FBCSBasePlugin(FBCSBasePlugin fbcbaseplugin) {
+    super(fbcbaseplugin);
 
-    for (KeyValuePair pair : fbcannotationplugin.getListOfKeyValuePairs()) {
+    for (KeyValuePair pair : fbcbaseplugin.getListOfKeyValuePairs()) {
       getListOfKeyValuePairs().add((KeyValuePair) pair.clone());
     }
   }
@@ -59,12 +62,11 @@ public class FBCAnnotationPlugin extends AbstractFBCSBasePlugin{
    * @param cvTerms
    *            the list of {@link KeyValuePair}.
    */
-  public FBCAnnotationPlugin(List<KeyValuePair> Pair) {
+  public FBCSBasePlugin(List<KeyValuePair> Pair) {
     this();
     ListofKeyValuePairS = Pair;
-  }
-
- 
+  }  
+  
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
@@ -97,6 +99,3 @@ public class FBCAnnotationPlugin extends AbstractFBCSBasePlugin{
   }
   
 }
-  
-  
-
