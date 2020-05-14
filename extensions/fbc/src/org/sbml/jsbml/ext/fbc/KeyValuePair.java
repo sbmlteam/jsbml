@@ -2,13 +2,8 @@ package org.sbml.jsbml.ext.fbc;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
-
-import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.AnnotationElement;
-import org.sbml.jsbml.CVTerm;
-import org.sbml.jsbml.History;
 import org.sbml.jsbml.xml.XMLAttributes;
-import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.PropertyUndefinedError;
