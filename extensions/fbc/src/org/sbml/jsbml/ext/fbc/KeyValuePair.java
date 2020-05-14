@@ -6,7 +6,10 @@ import org.sbml.jsbml.AnnotationElement;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
+import org.sbml.jsbml.xml.parsers.AnnotationReader;
+import org.sbml.jsbml.xml.parsers.AnnotationWriter;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -18,7 +21,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author  Nikko Rodrigue
  */
 
-public class KeyValuePair  extends AnnotationElement{
+public class KeyValuePair  extends AnnotationElement implements AnnotationReader, AnnotationWriter{
   
   /**
    * 
@@ -270,6 +273,18 @@ public class KeyValuePair  extends AnnotationElement{
     // TODO Auto-generated method stub
     return new KeyValuePair();
 
+  }
+
+  @Override
+  public XMLNode writeAnnotation(SBase contextObject, XMLNode xmlNode) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void processAnnotation(SBase contextObject) {
+    // TODO Auto-generated method stub
+    
   }
   
 }
