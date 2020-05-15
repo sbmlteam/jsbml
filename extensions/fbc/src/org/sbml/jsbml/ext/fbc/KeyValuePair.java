@@ -10,8 +10,6 @@ import org.sbml.jsbml.xml.parsers.AnnotationReader;
 import org.sbml.jsbml.xml.parsers.AnnotationWriter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.ext.fbc.FBCSBasePlugin;
 
 /**
@@ -264,6 +262,7 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
     if (nonRDFannotation == null) {
       // check if the annotation contain an annotation in top level element or not
       // one needs to check if writing "KeyValuePair" reads the corresponding info from the object
+      // or should we add each of the Keys and Values individually to the node 
       if (!annotationToAppend.getName().equals("KeyValuePair")) {
         XMLNode annotationXMLNode = new XMLNode(new XMLTriple("KeyValuePair", null, null), new XMLAttributes());
         annotationXMLNode.addChild(new XMLNode("\n  "));
@@ -289,7 +288,6 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
       } else {
         nonRDFannotation.addChild(annotationToAppend);
       }
-            
       //      //Now we need to extract the key value pairs from annotationToAppend
       //      ReadKeyFromAnnotation(annotationToAppend, matchObject);
       //      ReadValueFromAnnotation(annotationToAppend, matchObject);
