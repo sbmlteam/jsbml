@@ -175,48 +175,7 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
     // parse the String as an XMLNode
     this(XMLNode.convertStringToXMLNode(key));
   }
-  /**
-   * Appends some 'annotation' to the non RDF annotation {@link XMLNode} of this object.
-   * Just for the developing reasons I have added this function also here
-   * @param annotation some non RDF annotations.
-   * @throws XMLStreamException
-   */
-  public void appendNonRDFAnnotation(String annotation) throws XMLStreamException {
-    appendNonRDFAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation)));
-  }
-  
-  /**
-   * @param annotationToAppend
-   */
-  public void appendNonRDFAnnotation(XMLNode annotationToAppend) {
-    XMLNode oldNonRDFAnnotation = null;
-    if (nonRDFannotation == null) {
-      // check if the annotation contain an annotation in top level element or not
-      if (!annotationToAppend.getName().equals("annotation")) {
-        XMLNode annotationXMLNode = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
-        annotationXMLNode.addChild(new XMLNode("\n  "));
-        annotationXMLNode.addChild(annotationToAppend);
-        annotationToAppend = annotationXMLNode;
-        annotationToAppend.setParent(this);
-      }
 
-      nonRDFannotation = annotationToAppend;
-    } else {
-      oldNonRDFAnnotation = nonRDFannotation.clone();
-
-      if (annotationToAppend.getName().equals("annotation")) {
-        for (int i = 0; i < annotationToAppend.getChildCount(); i++) {
-          XMLNode child = annotationToAppend.getChildAt(i);
-          nonRDFannotation.addChild(child);
-        }
-      } else {
-        nonRDFannotation.addChild(annotationToAppend);
-      }
-    }
-
-    firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
-      oldNonRDFAnnotation, nonRDFannotation);
-  }
   /**
    * Extracting the Key from Annotation in a top level element with the right namespace
    * 
@@ -291,23 +250,49 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
   }
 
   @Override
+  /**
+   * Appends some 'KeyValuePair' to the non RDF annotation {@link XMLNode} of this object.
+   * @param annotation some non RDF annotations.
+   */
   public void processAnnotation(SBase contextObject) {
-
-    //Returns the Object that Matches this package name or URI
+    //Following I will read the object and load it to the XML node
+    //Returns the Object name existing in this package
     //And gets element name which is in the correct namespace
-    Object matchObject = contextObject.getElementName(); 
-    
-    // if found such an element, create the FBCSBasePlugin and add it to the SBase.
-    if (matchObject!=null) {
-      XMLNode annotationToAppend = ((SBase) matchObject).getAnnotation().getNonRDFannotation();
-      FBCSBasePlugin plugin = (FBCSBasePlugin) ((SBase) matchObject).getPlugin(FBCConstants.shortLabel);
-      
-      //Now we need to extract the key value pairs from annotationToAppend
-      ReadKeyFromAnnotation(annotationToAppend, matchObject);
-      ReadValueFromAnnotation(annotationToAppend, matchObject);
-      
+    Object objectName = contextObject.getElementName(); 
+    XMLNode annotationToAppend = ((SBase) objectName).getAnnotation().getNonRDFannotation();
+    XMLNode oldNonRDFAnnotation = null;
+    if (nonRDFannotation == null) {
+      // check if the annotation contain an annotation in top level element or not
+      // one needs to check if writing "KeyValuePair" reads the corresponding info from the object
+      if (!annotationToAppend.getName().equals("KeyValuePair")) {
+        XMLNode annotationXMLNode = new XMLNode(new XMLTriple("KeyValuePair", null, null), new XMLAttributes());
+        annotationXMLNode.addChild(new XMLNode("\n  "));
+        annotationXMLNode.addChild(annotationToAppend);
+        annotationToAppend = annotationXMLNode;
+        annotationToAppend.setParent(this);
+      }
+
+      nonRDFannotation = annotationToAppend;
+    } else {
+      oldNonRDFAnnotation = nonRDFannotation.clone();
+    //Now we need to extract the key value pairs from annotationToAppend
+      if (annotationToAppend.getName().equals("KeyValuePair")) {
+        for (int i = 0; i < annotationToAppend.getChildCount(); i++) {
+          XMLNode child = annotationToAppend.getChildAt(i);
+          nonRDFannotation.addChild(child);
+        }
+     // if found such an element, create the FBCSBasePlugin and add it to the SBase.
+      FBCSBasePlugin plugin = (FBCSBasePlugin) ((SBase) annotationToAppend).getPlugin(FBCConstants.shortLabel);
       //Now we will extract the key value pairs and add them to the FBCSBasePlugin
       plugin.setListOfKeyValuePairs();
+      
+      } else {
+        nonRDFannotation.addChild(annotationToAppend);
+      }
+            
+      //      //Now we need to extract the key value pairs from annotationToAppend
+      //      ReadKeyFromAnnotation(annotationToAppend, matchObject);
+      //      ReadValueFromAnnotation(annotationToAppend, matchObject);
 
       //Now we need to remove the found elements from namespace
       int nodeIndex = annotationToAppend.getParent().getIndex(annotationToAppend);
@@ -320,12 +305,13 @@ public class KeyValuePair  extends AnnotationElement implements AnnotationReader
           ((XMLNode) annotationToAppend.getParent()).removeChild(nodeIndex - 1);
         }
       }
-    }
+    
     
   }
   
   
 }
-
+  
+}
 
 
