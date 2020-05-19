@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +45,7 @@ public class SetParentTest {
   //check if the listeners get also assigned to the newly created childnodes
   @Test
   public void assignedListenerTest() {
-    //doc.addTreeNodeChangeListener(new TreeNodeCustom());
+    doc.addTreeNodeChangeListener(new TreeNodeCustom());
     Model listenerTestModel = doc.createModel("testListener");
 
     assertTrue((doc.getChildCount() == 1) == true);
@@ -67,7 +68,7 @@ public class SetParentTest {
   //test if the correct events are fired, in particular if adding/removing nodes
   //and manipulating attributes use different events like they should
   @Test
-  public void correctEventTest() {
+  public void correctEventTest() throws XMLStreamException {
     TreeNodeCustom testListener = new TreeNodeCustom();
     doc.addTreeNodeChangeListener(testListener);
 
@@ -86,6 +87,16 @@ public class SetParentTest {
     assertTrue((testListener.getCounter() == (fireCount + 2)) == true);
     
     //TODO: tests for property change case 
+    doc.setName("newName");
+    assertTrue(testListener.getLastFired().equals("propertyChange") == true);
+    assertTrue((testListener.getCounter() == (fireCount + 3)) == true);
+    
+//    TODO here we have two fired events!!!
+//    not only property change but also node added fired afterwards
+    
+//    doc.setNotes("some notes");
+//    assertTrue(testListener.getLastFired().equals("propertyChange") == true); 
+//    assertTrue((testListener.getCounter() == (fireCount + 5)) == true); 
   }
 
   @Test
