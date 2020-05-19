@@ -44,23 +44,48 @@ public class SetParentTest {
   //check if the listeners get also assigned to the newly created childnodes
   @Test
   public void assignedListenerTest() {
-    doc.addTreeNodeChangeListener(new TreeNodeCustom());
+    //doc.addTreeNodeChangeListener(new TreeNodeCustom());
     Model listenerTestModel = doc.createModel("testListener");
-    
+
     assertTrue((doc.getChildCount() == 1) == true);
     assertTrue((listenerTestModel.getChildCount() == 0) == true);
     assertEquals(doc.getTreeNodeChangeListenerCount(), 1);
     assertEquals(listenerTestModel.getTreeNodeChangeListenerCount(), 1);
-    
+
     FBCModelPlugin fbcModel = (FBCModelPlugin) listenerTestModel.getPlugin(FBCConstants.shortLabel);
     FBCModelPlugin clonedFbcModel = fbcModel.clone();
     GeneProduct gene = fbcModel.createGeneProduct();
     gene.addExtension(FBCConstants.shortLabel, clonedFbcModel); 
-    
+
     assertTrue((fbcModel.getChildCount() == 1) == true);
     assertTrue((clonedFbcModel.getChildCount() == 0) == true);
     assertTrue((fbcModel.getTreeNodeChangeListenerCount() == 1) == true); 
     assertTrue((clonedFbcModel.getTreeNodeChangeListenerCount() == 1) == true);
+  }
+  
+  //TODO what is defined as attribute change and what as child adding/ removing? 
+  //test if the correct events are fired, in particular if adding/removing nodes
+  //and manipulating attributes use different events like they should
+  @Test
+  public void correctEventTest() {
+    TreeNodeCustom testListener = new TreeNodeCustom();
+    doc.addTreeNodeChangeListener(testListener);
+
+    //current count of fired events will be tested against new values 
+    //after firing single events to guarantee that only one event is fired at a time
+    int fireCount = testListener.getCounter();
+
+    //only node added should be fired
+    doc.createModel("testListener2");
+    assertTrue(testListener.getLastFired().equals("nodeAdded") == true);
+    assertTrue((testListener.getCounter() == (fireCount + 1)) == true);
+
+    //only node removed should be fired
+    doc.unsetModel();  
+    assertTrue(testListener.getLastFired().equals("nodeRemoved") == true);
+    assertTrue((testListener.getCounter() == (fireCount + 2)) == true);
+    
+    //TODO: tests for property change case 
   }
 
   @Test
@@ -73,25 +98,39 @@ public class SetParentTest {
     //TODO
   }
   
-  
+  //modified TreeNodeChangeListener to provide specific testcases
   private class TreeNodeCustom implements TreeNodeChangeListener{
+    private String lastFired = "";
+    private int counter = 0; 
     
     @Override
     public void propertyChange(PropertyChangeEvent arg0) {
-      // TODO Auto-generated method stub
-      
+      System.out.println("TreenodeListener: property change");
+      lastFired = "propertyChange";
+      counter += 1;
     }
 
     @Override
     public void nodeAdded(TreeNode node) {
       System.out.println("TreeNodeListener: node was added");
-      
+      lastFired = "nodeAdded";
+      counter += 1;
     }
 
     @Override
     public void nodeRemoved(TreeNodeRemovedEvent event) {
       // TODO Auto-generated method stub
       System.out.println("TreeNodeListener: node was removed");
+      lastFired = "nodeRemoved";
+      counter += 1;
+    }
+    
+    public String getLastFired() {
+      return lastFired;
+    }
+    
+    public int getCounter() {
+      return counter; 
     }
     
   }
