@@ -39,7 +39,14 @@ public class SetParentTest {
 
   @Test
   public void registerChildTest() {
-    //TODO 
+    doc.addTreeNodeChangeListener(new TreeNodeCustom());
+    assertTrue(model.isSetParent() == false);
+    
+    doc.registerChild(model); //change listener correctly detects node added 
+    assertEquals(model.getParent(), doc); //parent gets set correctly
+    
+    assertTrue((doc.getChildCount() == 0) == true); //but doc doesn't know that it has a child now
+    assertTrue((model.getChildCount() == 0) == true);
   }
 
   //check if the listeners get also assigned to the newly created childnodes
@@ -64,39 +71,40 @@ public class SetParentTest {
     assertTrue((clonedFbcModel.getTreeNodeChangeListenerCount() == 1) == true);
   }
   
-  //TODO what is defined as attribute change and what as child adding/ removing? 
+  //TODO firePropertyChange and TreeNodeChangeLister seem to use different information 
   //test if the correct events are fired, in particular if adding/removing nodes
   //and manipulating attributes use different events like they should
   @Test
   public void correctEventTest() throws XMLStreamException {
     TreeNodeCustom testListener = new TreeNodeCustom();
-    doc.addTreeNodeChangeListener(testListener);
+    //doc.addTreeNodeChangeListener(testListener);
 
     //current count of fired events will be tested against new values 
     //after firing single events to guarantee that only one event is fired at a time
     int fireCount = testListener.getCounter();
 
-    //only node added should be fired
+    //only node added should be fired -> firePropertyChange doesn't choose the type of change at all
     doc.createModel("testListener2");
     assertTrue(testListener.getLastFired().equals("nodeAdded") == true);
     assertTrue((testListener.getCounter() == (fireCount + 1)) == true);
 
-    //only node removed should be fired
+    //only node removed should be fired -> firePropertyChange doesn't choose the type of change at all
     doc.unsetModel();  
     assertTrue(testListener.getLastFired().equals("nodeRemoved") == true);
     assertTrue((testListener.getCounter() == (fireCount + 2)) == true);
     
-    //TODO: tests for property change case 
+    //only property change should be fired 
+    //TODO firePropertyChange says "element added" but TreeNodeChangeListener gets "property change"
     doc.setName("newName");
     assertTrue(testListener.getLastFired().equals("propertyChange") == true);
     assertTrue((testListener.getCounter() == (fireCount + 3)) == true);
     
-//    TODO here we have two fired events!!!
-//    not only property change but also node added fired afterwards
-    
-//    doc.setNotes("some notes");
-//    assertTrue(testListener.getLastFired().equals("propertyChange") == true); 
-//    assertTrue((testListener.getCounter() == (fireCount + 5)) == true); 
+    //TODO here we have two fired events!!!
+    //not only property change but also node added fired afterwards
+    //therefore fireCount is not 4 like expected but 5...
+    doc.setNotes("some notes");
+    assertTrue(testListener.getLastFired().equals("propertyChange") == true); 
+    assertTrue((testListener.getCounter() == (fireCount + 4)) == true); 
   }
 
   @Test
