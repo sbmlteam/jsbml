@@ -34,7 +34,15 @@ public class SetParentTest {
   public void setParentTest() {
     assertTrue(model.isSetParent() == false);
     model.setParent(doc);
-    assertEquals(model.getParent(), doc);
+    assertEquals(model.getParent(), doc); 
+    
+    model.removeFromParent();
+    assertEquals(model.getParent(), null); 
+    
+    Model model2 = new Model("test2");
+    assertTrue(model.isSetParent() == false);
+    model2.setParent(doc);
+    assertEquals(model2.getParent(), doc);
   }
 
   @Test
@@ -53,14 +61,14 @@ public class SetParentTest {
   @Test
   public void assignedListenerTest() {
     doc.addTreeNodeChangeListener(new TreeNodeCustom());
-    Model listenerTestModel = doc.createModel("testListener");
+    Model testModel = doc.createModel("test3");
 
     assertTrue((doc.getChildCount() == 1) == true);
-    assertTrue((listenerTestModel.getChildCount() == 0) == true);
+    assertTrue((testModel.getChildCount() == 0) == true);
     assertEquals(doc.getTreeNodeChangeListenerCount(), 1);
-    assertEquals(listenerTestModel.getTreeNodeChangeListenerCount(), 1);
+    assertEquals(testModel.getTreeNodeChangeListenerCount(), 1);
 
-    FBCModelPlugin fbcModel = (FBCModelPlugin) listenerTestModel.getPlugin(FBCConstants.shortLabel);
+    FBCModelPlugin fbcModel = (FBCModelPlugin) testModel.getPlugin(FBCConstants.shortLabel);
     FBCModelPlugin clonedFbcModel = fbcModel.clone();
     GeneProduct gene = fbcModel.createGeneProduct();
     gene.addExtension(FBCConstants.shortLabel, clonedFbcModel); 
@@ -107,15 +115,6 @@ public class SetParentTest {
     assertTrue((testListener.getCounter() == (fireCount + 4)) == true); 
   }
 
-  @Test
-  public void addChildEventTest() {
-    //TODO
-  }
-
-  @Test
-  public void removeChildEventTest() {
-    //TODO
-  }
   
   //modified TreeNodeChangeListener to provide specific testcases
   private class TreeNodeCustom implements TreeNodeChangeListener{
