@@ -697,6 +697,11 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   @Override
   public int hashCode();
+  
+  /**
+   * Returns {@code true} if the given extension exists in the model
+   */
+  public boolean hasExtension(String extName);
 
   /**
    * Returns {@code true} if the {@link Annotation} RDF 'about' attribute
