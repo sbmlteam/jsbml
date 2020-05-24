@@ -1837,6 +1837,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /*
    * (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#hasExtension(java.lang.String)
+   */
+  @Override
+  public boolean hasExtension(String extName) {
+    return this.getExtension(extName) != null;
+  }
+  
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.SBase#hasValidAnnotation()
    */
   @Override

@@ -42,11 +42,22 @@ import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.History;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.arrays.ArraysConstants;
+import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
+import org.sbml.jsbml.ext.arrays.Dimension;
+import org.sbml.jsbml.ext.comp.CompConstants;
+import org.sbml.jsbml.ext.comp.CompModelPlugin;
+import org.sbml.jsbml.ext.comp.Submodel;
+import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLToken;
 import org.sbml.jsbml.xml.XMLTriple;
+
+
 
 /**
  * Tests for the {@link SBase} class, mainly about manipulation of 'notes' {@link XMLNode} and {@link CVTerm}.
@@ -55,6 +66,7 @@ import org.sbml.jsbml.xml.XMLTriple;
  * @author Akiya Jouraku
  * @author Ben Bornstein
  * @author David Vetter
+ * @author Onur &Ouml;zel
  * @since 1.0
  */
 public class TestSBase {
@@ -1340,6 +1352,41 @@ public class TestSBase {
     assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(taggednewnotes2.equals(notes4));
+  }
+  
+  /**
+   * Verifies behavior of checking the specific extensions.
+   */
+  @Test public void test_SBase_hasExtension() {
+    
+    CompModelPlugin compModel = (CompModelPlugin) sbase.getPlugin(CompConstants.shortLabel);
+    LayoutModelPlugin layoutModel = (LayoutModelPlugin) sbase.getPlugin(LayoutConstants.shortLabel);
+    Model sbase2 = new Model(1,1);
+    ArraysSBasePlugin arraysModel = (ArraysSBasePlugin) sbase2.getPlugin(ArraysConstants.shortLabel);
+    
+    CompModelPlugin clonedCompModel = compModel.clone();
+    Submodel sm1 = compModel.createSubmodel("submodel1");
+    sm1.addExtension(CompConstants.shortLabel, clonedCompModel);
+    
+    LayoutModelPlugin clonedLayoutModel = layoutModel.clone();
+    Layout layout = layoutModel.createLayout("layout1");
+    layout.addExtension(LayoutConstants.shortLabel, clonedLayoutModel);
+    
+    ArraysSBasePlugin clonedArraysModel = arraysModel.clone();
+    Dimension dim = arraysModel.createDimension();
+    dim.addExtension(ArraysConstants.shortLabel, clonedArraysModel);
+    
+    assertTrue(sm1.hasExtension(CompConstants.shortLabel) == true);
+    assertTrue(sm1.hasExtension(LayoutConstants.shortLabel) == false);
+    assertTrue(sm1.hasExtension(ArraysConstants.shortLabel) == false);
+    
+    assertTrue(layout.hasExtension(CompConstants.shortLabel) == false);
+    assertTrue(layout.hasExtension(LayoutConstants.shortLabel) == true);
+    assertTrue(layout.hasExtension(ArraysConstants.shortLabel) == false);
+    
+    assertTrue(dim.hasExtension(CompConstants.shortLabel) == false);
+    assertTrue(dim.hasExtension(LayoutConstants.shortLabel) == false);
+    assertTrue(dim.hasExtension(ArraysConstants.shortLabel) == true);
   }
 
 
