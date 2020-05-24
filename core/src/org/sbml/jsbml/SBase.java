@@ -699,7 +699,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public int hashCode();
   
   /**
-   * Returns {@code true} if the given extension exists in the model
+   * Returns {@code true} if the given extension exists in this {@link SBase} instance.
    */
   public boolean hasExtension(String extName);
 

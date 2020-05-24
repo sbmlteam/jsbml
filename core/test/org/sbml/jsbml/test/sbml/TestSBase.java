@@ -1355,8 +1355,7 @@ public class TestSBase {
   }
   
   /**
-   * Verifies behavior of checking the extension when also 
-   * an other model is involved.   
+   * Verifies behavior of checking the specific extensions.
    */
   @Test public void test_SBase_hasExtension() {
     
@@ -1377,13 +1376,11 @@ public class TestSBase {
     Dimension dim = arraysModel.createDimension();
     dim.addExtension(ArraysConstants.shortLabel, clonedArraysModel);
     
-    //dim is using different model for its extension so it is separated
-    //from the other packages and therefore should not behave the same
     assertTrue(sm1.hasExtension(CompConstants.shortLabel) == true);
-    assertTrue(sm1.hasExtension(LayoutConstants.shortLabel) == true);
+    assertTrue(sm1.hasExtension(LayoutConstants.shortLabel) == false);
     assertTrue(sm1.hasExtension(ArraysConstants.shortLabel) == false);
     
-    assertTrue(layout.hasExtension(CompConstants.shortLabel) == true);
+    assertTrue(layout.hasExtension(CompConstants.shortLabel) == false);
     assertTrue(layout.hasExtension(LayoutConstants.shortLabel) == true);
     assertTrue(layout.hasExtension(ArraysConstants.shortLabel) == false);
     
