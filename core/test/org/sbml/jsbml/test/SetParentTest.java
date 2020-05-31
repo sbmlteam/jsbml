@@ -18,6 +18,15 @@ import org.sbml.jsbml.ext.fbc.GeneProduct;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 
+/**
+ * 
+ * @author Onur &Ouml;zel		
+ * @since 1.5
+ */
+
+//TODO this is the current situation before unifying 
+//setParent, setParentSBML, setParentSBMLObject to a single method
+//after unifying this testclass should be updated 
 public class SetParentTest {
 
   private SBMLDocument doc;
@@ -81,11 +90,11 @@ public class SetParentTest {
   
   //TODO firePropertyChange and TreeNodeChangeLister seem to use different information 
   //test if the correct events are fired, in particular if adding/removing nodes
-  //and manipulating attributes use different events like they should
+  //and manipulating attributes use separate events like they should
   @Test
   public void correctEventTest() throws XMLStreamException {
     TreeNodeCustom testListener = new TreeNodeCustom();
-    //doc.addTreeNodeChangeListener(testListener);
+    doc.addTreeNodeChangeListener(testListener);
 
     //current count of fired events will be tested against new values 
     //after firing single events to guarantee that only one event is fired at a time
@@ -117,6 +126,8 @@ public class SetParentTest {
 
   
   //modified TreeNodeChangeListener to provide specific testcases
+  //it provides ability to check which event was fired the last time 
+  //and also a counter to check if only one event gets fired at a time 
   private class TreeNodeCustom implements TreeNodeChangeListener{
     private String lastFired = "";
     private int counter = 0; 
