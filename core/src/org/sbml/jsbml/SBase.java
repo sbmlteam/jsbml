@@ -700,6 +700,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   
   /**
    * Returns {@code true} if the given extension exists in this {@link SBase} instance.
+   * @see #isSetPlugin(String)
    */
   public boolean hasExtension(String extName);
 

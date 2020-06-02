@@ -1841,7 +1841,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public boolean hasExtension(String extName) {
-    return this.getExtension(extName) != null;
+    return isSetPlugin(extName);
   }
   
   /*
