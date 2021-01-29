@@ -3,7 +3,7 @@ JSBML
 
 <img align="right" src="doc/common/logo/jsbml_logo_200px.png"> JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams. It is an alternative to the mixed Java/native code-based interface provided in libSBML. 
 
-[![License](http://img.shields.io/:license-LGPL-blue.svg?style=plastic)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) [![Stable version](https://github.com/sbmlteam/jsbml/releases/tag/v1.5-zenodo)](http://shields.io)
+[![License](http://img.shields.io/:license-LGPL-blue.svg?style=plastic)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html) [![Stable version](https://img.shields.io/badge/Stable_version-1.5-brightgreen.svg?style=plastic)](https://github.com/sbmlteam/jsbml/releases/tag/v1.5-zenodo)
 [![DOI](http://img.shields.io/badge/DOI-10.1093%20%2F%20bioinformatics%20%2F%20btv341-blue.svg?style=plastic)](https://doi.org/10.1093/bioinformatics/btv341)
 
 ----
