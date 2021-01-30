@@ -918,6 +918,15 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       for (XMLNode bqmodelNode : bqmodelNodes)
       {
         XMLNode bagNode = bqmodelNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
+        
+        if (bagNode == null) {
+          // something is wrong, going directly to the next bqmodelNode
+          if (logger.isDebugEnabled()) {
+            logger.debug("Did not found any valid children for " + bqmodelNode);
+          }
+          continue;          
+        }
+        
         List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
         List<String> resources = new ArrayList<String>();
 
@@ -988,6 +997,15 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       for (XMLNode bqbiolNode : bqbiolNodes)
       {
         XMLNode bagNode = bqbiolNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
+
+        if (bagNode == null) {
+          // something is wrong, going directly to the next bqbiolNode
+          if (logger.isDebugEnabled()) {
+            logger.debug("Did not found any valid children for " + bqbiolNode);
+          }
+          continue;          
+        }
+        
         List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
         List<String> resources = new ArrayList<String>();
 
