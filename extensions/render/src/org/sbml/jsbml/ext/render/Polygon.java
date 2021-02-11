@@ -268,8 +268,8 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
    * 
    * @return a new {@link RenderCubicBezier} instance
    */
-  public RenderPoint createRenderCubicBezier() {
-    RenderPoint element = new RenderCubicBezier();
+  public RenderCubicBezier createRenderCubicBezier() {
+    RenderCubicBezier element = new RenderCubicBezier();
     addElement(element);
     return element;
   }
