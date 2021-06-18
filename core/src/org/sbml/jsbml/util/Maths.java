@@ -296,10 +296,21 @@ public class Maths {
    * @return the rootExponent-th root of the radiant
    */
   public static final double root(double radiant, double rootExponent) {
-    if (rootExponent != 0) {
-      return Math.pow(radiant, 1 / rootExponent);
+    if (rootExponent == 0d) {
+      throw new ArithmeticException("Root exponent must not be zero.");
     }
-    throw new ArithmeticException("Root exponent must not be zero.");
+    else if(rootExponent == 1d) {
+      return radiant;
+    }
+    else if(rootExponent == 2d) {
+      return Math.sqrt(radiant);
+    }
+    else if(rootExponent == 3d) {
+      return Math.cbrt(radiant);
+    }
+    else {
+      return Math.pow(radiant, 1d / rootExponent);
+    }
   }
 
   /**

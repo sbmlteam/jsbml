@@ -1041,8 +1041,8 @@ public class Unit extends AbstractSBase implements UniqueSId {
 
   /**
    * Merges two {@link Unit} objects with the same 'kind' attribute value into a
-   * single {@link Unit}.
-   * 
+   * single {@link Unit}. Java Implementation of the corresponding C++ method in LibSBML
+   *
    * @param unit1
    *            the first {@link Unit} object; the result of the operation is left as
    *            a new version of this {@link Unit}, modified in-place.
@@ -1050,159 +1050,34 @@ public class Unit extends AbstractSBase implements UniqueSId {
    *            the second {@link Unit} object to merge with the first
    */
   public static void merge(Unit unit1, Unit unit2) {
-    Kind k1 = unit1.getKind();
-    Kind k2 = unit2.getKind();
-    boolean equivalent = Kind.areEquivalent(k1, k2);
-    if (equivalent || unit1.isDimensionless() || unit2.isDimensionless()) {
-      int s1 = unit1.getScale(), s2 = unit2.getScale();
-      /*
-       * Let's get rid of this offset if there is any...
-       * 
-       * We remove the offset by expressing it within a new multiplier,
-       * m-prime.
-       * 
-       * m-prime = offset / 10^scale + multiplier
-       * 
-       * When inserting this again into the unit formula, the offset
-       * vanishes:
-       * 
-       * ((offset + multiplier * 10^scale) * unit)^exponent
-       * 
-       * then becomes
-       * 
-       * (m-prime * 10^scale * unit)^exponent
-       * 
-       * This is possible because offset and multiplier are real double numbers.
-       */
-      double m1 = unit1.getOffset() / Math.pow(10, s1) + unit1.getMultiplier();
-      double m2 = unit2.getOffset() / Math.pow(10, s2) + unit2.getMultiplier();
-      double e1 = k1 == Kind.DIMENSIONLESS
-          && unit1.getExponent() != 0d ? 0d : unit1.getExponent();
-      double e2 = k2 == Kind.DIMENSIONLESS
-          && unit2.getExponent() != 0d ? 0d : unit2.getExponent();
-      if (unit1.getOffset() != 0d) {
-        unit1.setOffset(0d);
-      }
 
-      double newScale = s1;
-      double newMultiplier = m1;
-      double newExponent = e1 + e2;
+    double newExponent;
+    double newMultiplier;
 
-      /*
-       * Note how we combine units:
-       * ==========================
-       * 
-       * We have (m_1 * 10^{s_1} * u)^e_1 and (m_2 * 10^{s_2} * u)^e_2
-       * 
-       * m, s, e denoting multiplier, scale and exponent for each unit.
-       * u is either of identical kind or dimensionless or invalid.
-       * 
-       * The merged unit is:
-       * 
-       * (m_1^{e_1/(e_1 + e_2)} * m_2^{e_2/(e_1 + e_2)} * 10^{(s_1 * e_1 + s_2 * e_2)/(e_1 + e_2)} * u)^{e_1 + e_2}
-       * 
-       * Special cases occur if s_1 or s_2 equal 0.
-       * 
-       * It is important to know that the scale must be an integer. Hence, if the
-       * fraction (s_1 * e_1 + s_2 * e_2)/(e_1 + e_2) is not exactly an integer,
-       * we have to merge the scale with the multiplier and set the scale to 0.
-       * 
-       * Also note that the exponent of a dimensionless unit must be one,
-       * even if it is the result of a cancellation of two other units, i.e.,
-       * it should actually be 0.
-       */
+    Kind kind1 = unit1.getKind();
+    Kind kind2 = unit2.getKind();
 
-      if (newExponent != 0d) {
+    // Adapt unit kinds if necessary
+    if (kind1 == Kind.METER) {
+      unit1.setKind(Kind.METRE);
+    } else if (kind1 == Kind.LITER) {
+      unit1.setKind(Kind.LITRE);
+    }
+    if (kind2 == Kind.METER) {
+      unit2.setKind(Kind.METRE);
+    } else if (kind2 == Kind.LITER) {
+      unit2.setKind(Kind.LITRE);
+    }
 
-        /*
-         * Now that we know how the new exponent must look like we have to reset
-         * exponents of dimensionless units as these are defined. Otherwise
-         * scales and multipliers might get lost.
-         */
-        if (k1 == Kind.DIMENSIONLESS) {
-          e1 = unit1.getExponent();
-        }
-        if (k2 == Kind.DIMENSIONLESS) {
-          e2 = unit2.getExponent();
-        }
 
-        if (m1 != m2) {
-          newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1d / newExponent);
-        }
-
-        if (s1 != s2) {
-
-          double ns = Double.NaN;
-
-          if (s1 == 0) {
-            ns = s2 * e2 / newExponent;
-          } else if (s2 == 0) {
-            ns = s1 * e1 / newExponent;
-          } else if ((e1 != 0d) && (1 + e2 != 0d)) {
-            // factored out e_1 from (s_1 * e_1 + s_2 * e_2)/(e_1 + e_2)
-            // for a simpler computation:
-            ns = (s1 + e2 * s2 / e1) / (1 + e2 / e1);
-          }
-
-          if (Maths.isInt(ns)) {
-            newScale = ns;
-          } else {
-            /*
-             * If rounding fails, we have to remove the scale and shift it to
-             * the multiplier. Otherwise, it would be too inaccurate.
-             *
-             *
-             * This is a bit ugly, but there's no other choice,
-             * because the scale can only be an integer number. This
-             * is the method from libSBML:
-             */
-            removeScale(unit1);
-            removeScale(unit2);
-            newScale = 0d;
-            newExponent = unit1.getExponent() + unit2.getExponent();
-            if (newExponent == 0d) {
-              newMultiplier = 1d;
-            } else if (unit1.getMultiplier() != unit2.getMultiplier()) {
-              m1 = unit1.getMultiplier();
-              m2 = unit2.getMultiplier();
-              e1 = unit1.getExponent();
-              e2 = unit2.getExponent();
-              newMultiplier = Math.pow(Math.pow(m1, e1) * Math.pow(m2, e2), 1d / newExponent);
-            }
-          }
-        }
-
-        // Adapt unit kind if necessary
-        if (k1 == Kind.METER) {
-          unit1.setKind(Kind.METRE);
-        } else if (k1 == Kind.LITER) {
-          unit1.setKind(Kind.LITRE);
-        }
-
-      } else {
-        /*
-         * If the unit has become dimentionless, mark it accordingly
-         * However, we must keep scale and multiplier even in dimensionless
-         * units because these could become important in later operations.
-         */
-        newMultiplier = Math.pow(m1, e1) * Math.pow(m2, e2); // 1d;
-        newScale = s1 * e1 + s2 * e2; // 0d;
-        newExponent = 1d;
-        unit1.setKind(Kind.DIMENSIONLESS);
-      }
-
-      unit1.setMultiplier(newMultiplier);
-      unit1.setScale((int) newScale);
-      unit1.setExponent(newExponent);
-
-    } else if (k1.equals(Kind.INVALID) || k2.equals(Kind.INVALID)) {
+    // If one of the units are invalid then an invalid unit is returned with the parameters
+    // of
+    if(unit1.getKind().equals(Kind.INVALID) || unit2.getKind().equals(Kind.INVALID)) {
 
       // The resulting units is always invalid
       unit1.setKind(Kind.INVALID);
-      
-      // TODO - just set all other attributes to their default for invalid units ?
-      
-      if (!k2.equals(Kind.INVALID)) {
+
+      if (!unit2.getKind().equals(Kind.INVALID)) {
         if (unit2.isSetOffset) {
           unit1.setOffset(unit2.getOffset());
         }
@@ -1210,13 +1085,57 @@ public class Unit extends AbstractSBase implements UniqueSId {
         unit1.setScale(unit2.getScale());
         unit1.setExponent(unit2.getExponent());
       }
-    } else {
-      throw new IllegalArgumentException(MessageFormat.format(
-        "Cannot merge units with different kind properties {0} and {1}. Units can only be merged if both have the same kind attribute or if one of them is dimensionless.",
-        k1, k2));
+
+      return;
     }
-    // Try to shift multipliers into the scale for easier mathematical treatment of the units:
-    unit1.removeMultiplier();
+
+    // If units are not invalid but not of same kind don't merge
+    if(!unit1.getKind().equals(unit2.getKind())) {
+      return;
+    }
+
+
+    newExponent = unit1.getExponent() + unit2.getExponent();
+
+    double unit1Multi = unit1.getMultiplier();
+    double unit2Multi = unit2.getMultiplier();
+
+    // Merge offset into multiplier
+    unit1.removeOffset();
+    unit2.removeOffset();
+
+    // Merge scale into multiplier
+    unit1.removeScale();
+    unit2.removeScale();
+
+    // If we are merging units where 1 exponent was zero
+    // but we had a multiplier that was not 1
+    // need to preserve that multiplier
+
+    if(unit1.getExponent() != 0d && unit1.getMultiplier() != 1d) {
+      unit1Multi = Math.pow(unit1.getMultiplier(), unit1.getExponent());
+    }
+
+    if(unit2.getExponent() != 0d && unit2.getMultiplier() != 1d) {
+      unit2Multi = Math.pow(unit2.getMultiplier(), unit2.getExponent());
+    }
+
+    if(newExponent == 0d) {
+
+      // actually we do not want the new multiplier to be 1
+      // there may be a scaling factor in the now dimensionless unit that
+      // needs to propogate thru a units calculation
+      // newMultiplier = 1;
+
+      newMultiplier = unit1Multi * unit2Multi;
+    }
+    else {
+      newMultiplier = Maths.root(unit1Multi * unit2Multi, newExponent);
+    }
+
+    unit1.setScale(0);
+    unit1.setExponent(newExponent);
+    unit1.setMultiplier(newMultiplier);
   }
 
   /**
@@ -2266,8 +2185,8 @@ public class Unit extends AbstractSBase implements UniqueSId {
           setMultiplier(1d);
         } else {
           long round = Math.round(exp);
-          if (Math.abs(round - exp) < 1E-15) {
-            // 1E-15 is an acceptable noise range due to the limitation of doubles to 17 decimal positions.
+          if (Math.abs(round - exp) < 1E-14) {
+            // 1E-14 is an acceptable noise range due to the limitation of doubles to 16 decimal positions.
             setScale(getScale() + ((int) round));
             setMultiplier(1d);
           }
