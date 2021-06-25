@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.*;
+import org.sbml.jsbml.util.Maths;
 
 import java.util.Locale;
 
@@ -42,19 +43,18 @@ public class TestUnitMerging {
 
     @Test
     public void testTwoEmptyUnits() {
-        Unit u1 = new Unit();
-        Unit u2 = new Unit();
-        Unit expUnit = new Unit();
+        Unit u1 = new Unit(levelNormal, versionNormal);
+        Unit u2 = new Unit(levelNormal, versionNormal);
+        Unit expUnit = new Unit(0, Unit.Kind.INVALID, 2, levelNormal, versionNormal);
         Unit.merge(u1, u2);
         assertEquals(expUnit, u1);
     }
 
     @Test
     public void testOneEmptyUnit() {
-        Unit u1 = new Unit(8, -3, Unit.Kind.LITER, 1, levelNormal, versionNormal);
-        Unit u2 = new Unit();
-        Unit expUnit = u1.clone();
-        expUnit.setKind(Unit.Kind.INVALID);
+        Unit u1 = new Unit(4, 0, Unit.Kind.LITER, 1, levelNormal, versionNormal);
+        Unit u2 = new Unit(levelNormal, versionNormal);
+        Unit expUnit = new Unit(2, 0, Unit.Kind.INVALID, 2, levelNormal, versionNormal);
         Unit.merge(u1, u2);
         assertEquals(expUnit, u1);
     }
@@ -77,9 +77,9 @@ public class TestUnitMerging {
      */
     @Test
     public void testOneDimensionless() {
-        Unit u1 = new Unit(1, -3, Unit.Kind.GRAM, 1, levelNormal, versionNormal);
+        Unit u1 = new Unit(1, -2, Unit.Kind.GRAM, 1, levelNormal, versionNormal);
         Unit u2 = new Unit(1, 2, Unit.Kind.DIMENSIONLESS, 1, levelNormal, versionNormal);
-        Unit expUnit = u1.clone();
+        Unit expUnit = new Unit(1, 0, Unit.Kind.GRAM, 2, levelNormal, versionNormal);
         Unit.merge(u1, u2);
         assertEquals(expUnit, u1);
     }
@@ -99,13 +99,12 @@ public class TestUnitMerging {
     /**
      * Tests {@link Unit#merge(Unit, Unit)} with two valid non-dimensionless units of different kind.
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testUnequivalentUnits() {
         Unit u1 = new Unit(1, -7, Unit.Kind.GRAM, 1, levelNormal, versionNormal);
         Unit u2 = new Unit(1, 2, Unit.Kind.LITRE, 1, levelNormal, versionNormal);
         Unit expUnit = u1.clone();
         Unit.merge(u1, u2);
-        assertEquals(expUnit, u1);
     }
 
     /**
@@ -127,9 +126,9 @@ public class TestUnitMerging {
      */
     @Test
     public void testWithOneInvalidUnit() {
-        Unit u1 = new Unit(2, 3, Unit.Kind.INVALID, 1, levelNormal, versionNormal);
+        Unit u1 = new Unit(3, 1, Unit.Kind.INVALID, 1, levelNormal, versionNormal);
         Unit u2 = new Unit(3, 2, Unit.Kind.METRE, -1, levelNormal, versionNormal);
-        Unit expUnit = new Unit(3, 2, Unit.Kind.INVALID, -1, levelNormal, versionNormal);
+        Unit expUnit = new Unit(0.1, 0, Unit.Kind.INVALID, 0, levelNormal, versionNormal);
         Unit.merge(u1, u2);
         assertEquals(expUnit, u1);
     }

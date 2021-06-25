@@ -1069,29 +1069,22 @@ public class Unit extends AbstractSBase implements UniqueSId {
       unit2.setKind(Kind.LITRE);
     }
 
+    kind1 = unit1.getKind();
+    kind2 = unit2.getKind();
+
 
     // If one of the units are invalid then an invalid unit is returned with the parameters
     // of
-    if(unit1.getKind().equals(Kind.INVALID) || unit2.getKind().equals(Kind.INVALID)) {
+    if(kind1.equals(Kind.INVALID) || kind2.equals(Kind.INVALID)) {
 
-      // The resulting units is always invalid
+      // The resulting unit is always invalid
       unit1.setKind(Kind.INVALID);
-
-      if (!unit2.getKind().equals(Kind.INVALID)) {
-        if (unit2.isSetOffset) {
-          unit1.setOffset(unit2.getOffset());
-        }
-        unit1.setMultiplier(unit2.getMultiplier());
-        unit1.setScale(unit2.getScale());
-        unit1.setExponent(unit2.getExponent());
-      }
-
-      return;
     }
-
-    // If units are not invalid but not of same kind don't merge
-    if(!unit1.getKind().equals(unit2.getKind())) {
-      return;
+    // If neither unit is invalid but units are not of same kind don't merge
+    else if(!kind1.equals(kind2) && !(kind1.equals(Kind.DIMENSIONLESS) || kind2.equals(Kind.DIMENSIONLESS))) {
+      throw new IllegalArgumentException(MessageFormat.format(
+              "Cannot merge units with different kind properties {0} and {1}. Units can only be merged if both have the same kind attribute or if one of them is dimensionless or invalid.",
+              unit1.getKind(), unit2.getKind()));
     }
 
 
