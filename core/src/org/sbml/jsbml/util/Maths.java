@@ -290,16 +290,29 @@ public class Maths {
 
   /**
    * Computes the rootExponent-th root of the radiant
+   *
+   * This method originally always used {@link Math#pow(double, double)} with 1/root exponent (if root exponent != 0)
+   * It was changed mainly to obtain more precise results for root exponents of 2 and 3 with their respective methods
+   * in {@link Math} but it also improved runtime if the rootExponent is either 1, 2 or 3.
    * 
    * @param radiant the radiant
    * @param rootExponent the exponent
    * @return the rootExponent-th root of the radiant
    */
   public static final double root(double radiant, double rootExponent) {
-    if (rootExponent != 0) {
-      return Math.pow(radiant, 1 / rootExponent);
+
+    if (rootExponent == 0d) {
+      throw new ArithmeticException("Root exponent must not be zero.");
     }
-    throw new ArithmeticException("Root exponent must not be zero.");
+
+    if (rootExponent == 1d) {
+      return radiant;
+    } else if (rootExponent == 2d) {
+      return Math.sqrt(radiant);
+    } else if (rootExponent == 3d) {
+      return Math.cbrt(radiant);
+    }
+    return Math.pow(radiant, 1d / rootExponent);
   }
 
   /**

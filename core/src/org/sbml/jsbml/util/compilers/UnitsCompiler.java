@@ -1362,7 +1362,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
     }
     ASTNodeValue value = new ASTNodeValue(ud, this);
-    value.setValue(Double.valueOf(Math.pow(radiant.toDouble(), 1d / rootExponent)));
+    value.setValue(Double.valueOf(Maths.root(radiant.toDouble(), rootExponent)));
     return value;
   }
 
