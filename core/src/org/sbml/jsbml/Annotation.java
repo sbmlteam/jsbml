@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -44,7 +44,7 @@ import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser;
  * contains the list of {@link CVTerm} objects, a {@link Map} containing an XML
  * name space and a {@link String} containing all the annotation elements of
  * this name space.
- * 
+ *
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
@@ -63,7 +63,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Returns a {@link String} which represents the given {@link Qualifier}.
-   * 
+   *
    * @param qualifier a {@code Qualifier}
    * @return a {@link String} which represents the given {@link Qualifier}.
    */
@@ -90,7 +90,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * contains all the remaining annotation not mapped to Objects.
-   * 
+   *
    */
   private XMLNode nonRDFannotation;
 
@@ -98,7 +98,7 @@ public class Annotation extends AnnotationElement {
   /**
    * Creates an Annotation instance.<p> By default, the {@link History} and
    * otherAnnotation Strings are {@code null}. The list of {@link CVTerm}s and extensions are empty.
-   * 
+   *
    */
   public Annotation() {
     super();
@@ -109,7 +109,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Creates a new Annotation instance by cloning the given Annotation.
-   * 
+   *
    * @param annotation the annotation to be cloned.
    */
   public Annotation(Annotation annotation) {
@@ -130,7 +130,7 @@ public class Annotation extends AnnotationElement {
    * Creates an {@link Annotation} instance from a list of {@link CVTerm}
    * objects. By default, the {@link History} and otherAnnotation {@link String}s are
    * {@code null}. The {@link Map} extensions is empty.
-   * 
+   *
    * @param cvTerms
    *            the list of {@link CVTerm}.
    */
@@ -143,14 +143,14 @@ public class Annotation extends AnnotationElement {
    * Creates an {@link Annotation} instance from a {@link String} containing non RDF
    * annotation. By default, the {@link History} is null, the list of {@link CVTerm}s
    * is empty. The {@link Map} extensions is empty.
-   * 
+   *
    * @param annotation
    *            a {@link String} containing non RDF annotation, it will be parsed to
    *            create a {@link Map} containing an XML name space associated with a
    *            {@link String} representing all the annotation elements of
    *            this name space.
    * @throws XMLStreamException
-   * 
+   *
    */
   public Annotation(String annotation) throws XMLStreamException {
     // parse the String as an XMLNode
@@ -161,7 +161,7 @@ public class Annotation extends AnnotationElement {
    * Creates an {@link Annotation} instance from a {@link String} containing
    * non RDF annotation and a list of {@link CVTerm}. By default, the
    * {@link History} is {@code null}. The {@link Map} extensions is empty.
-   * 
+   *
    * @param annotation
    *            a {@link String} containing non RDF annotation, it will be
    *            parsed to create a {@link Map} containing an XML name space
@@ -177,7 +177,7 @@ public class Annotation extends AnnotationElement {
   }
 
   /**
-   * 
+   *
    * @param annotation
    */
   public Annotation(XMLNode annotation) {
@@ -187,7 +187,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Adds a {@link CVTerm}.
-   * 
+   *
    * @param cvTerm
    *            the {@link CVTerm} to add.
    * @return {@code true} if the 'cvTerm' element has been added to the {@link List}
@@ -205,12 +205,31 @@ public class Annotation extends AnnotationElement {
   }
 
   /**
+   * Adds all the given resources to the first {@link CVTerm} with the given
+   * {@link Qualifier} or, if no such term exists yet, creates one.
+   *
+   * @param qualifier
+   *        The qualifier to look for or to create a new {@link CVTerm} with.
+   * @param resources
+   *        The resource URIs to be added to this annotation under the given
+   *        {@link Qualifier}.
+   * @return {@code true} if the operation succeeds or {@code false} otherwise.
+   */
+  public boolean addResources(CVTerm.Qualifier qualifier, String... resources) {
+    List<CVTerm> listOfTerms = filterCVTerms(qualifier);
+    if (listOfTerms.isEmpty()) {
+      return addCVTerm(new CVTerm(qualifier, resources));
+    }
+    return listOfTerms.get(0).addResources(resources);
+  }
+
+  /**
    * Adds an additional namespace to the set of declared namespaces of this
    * {@link SBase}.
-   * 
+   *
    * @param prefix the prefix of the namespace to add
    * @param uri the namespace uri
-   * 
+   *
    */
   public void addDeclaredNamespace(String prefix, String uri)
   {
@@ -223,7 +242,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Appends some 'annotation' to the non RDF annotation {@link XMLNode} of this object.
-   * 
+   *
    * @param annotation some non RDF annotations.
    * @throws XMLStreamException
    */
@@ -306,7 +325,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Returns a list of CVTerm having the given qualifier.
-   * 
+   *
    * @param qualifier the qualifier
    * @return a list of CVTerm having the given qualifier, an empty
    * list is returned if no CVTerm are found.
@@ -322,14 +341,14 @@ public class Annotation extends AnnotationElement {
         l.addAll(filterCVTerms(qualifier, term.getListOfNestedCVTerms()));
       }
     }
-    
+
     return l;
   }
 
-  
+
   /**
    * Returns a list of CVTerm having the given qualifier.
-   * 
+   *
    * @param qualifier the qualifier
    * @param terms the list of CVTerm to filter
    * @return a list of CVTerm having the given qualifier, an empty
@@ -346,15 +365,15 @@ public class Annotation extends AnnotationElement {
         l.addAll(filterCVTerms(qualifier, term.getListOfNestedCVTerms()));
       }
     }
-    
+
     return l;
   }
-  
-  
+
+
   /**
    * Returns a list of CVTerm having the given qualifier and
    * where the URI contains the given pattern. The pattern can only be plain text.
-   * 
+   *
    * @param qualifier the qualifier.
    * @param pattern a plain text pattern.
    * @return a list of CVTerm having the given qualifier and
@@ -371,7 +390,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Returns the about String of this object.
-   * 
+   *
    * @return the about String of this object.
    */
   public String getAbout() {
@@ -389,7 +408,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Returns the {@link XMLNode} representing non RDF annotations.
-   * 
+   *
    * @return the {@link XMLNode} representing non RDF annotations.
    * @deprecated
    */
@@ -455,7 +474,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Returns the CVTerm at the ith position in the list of CVTerms.
-   * 
+   *
    * @param i the index of the CVTerm to retrieve.
    * @return the CVTerm at the ith position in the list of CVTerms.
    */
@@ -466,7 +485,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Gives the number of {@link CVTerm}s in this {@link Annotation}.
-   * 
+   *
    * @return the number of controlled vocabulary terms in this {@link Annotation}.
    */
   public int getCVTermCount() {
@@ -474,7 +493,7 @@ public class Annotation extends AnnotationElement {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public XMLNamespaces getDeclaredNamespaces() {
@@ -482,8 +501,8 @@ public class Annotation extends AnnotationElement {
   }
 
   /**
-   * 
-   * 
+   *
+   *
    * @return
    */
   public XMLNode getFullAnnotation() {
@@ -509,8 +528,8 @@ public class Annotation extends AnnotationElement {
 
 
   /**
-   * 
-   * 
+   *
+   *
    * @return
    */
   public String getFullAnnotationString() {
@@ -535,7 +554,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Returns the {@link History} of the Annotation.
-   * 
+   *
    * @return the {@link History} of the Annotation.
    */
   public History getHistory() {
@@ -548,7 +567,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Returns the list of CVTerms. If they are no CVTerm, an empty list is returned.
-   * 
+   *
    * @return the list of CVTerms.
    */
   public List<CVTerm> getListOfCVTerms() {
@@ -561,7 +580,7 @@ public class Annotation extends AnnotationElement {
   /**
    * Returns the {@link XMLNode} containing annotations other than
    * the official RDF annotation, as defined in the SBML specifications.
-   * 
+   *
    * @return the {@link XMLNode} containing annotations other than RDF
    *         annotation. Return null if there are none.
    */
@@ -575,7 +594,7 @@ public class Annotation extends AnnotationElement {
   /**
    * Returns the String containing annotations other than RDF
    *         annotation.
-   * 
+   *
    * @return the String containing annotations other than RDF
    *         annotation. Return null if there are none.
    */
@@ -592,7 +611,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Gives the number of {@link CVTerm}s in this {@link Annotation}.
-   * 
+   *
    * @return the number of controlled vocabulary terms in this {@link Annotation}.
    * @libsbml.deprecated use {@link #getCVTermCount()}
    */
@@ -602,7 +621,7 @@ public class Annotation extends AnnotationElement {
 
 
   /**
-   * 
+   *
    * @return
    */
   public XMLNode getXMLNode() {
@@ -610,7 +629,7 @@ public class Annotation extends AnnotationElement {
   }
 
   /**
-   * 
+   *
    * @param nonRDFannotation
    */
   public void setXMLNode(XMLNode nonRDFannotation) {
@@ -634,7 +653,7 @@ public class Annotation extends AnnotationElement {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public boolean isEmpty() {
@@ -645,7 +664,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Checks whether the 'about' element has been initialized.
-   * 
+   *
    * @return {@code true} if the 'about' element has been initialized.
    */
   public boolean isSetAbout() {
@@ -655,7 +674,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Checks if the {@link Annotation} is initialized.
-   * 
+   *
    * <p>An {@link Annotation} is initialized if
    * at least one of the following is true:
    * <ul>
@@ -663,7 +682,7 @@ public class Annotation extends AnnotationElement {
    * <li> one or more {@link CVTerm} are defined
    * <li> there is an history defined.
    * </ul>
-   * 
+   *
    * @return {@code true} if the Annotation is initialized
    */
   public boolean isSetAnnotation() {
@@ -677,7 +696,7 @@ public class Annotation extends AnnotationElement {
     {
 
       for (int i = 0; i < getListOfCVTerms().size(); i++) {
-        if ((getCVTerm(i) != null) && getCVTerm(i).getResourceCount() > 0) {
+        if ((getCVTerm(i) != null) && (getCVTerm(i).getResourceCount() > 0)) {
           return true;
         }
       }
@@ -687,16 +706,16 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Checks if the {@link History} is initialized
-   * 
+   *
    * @return {@code true} if the {@link History} is initialized
    */
   public boolean isSetHistory() {
-    return history != null && !history.isEmpty();
+    return (history != null) && !history.isEmpty();
   }
 
   /**
    * Checks if the list of {@link CVTerm} is not empty.
-   * 
+   *
    * @return {@code true} if there is one or more {@link CVTerm} defined.
    */
   public boolean isSetListOfCVTerms() {
@@ -705,11 +724,11 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Checks if the non RDF part of the Annotation is initialized.
-   * 
+   *
    * <p>An Annotation is initialized if
    *  there is some non RDF annotation
    * <p>
-   * 
+   *
    * @return {@code true} if the non RDF part of the Annotation is initialized.
    */
   public boolean isSetNonRDFannotation() {
@@ -723,7 +742,7 @@ public class Annotation extends AnnotationElement {
   /**
    * Returns {@code true} if there is some non RDF annotation.
    * <p>Same as {@link #isSetNonRDFannotation()}
-   * 
+   *
    * @return {@code true} if there is some non RDF annotation.
    * @see #isSetNonRDFannotation()
    * @deprecated please use {@link #isSetNonRDFannotation()}
@@ -736,7 +755,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Checks if the RDF part of the Annotation is initialized.
-   * 
+   *
    * <p>An Annotation is initialized if
    * at least one of the following is true:
    * <ul>
@@ -744,7 +763,7 @@ public class Annotation extends AnnotationElement {
    * <li> there is an history defined.
    * </ul>
    * <p>
-   * 
+   *
    * @return {@code true} if the RDF part of the Annotation is initialized
    */
   public boolean isSetRDFannotation() {
@@ -764,7 +783,7 @@ public class Annotation extends AnnotationElement {
   /**
    * Sets the about instance of this object if the attributeName is equal to
    * 'about'.
-   * 
+   *
    * @param attributeName the attribute name.
    * @param prefix the attribute prefix.
    * @param value the attribute value.
@@ -782,7 +801,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Removes the given {@link CVTerm}.
-   * 
+   *
    * @param cvTerm the {@link CVTerm} to remove
    * @return true if the {@link CVTerm} was successfully removed.
    */
@@ -802,7 +821,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Removes the {@link CVTerm} at the given index.
-   * 
+   *
    * @param index the index
    * @return the removed {@link CVTerm}.
    * @throws IndexOutOfBoundsException  if the index is out of range (index &lt; 0 || index &gt;= size())
@@ -821,7 +840,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Sets the value of the about String of this object.
-   * 
+   *
    * @param about the about String to set.
    */
   public void setAbout(String about) {
@@ -832,7 +851,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Changes the {@link History} instance to 'history'
-   * 
+   *
    * @param history the history to set.
    */
   public void setHistory(History history) {
@@ -845,7 +864,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Sets the value of the non RDF annotations
-   * 
+   *
    * @param nonRDFAnnotationStr
    * @throws XMLStreamException
    */
@@ -857,7 +876,7 @@ public class Annotation extends AnnotationElement {
 
   /**
    * Sets the value of the non RDF annotations
-   * 
+   *
    * @param nonRDFAnnotation
    */
   public void setNonRDFAnnotation(XMLNode nonRDFAnnotation) {
