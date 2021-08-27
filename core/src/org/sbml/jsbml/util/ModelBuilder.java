@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -20,6 +20,7 @@
 package org.sbml.jsbml.util;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
@@ -39,11 +40,29 @@ import org.sbml.jsbml.text.parser.ParseException;
 /**
  * This class provides a collection of convenient methods to create SBML models
  * and documents.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @since 1.0
  */
 public class ModelBuilder {
+
+  /**
+   * Default time unit in constraint-based modeling (CBM), 3,600 seconds.
+   */
+  public static final String HOUR = "hour";
+  /**
+   * Typical size scale of a cell, hence needed as default volume unit in CBM.
+   */
+  public static final String F_L = "fL";
+  /**
+   * Millimoles per gram of dry weight of a probe, used as extend units of
+   * reactions.
+   */
+  public static final String MMOL_PER_G_DW = "mmol_per_gDW";
+  /**
+   * Extend units per time unit, millimoles per gram of dry weight.
+   */
+  public static final String MMOL_PER_G_DW_PER_HR = "mmol_per_gDW_per_hr";
 
   /**
    * @param reaction
@@ -72,7 +91,7 @@ public class ModelBuilder {
   /**
    * A convenient method to create multiple modifiers in one single step by
    * passing the {@link Species} along with its role (SBO term) to this method.
-   * 
+   *
    * @param reaction
    *        The {@link Reaction} for which modifiers are to be created.
    * @param modifiers
@@ -96,7 +115,7 @@ public class ModelBuilder {
   /**
    * This builds multiple reaction participants in one step and adds them to
    * the given list of {@link SpeciesReference}s.
-   * 
+   *
    * @param listOf
    *        where to add new {@link SpeciesReference}
    * @param participants
@@ -125,7 +144,7 @@ public class ModelBuilder {
    * stoichiometry in one step. If the level is three or beyond, the constant
    * attributes of the newly created products are set to {@code true} for
    * convenience (as this is a required attribute).
-   * 
+   *
    * @param reaction
    *        the {@link Reaction} for which products are to be created.
    * @param products
@@ -143,7 +162,7 @@ public class ModelBuilder {
    * stoichiometry in one step. If the level is three or beyond, the constant
    * attributes of the newly created reactants are set to {@code true} for
    * convenience (as this is a required attribute).
-   * 
+   *
    * @param reaction
    *        the {@link Reaction} for which reactants are to be created.
    * @param reactants
@@ -158,7 +177,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param parent
    * @param multiplier
    * @param scale
@@ -174,31 +193,22 @@ public class ModelBuilder {
     return unit;
   }
 
-  public Unit buildUnit(double multiplier, int scale, Kind kind, double exponent) {
-    Unit unit = new Unit(doc.getLevel(), doc.getVersion());
-    unit.setKind(kind);
-    unit.setMultiplier(multiplier);
-    unit.setScale(scale);
-    unit.setExponent(exponent);
-    return unit;
-  }
-
   /**
-   * 
+   *
    */
   private SBMLDocument doc;
 
   /**
    * @param level
    * @param version
-   * 
+   *
    */
   public ModelBuilder(int level, int version) {
     this(new SBMLDocument(level, version));
   }
 
   /**
-   * 
+   *
    * @param doc
    */
   public ModelBuilder(SBMLDocument doc) {
@@ -206,7 +216,31 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   * Creates the default units needed in a constraint-based modeling context
+   */
+  public void buildCBMunits() {
+    // TODO: Localize!
+    Unit h = buildUnit(3600d, 0, Unit.Kind.SECOND, 1d);
+    Unit fL = buildUnit(1d, -3, Unit.Kind.LITRE, 1d);
+    Unit mmol = buildUnit(1d, -3, Unit.Kind.MOLE, 1d);
+    Unit perGDW = buildUnit(1d, 0, Unit.Kind.GRAM, -1d);
+    UnitDefinition hour = buildUnitDefinition(HOUR, HOUR, h.clone());
+    hour.setMetaId("meta_" + hour.getId());
+    hour.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "https://identifiers.org/UO:0000032"));
+    UnitDefinition femtoLitres = buildUnitDefinition(F_L, "femto litres", fL.clone());
+    femtoLitres.setMetaId("meta_" + femtoLitres.getId());
+    femtoLitres.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "https://identifiers.org/UO:0000104"));
+    Model m = getModel();
+    m.setTimeUnits(hour.getId());
+    m.setVolumeUnits(femtoLitres.getId());
+    m.setExtentUnits(buildUnitDefinition(MMOL_PER_G_DW, "millimoles per gram dry weight", mmol.clone(), perGDW.clone()));
+    m.setSubstanceUnits(m.getExtentUnits());
+    h.setExponent(-1d);
+    buildUnitDefinition(MMOL_PER_G_DW_PER_HR, "millimoles per gram dry weight per hour", mmol.clone(), perGDW.clone(), h);
+  }
+
+  /**
+   *
    * @param id
    * @param constant
    * @param name
@@ -229,7 +263,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param constant
    * @param name
@@ -243,7 +277,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param constant
    * @param name
@@ -257,7 +291,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @return
@@ -269,7 +303,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @param value
@@ -287,7 +321,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @param value
@@ -300,7 +334,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @param value
@@ -313,7 +347,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @param compartment
@@ -326,7 +360,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @param compartment
@@ -347,7 +381,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @param compartment
@@ -366,7 +400,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @param compartment
@@ -385,7 +419,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @param compartment
@@ -404,7 +438,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param name
    * @param compartmentId
@@ -431,8 +465,17 @@ public class ModelBuilder {
     return s;
   }
 
+  public Unit buildUnit(double multiplier, int scale, Kind kind, double exponent) {
+    Unit unit = new Unit(doc.getLevel(), doc.getVersion());
+    unit.setKind(kind);
+    unit.setMultiplier(multiplier);
+    unit.setScale(scale);
+    unit.setExponent(exponent);
+    return unit;
+  }
+
   /**
-   * 
+   *
    * @param id
    * @param name
    * @return
@@ -450,7 +493,7 @@ public class ModelBuilder {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public Model getModel() {
