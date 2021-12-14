@@ -224,15 +224,16 @@ public class ModelBuilder {
     Unit fL = buildUnit(1d, -3, Unit.Kind.LITRE, 1d);
     Unit mmol = buildUnit(1d, -3, Unit.Kind.MOLE, 1d);
     Unit perGDW = buildUnit(1d, 0, Unit.Kind.GRAM, -1d);
+
+    mmol.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "https://identifiers.org/UO:0000040"));
+    h.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "https://identifiers.org/UO:0000032"));
+    fL.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "https://identifiers.org/UO:0000104"));
+
     UnitDefinition hour = buildUnitDefinition(HOUR, HOUR, h.clone());
-    hour.setMetaId("meta_" + hour.getId());
-    hour.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "https://identifiers.org/UO:0000032"));
-    UnitDefinition femtoLitres = buildUnitDefinition(F_L, "femto litres", fL.clone());
-    femtoLitres.setMetaId("meta_" + femtoLitres.getId());
-    femtoLitres.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "https://identifiers.org/UO:0000104"));
+    UnitDefinition femtoLitre = buildUnitDefinition(F_L, "femtolitre", fL.clone());
     Model m = getModel();
     m.setTimeUnits(hour.getId());
-    m.setVolumeUnits(femtoLitres.getId());
+    m.setVolumeUnits(femtoLitre.getId());
     m.setExtentUnits(buildUnitDefinition(MMOL_PER_G_DW, "millimoles per gram dry weight", mmol.clone(), perGDW.clone()));
     m.setSubstanceUnits(m.getExtentUnits());
     h.setExponent(-1d);
