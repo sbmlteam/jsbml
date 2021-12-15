@@ -9,6 +9,7 @@ JSBML
 ![Download count](https://img.shields.io/github/downloads/sbmlteam/jsbml/total.svg?style=plastic)
 [![Build Status](https://img.shields.io/travis/com/sbmlteam/jsbml.svg?style=plastic)](https://travis-ci.com/sbmlteam/jsbml)
 [![Stable version](https://img.shields.io/badge/Stable_version-1.5-brightgreen.svg?style=plastic)](https://github.com/sbmlteam/jsbml/releases/tag/v1.5-zenodo)
+[![Maven Central](https://img.shields.io/maven-central/v/org.sbml.jsbml/jsbml?version=1.5?label=Maven%20Central&style=plastic)](https://search.maven.org/search?q=jsbml)
 [![DOI](http://img.shields.io/badge/DOI-10.1093%20%2F%20bioinformatics%20%2F%20btv341-blue.svg?style=plastic)](https://doi.org/10.1093/bioinformatics/btv341)
 
 ----
