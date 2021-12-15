@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-
-    This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
-    for the latest version of JSBML and more information about SBML.
-
-    Copyright (C) 2009-2022 jointly by the following organizations:
-    1. The University of Tuebingen, Germany
-    2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
-    3. The California Institute of Technology, Pasadena, CA, USA
-    4. The University of California, San Diego, La Jolla, CA, USA
-    5. The Babraham Institute, Cambridge, UK
-
-    This library is free software; you can redistribute it and/or modify it
-    under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation. A copy of the license agreement is provided
-    in the file named "LICENSE.txt" included with this software distribution
-    and also available online as http://sbml.org/Software/JSBML/License.
-
+  
+  This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
+  for the latest version of JSBML and more information about SBML.
+  
+  Copyright (C) 2009-2022 jointly by the following organizations:
+  1. The University of Tuebingen, Germany
+  2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+  3. The California Institute of Technology, Pasadena, CA, USA
+  4. The University of California, San Diego, La Jolla, CA, USA
+  5. The Babraham Institute, Cambridge, UK
+  
+  This library is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation. A copy of the license agreement is provided
+  in the file named "LICENSE.txt" included with this software distribution
+  and also available online as http://sbml.org/Software/JSBML/License.
+  
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -25,11 +25,17 @@
   <artifactId>jsbml-parent</artifactId>
   <version>1.6-SNAPSHOT</version>
   <packaging>pom</packaging>
+  
+  
+  <!-- =================================================================== -->
+  <!-- General project information                                         -->
+  <!-- =================================================================== -->
+  
   <name>JSBML</name>
   <inceptionYear>2009</inceptionYear>
   <description>JSBML is a community-driven project to create a free, open-source, pure Java library for reading, writing, and manipulating SBML files and data streams.</description>
   <url>http://www.sbml.org/Software/JSBML</url>
-
+  
   <licenses>
     <license>
       <name>LGPL License</name>
@@ -40,7 +46,31 @@
       <url>http://sbml.org/Software/JSBML/License</url>
     </license>
   </licenses>
-
+  
+  <issueManagement>
+    <url>https://github.com/sbmlteam/jsbml/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <jsbml.version>${project.version}</jsbml.version>
+    <jsbml.basedir>${basedir}</jsbml.basedir> <!-- will be reset on each sub-pom to be the directory of the pom -->
+    <jsbml.build.javac.source>1.7</jsbml.build.javac.source>
+    <jsbml.build.javac.target>1.7</jsbml.build.javac.target>
+    <javadoc.version>3.2.0</javadoc.version>
+  </properties>
+  
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.com/github/sbmlteam/jsbml</url>
+  </ciManagement>
+  
+  <!-- =================================================================== -->
+  <!-- The team of developers and mailing lists                            -->
+  <!-- =================================================================== -->
+  
   <developers>
     <developer>
       <name>JSBML team</name>
@@ -49,11 +79,7 @@
       <organizationUrl>http://www.sbml.org</organizationUrl>
     </developer>
   </developers>
-
-  <issueManagement>
-    <url>https://github.com/sbmlteam/jsbml/issues</url>
-    <system>GitHub Issues</system>
-  </issueManagement>
+  
   <mailingLists>
     <mailingList>
       <name>JSBML Team</name>
@@ -66,21 +92,23 @@
     </mailingList>
   </mailingLists>
   
+  <!-- =================================================================== -->
+  <!-- Source Control Management                                           -->
+  <!-- =================================================================== -->
+  
   <scm>
     <connection>scm:git:git://github.com/sbmlteam/jsbml.git</connection>
     <developerConnection>scm:git:ssh://github.com:sbmlteam/jsbml.git</developerConnection>
     <url>http://github.com/sbmlteam/jsbml/tree/master</url>
-    <tag>jsbml-parent-1.6-SNAPSHOT</tag>
+    <tag>jsbml-parent-${jsbml.version}</tag>
   </scm>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <jsbml.version>${project.version}</jsbml.version>
-    <jsbml.basedir>${basedir}</jsbml.basedir> <!-- will be reset on each sub-pom to be the directory of the pom -->
-    <jsbml.build.javac.source>1.7</jsbml.build.javac.source>
-    <jsbml.build.javac.target>1.7</jsbml.build.javac.target>
-  </properties>
+  
+  <!-- =================================================================== -->
+  <!-- Building                                                            -->
+  <!-- =================================================================== -->
+  
+  <!-- To build the project run: -->
+  <!-- mvn clean compile package assembly:single -->
   
   <build>
     
@@ -88,30 +116,30 @@
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
-		    <directory>resources</directory>
+        <directory>resources</directory>
       </resource>
     </resources>
     <testResources>
       <testResource>
-	      <directory>test</directory>
+        <directory>test</directory>
       </testResource>
     </testResources>
     
     <extensions>
       <extension>
-		    <groupId>org.apache.maven.wagon</groupId>
-	      <artifactId>wagon-ssh</artifactId>
-	      <version>2.10</version>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.10</version>
       </extension>
     </extensions>
     
     <plugins>
       
-     <!-- properties file not used at the moment -->
-     <!-- cannot use the property file at the moment, we would have to put the file in an archive
-     that is deployed to the repository. Then we can use it as a dependency or use the dependency:unpack goal.
-     see http://maven.40175.n5.nabble.com/Relative-path-to-parent-directory-at-multi-module-maven-project-td4611798.html
-     
+      <!-- properties file not used at the moment -->
+      <!-- cannot use the property file at the moment, we would have to put the file in an archive
+        that is deployed to the repository. Then we can use it as a dependency or use the dependency:unpack goal.
+        see http://maven.40175.n5.nabble.com/Relative-path-to-parent-directory-at-multi-module-maven-project-td4611798.html
+        
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>
@@ -150,8 +178,8 @@
         <configuration>
           <stylesheetfile>${basedir}/stylesheetfile.css</stylesheetfile>
           <links>
-            <link>http://docs.oracle.com/javase/6/docs/api/</link>
-            <link>http://www.biojava.org/docs/api17</link> <!-- TODO  update -->
+            <link>https://docs.oracle.com/javase/6/docs/api/</link>
+            <link>https://www.biojava.org/docs/api17</link> <!-- TODO  update -->
           </links>
           <tags>
             <tag>
@@ -191,10 +219,10 @@
       
       <!-- plugin needed to deploy to sonatype/maven central. 
       <plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-gpg-plugin</artifactId>
-	<version>1.5</version>
-	<executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
           <execution>
             <id>sign-artifacts</id>
             <phase>verify</phase>
@@ -202,20 +230,25 @@
               <goal>sign</goal>
             </goals>
           </execution>
-	</executions>
+        </executions>
       </plugin>  -->
       
     </plugins>
   </build>
-
-
+  
+  
   <modules>
     <module>core</module>
     <module>extensions</module>
     <module>modules</module>
   </modules>
   
+  <!-- =================================================================== -->
+  <!-- Profiles                                                            -->
+  <!-- =================================================================== -->
+  
   <profiles>
+    
     <profile>
       <id>ossrh</id>
       <!-- To deploy to the jsbml sf maven repo add '-Ddeploy=ossrh' to your command line. -->
@@ -227,61 +260,61 @@
       </activation>
       
       <build>
-	<plugins>
+        <plugins>
           <!-- plugins needed to deploy to sonatype/maven central --> 
-	  <plugin>
-      	    <groupId>org.sonatype.plugins</groupId>
-	    <artifactId>nexus-staging-maven-plugin</artifactId>
-	    <version>1.6.7</version>
-	    <extensions>true</extensions>
-	    <configuration>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.7</version>
+            <extensions>true</extensions>
+            <configuration>
               <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>        
               <!-- <skipStagingRepositoryClose>true</skipStagingRepositoryClose>
-		   <autoReleaseAfterClose>false</autoReleaseAfterClose>
-		   <skipRemoteStaging>true</skipRemoteStaging> 
-		   the above options could be used to modify the repo to include the jsbml/jsbml pom file
-		   before sending things over to nexus -->
+                <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                <skipRemoteStaging>true</skipRemoteStaging> 
+                the above options could be used to modify the repo to include the jsbml/jsbml pom file
+                before sending things over to nexus -->
               <autoReleaseAfterClose>false</autoReleaseAfterClose>
-	    </configuration>
-	  </plugin>
-
-	      <!-- plugin needed to deploy to sonatype/maven central. --> 
-      <plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-gpg-plugin</artifactId>
-	<version>1.5</version>
-	<executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-	</executions>
-      </plugin>
-
-	</plugins>
+            </configuration>
+          </plugin>
+          
+          <!-- plugin needed to deploy to sonatype/maven central. --> 
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+        </plugins>
       </build>
-	 
+      
       <distributionManagement>
-
-	<snapshotRepository>
-	  <id>ossrh</id>
-	  <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-	</snapshotRepository>
-	<repository>
-	  <id>ossrh</id>
-	  <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-	</repository>
+        
+        <snapshotRepository>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+          <id>ossrh</id>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
       </distributionManagement>
     </profile>
-
+    
     <profile>
       <id>sf</id>
       <!-- To deploy to the jsbml sf maven repo add '-Ddeploy=sf' to your command line. -->
-       <activation>
+      <activation>
         <property>
           <name>deploy</name>
           <value>sf</value>
@@ -289,73 +322,70 @@
       </activation>
       <distributionManagement>
         <repository>
-	  <id>jsbml-maven-repo-sf</id>
-	  <name>JSBML Maven repository</name>
-	  <url>scp://web.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
-  	</repository>
-	
-	<snapshotRepository>
-	  <id>jsbml-maven-repo-s-sf</id>
-	  <name>JSBML Maven SNAPSHOT repository</name>
-	  <url>scp://web.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
-	</snapshotRepository>
+          <id>jsbml-maven-repo-sf</id>
+          <name>JSBML Maven repository</name>
+          <url>scp://web.sourceforge.net/home/project-web/jsbml/htdocs/m2repo</url>
+        </repository>
+        
+        <snapshotRepository>
+          <id>jsbml-maven-repo-s-sf</id>
+          <name>JSBML Maven SNAPSHOT repository</name>
+          <url>scp://web.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots</url>
+        </snapshotRepository>
       </distributionManagement>
       <!-- to use jsbml maven repo test: replace 'jsbml' by 'jsbmlmavenrepotest' in the urls -->
     </profile>
-
+    
     <profile>
       <id>local</id>
       <!-- To deploy locally add '-Ddeploy=local' to your command line. -->
-       <activation>
+      <activation>
         <property>
           <name>deploy</name>
           <value>local</value>
         </property>
       </activation>
       <distributionManagement>
-	<repository>
-	  <id>local-repo-deploy</id>
-	  <name>Test Maven repository</name>
-	  <url>file:///var/www/html/repo</url>
-	</repository>
-      <!-- if  snapshotRepository is not define, the defined repository will be used for snapshots as well. -->
+        <repository>
+          <id>local-repo-deploy</id>
+          <name>Test Maven repository</name>
+          <url>file:///var/www/html/repo</url>
+        </repository>
+        <!-- if  snapshotRepository is not define, the defined repository will be used for snapshots as well. -->
       </distributionManagement>     
     </profile>
-
+    
   </profiles>
-
-
-
-
-<!--
-To Deploy to sonatype
-
-  <snapshotRepository>
+  
+  
+  <!--
+    To Deploy to sonatype
+    
+    <snapshotRepository>
     <id>ossrh</id>
     <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-  </snapshotRepository>
-  <repository>
+    </snapshotRepository>
+    <repository>
     <id>ossrh</id>
     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-  </repository>
-
--->
-<!--
-To deploy to EBI:
-
+    </repository>
+    
+  -->
+  <!--
+    To deploy to EBI:
+    
     <repository>
-      <id>ebi-maven-repo</id>
-      <name>EBI Maven Repository</name>
-      <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo</url>
+    <id>ebi-maven-repo</id>
+    <name>EBI Maven Repository</name>
+    <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo</url>
     </repository>
     
     <snapshotRepository>
-      <id>ebi-maven-repo-s</id>
-      <name>EBI Maven Repository</name>
-      <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots/</url>
+    <id>ebi-maven-repo-s</id>
+    <name>EBI Maven Repository</name>
+    <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots/</url>
     </snapshotRepository>
     
--->
-
-
+  -->
+  
 </project>
