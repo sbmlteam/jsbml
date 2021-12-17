@@ -1507,8 +1507,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   private static transient final Logger logger = Logger.getLogger(ASTNode.class);
   private static final transient boolean isDebugEnabled = logger.isDebugEnabled();
-  private static final transient boolean isTraceEnabled = logger.isTraceEnabled();
-  
+
   /**
    * The part of a number in scientific format (with an E) that is on the left
    * side of the E (the prefix of the number). For instance, in the number
@@ -1822,9 +1821,9 @@ public class ASTNode extends AbstractTreeNode {
    *            the node to add as child.
    */
   public void addChild(ASTNode child) {
-    if (isTraceEnabled) {
-      logger.trace(" adding child current node: \n" + astNodeToTree(this, "", ""));
-      logger.trace(" adding child: \n" + astNodeToTree(child, "", ""));
+    if (isDebugEnabled) {
+      logger.debug(" adding child current node: \n" + astNodeToTree(this, "", ""));
+      logger.debug(" adding child: \n" + astNodeToTree(child, "", ""));
     }
     listOfNodes.add(child);
     setParentSBMLObject(child, parentSBMLObject, 0);
@@ -4597,9 +4596,9 @@ public class ASTNode extends AbstractTreeNode {
    * @return a simple tree view of the ASTNode internal
    */
   public static String astNodeToTree(ASTNode n, String tree, String indent) {
-    // astNodeToTree is a simple method to look at your ASTNode, even when it is not complete
-    // or incorrect, so we should avoid any method that try to 'compile' the ASTNode, like deriveUnit().
-    tree = tree + indent + n.toSimpleString() + '\n';
+    //tree = tree + indent + n.getType() + " " +
+    //    (n.isInteger() ? n.getInteger() : "") + (n.isReal() ? n.getReal() : "") + '\n';
+    tree = tree + indent + n.toSimpleString() + " unit:" + n.deriveUnit() + '\n';
 
     for (ASTNode child : n.getChildren()) {
       tree = astNodeToTree(child, tree, indent + "  ");

@@ -736,7 +736,7 @@
 	<!-- =================================================================== -->
 	<target
 	  name="package"
-      description="Build the jsbml L3 packages"
+    description="Build the jsbml L3 packages"
 	  depends="init"
 	  unless="package.target.done"
 	>
@@ -838,7 +838,7 @@
 		<!-- using var here as property are not re-writable in ant -->
 		<var name="maven.repo.url" value="https://oss.sonatype.org/content/repositories/snapshots"/>
 		<var name="maven.profile" value="ossrh"/>
-		<property name="maven.repo.id" value="ossrh"/>
+		<property name="maven.repo.id" value="ossrh-jsbml"/>
 		
 		<echo message="Using ${deploy} as option"/>
 		
@@ -849,8 +849,8 @@
 		  	<equals arg1="${deploy}" arg2="sf" />
 		  	<then>
 		  		<var name="maven.repo.url" value="scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots"/>
-		   		<var name="maven.profile" value="sf"/>
-		   	</then>
+		   	 <var name="maven.profile" value="sf"/>
+		    </then>
 	    </elseif>
 	    <elseif>
 		  	<equals arg1="${deploy}" arg2="sf_release" />
