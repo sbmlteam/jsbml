@@ -96,7 +96,7 @@
     <dependency>
       <groupId>org.biojava</groupId>
       <artifactId>biojava-ontology</artifactId>
-      <version>4.0.0</version>
+      <version>6.0.3</version>
     </dependency>
     <dependency>
       <groupId>com.thoughtworks.xstream</groupId>
