@@ -834,6 +834,9 @@
     description="Deploy jsbml remotely"
 	  depends="init"
 	>
+		<!-- To create a new release, run as: 
+		  ant maven-deploy -Ddeploy=ossrh_release 
+		-->
 		<!-- Defining which options to use depending of the 'deploy' property content -->
 		<!-- using var here as property are not re-writable in ant -->
 		<var name="maven.repo.url" value="https://oss.sonatype.org/content/repositories/snapshots"/>
