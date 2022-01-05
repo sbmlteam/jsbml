@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -43,7 +43,8 @@ public class GradientStopConstraints extends AbstractConstraintDeclaration {
     switch(category) {
     case GENERAL_CONSISTENCY:
       addRangeToSet(set, RENDER_21001, RENDER_21005);
-      // TODO 2020/03: there are two more constraints, but they are soft
+      // TODO - add RENDER_21006 and RENDER_21007
+       
       break;
     default:
       break;
@@ -78,24 +79,41 @@ public class GradientStopConstraints extends AbstractConstraintDeclaration {
       };
       break;
     case RENDER_21004:
+      // The attribute render:stop-color on a GradientStop must have a value of data type string
+      // where that string is restricted to either a 6 or 8 digit hex number; the id of an existing ColorDefinition
+      // or the value 'none'. 
       func = new ValidationFunction<GradientStop>() {
         @Override
         public boolean check(ValidationContext ctx, GradientStop t) {
-          // Any string ok.
+          // TODO
           return true;
         }
       };
       break;
     case RENDER_21005:
+      // The value of the attribute render:offset of a GradientStop object must conform to the syntax
+      // of SBML data type RelAbsVector but in this case can only encode a relative value i.e. a
+      // string encoding a number followed by a % sign.
       func = new ValidationFunction<GradientStop>() {
         @Override
         public boolean check(ValidationContext ctx, GradientStop stop) {
-          return stop.isSetOffset() && !stop.getOffset().isSetAbsoluteValue()
-            && stop.getOffset().isSetRelativeValue();
+          if (stop.isSetOffset()) {
+            return  !stop.getOffset().isSetAbsoluteValue() && stop.getOffset().isSetRelativeValue();            
+          }
+          
+          return true;
         }
       };
       break;
-
+      
+    // TODO - RENDER_21006  
+      // The value of the attribute render:offset of a GradientStop object should be between '0%'
+      // and '100%'.
+      
+   // TODO - RENDER_21007
+      // The value of the attribute render:offset of a GradientStop object should be greater than or
+      // equal to the value of the offset attribute on the previous GradientStop.
+      
     default:
       func = null;
       break;

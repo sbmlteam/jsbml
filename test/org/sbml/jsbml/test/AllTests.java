@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -41,9 +41,14 @@ import org.sbml.jsbml.xml.test.Tests;
  * @since 1.0
  */
 @RunWith(value=Suite.class)
-@SuiteClasses(value={Tests.class, LibsbmlCompatibilityTests.class, LayoutJUnitTests.class, RenderJUnitTests.class,
-  UnregisterPackageTests.class, ArraysJUnitTests.class, DisablePackageTests.class, TestL3Dyn.class,
-  PackageVersionTests.class, CompJUnitTests.class, UTF8Tests.class, GroupsJUnitTests.class, FbcJUnitTests.class})
+@SuiteClasses(value={
+  // core and packages Test suites
+  Tests.class, CompJUnitTests.class, FbcJUnitTests.class, LayoutJUnitTests.class,
+  ArraysJUnitTests.class, TestL3Dyn.class, RenderJUnitTests.class, GroupsJUnitTests.class,
+  
+  // other tests
+  UnregisterPackageTests.class, TestSBaseHasExtension.class, DisablePackageTests.class,
+  PackageVersionTests.class, UTF8Tests.class, LibsbmlCompatibilityTests.class, })
 public class AllTests {
 
   /**

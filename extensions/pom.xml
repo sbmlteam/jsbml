@@ -4,7 +4,7 @@
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
 
-    Copyright (C) 2009-2018 jointly by the following organizations:
+    Copyright (C) 2009-2022 jointly by the following organizations:
     1. The University of Tuebingen, Germany
     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
     3. The California Institute of Technology, Pasadena, CA, USA
@@ -27,19 +27,19 @@
     <parent>
         <groupId>org.sbml.jsbml</groupId>
         <artifactId>jsbml-parent</artifactId>
-        <version>1.5</version>
+        <version>1.6.1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
   
-  	<repositories>
-		<repository>
-			<id>ebi-repo</id>
-			<name>The EBI internal repository</name>
-			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
+    <repositories>
+      <repository>
+        <id>ebi-repo</id>
+        <name>The EBI internal repository</name>
+        <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+      </repository>
 	</repositories>
   
     <dependencies>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -77,5 +77,4 @@
         <module>spatial</module>
     </modules>
 
-    
 </project>

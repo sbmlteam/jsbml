@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -295,18 +295,18 @@ public class LoggingValidationContext extends ValidationContext implements Valid
       if (severity != null && (severity.equalsIgnoreCase("error") || severity.equalsIgnoreCase("fatal"))) {
         // the category we are in will be the latest one.
         
-        if (category == "SBML identifier consistency") {
+        if (category.equals("SBML identifier consistency")) {
             ignoredCategories.add("General SBML conformance");
             ignoredCategories.add("SBML component consistency");
-        } else if ((category == "General SBML conformance") || (category == "SBML component consistency")) {
+        } else if ((category.equals("General SBML conformance")) || (category.equals("SBML component consistency"))) {
             ignoredCategories.add("SBO term consistency");
-        } else if (category == "SBO term consistency") {
+        } else if (category.equals("SBO term consistency")) {
             ignoredCategories.add("MathML consistency");
-        } else if (category == "MathML consistency") {
+        } else if (category.equals("MathML consistency")) {
             ignoredCategories.add("SBML unit consistency");
-        } else if (category == "SBML unit consistency") {
+        } else if (category.equals("SBML unit consistency")) {
             ignoredCategories.add("Overdetermined model");
-        } else if (category == "Overdetermined model") {
+        } else if (category.equals("Overdetermined model")) {
             ignoredCategories.add("Modeling practice");
         }
       }

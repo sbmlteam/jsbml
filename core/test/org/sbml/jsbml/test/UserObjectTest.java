@@ -4,7 +4,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -60,13 +60,13 @@ public class UserObjectTest {
 	  
 	  assertTrue(s.isSetUserObjects() == true);
 	  assertTrue((Integer) s.getUserObject(KEY_1) == 3);
-	  assertTrue(s.getUserObject(KEY_2) == "userObject");
+	  assertTrue(s.getUserObject(KEY_2).equals("userObject"));
 	  
 	  Species s2 = s.clone();
 	  
 	  assertTrue(s2.isSetUserObjects() == true);
 	  assertTrue((Integer) s2.getUserObject(KEY_1) == 3);
-	  assertTrue(s2.getUserObject(KEY_2) == "userObject");
+	  assertTrue(s2.getUserObject(KEY_2).equals("userObject"));
 	  
   }
 
@@ -84,13 +84,13 @@ public class UserObjectTest {
 	  
 	  assertTrue(s.isSetUserObjects() == true);
 	  assertTrue((Integer) s.getUserObject(KEY_1) == 3);
-	  assertTrue(s.getUserObject(KEY_2) == "userObject");
+	  assertTrue(s.getUserObject(KEY_2).equals("userObject"));
 	  
 	  ASTNode s2 = s.clone();
 	  
 	  assertTrue(s2.isSetUserObjects() == true);
 	  assertTrue((Integer) s2.getUserObject(KEY_1) == 3);
-	  assertTrue(s2.getUserObject(KEY_2) == "userObject");
+	  assertTrue(s2.getUserObject(KEY_2).equals("userObject"));
 	  
   }
 
@@ -108,13 +108,13 @@ public class UserObjectTest {
       
       assertTrue(s.isSetUserObjects() == true);
       assertTrue((Integer) s.getUserObject(KEY_1) == 3);
-      assertTrue(s.getUserObject(KEY_2) == "userObject");
+      assertTrue(s.getUserObject(KEY_2).equals("userObject"));
       
       ASTNode2 s2 = s.clone();
       
       assertTrue(s2.isSetUserObjects() == true);
       assertTrue((Integer) s2.getUserObject(KEY_1) == 3);
-      assertTrue(s2.getUserObject(KEY_2) == "userObject");
+      assertTrue(s2.getUserObject(KEY_2).equals("userObject"));
       
   }
 

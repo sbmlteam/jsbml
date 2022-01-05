@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -292,7 +292,10 @@ public class SBMLErrorPostMessage extends ResourceBundle {
       
       contents.put(Integer.toString(SBMLErrorCodes.CORE_21203), "The <event> with id ''{0}'' does not contain any <eventAssignment> elements.");
       
-      
+      // JSBML custom error messages
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_70001), "The package ''{0}'' is not validated in the current JSBML version.");
+      contents.put(Integer.toString(SBMLErrorCodes.CORE_70002), "The package ''{0}'' has partial validation implemented in the current JSBML version.");
+
       // 
       contents.put(Integer.toString(SBMLErrorCodes.CORE_80501), "The <compartment> with the id ''{0}'' does not have a ''size'' attribute, nor is its initial value set by an <initialAssignment> or <assignmentRule>.");
       

@@ -4,7 +4,7 @@
     This file is part of JSBML. Please visit http://sbml.org/Software/JSBML
     for the latest version of JSBML and more information about SBML.
 
-    Copyright (C) 2009-2018 jointly by the following organizations:
+    Copyright (C) 2009-2022 jointly by the following organizations:
     1. The University of Tuebingen, Germany
     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
     3. The California Institute of Technology, Pasadena, CA, USA
@@ -80,8 +80,8 @@
 
 		<property name="Name" value="${jsbml.Name}" />
 		<property name="name" value="jsbml" />
-		<property name="version" value="1.5" />
-		<property name="api.version" value="1.5"/>
+		<property name="version" value="1.6.1-SNAPSHOT" />
+		<property name="api.version" value="1.6.1-SNAPSHOT"/>
 
 		<property name="year" value="${YEAR}" />
 
@@ -736,7 +736,7 @@
 	<!-- =================================================================== -->
 	<target
 	  name="package"
-      description="Build the jsbml L3 packages"
+    description="Build the jsbml L3 packages"
 	  depends="init"
 	  unless="package.target.done"
 	>
@@ -834,23 +834,31 @@
     description="Deploy jsbml remotely"
 	  depends="init"
 	>
+		<!-- To create a new release, run either as:
+			ant maven-deploy -Ddeploy=ossrh
+			-> makes a SNAPSHOT release
+			or
+			
+		  ant maven-deploy -Ddeploy=ossrh_release
+		  -> makes a stable release
+		-->
 		<!-- Defining which options to use depending of the 'deploy' property content -->
 		<!-- using var here as property are not re-writable in ant -->
 		<var name="maven.repo.url" value="https://oss.sonatype.org/content/repositories/snapshots"/>
 		<var name="maven.profile" value="ossrh"/>
-		<property name="maven.repo.id" value="ossrh"/>
+		<property name="maven.repo.id" value="ossrh-jsbml"/>
 		
 		<echo message="Using ${deploy} as option"/>
 		
 		<if>
 		  <equals arg1="${deploy}" arg2="ossrh_release" />
-		  <then><var name="maven.repo.url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2"/></then>
+		  <then><var name="maven.repo.url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/"/></then>
 	    <elseif>
 		  	<equals arg1="${deploy}" arg2="sf" />
 		  	<then>
 		  		<var name="maven.repo.url" value="scp://shell.sourceforge.net/home/project-web/jsbml/htdocs/m2repo_snapshots"/>
-		   		<var name="maven.profile" value="sf"/>
-		   	</then>
+		   	 <var name="maven.profile" value="sf"/>
+		    </then>
 	    </elseif>
 	    <elseif>
 		  	<equals arg1="${deploy}" arg2="sf_release" />

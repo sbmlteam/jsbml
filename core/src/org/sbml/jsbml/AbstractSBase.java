@@ -3,13 +3,13 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -33,6 +33,7 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.IdManager;
@@ -56,12 +57,12 @@ import org.sbml.jsbml.xml.parsers.ParserManager;
 
 /**
  * The base class for each {@link SBase} component.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @author Marine Dumousseau
  * @since 0.8
- * 
+ *
  */
 public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
@@ -70,15 +71,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   private static enum NOTES_TYPE {
     /**
-     * 
+     *
      */
     NotesAny,
     /**
-     * 
+     *
      */
     NotesBody,
     /**
-     * 
+     *
      */
     NotesHTML
   }
@@ -96,7 +97,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       8781459818293592636L;
 
   /**
-   * 
+   *
    */
   public static final transient String JSBML_WRONG_SBO_TERM = "jsbml.wrong.sbo.term";
 
@@ -110,7 +111,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Returns {@code true} if the level and version combination is a valid one,
    * {@code false} otherwise.
-   * 
+   *
    * @param level
    *        the SBML level
    * @param version
@@ -138,7 +139,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Checks if the given identifier candidate satisfies the requirements for a
    * valid meta identifier (see SBML L2V4 p. 12 for details).
-   * 
+   *
    * @param idCandidate the id to check
    * @return {@code true} if the given argument is a valid meta identifier
    *         {@link String}, {@code false} otherwise.
@@ -264,7 +265,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * {@link #declaredNamespaces} list and the {@link #extensions} {@link Map}
    * are
    * empty.
-   * 
+   *
    * @param level
    *        the SBML level
    * @param version
@@ -290,7 +291,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Creates an {@link AbstractSBase} instance from a given
    * {@link AbstractSBase}.
-   * 
+   *
    * @param sb
    *        an {@link AbstractSBase} object to clone
    */
@@ -352,13 +353,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Creates an {@link AbstractSBase} with the given identifier.
-   * 
+   *
    *  <p>Note
    * that with this constructor the level and version of the element are not
    * specified. But when adding the SBase inside a Model, it will inherit
    * the level and version from his parent.
    * </p>
-   * 
+   *
    * @param id the id of this {@code AbstractSBase}
    */
   public AbstractSBase(String id) {
@@ -368,7 +369,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Creates an {@link AbstractSBase} from an id, level and version.
-   * 
+   *
    * @param id the id of this {@code AbstractSBase}
    * @param level the SBML level
    * @param version the SBML version
@@ -379,7 +380,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Creates an {@link AbstractSBase} from an id, name, level and version.
-   * 
+   *
    * @param id the id of this {@code AbstractSBase}
    * @param name the name of this {@code AbstractSBase}
    * @param level the SBML level
@@ -404,7 +405,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Adds an additional name space to the set of declared namespaces of this
    * {@link SBase}.
-   * 
+   *
    * @param prefix
    *        the prefix of the namespace to add
    * @param namespace
@@ -476,6 +477,22 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   }
 
 
+  /**
+   * Adds all the given resources to the first {@link CVTerm} with the given
+   * {@link Qualifier} or, if no such term exists yet, creates one.
+   *
+   * @param qualifier
+   *        The qualifier to look for or to create a new {@link CVTerm} with.
+   * @param resources
+   *        The resource URIs to be added to the annotation of this {@link SBase}
+   *        under the given {@link Qualifier}.
+   * @return {@code true} if the operation succeeds or {@code false} otherwise.
+   */
+  public boolean addResources(CVTerm.Qualifier qualifier, String... resources) {
+    return getAnnotation().addResources(qualifier, resources);
+  }
+
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.SBase#appendAnnotation(java.lang.String)
@@ -519,7 +536,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * <p>
    * This allows other notes to be preserved whilst
    * adding additional information.
-   * 
+   *
    * @param notes the notes to append.
    */
   @Override
@@ -676,8 +693,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       String cname = "";
 
       if (firstElementIndex != -1) {
-        // we need to find the first child element 
-        cname = curNotes.getChildAt(firstElementIndex).getName(); 
+        // we need to find the first child element
+        cname = curNotes.getChildAt(firstElementIndex).getName();
       }
 
       if (cname.equals("html")) {
@@ -721,7 +738,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           }
           // we could add the content of the 'head' tag as well ?
         } else if ((addedNotesType == NOTES_TYPE.NotesBody)
-            || (addedNotesType == NOTES_TYPE.NotesAny)) 
+            || (addedNotesType == NOTES_TYPE.NotesAny))
         {
           // adds the given body or other tag (permitted in the body) to the current html tag
 
@@ -748,7 +765,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           notesXMLNode.removeChild(firstElementIndex);
           notesXMLNode.insertChild(firstElementIndex, addedNotes);
         } else if ((addedNotesType == NOTES_TYPE.NotesBody)
-            || (addedNotesType == NOTES_TYPE.NotesAny)) 
+            || (addedNotesType == NOTES_TYPE.NotesAny))
         {
           // adds the given body or other tag (permitted in the body) to the current body tag
 
@@ -775,7 +792,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           notesXMLNode.removeChildren();
           notesXMLNode.addChild(addedNotes);
-          
+
         } else if (addedNotesType == NOTES_TYPE.NotesBody) {
           // adds the given body tag to the current any tag permitted in the body.
 
@@ -809,10 +826,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * Checks if the attribute conforms to the SBML specifications of the level
    * and version of this object. The final values of {@link TreeNodeChangeEvent}
    * could be used as attribute name.
-   * 
+   *
    * <p>WARNING: this is a placeholder method, most classes have no attribute
    * validations implemented.
-   * 
+   *
    * @param attributeName - the attribute name
    * @return {@code true} if the attribute conforms the the SBML specifications.
    */
@@ -846,7 +863,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * version configuration than this element. If the L/V combination for the
    * given {@code sbase} is not yet defined, this method sets it to the
    * identical values as it is for the current object.
-   * 
+   *
    * @param sbase
    *        the element to be checked.
    * @return {@code true} if the given {@code sbase} and this object
@@ -880,7 +897,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * namespace and version combination
    * for the given {@code sbase} is not yet defined, this method sets it to the
    * identical values as it is for the current object or the SBMLDocument.
-   * 
+   *
    * @param sbase
    *        the element to be checked.
    * @return {@code true} if the given {@code sbase} and this object
@@ -910,8 +927,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       expectedPackageVersion = parentSBasePlugin.getPackageVersion();
     }
 
-    if (expectedPackageVersion == sbase.getPackageVersion()
-        && expectedPackageNamespace != null
+    if ((expectedPackageVersion == sbase.getPackageVersion())
+        && (expectedPackageNamespace != null)
         && expectedPackageNamespace.equals(sbase.getNamespace())) {
       return true;
     } else {
@@ -928,7 +945,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * for the given {@code sbasePlugin} is not yet defined, this method sets it
    * to the
    * identical values as it is for the current SBMLDocument.
-   * 
+   *
    * @param sbasePlugin
    *        the element to be checked.
    * @return {@code true} if the given {@code sbase} and this object
@@ -953,8 +970,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       int packageVersion = PackageUtil.extractPackageVersion(packageNamespace);
 
-      if (packageVersion == sbasePlugin.getPackageVersion()
-          && packageNamespace != null
+      if ((packageVersion == sbasePlugin.getPackageVersion())
+          && (packageNamespace != null)
           && packageNamespace.equals(sbasePlugin.getElementNamespace())) {
         return true;
       } else {
@@ -967,7 +984,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         while (children.hasMoreElements()) {
           TreeNode child = children.nextElement();
 
-          if (child instanceof AbstractSBase
+          if ((child instanceof AbstractSBase)
               && ((AbstractSBase) child).getPackageName()
               .equals(sbasePlugin.getPackageName())) {
             success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(
@@ -995,7 +1012,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * Creates a new {@link History} and associates it with the annotation of
    * this element. If no {@link Annotation} exists, a new such element is
    * created as well.
-   * 
+   *
    * @return A new {@link History} instance that is directly associated with
    *         this element.
    * @see #getHistory()
@@ -1028,7 +1045,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        a package namespace URI or package name
    */
@@ -1040,7 +1057,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Enables the given SBML Level 3 package on this {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        a package namespace URI or package name
    */
@@ -1053,7 +1070,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Enables or disables the given SBML Level 3 package on this
    * {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        a package namespace URI or package name
    */
@@ -1117,22 +1134,22 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           getNamespace() != null ? getNamespace().equals(sbase.getNamespace())
             : sbase.getNamespace() == null;
 
-          if (declaredNamespaces == null) {
-            if (sbase.getDeclaredNamespaces() != null) {
-              return false;
-            }
-          } else if (!declaredNamespaces.equals(sbase.getDeclaredNamespaces())) {
-            return false;
-          }
+      if (declaredNamespaces == null) {
+        if (sbase.getDeclaredNamespaces() != null) {
+          return false;
+        }
+      } else if (!declaredNamespaces.equals(sbase.getDeclaredNamespaces())) {
+        return false;
+      }
 
-          /*
-           * Note: Listeners, ignoredExtensions and ignoredXMLElements are not
-           * included in the equals check.
-           */
+      /*
+       * Note: Listeners, ignoredExtensions and ignoredXMLElements are not
+       * included in the equals check.
+       */
 
-          // Notes, Annotation and extension SBasePlugins are tested in
-          // AbstractTreeNode.equals()
-          // as they are part of the children returned by #getChildAt(int i)
+      // Notes, Annotation and extension SBasePlugins are tested in
+      // AbstractTreeNode.equals()
+      // as they are part of the children returned by #getChildAt(int i)
     }
 
     return equals;
@@ -1253,7 +1270,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       unregisterChild((SBasePlugin) oldValue);
     }
 
-    if ((oldValue != null && oldValue instanceof SBase)
+    if (((oldValue != null) && (oldValue instanceof SBase))
         && !propertyName.equals(TreeNodeChangeEvent.parentSBMLObject)) {
       unregisterChild((SBase) oldValue);
     }
@@ -1296,7 +1313,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Returns the {@link Annotation} of this SBML object as a {@link String}.
-   * 
+   *
    * @return the {@link Annotation} of this SBML object as a {@link String} or
    *         an empty {@link String} if there are no {@link Annotation}.
    * @throws XMLStreamException if there is a problem writing the annotation to XML.
@@ -1433,7 +1450,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     @SuppressWarnings("unchecked")
     List<SBase> foundSBases = (List<SBase>) this.filter(new SIdFilter(id), false, true);
 
-    if (foundSBases != null && foundSBases.size() == 1) {
+    if ((foundSBases != null) && (foundSBases.size() == 1)) {
       return foundSBases.get(0);
     }
 
@@ -1449,7 +1466,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     @SuppressWarnings("unchecked")
     List<SBase> foundSBases = (List<SBase>) this.filter(new MetaIdFilter(id), false, true);
 
-    if (foundSBases != null && foundSBases.size() == 1) {
+    if ((foundSBases != null) && (foundSBases.size() == 1)) {
       return foundSBases.get(0);
     }
 
@@ -1513,14 +1530,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Return the index of the first child of type 'Element' for the given
    * {@link XMLNode}.
-   * 
+   *
    * @param curNotes the XMLNode
    * @return the index of the first child of type 'Element' for the given
    *         {@link XMLNode}, -1 otherwise.
    */
   public static int getFirstElementIndex(XMLNode curNotes) {
 
-    if (curNotes != null && curNotes.getChildCount() > 0) {
+    if ((curNotes != null) && (curNotes.getChildCount() > 0)) {
 
       for (int i = 0; i < curNotes.getChildCount(); i++) {
         XMLNode childNode = curNotes.getChildAt(i);
@@ -1550,7 +1567,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * <p>
    * It means that the method {@link IdManager#accept(SBase)} returned
    * {@code true}.
-   * 
+   *
    * @param sbase
    *        the {@link SBase} that we try to register or unregister.
    * @return an {@link IdManager} that can register the given {@link SBase}.
@@ -1632,7 +1649,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public String getNamespace() {
-    if (getPackageName().equals("core") && elementNamespace == null) {
+    if (getPackageName().equals("core") && (elementNamespace == null)) {
       return JSBML.getNamespaceFrom(getLevel(), getVersion());
     }
     return elementNamespace;
@@ -1641,7 +1658,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Returns an {@code XMLNode} object that represent the notes of this element.
-   * 
+   *
    * @return an {@code XMLNode} object that represent the notes of this element.
    */
   @Override
@@ -1703,7 +1720,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * This is equivalent to calling {@link #getParentSBMLObject()}, but this
    * method is needed for {@link TreeNode}.
-   * 
+   *
    * @return the parent element of this element.
    * @see #getParentSBMLObject()
    */
@@ -1822,17 +1839,26 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       hashCode += prime * getSBOTerm();
     }
     if (elementNamespace != null) {
-      hashCode = prime * hashCode + elementNamespace.hashCode();
+      hashCode = (prime * hashCode) + elementNamespace.hashCode();
     }
     if (declaredNamespaces != null) {
-      hashCode = prime * hashCode + declaredNamespaces.hashCode();
+      hashCode = (prime * hashCode) + declaredNamespaces.hashCode();
     }
 
     // Notes, Annotation and extension SBasePlugins are taken into account in
     // AbstractTreeNode.hashCode()
     // as they are part of the children returned by #getChildAt(int i)
 
-    return hashCode + prime * getLevelAndVersion().hashCode();
+    return hashCode + (prime * getLevelAndVersion().hashCode());
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#hasExtension(java.lang.String)
+   */
+  @Override
+  public boolean hasExtension(String extName) {
+    return isSetPlugin(extName);
   }
 
   /*
@@ -2129,7 +2155,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
         // still returning true to the method so that the attribute is not put in the unknown XML object
       }
-      
+
       return true;
 
     } else if (attributeName.equals("name")) {
@@ -2144,7 +2170,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         // there is a problem with the name/id, either invalid syntax or duplicated id
         AbstractReaderWriter.processInvalidAttribute(attributeName, null, value, prefix, this);
       }
-      
+
       return true;
     }
 
@@ -2245,7 +2271,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Registers recursively the given {@link SBasePlugin} from the {@link Model}
    * and {@link SBMLDocument}.
-   * 
+   *
    * @param sbasePlugin
    *        the {@link SBasePlugin} to register.
    */
@@ -2272,7 +2298,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Removes the given {@link CVTerm}.
-   * 
+   *
    * @param cvTerm
    *        the {@link CVTerm} to remove
    * @return true if the {@link CVTerm} was successfully removed.
@@ -2285,7 +2311,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Removes the {@link CVTerm} at the given index.
-   * 
+   *
    * @param index
    *        the index
    * @return the removed {@link CVTerm}.
@@ -2297,19 +2323,20 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return getAnnotation().removeCVTerm(index);
   }
 
-  
+
   /**
    * Removes a namespace from the set of declared namespaces of this
    * {@link SBase}.
-   * 
+   *
    * @param prefix
    *        the prefix of the namespace to remove
-   */  
+   */
+  @Override
   public void removeDeclaredNamespaceByPrefix(String prefix) {
     if (prefix == null) {
       return;
     }
-    
+
     if ((!prefix.startsWith("xmlns:")) && (!prefix.equals("xmlns"))) {
       if (prefix.indexOf(':') != -1) {
         throw new IllegalArgumentException(
@@ -2317,9 +2344,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
       prefix = "xmlns:" + prefix;
     }
-    
+
     String removedNamespace = declaredNamespaces.remove(prefix);
-    
+
     if (removedNamespace != null) {
       firePropertyChange(TreeNodeChangeEvent.addDeclaredNamespace, removedNamespace, null);
     }
@@ -2328,38 +2355,39 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Removes a namespace from the set of declared namespaces of this
    * {@link SBase}.
-   * 
+   *
    * @param namespace the namespace to remove
    */
+  @Override
   public void removeDeclaredNamespaceByNamespace(String namespace) {
     if (namespace == null) {
       return;
     }
-    
+
     String prefixToRemove = null;
-    
+
     for (String prefix : declaredNamespaces.keySet()) {
       String namespaceForPrefix = declaredNamespaces.get(prefix);
-      
+
       if (namespace.equals(namespaceForPrefix)) {
         prefixToRemove = prefix;
         break;
       }
     }
-    
+
     if (prefixToRemove != null) {
       declaredNamespaces.remove(prefixToRemove);
       firePropertyChange(TreeNodeChangeEvent.addDeclaredNamespace, namespace, null);
     }
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.SBase#removeTopLevelAnnotationElement(String)
    */
   @Override
   public boolean removeTopLevelAnnotationElement(String name) {
-  	return removeTopLevelAnnotationElement(name, null, true);
+    return removeTopLevelAnnotationElement(name, null, true);
   }
 
   /*
@@ -2368,7 +2396,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public boolean removeTopLevelAnnotationElement(String name, String elementURI) {
-  	return removeTopLevelAnnotationElement(name, elementURI, true);
+    return removeTopLevelAnnotationElement(name, elementURI, true);
   }
 
   /*
@@ -2377,27 +2405,27 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty) {
-  	// To avoid side effect of creating a new empty annotation when trying to delete from an unset
-  	// annotation:
-  	if(!isSetAnnotation() || name == null || name.equals("") || name.equals("*")) {
-  		return false;
-  	}
-  		
-  	XMLNode toBeDeleted = getAnnotation().getXMLNode().getChildElement(name, elementURI);
-  	if(toBeDeleted == null) {
-  		return false;
-  	} else {
-  		boolean hasBeenRemoved = toBeDeleted.removeFromParent();
-  		boolean didNotFindAnyChildren = getAnnotation().getXMLNode().getChildElements(null, null).size() == 0;
-  		if(removeEmpty && didNotFindAnyChildren) {
-  			getAnnotation().unsetNonRDFannotation();
-  			if(getAnnotation().isEmpty()) {
-  				unsetAnnotation();
-  			}
-  		}
+    // To avoid side effect of creating a new empty annotation when trying to delete from an unset
+    // annotation:
+    if(!isSetAnnotation() || (name == null) || name.equals("") || name.equals("*")) {
+      return false;
+    }
 
-  		return hasBeenRemoved;
-  	}
+    XMLNode toBeDeleted = getAnnotation().getXMLNode().getChildElement(name, elementURI);
+    if(toBeDeleted == null) {
+      return false;
+    } else {
+      boolean hasBeenRemoved = toBeDeleted.removeFromParent();
+      boolean didNotFindAnyChildren = getAnnotation().getXMLNode().getChildElements(null, null).size() == 0;
+      if(removeEmpty && didNotFindAnyChildren) {
+        getAnnotation().unsetNonRDFannotation();
+        if(getAnnotation().isEmpty()) {
+          unsetAnnotation();
+        }
+      }
+
+      return hasBeenRemoved;
+    }
   }
 
   /*
@@ -2406,15 +2434,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public boolean replaceTopLevelAnnotationElement(String annotation) throws XMLStreamException, IllegalArgumentException {
-  	if(annotation != null) {
-  		XMLNode converted = XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation));
-  		if(converted.getChildElements("*", "*").size() != 1) {
-  			throw new IllegalArgumentException("Given annotation-string \"" + annotation 
-  					+ "\" encodes more than one annotation element. Only one is allowed");
-  		}
-  		return replaceTopLevelAnnotationElement(converted.getChildElement("*", "*"));
-  	}
-  	return false;
+    if(annotation != null) {
+      XMLNode converted = XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation));
+      if(converted.getChildElements("*", "*").size() != 1) {
+        throw new IllegalArgumentException("Given annotation-string \"" + annotation
+          + "\" encodes more than one annotation element. Only one is allowed");
+      }
+      return replaceTopLevelAnnotationElement(converted.getChildElement("*", "*"));
+    }
+    return false;
   }
 
   /*
@@ -2423,20 +2451,21 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public boolean replaceTopLevelAnnotationElement(XMLNode annotation) {
-  	if(!isSetAnnotation() || annotation == null)
-  		return false;
-  	
-  	int i = getAnnotation().getXMLNode().indexOf(annotation.getName());
-  	if(i < 0)
-  		return false;
-  	else {
-  		getAnnotation().getXMLNode().removeChild(i);
-  		getAnnotation().getXMLNode().insertChild(i, annotation);
-  		return true;
-  	}	
+    if(!isSetAnnotation() || (annotation == null)) {
+      return false;
+    }
+
+    int i = getAnnotation().getXMLNode().indexOf(annotation.getName());
+    if(i < 0) {
+      return false;
+    } else {
+      getAnnotation().getXMLNode().removeChild(i);
+      getAnnotation().getXMLNode().insertChild(i, annotation);
+      return true;
+    }
   }
- 
-  
+
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
@@ -2460,11 +2489,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void setAnnotation(String nonRDFAnnotation) throws XMLStreamException {
-    if (nonRDFAnnotation == null || nonRDFAnnotation.trim().length() == 0) {
+    if ((nonRDFAnnotation == null) || (nonRDFAnnotation.trim().length() == 0)) {
       getAnnotation().unsetNonRDFannotation();
     } else {
-    setAnnotation(XMLNode.convertStringToXMLNode(
-      StringTools.toXMLAnnotationString(nonRDFAnnotation)));
+      setAnnotation(XMLNode.convertStringToXMLNode(
+        StringTools.toXMLAnnotationString(nonRDFAnnotation)));
     }
   }
 
@@ -2516,7 +2545,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Sets recursively the level and version attribute for this element
    * and all sub-elements.
-   * 
+   *
    * @param level
    *        the SBML level
    * @param version
@@ -2559,7 +2588,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Sets recursively the package namespace and version if the current node
    * 'packageName' is equals to the given {@code packageLabel}.
-   * 
+   *
    * @param packageLabel
    *        the short label of the package
    * @param namespace
@@ -2582,7 +2611,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       while (children.hasMoreElements()) {
         TreeNode child = children.nextElement();
 
-        if (child instanceof AbstractSBase
+        if ((child instanceof AbstractSBase)
             && ((AbstractSBase) child).getPackageName().equals(packageLabel)) {
           success &= ((AbstractSBase) child).setPackageNamespaceAndVersion(
             packageLabel, namespace, packageVersion);
@@ -2658,7 +2687,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * have different level and version (and package version). You have to know
    * what you are doing
    * when using this method.
-   * 
+   *
    * @param namespace
    *        the XML namespace to which this {@link SBase} belong.
    */
@@ -2690,7 +2719,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void setNotes(String notes) throws XMLStreamException {
-    if (notes == null || notes.trim().length() == 0) {
+    if ((notes == null) || (notes.trim().length() == 0)) {
       unsetNotes();
     } else {
       setNotes(XMLNode.convertStringToXMLNode(StringTools.toXMLNotesString(notes)));
@@ -2707,14 +2736,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     XMLNode oldNotes = notesXMLNode;
     notesXMLNode = notes;
     if (notesXMLNode != null) {
-      
+
       if (!notesXMLNode.getName().equals("notes")) {
         // adding a surrounding notes element
         XMLNode notesNode = new XMLNode(new XMLTriple("notes", "", ""), new XMLAttributes());
         notesNode.addChild(notesXMLNode);
         notesXMLNode = notesNode;
       }
-      
+
       notesXMLNode.setParent(this);
     }
     firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, notesXMLNode);
@@ -2742,8 +2771,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         parentPackageVersion = parentPlugin.getPackageVersion();
       }
 
-      if (packageVersion != -1 && parentPackageVersion != -1
-          && packageVersion != parentPackageVersion) {
+      if ((packageVersion != -1) && (parentPackageVersion != -1)
+          && (packageVersion != parentPackageVersion)) {
         if (parentPlugin != null) {
           throw new LevelVersionError(parentPlugin, this);
         } else {
@@ -2760,7 +2789,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Sets the parent of the current {@link SBase}.
-   * 
+   *
    * @param parent the parent of this element.
    */
   protected void setParentSBML(SBase parent) {
@@ -2779,7 +2808,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * Note that this will cause another event to be triggered:
    * {@link TreeNodeChangeListener#propertyChange(java.beans.PropertyChangeEvent)}
    * with the old and the new parent.
-   * 
+   *
    * @param sbase
    *        the new parent element.
    * @throws LevelVersionError
@@ -2866,7 +2895,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Returns a String representing this SBase with all the
    * attributes that are defined.
-   * 
+   *
    * @return a String representing this SBase with all its
    * attributes
    */
@@ -2896,10 +2925,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   /**
    * Extracts an attribute value from the given map with or without
    * packageName as prefix for the attribute name.
-   * 
+   *
    * <p>If a value is found, the attribute is removed from the map.</p>
-   * 
-   * 
+   *
+   *
    * @param attMap the attributes map
    * @param attributeName the attribute name
    * @return the attribute value or an empty String
@@ -2907,7 +2936,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   private String extractAttribute(Map<String, String> attMap, String attributeName) {
     String attributeValue = attMap.get(attributeName);
 
-    if (attributeValue == null && (!packageName.equals("core"))) {
+    if ((attributeValue == null) && (!packageName.equals("core"))) {
       attributeValue = attMap.get(packageName + ":" + attributeName);
     }
 
@@ -2966,7 +2995,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * Unregisters recursively the given {@link SBasePlugin} from the
    * {@link Model}
    * and {@link SBMLDocument}.
-   * 
+   *
    * @param sbasePlugin
    *        the {@link SBasePlugin} to unregister.
    */
@@ -3180,7 +3209,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Checks if the sID is a valid identifier.
-   * 
+   *
    * @param sID
    *            the identifier to be checked. If null or an invalid
    *            identifier, an exception will be thrown.
@@ -3303,19 +3332,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   /**
    * Returns a map of all the declared namespaces in the SBML tree, visible to the given {@link SBase}.
-   * 
-   * <p>Starting from the given {@link SBase}, we will use {@link #getDeclaredNamespaces()} on it and all the parents until we 
+   *
+   * <p>Starting from the given {@link SBase}, we will use {@link #getDeclaredNamespaces()} on it and all the parents until we
    * reached the {@link SBMLDocument} or these is no more parent set. That will give us a complete set of all the declared
    * namespace visible to this SBase. If a prefix if declared twice, we keep only the first occurrence encountered, meaning that
    * we will have the declaration that is the deeper in the tree, the one that is active for XML code.</p>
-   * 
+   *
    * @param sb the SBase
    * @return a map of all the declared namespaces in the SBML tree, visible to the given {@link SBase}.
    */
   public static HashMap<String, String> getAllDeclaredNamespaces(SBase sb) {
-    
+
     HashMap<String, String> namespaceMap = new HashMap<String, String>();
-    
+
     if (sb.getDeclaredNamespaces() != null) {
       for (String key : sb.getDeclaredNamespaces().keySet()) {
         namespaceMap.put(key, sb.getDeclaredNamespaces().get(key));
@@ -3323,19 +3352,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
 
     getAllDeclaredNamespaces(sb.getParent(), namespaceMap);
-    
+
     return namespaceMap;
   }
 
 
   /**
    * Populates a map of with the declared namespaces in the SBML tree, visible to the given element.
-   * 
-   * <p>Starting from the given element, we will use {@link #getDeclaredNamespaces()} on it and all the parents until we 
+   *
+   * <p>Starting from the given element, we will use {@link #getDeclaredNamespaces()} on it and all the parents until we
    * reached the {@link SBMLDocument} or these is no more parent set. That will give us a complete set of all the declared
    * namespace visible to this SBase. If a prefix if declared twice, we keep only the first occurrence encountered, meaning that
    * we will have the declaration that is the deeper in the tree, the one that is active for XML code.</p>
-   * 
+   *
    * @param treeNode the SBase or SBasePlugin
    * @param namespaceMap the map to populate
    */
@@ -3343,32 +3372,32 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (treeNode == null) {
       return;
     }
-    
+
     if (treeNode instanceof SBase) {
       SBase sb = (SBase) treeNode;
-      
+
       if (sb.getDeclaredNamespaces() != null) {
         for (String key : sb.getDeclaredNamespaces().keySet()) {
-          if (!namespaceMap.containsKey(key)) 
+          if (!namespaceMap.containsKey(key))
           {
             namespaceMap.put(key, sb.getDeclaredNamespaces().get(key));
           }
         }
       }
 
-      getAllDeclaredNamespaces(sb.getParent(), namespaceMap);      
+      getAllDeclaredNamespaces(sb.getParent(), namespaceMap);
     }
     else if (treeNode instanceof SBasePlugin)
     {
       SBasePlugin sbp = (SBasePlugin) treeNode;
-      
+
       getAllDeclaredNamespaces(sbp.getExtendedSBase(), namespaceMap);
     }
-//    else 
-//    {
-//      System.out.println();
-//    }
-    
+    //    else
+    //    {
+    //      System.out.println();
+    //    }
+
   }
 
 }

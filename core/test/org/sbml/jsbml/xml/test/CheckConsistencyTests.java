@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -57,6 +57,8 @@ public class CheckConsistencyTests {
     InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
+/* commented out until the online validator is working fine again with jsbml
+
     int nbErrors = doc.checkConsistencyOnline();
 
     if (nbErrors > 0) {
@@ -66,6 +68,7 @@ public class CheckConsistencyTests {
 
     //assertTrue(nbErrors > 0); // sometimes there is an error, sometimes no errors !
     assertTrue(nbErrors == 0); // This is due to the way we are writing the Annotation, if it does not respect exactly the SBML specs
+*/
   }
 
   /**
@@ -79,6 +82,7 @@ public class CheckConsistencyTests {
 
     doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
 
+/* commented out until the online validator is working fine again with jsbml
     int nbErrors = doc.checkConsistencyOnline();
 
     int numRealErrors = doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR);
@@ -94,7 +98,7 @@ public class CheckConsistencyTests {
 
     assertTrue(nbErrors == doc.getErrorCount());
     assertTrue(nbErrors == doc.getErrorLog().getValidationErrors().size());
-
+*/
   }
 
   // TODO: test that the different possible consistency checks can be put on or off.
@@ -109,7 +113,7 @@ public class CheckConsistencyTests {
   @Test public void checkConsistency228() throws IOException, XMLStreamException {
     InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
-
+/* commented out until the online validator is working fine again with jsbml
     try {
       int nbErrors = doc.checkConsistencyOnline();
 
@@ -119,6 +123,7 @@ public class CheckConsistencyTests {
       e.printStackTrace();
       assertTrue(false);
     }
+*/
   }
 
   /**
@@ -130,6 +135,7 @@ public class CheckConsistencyTests {
     InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000025.xml");
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
+/* commented out until the online validator is working fine again with jsbml
     try {
       int nbErrors = doc.checkConsistencyOnline();
 
@@ -139,5 +145,6 @@ public class CheckConsistencyTests {
       e.printStackTrace();
       assertTrue(false);
     }
+*/
   }
 }

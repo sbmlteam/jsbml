@@ -26,4 +26,3 @@ When using JSBML, please cite
 * A Dräger _et al_. [JSBML: a flexible Java library for working with SBML](https://doi.org/10.1093/bioinformatics/btr361). Bioinformatics (2011), 27(15):2167–2168.
 
 ## The JSBML team.
-

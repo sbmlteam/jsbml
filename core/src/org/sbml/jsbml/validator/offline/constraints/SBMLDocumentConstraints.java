@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -21,8 +21,11 @@
 package org.sbml.jsbml.validator.offline.constraints;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.sbml.jsbml.JSBML;
@@ -39,6 +42,7 @@ import org.sbml.jsbml.validator.offline.constraints.helper.SBOValidationConstrai
 /**
  * 
  * @author Roman
+ * @author Onur &Ouml;zel
  * @since 1.2
  */
 public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
@@ -47,6 +51,19 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
    * 
    */
   public static final transient String XML_DECLARED_ENCODING = "jsbml.validator.xml.declared.encoding";
+  
+  private static Map<String, Integer> packageValidationAvailability = new HashMap<String, Integer>();
+  
+  static {
+    //add entries to hashmap to store if only partial or no support for validation is available
+    //no support packages: 
+    packageValidationAvailability.put("groups", CORE_70001);
+    //partial support packages:
+    packageValidationAvailability.put("comp", CORE_70002);
+    packageValidationAvailability.put("fbc", CORE_70002);
+    packageValidationAvailability.put("multi", CORE_70002);
+    packageValidationAvailability.put("spatial", CORE_70002);
+  }
 
   
   @Override
@@ -89,6 +106,11 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
       break;
     case UNITS_CONSISTENCY:
       break;
+    case VALIDATION_CONSISTENCY:
+      if (context.isLevelAndVersionGreaterEqualThan(3, 1)) {
+        set.add(CORE_70001);
+      }
+      break;
     }
   }
 
@@ -99,23 +121,51 @@ public class SBMLDocumentConstraints extends AbstractConstraintDeclaration {
 
     switch (errorCode) {
 
-      case CORE_10101: {
-        func = new ValidationFunction<SBMLDocument>() {
+    case CORE_70001:  {
+      //validation method handles both codes CORE_70001 and CORE_70002
+      //so also support for partial validation is detected 
+      func = new AbstractValidationFunction<SBMLDocument>() {
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument t) {
 
-          @Override
-          public boolean check(ValidationContext ctx, SBMLDocument d) {
+          Iterator<Entry<String, Integer>> it = packageValidationAvailability.entrySet().iterator();
+          boolean check = true;
 
-            String encoding = (d.isSetUserObjects() ? (String) d.getUserObject(XML_DECLARED_ENCODING) : null);
+          while (it.hasNext()) {
+            Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
+            Integer errorValue = pair.getValue();
+            String packageName = pair.getKey();
 
-            if (encoding != null && !encoding.equalsIgnoreCase("UTF-8")) {
-              return false;
-            }
 
-            return true;
+            if(t.isPackageEnabled(packageName)) {
+              ValidationConstraint.logError(ctx, errorValue, t, packageName);
+              check = false; 
+            } 
           }
-        };
-        break;
-      }
+
+          return check;
+        }    
+      };
+      break;
+    } 
+    
+    case CORE_10101: {
+      func = new ValidationFunction<SBMLDocument>() {
+
+        @Override
+        public boolean check(ValidationContext ctx, SBMLDocument d) {
+
+          String encoding = (d.isSetUserObjects() ? (String) d.getUserObject(XML_DECLARED_ENCODING) : null);
+
+          if (encoding != null && !encoding.equalsIgnoreCase("UTF-8")) {
+            return false;
+          }
+
+          return true;
+        }
+      };
+      break;
+    }
 
     case CORE_10102:
       func = new ValidationFunction<SBMLDocument>() {

@@ -3,13 +3,13 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -35,7 +35,7 @@ import org.sbml.jsbml.resources.Resource;
 /**
  * This class provides a collection of convenient methods for manipulating
  * Strings.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @author Clemens Wrzodek
@@ -44,7 +44,7 @@ import org.sbml.jsbml.resources.Resource;
 public class StringTools {
 
   /**
-   * 
+   *
    */
   public static final String DECIMAL_FORMAT = "#.###########################################";
   /**
@@ -52,11 +52,11 @@ public class StringTools {
    */
   private static final String newLine = "\n";
   /**
-   * 
+   *
    */
   public static final String REAL_FORMAT = "#.###############################################";
   /**
-   * 
+   *
    */
   public static final String SCIENTIFIC_FORMAT = "#.###########################################E0";
 
@@ -67,7 +67,7 @@ public class StringTools {
 
   /**
    * Takes the given StringBuffer as input and appends every further Object to it.
-   * 
+   *
    * @param k
    * @param things
    * @return
@@ -80,7 +80,7 @@ public class StringTools {
   }
 
   /**
-   * 
+   *
    * @param sb
    * @param elems
    */
@@ -94,7 +94,7 @@ public class StringTools {
    * This method concatenates two or more {@link Object} {@link String}s (obtained
    * by calling {@link Object#toString()} if the current {@link Object} is not
    * {@code null}) into a new {@link StringBuffer}.
-   * 
+   *
    * @param things
    *            to be concatenated
    * @return a new {@link StringBuffer} containing all the string-representations
@@ -114,7 +114,7 @@ public class StringTools {
    * This method concatenates two or more {@link Object} {@link String}s (obtained
    * by calling {@link Object#toString()} if the current {@link Object} is not
    * {@code null}) into a new {@link StringBuilder}.
-   * 
+   *
    * @param things
    *            to be concatenated
    * @return a new {@link StringBuilder} containing all the string-representations
@@ -131,7 +131,7 @@ public class StringTools {
   }
 
   /**
-   * 
+   *
    * @param string
    * @return
    */
@@ -155,7 +155,7 @@ public class StringTools {
 
   /**
    * Returns a String whose first letter is now in lower case.
-   * 
+   *
    * @param name
    * @return
    */
@@ -174,7 +174,7 @@ public class StringTools {
 
   /**
    * Returns a String who's first letter is now in upper case.
-   * 
+   *
    * @param name
    * @return
    */
@@ -195,7 +195,7 @@ public class StringTools {
    * Returns the number as an English word. Zero is converted to "no". Only
    * positive numbers from 1 to twelve can be converted. All other numbers are
    * just converted to a String containing the number.
-   * 
+   *
    * @param number
    * @return
    */
@@ -236,7 +236,7 @@ public class StringTools {
   }
 
   /**
-   * 
+   *
    * @param exc
    * @return
    */
@@ -265,7 +265,7 @@ public class StringTools {
    * This method creates a {@link String} representation of the given number and
    * inserts as many zero characters as the prefix of this {@link String} as
    * needed to result in a {@link String} of the given length.
-   * 
+   *
    * @param length
    *            the total desired length of the given number {@link String}.
    * @param number
@@ -278,7 +278,7 @@ public class StringTools {
   }
 
   /**
-   * 
+   *
    * @param length
    *            the desired length of the resulting {@link String}
    * @param symbol
@@ -301,7 +301,7 @@ public class StringTools {
   }
 
   /**
-   * 
+   *
    * @param length
    * @param symbol
    * @return
@@ -314,7 +314,7 @@ public class StringTools {
    * Ensures a minimum size of {@code length} for the given {@code stringBuilder}.
    * Therefore, the given {@code symbol} will be put at the beginning of the
    * string, until it reaches the given {@code length}.
-   * 
+   *
    * @param length
    * @param symbol
    * @param sb
@@ -339,7 +339,7 @@ public class StringTools {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static final String newLine() {
@@ -349,7 +349,7 @@ public class StringTools {
   /**
    * Parses a String into a boolean following the rules of the SBML
    * specifications, section 3.1.2.
-   * 
+   *
    * @param valueAsStr
    *            a boolean as a String
    * @return the String as a boolean. If the String is not a valid boolean, false
@@ -378,7 +378,7 @@ public class StringTools {
   /**
    * Parses a String into a boolean following the rules of the SBML
    * specifications, section 3.1.2.
-   * 
+   *
    * @param valueAsStr
    *            a boolean as a String
    * @return the String as a boolean. If the String is not a valid boolean an
@@ -408,7 +408,7 @@ public class StringTools {
   /**
    * Parses a String into a double number following the rules of the SBML
    * specifications, section 3.1.5.
-   * 
+   *
    * @param valueAsStr
    *            a double as a String
    * @return the String as a double. If the String is not a valid double number,
@@ -438,7 +438,7 @@ public class StringTools {
   /**
    * Parses a String into a double number following the rules of the SBML
    * specifications, section 3.1.5.
-   * 
+   *
    * @param valueAsStr
    *            a double as a String
    * @return the String as a double. If the String is not a valid double number,
@@ -458,19 +458,19 @@ public class StringTools {
       } else if (toTest.equalsIgnoreCase("-INF")) {
         value = Double.NEGATIVE_INFINITY;
       } else {
-    	  Logger logger = Logger.getLogger(StringTools.class);
-          logger.warn("Could not create a double from the string '" + valueAsStr + "'");
-    	  throw new IllegalArgumentException("Could not create a double from the string " + valueAsStr);
+        Logger logger = Logger.getLogger(StringTools.class);
+        logger.warn("Could not create a double from the string '" + valueAsStr + "'");
+        throw new IllegalArgumentException("Could not create a double from the string " + valueAsStr);
       }
     }
 
     return value;
-  }  
-  
+  }
+
   /**
    * Parses a {@link String} into an int number following the rules of the SBML
    * specifications, section 3.1.3.
-   * 
+   *
    * @param valueAsStr
    *            an int as a {@link String}
    * @throws IllegalArgumentException if the String cannot be converted into an int.
@@ -492,7 +492,7 @@ public class StringTools {
   /**
    * Parses a {@link String} into an short number following the rules of the SBML
    * specifications, section 3.1.3.
-   * 
+   *
    * @param value
    *            an int as a String
    * @return the {@link String} as an short. If the {@link String} is not a valid
@@ -512,7 +512,7 @@ public class StringTools {
   /**
    * Parses a {@link String} into an short number following the rules of the SBML
    * specifications, section 3.1.3.
-   * 
+   *
    * @param value
    *            an int as a String
    * @throws IllegalArgumentException if the String cannot be converted into a short.
@@ -534,7 +534,7 @@ public class StringTools {
   /**
    * Returns a HTML formated String, in which each line is at most lineBreak
    * symbols long.
-   * 
+   *
    * @param string
    * @return
    */
@@ -545,7 +545,7 @@ public class StringTools {
   /**
    * Returns a HTML formated String, in which each line is at most lineBreak
    * symbols long.
-   * 
+   *
    * @param string
    * @param lineBreak
    * @return
@@ -559,7 +559,7 @@ public class StringTools {
     int length = sb.length();
     sb.insert(0, "<html><body>");
     while (st.hasMoreElements()) {
-      if (length >= lineBreak && lineBreak < Integer.MAX_VALUE) {
+      if ((length >= lineBreak) && (lineBreak < Integer.MAX_VALUE)) {
         sb.append("<br/>");
         length = 0;
       } else {
@@ -580,7 +580,7 @@ public class StringTools {
    * the decimal separator and the symbols to represent the digits are chosen from
    * the system's configuration. Furthermore, a scientific style including 'E'
    * will be used if the value is smaller than 1E-5 or greater than 1E5.
-   * 
+   *
    * @param value
    * @return
    */
@@ -590,7 +590,7 @@ public class StringTools {
 
   /**
    * Allows for {@link Locale}-dependent number formatting.
-   * 
+   *
    * @param locale
    * @param value
    * @return
@@ -604,7 +604,7 @@ public class StringTools {
       return value < 0 ? '-' + infinity : infinity;
     }
 
-    if (((int) value) - value == 0) {
+    if ((((int) value) - value) == 0) {
       return String.format(locale, "%d", Integer.valueOf((int) value));
     }
 
@@ -621,12 +621,12 @@ public class StringTools {
    * Checks whether a given {@link String} fits into the definition of the XML
    * notes {@link String} in SBML. If not, this method will surround the given
    * {@link String} with the minimal definition of a valid notes {@link String}.
-   * 
+   *
    * @param notes
    *            the {@link String} to be checked and possibly modified.
    * @return A {@link String} that will be surrounded by the XML definition of a
    *         notes {@link String} in SBML, i.e.,
-   * 
+   *
    *         <pre class="brush:xml">
    * &lt;notes&gt;
    *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
@@ -634,7 +634,7 @@ public class StringTools {
    *   &lt;/body&gt;
    * &lt;/notes&gt;
    *         </pre>
-   * 
+   *
    *         If the given argument already suffices the definition of XML
    *         {@link String}s in SBML, nothing will be changed.
    */
@@ -646,12 +646,12 @@ public class StringTools {
    * Checks whether a given {@link String} fits into the definition of the XML
    * message {@link String} in SBML. If not, this method will surround the given
    * {@link String} with the minimal definition of a valid message {@link String}.
-   * 
+   *
    * @param message
    *            the {@link String} to be checked and possibly modified.
    * @return A {@link String} that will be surrounded by the XML definition of a
    *         notes {@link String} in SBML, i.e.,
-   * 
+   *
    *         <pre class="brush:xml">
    * &lt;message&gt;
    *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
@@ -659,7 +659,7 @@ public class StringTools {
    *   &lt;/body&gt;
    * &lt;/message&gt;
    *         </pre>
-   * 
+   *
    *         If the given argument already suffices the definition of XML
    *         {@link String}s in SBML, nothing will be changed.
    */
@@ -671,13 +671,13 @@ public class StringTools {
    * Checks whether a given {@link String} contain the given surrounding tag. If
    * not, this method will surround the given {@link String} with the minimal
    * definition of a valid XML {@link String}.
-   * 
+   *
    * @param notes
    *            the {@link String} to be checked and possibly modified.
    * @param surroundingTagName
    * @return A {@link String} that will be surrounded by the XML definition of a
    *         notes {@link String} in SBML, i.e.,
-   * 
+   *
    *         <pre class="brush:xml">
    * &lt;tag&gt;
    *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
@@ -685,12 +685,12 @@ public class StringTools {
    *   &lt;/body&gt;
    * &lt;/tag&gt;
    *         </pre>
-   * 
+   *
    *         If the given argument already suffices the definition of XML
    *         {@link String}s in SBML, nothing will be changed.
    */
   private static String toXMLString(String notes, String surroundingTagName) {
-    
+
     if (!notes.trim().startsWith("<")) { // we assume that this is free text
       StringBuilder sb = new StringBuilder();
       sb.append("<").append(surroundingTagName).append(">\n");
@@ -704,7 +704,7 @@ public class StringTools {
       sb.append("</").append(surroundingTagName).append(">\n");
       return sb.toString();
     } else if (!notes.trim().startsWith("<" + surroundingTagName)) {
-      
+
       // we assume the surrounding XML tag is missing
       StringBuilder sb = new StringBuilder();
       sb.append("<").append(surroundingTagName);
@@ -719,7 +719,7 @@ public class StringTools {
       sb.append("\n</").append(surroundingTagName).append(">\n");
       return sb.toString();
     }
-    
+
     return notes;
   }
 
@@ -728,7 +728,7 @@ public class StringTools {
    * annotation {@link String} in SBML. If not, this method will surround the
    * given {@link String} with the minimal definition of a valid annotation
    * {@link String}.
-   * 
+   *
    * @param annotation
    *            - the {@link String} to be checked and possibly modified.
    * @return the argument surrounded by the annotation XML element if needed.

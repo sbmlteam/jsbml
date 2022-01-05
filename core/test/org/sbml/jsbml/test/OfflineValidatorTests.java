@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -374,7 +374,7 @@ public class OfflineValidatorTests {
     System.out.println("Constraint " + errorCode);
     printStrongHLine();
     System.out.println("File: " + name);
-    System.out.println("Should pass: " + shouldPass);
+    System.out.println("Constraint should pass: " + shouldPass);
 
     try {
       long startRead = Calendar.getInstance().getTimeInMillis();
@@ -411,10 +411,10 @@ public class OfflineValidatorTests {
 
       if (constraintBroken == !shouldPass) {
         filesCorrectly++;
-        System.out.println("PASSED");
+        System.out.println("TEST PASSED");
       } else {
         didNotDetect(errorCode, file.getName());
-        System.out.println("FAILED!!!");
+        System.out.println("TEST FAILED!!!");
       }
     } catch (Exception e) {
       exceptions.put(name, e);

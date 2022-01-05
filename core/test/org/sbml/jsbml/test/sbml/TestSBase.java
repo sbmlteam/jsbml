@@ -8,7 +8,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -48,6 +48,8 @@ import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLToken;
 import org.sbml.jsbml.xml.XMLTriple;
 
+
+
 /**
  * Tests for the {@link SBase} class, mainly about manipulation of 'notes' {@link XMLNode} and {@link CVTerm}.
  * 
@@ -55,6 +57,7 @@ import org.sbml.jsbml.xml.XMLTriple;
  * @author Akiya Jouraku
  * @author Ben Bornstein
  * @author David Vetter
+ * @author Onur &Ouml;zel
  * @since 1.0
  */
 public class TestSBase {
@@ -1341,7 +1344,7 @@ public class TestSBase {
 
     assertTrue(taggednewnotes2.equals(notes4));
   }
-
+  
 
   @Test public void test_SBase_setAnnotation() throws XMLStreamException
   {

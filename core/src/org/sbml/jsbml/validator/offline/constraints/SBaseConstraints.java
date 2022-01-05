@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -525,7 +525,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
             if (firstElementIndex != -1) {
               cname = notesNode.getChildAt(firstElementIndex).getName(); 
               
-              if (cname == "html") {
+              if (cname.equals("html")) {
                 
                 // check the structure of the html element
                 XMLNode htmlNode = notesNode.getChildAt(firstElementIndex);
@@ -561,7 +561,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
                 
                 return validHead && checkHtmlBodyContent(ctx, sb, bodyNode);
                 
-              } else if (cname == "body") {
+              } else if (cname.equals("body")) {
 
                 // check each top level elements inside the body element
                 XMLNode bodyNode = notesNode.getChildAt(firstElementIndex);
