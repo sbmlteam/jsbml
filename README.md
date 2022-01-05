@@ -13,8 +13,8 @@ JSBML
 [![DOI](http://img.shields.io/badge/DOI-10.1093%20%2F%20bioinformatics%20%2F%20btv341-blue.svg?style=plastic)](https://doi.org/10.1093/bioinformatics/btv341)
 
 ----
-*Authors*: [Andreas Dräger](http://sbrg.ucsd.edu/researchers/draeger/),
-[Nicolas Rodriguez](http://lenoverelab.org/members/Nicolas_Rodriguez/)
+*Authors*: [Andreas Dräger](https://uni-tuebingen.de/en/134053),
+[Nicolas Rodriguez](https://uk.linkedin.com/in/nicolas-rodriguez-b1640a5)
 with contributions from (in alphabetical order):
 [Meike Aichele](https://github.com/MeikeAi/),
 Alexander Diamantikos,
@@ -155,7 +155,7 @@ The authors gratefully acknowledge the funding and support of the following agen
 
 * Google, Inc., as part of Google Summer of Code in from 2014 to 2019.
 
-* The European Commission as part of the 7th Framework Programme for Research and Technological Development (Marie-Curie International Outgoing Fellowship project "AMBiCon," grant number 332020).
+* The European Commission as part of the 7th Framework Programme for Research and Technological Development (Marie-Curie International Outgoing Fellowship project "[AMBiCon](https://uni-tuebingen.de/en/134083)," grant number 332020).
 
 * A grant of the University of Tuebingen for young scientist support (project number 18017002).
 
