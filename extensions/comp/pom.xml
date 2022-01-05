@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.sbml.jsbml.ext</groupId>
     <artifactId>ext</artifactId>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.6.1</version>
     <relativePath>../</relativePath>
   </parent>
   
