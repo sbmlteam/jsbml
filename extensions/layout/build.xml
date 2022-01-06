@@ -273,7 +273,7 @@
     		 access="public"
     >
 			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
-			<link href="http://www.biojava.org/docs/api17"/>
+			<link href="https://biojava.org/docs/api6.0.0"/>
 			<link href="http://sbml.org/Special/Software/JSBML/build/apidocs/index.html"/>
 			<tag name="sbml.deprecated" description="Deprecated in SBML since :"/>
 			<tag name="jsbml.note" description="Note"/>

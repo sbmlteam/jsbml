@@ -508,7 +508,7 @@
                 Generated at ${TODAY}&lt;br/&gt;Version ${version} Revision ${jsbml.revision}">
 
 			<link href="http://docs.oracle.com/javase/6/docs/api/" />
-			<link href="http://www.biojava.org/docs/api17" />
+			<link href="https://biojava.org/docs/api6.0.0" />
 			<tag name="sbml.deprecated" description="Deprecated in SBML since:" />
 			<tag name="libsbml.deprecated" description="Note: this method is kept here as it exist in libSBML." />
 			<tag name="jsbml.note" description="Note:" />
