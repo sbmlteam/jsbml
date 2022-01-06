@@ -2,7 +2,7 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -10,7 +10,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -32,14 +32,14 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 /**
  * An Abstract Syntax Tree (AST) node representing a relational
  * operator in a mathematical expression.
- * 
+ *
  * @author Victor Kofia
  * @since 1.0
  */
 public class ASTRelationalOperatorNode extends ASTFunction {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 5739652236362075869L;
   /**
@@ -49,7 +49,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
 
   /**
    * Creates a new {@link ASTRelationalOperatorNode} without a pointer
-   * to its containing {@link MathContainer}.
+   * to its containing {@link org.sbml.jsbml.MathContainer}.
    */
   public ASTRelationalOperatorNode() {
     super();
@@ -57,7 +57,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTRelationalOperatorNode}.
-   * 
+   *
    * @param node
    *            the {@link ASTRelationalOperatorNode} to be copied.
    */
@@ -67,7 +67,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
 
   /**
    * Creates a new {@link ASTRelationalOperatorNode} without a pointer
-   * to its containing {@link MathContainer} but with the specified
+   * to its containing {@link org.sbml.jsbml.MathContainer} but with the specified
    * {@link Type}.
    * @param type
    */

@@ -2,14 +2,14 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -44,31 +44,31 @@ public class CSGSetOperator extends CSGNode {
   private static final transient Logger logger = Logger.getLogger(CSGSetOperator.class);
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 3448308755493169761L;
 
   /**
-   * 
+   *
    */
   private SetOperation operationType;
 
   /**
-   * 
+   *
    */
   private String complementA;
   /**
-   * 
+   *
    */
   private String complementB;
 
   /**
-   * 
+   *
    */
   private ListOf<CSGNode> listOfCSGNodes;
 
   /**
-   * 
+   *
    */
   public CSGSetOperator() {
     super();
@@ -108,7 +108,7 @@ public class CSGSetOperator extends CSGNode {
 
 
   /**
-   * 
+   *
    * @param id
    * @param level
    * @param version
@@ -389,7 +389,7 @@ public class CSGSetOperator extends CSGNode {
    * <p>The listOfCSGNodes is initialized if necessary.
    *
    * @param csgNode the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addCSGNode(CSGNode csgNode) {
     return getListOfCSGNodes().add(csgNode);
@@ -400,8 +400,8 @@ public class CSGSetOperator extends CSGNode {
    * Removes an element from the listOfCSGNodes.
    *
    * @param csgNode the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeCSGNode(CSGNode csgNode) {
     if (isSetListOfCSGNodes()) {

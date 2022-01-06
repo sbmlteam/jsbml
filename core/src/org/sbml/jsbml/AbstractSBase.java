@@ -2301,7 +2301,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    *
    * @param cvTerm
    *        the {@link CVTerm} to remove
-   * @return true if the {@link CVTerm} was successfully removed.
+   * @return {@code true} if the {@link CVTerm} was successfully removed.
    */
   @Override
   public boolean removeCVTerm(CVTerm cvTerm) {

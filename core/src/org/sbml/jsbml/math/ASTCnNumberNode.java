@@ -2,7 +2,7 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -10,7 +10,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * An Abstract Syntax Tree (AST) node representing a MathML cn element in a
  * mathematical expression. cn elements are used to specify actual numerical
  * constants.
- * 
+ *
  * @author Victor Kofia
  * @param <T>
  * @since 1.0
@@ -44,7 +44,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 5649353555778706414L;
 
@@ -81,7 +81,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnNumberNode}.
-   * 
+   *
    * @param node
    *            the {@link ASTCnNumberNode} to be copied.
    */
@@ -130,7 +130,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * Evaluates recursively this {@link ASTCnNumberNode} and creates a new
    * UnitDefinition with respect to all referenced elements.
-   * 
+   *
    * @return the derived unit of the node.
    * @throws SBMLException
    *             if they are problems going through the {@link ASTNode2} tree.
@@ -195,7 +195,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * Get the numerical base of MathML element. Number (CDATA for XML DTD)
    * between 2 and 36.
-   * 
+   *
    * @return T number
    * @throws PropertyUndefinedError
    */
@@ -213,7 +213,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
    * Returns the units of the MathML element represented by this ASTCnNumberNode
-   * 
+   *
    * @return String units
    */
   public String getUnits() {
@@ -230,11 +230,13 @@ public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
    * Creates or obtains a {@link UnitDefinition} corresponding to the unit
-   * that has been set for this {@link ASTCnNumberNode} and returns a pointer to it.
+   * that has been set for this {@link ASTCnNumberNode} and returns a pointer to
+   * it.
    * Note that in case that this {@link ASTCnNumberNode} is associated with a
-   * {@link Kind}, the created {@link UnitDefinition} will not be part of the
-   * model, it is just a container for the {@link Kind}.
-   * 
+   * {@link org.sbml.jsbml.Unit.Kind}, the created {@link UnitDefinition} will
+   * not be part of the model, it is just a container for the
+   * {@link org.sbml.jsbml.Unit.Kind}.
+   *
    * @return A {@link UnitDefinition} or {@code null}.
    */
   public UnitDefinition getUnitsInstance() {
@@ -266,7 +268,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
    * Get the variable for this {@link ASTNumber} node
-   * 
+   *
    * @return variable {@link String}
    */
   public String getVariable() {
@@ -288,15 +290,15 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   public int hashCode() {
     final int prime = 1483;
     int result = super.hashCode();
-    result = prime * result + ((number == null) ? 0 : number.hashCode());
-    result = prime * result + ((units == null) ? 0 : units.hashCode());
+    result = (prime * result) + ((number == null) ? 0 : number.hashCode());
+    result = (prime * result) + ((units == null) ? 0 : units.hashCode());
     return result;
   }
 
   /**
    * Returns {@code true} if the current {@link ASTCnNumberNode} or
    * any of its descendants has a unit defined.
-   * 
+   *
    * @return {@code true} if the current {@link ASTCnNumberNode} or
    * any of its descendants has a unit defined.
    */
@@ -309,13 +311,13 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    return type == Type.INTEGER || type == Type.RATIONAL || type == Type.REAL
-        || type == Type.REAL_E;
+    return (type == Type.INTEGER) || (type == Type.RATIONAL) || (type == Type.REAL)
+        || (type == Type.REAL_E);
   }
 
   /**
    * Returns True iff base has been set
-   * 
+   *
    * @return boolean
    */
   protected boolean isSetNumber() {
@@ -324,7 +326,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
    * Returns True iff units has been set
-   * 
+   *
    * @return boolean
    */
   public boolean isSetUnits() {
@@ -334,7 +336,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * Returns true iff this {@link ASTNumber} node
    * represents a variable.
-   * 
+   *
    * @return
    */
   protected boolean isSetVariable() {
@@ -344,7 +346,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * Set the numerical base of MathML element. Number (CDATA for XML DTD)
    * between 2 and 36
-   * 
+   *
    * @param number
    */
   public void setNumber(T number) {
@@ -355,7 +357,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
    * Set the units of the MathML element represented by this ASTCnNumberNode
-   * 
+   *
    * @param units
    */
   public void setUnits(String units) {
@@ -367,7 +369,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
    * Set the variable for this {@link ASTNumber} node
-   * 
+   *
    * @param variable {@link String}
    */
   public void setVariable(String variable) {
@@ -378,7 +380,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
    * Unset the units attribute.
-   * 
+   *
    */
   public void unsetUnits() {
     String oldValue = units;

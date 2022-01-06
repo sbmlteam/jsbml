@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -58,9 +58,9 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * Validates an SBML document using the <a href="http://sbml.org/Facilities/Validator">SBML.org Online Validator</a>.
- * 
+ *
  * <p>This file is adapted from libSBML by Nicolas Rodriguez
- * 
+ *
  * @author Ben Bornstein <sbml-team@caltech.edu>
  * @author Akiya Jouraku <sbml-team@caltech.edu>
  * @author Nicolas Rodriguez
@@ -69,7 +69,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 class Validator {
 
   /**
-   * 
+   *
    */
   public static String validatorURL = "http://sbml.org/validator/";
   // public static String validatorURL = "http://sbml-validator.caltech.edu:8888/validator_servlet/ValidatorServlet";
@@ -81,7 +81,7 @@ class Validator {
    * to one of: "xml", "xhtml", "json", "text" (default: xml).
    * @param filename
    * @param parameters
-   * 
+   *
    * @return an InputStream containing the validation results.
    * @throws IOException
    */
@@ -127,7 +127,7 @@ class Validator {
  * writeParameter() and may be either strings or the contents of an XML file. A
  * post is finished by calling done() which returns an InputStream for reading
  * the servers response.
- * 
+ *
  * NOTE: This class is meant to communicate with the SBML.org online validator.
  * As such, it assumes uploaded files are XML and always sends a Content-Type:
  * text/xml.
@@ -248,15 +248,15 @@ class MultipartPost {
   }
 
   /**
-   * 
+   *
    */
   URLConnection connection;
   /**
-   * 
+   *
    */
   OutputStream stream;
   /**
-   * 
+   *
    */
   String boundary;
 
@@ -270,13 +270,13 @@ class MultipartPost {
  * filename.xml
  * <br>
  * usage: java validateSBML [-h] [-d opt1[,opt2,...]] http://...
- * 
- * 
+ *
+ *
  */
 public class SBMLValidator {
 
   /**
-   * 
+   *
    */
   static void usage() {
     String usage = "usage: java org.sbml.jsbml.validator.SBMLValidator [-h] [-d opt1[,opt2,...]] filename.xml\n"
@@ -304,7 +304,7 @@ public class SBMLValidator {
   }
 
   /**
-   * 
+   *
    * @param args
    */
   public static void main(String[] args) {
@@ -313,9 +313,9 @@ public class SBMLValidator {
     String offcheck = "u";
 
     /**
-     * 
+     *
      * Parse the command-line arguments.
-     * 
+     *
      */
     for (int i = 0; i < args.length; i++) {
       if (args[i].equals("-h")) {
@@ -421,28 +421,28 @@ public class SBMLValidator {
   /**
    * Validates an SBML model using the
    * SBML.org online validator (http://sbml.org/validator/).
-   * 
+   *
    * <p>
    * You can control the consistency checks that are performed when
    * {@link #checkConsistency(String)} is called with the {@link HashMap} of
    * parameters given.
    * It will fill the {@link SBMLErrorLog}
    * with {@link SBMLError}s for each problem within this whole model.
-   * 
+   *
    * <p>
    * If this method returns a non empty {@link SBMLErrorLog}, the failures may be
    * due to warnings @em or errors.  Callers should inspect the severity
    * flag in the individual SBMLError objects to determine the nature of the failures.
-   * 
-   * <p>This method is called from {@link SBMLDocument#checkConsistency()}. To know what
-   * to set in the parameters map, you can have a look at {@link SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)}.
+   *
+   * <p>This method is called from {@link org.sbml.jsbml.SBMLDocument#checkConsistency()}. To know what
+   * to set in the parameters map, you can have a look at {@link org.sbml.jsbml.SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)}.
    * But the key should be one of the category in {@link CHECK_CATEGORY} and the value should
-   * be "true" or "false".
-   * 
+   * be {@code true} or {@code false}.
+   *
    * @param fileName a file name
    * @param parameters parameters for the libsbml checkConsistency()
    * @return an {@link SBMLErrorLog} containing the list of errors.
-   * 
+   *
    * @see <a href="http://sbml.org/Facilities/Validator/Validator_Web_API">sbml.org Validator Web API</a>
    */
   public static SBMLErrorLog checkConsistency(String fileName, Map<String, String> parameters)
@@ -487,26 +487,26 @@ public class SBMLValidator {
 
   /**
    * Parses the XML {@link String} returned by the libSBML online validator or web services.
-   * 
+   *
    * <p>
    * It will fill the {@link SBMLErrorLog}
    * with {@link SBMLError}s for each problem within this whole model.
-   * 
+   *
    * <p>
    * If this method returns a non empty {@link SBMLErrorLog}, the failures may be
    * due to warnings @em or errors.  Callers should inspect the severity
    * flag in the individual SBMLError objects to determine the nature of the failures.
-   * 
+   *
    * @param xmlValidationString an XML {@link String} representing an SBML model.
    * @return an {@link SBMLErrorLog} containing the list of errors.
-   * 
+   *
    * @see <a href="http://sbml.org/Facilities/Validator/Validator_Web_API">sbml.org Validator Web API</a>
    */
   public static SBMLErrorLog checkConsistency(String xmlValidationString)
   {
     Logger logger = Logger.getLogger(SBMLValidator.class);
 
-    if (xmlValidationString == null || xmlValidationString.trim().length() == 0) {
+    if ((xmlValidationString == null) || (xmlValidationString.trim().length() == 0)) {
       return new SBMLErrorLog();
     }
 
@@ -591,7 +591,7 @@ public class SBMLValidator {
   /**
    * Enumerates the different possible check categories
    * when performing the validation of an SBML document.
-   * 
+   *
    */
   public static enum CHECK_CATEGORY
   {
@@ -649,9 +649,9 @@ public class SBMLValidator {
      *  and do not have equivalent SBML validation rules.)
      */
     MODELING_PRACTICE,
-    
+
     /**
-     * Checks for validationsupport level. 
+     * Checks for validationsupport level.
      */
     VALIDATION_CONSISTENCY
   };

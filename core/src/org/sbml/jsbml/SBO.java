@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -28,8 +28,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.biojava.nbio.ontology.Ontology;
-import org.biojava.nbio.ontology.io.OboParser;
+import org.biojava.ontology.Ontology;
+import org.biojava.ontology.io.OboParser;
 import org.sbml.jsbml.ontology.Term;
 import org.sbml.jsbml.ontology.Triple;
 import org.sbml.jsbml.resources.Resource;
@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.StringTools;
 
 /**
  * Methods for interacting with Systems Biology Ontology (SBO) terms.
- * 
+ *
  * <p>This class
  * uses the BioJava classes for working with ontologies and contains static
  * classes to represent single {@link Term}s and {@link Triple}s of subject,
@@ -47,7 +47,7 @@ import org.sbml.jsbml.util.StringTools;
  * {@link Object}s can be accessed via dedicated get methods. Furthermore, the
  * {@link Ontology} from BioJava, which is used in this class, can also be
  * obtained using the method {@link #getOntology()}.
- * 
+ *
  * <p>
  * The values of 'id' attributes on SBML components allow the components to
  * be cross-referenced within a model. The values of 'name' attributes on
@@ -78,7 +78,7 @@ import org.sbml.jsbml.util.StringTools;
  * is the purpose of the optional 'sboTerm' attribute provided on the SBML
  * class {@link SBase}.  The 'sboTerm' attribute always refers to terms belonging
  * to the Systems Biology Ontology (SBO).
- * <p>
+ *
  * <h2>Use of {@link SBO}</h2>
  * <p>
  * Labeling model components with terms from shared controlled vocabularies
@@ -163,7 +163,7 @@ import org.sbml.jsbml.util.StringTools;
  * use of 'sboTerm' to alter the mathematical meaning of a model would
  * allow too much leeway to shoehorn inconsistent concepts into SBML
  * objects, ultimately reducing the interoperability of the models.
- * <p>
+ *
  * <h2>Relationships between {@link SBO} and SBML</h2>
  * <p>
  * The goal of SBO labeling for SBML is to clarify to the fullest extent
@@ -190,7 +190,7 @@ import org.sbml.jsbml.util.StringTools;
  * information to understand the meaning of a model, software does not need
  * to support 'sboTerm' to be considered SBML-compliant.
  * <p>
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @since 0.8
@@ -198,7 +198,7 @@ import org.sbml.jsbml.util.StringTools;
 public class SBO {
 
   /**
-   * 
+   *
    */
   private static Properties alias2sbo;
 
@@ -208,17 +208,17 @@ public class SBO {
   private static final String prefix = "SBO:";
 
   /**
-   * 
+   *
    */
   private static Ontology sbo;
 
   /**
-   * 
+   *
    */
   private static Properties sbo2alias;
 
   /**
-   * 
+   *
    */
   private static Set<Term> terms;
 
@@ -245,7 +245,7 @@ public class SBO {
 
   /**
    * Checks the format of the given SBO integer portion.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if sboTerm is in the range {0,.., 9999999}, {@code false} otherwise.
    */
@@ -255,7 +255,7 @@ public class SBO {
 
   /**
    * Checks the format of the given SBO string.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if sboTerm is in the correct format (a zero-padded, seven
    *         digit string), {@code false} otherwise.
@@ -287,7 +287,7 @@ public class SBO {
 
   /**
    * Returns an SBO id corresponding to the given alias.
-   * 
+   *
    * @param alias
    * @return an SBO id corresponding to the given alias.
    */
@@ -298,7 +298,7 @@ public class SBO {
 
   /**
    * Returns an alias corresponding to the given SBO id.
-   * 
+   *
    * @param sboterm
    * @return an alias corresponding to the given SBO id.
    */
@@ -309,7 +309,7 @@ public class SBO {
 
   /**
    * Returns the SBO id for antisense RNA.
-   * 
+   *
    * @return the SBO id for antisense RNA.
    */
   public static int getAntisenseRNA() {
@@ -319,7 +319,7 @@ public class SBO {
   /**
    * Interaction between several biochemical entities that results in the
    * formation of a non-covalent complex
-   * 
+   *
    * @return 177
    */
   public static int getAssociation() {
@@ -328,7 +328,7 @@ public class SBO {
 
   /**
    * Describes an activator (ligand) which binds at a site other than the active site, resulting in a conformational change, enhancing the activity of the enzyme.
-   * 
+   *
    * @return 636
    */
   public static int getAllostericActivator() {
@@ -337,7 +337,7 @@ public class SBO {
 
   /**
    * An inhibitor whose binding to an enzyme results in a conformational change, resulting in a loss of enzymatic activity. This activity can be restored upon removal of the inhibitor.
-   * 
+   *
    * @return 639
    */
   public static int getAllostericInhibitor() {
@@ -347,7 +347,7 @@ public class SBO {
   /**
    * An essential activator that affects the apparent value of the Michaelis
    * constant(s).
-   * 
+   *
    * @return 535
    */
   public static int getBindingActivator() {
@@ -357,7 +357,7 @@ public class SBO {
   /**
    * Modification of the velocity of a reaction by lowering the energy of the
    * transition state.
-   * 
+   *
    * @return 172
    */
   public static int getCatalysis() {
@@ -366,7 +366,7 @@ public class SBO {
 
   /**
    * An event involving one or more chemical entities that modifies the electrochemical structure of at least one of the participants.
-   * 
+   *
    * @return 176
    */
   public static int getBiochemicalReaction() {
@@ -377,7 +377,7 @@ public class SBO {
    * Substance that accelerates the velocity of a chemical reaction without
    * itself being consumed or transformed. This effect is achieved by lowering
    * the free energy of the transition state.
-   * 
+   *
    * @return the SBO id corresponding to the alias 'CATALYSIS'
    */
   public static int getCatalyst() {
@@ -385,7 +385,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getCatalyticActivator() {
@@ -394,7 +394,7 @@ public class SBO {
 
   /**
    * Physical compartment.
-   * 
+   *
    * @return
    */
   public static int getCompartment() {
@@ -404,7 +404,7 @@ public class SBO {
   /**
    * Substance that decreases the probability of a chemical reaction, without itself being consumed or transformed by the reaction, by stericaly hindering the interaction between reactants.
    * Also known as Inhibition Competitive
-   * 
+   *
    * @return 206
    */
   public static int getCompetitiveInhibitor() {
@@ -412,7 +412,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getCompleteInhibitor() {
@@ -420,7 +420,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getComplex() {
@@ -430,7 +430,7 @@ public class SBO {
   /**
    * Interaction between several biochemical entities that results in the formation of a non-covalent complex
    * Also known as non-covalent binding
-   * 
+   *
    * @return 177
    */
   public static int getComplexAssembly() {
@@ -438,7 +438,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getConservationLaw() {
@@ -447,7 +447,7 @@ public class SBO {
 
   /**
    * Decrease in amount of a material or conceptual entity.
-   * 
+   *
    * @return 394
    */
   public static int getConsumption() {
@@ -455,7 +455,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getContinuousFramework() {
@@ -464,7 +464,7 @@ public class SBO {
 
   /**
    * Biochemical reaction that results in the modification of some covalent bonds.
-   * 
+   *
    * @return 182
    */
   public static int getConversion() {
@@ -484,7 +484,7 @@ public class SBO {
    * <li>RNA</li>
    * <li>RECEPTOR</li>
    * </ul>
-   * 
+   *
    * @return
    */
   public static final Set<Integer> getDefaultPossibleEnzymes() {
@@ -498,7 +498,7 @@ public class SBO {
 
   /**
    * Complete disappearance of a physical entity.
-   * 
+   *
    * @return 179
    */
   public static int getDegradation() {
@@ -506,7 +506,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getDiscreteFramework() {
@@ -516,7 +516,7 @@ public class SBO {
   /**
    * Transformation of a non-covalent complex that results in the formation of
    * several independent biochemical entities.
-   * 
+   *
    * @return 180
    */
   public static int getDissociation() {
@@ -525,7 +525,7 @@ public class SBO {
 
   /**
    * Polymer composed of nucleotides containing deoxyribose and linked by phosphodiester bonds.
-   * 
+   *
    * @return 251
    */
   public static int getDNA() {
@@ -541,7 +541,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getDrug() {
@@ -551,7 +551,7 @@ public class SBO {
   /**
    * Empty set is used to represent the source of a creation process or the
    * result of a degradation process.
-   * 
+   *
    * @return
    */
   public static int getEmptySet() {
@@ -565,7 +565,7 @@ public class SBO {
    * The enthalpy change is positive in endothermic reactions, negative in exothermic reactions,
    * and is defined as the difference between the final and initial enthalpy of the system under
    * study: ΔH = Hf - Hi. The standard unit of measure is J. Symbol: ΔH
-   * 
+   *
    * @return 573
    */
   public static int getEnthalpyChange() {
@@ -573,7 +573,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getEntity() {
@@ -586,7 +586,7 @@ public class SBO {
    * disorder where the values are less than zero. The entropy change of a process is defined as the
    * initial system entropy value minus the final entropy value: DeltaS = Sf - Si. The standard unit
    * of measure is J/K. symbol: DeltaS
-   * 
+   *
    * @return 577
    */
   public static int getEntropyChange() {
@@ -594,7 +594,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getEnzymaticCatalysis() {
@@ -605,7 +605,7 @@ public class SBO {
    * Quantity characterizing a chemical equilibrium in a chemical reaction, which is a useful tool to
    * determine the concentration of various reactants or products in a system where chemical equilibrium
    * occurs.
-   * 
+   *
    * @return 281
    */
   public static int getEquilibriumConstant() {
@@ -613,7 +613,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getEssentialActivator() {
@@ -621,7 +621,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getEvent() {
@@ -629,7 +629,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getFunctionalCompartment() {
@@ -637,7 +637,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getFunctionalEntity() {
@@ -646,13 +646,13 @@ public class SBO {
 
   /**
    * A gene is an informational molecule segment.
-   * 
+   *
    * The Nucleic acid feature construct in SBGN is meant to represent a fragment
    * of a macro- molecule carrying genetic information. A common use for this
    * construct is to represent a gene or transcript. The label of this EPN and
    * its units of information are often important for making the purpose clear
    * to the reader of a map.
-   * 
+   *
    * @return
    */
   public static int getGene() {
@@ -670,7 +670,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getGeneCodingRegion() {
@@ -678,7 +678,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getGeneric() {
@@ -692,7 +692,7 @@ public class SBO {
    * favoured and will release energy. The magnitude of the value indicates how far the reaction is
    * from equilibrium, where there will be no free energy change. The standard unit of measure is kJ/mol.
    * Symbol: ΔG.
-   * 
+   *
    * @return 581
    */
   public static int getGibbsFreeEnergyChange() {
@@ -700,7 +700,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getHillEquation() {
@@ -709,7 +709,7 @@ public class SBO {
 
   /**
    * Negative modulation of the execution of a process.
-   * 
+   *
    * @return 169
    */
   public static int getInhibition() {
@@ -719,7 +719,7 @@ public class SBO {
   /**
    * Substance that decreases the probability of a chemical reaction without
    * itself being consumed or transformed by the reaction.
-   * 
+   *
    * @return the SBO id corresponding to the alias 'INHIBITION'
    */
   public static int getInhibitor() {
@@ -727,7 +727,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return 231
    */
   public static int getInteraction() {
@@ -736,7 +736,7 @@ public class SBO {
 
   /**
    * An inhibitor which binds irreversibly with the enzyme such that it cannot be removed, and abolishes enzymatic function.
-   * 
+   *
    * @return 638
    */
   public static int getIrreversibleInhibitor() {
@@ -744,7 +744,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return 459
    */
   public static int getActivator() {
@@ -752,7 +752,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getIon() {
@@ -765,7 +765,7 @@ public class SBO {
    * multiplied by the square of individual ionic valencies. Monovalent electrolytes have
    * a concentration equal to their ionic strength while multivalent electrolytes have
    * greater ionic strength, directly proportional to ionic valency. Symbol: I
-   * 
+   *
    * @return 623
    */
   public static int getIonicStrength() {
@@ -773,7 +773,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getIonChannel() {
@@ -781,7 +781,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getKineticConstant() {
@@ -789,7 +789,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getLogicalFramework() {
@@ -805,7 +805,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getMaterialEntity() {
@@ -813,7 +813,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getMathematicalExpression() {
@@ -821,7 +821,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getMessengerRNA() {
@@ -829,7 +829,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getModellingFramework() {
@@ -839,7 +839,7 @@ public class SBO {
   /**
    * Substance that changes the velocity of a process without itself being
    * consumed or transformed by the reaction.
-   * 
+   *
    * @return the SBO id corresponding to the alias 'MODULATION'
    */
   public static int getModifier() {
@@ -848,7 +848,7 @@ public class SBO {
 
   /**
    * A modifier whose activity is not known or has not been specified.
-   * 
+   *
    * @return 596
    */
   public static int getModifierUnknownActivity()
@@ -858,7 +858,7 @@ public class SBO {
 
   /**
    * Modification of the execution of an event or a process.
-   * 
+   *
    * @return 168
    */
   public static int getModulation() {
@@ -877,7 +877,7 @@ public class SBO {
 
   /**
    * Control that is necessary to the execution of a process.
-   * 
+   *
    * @return 171
    */
   public static int getNecessaryStimulation() {
@@ -886,7 +886,7 @@ public class SBO {
 
   /**
    * Describes an activator (ligand) which binds to the enzyme, which does not result in a conformational change, but which enhances the enzyme's activity.
-   * 
+   *
    * @return 637
    */
   public static int getNonAllostericActivator() {
@@ -904,7 +904,7 @@ public class SBO {
 
   /**
    * Entity composed of several independant components that are not linked by covalent bonds.
-   * 
+   *
    * @return
    */
   public static int getNonCovalentComplex() {
@@ -914,7 +914,7 @@ public class SBO {
   /**
    * An activator which is not necessary for an enzymatic reaction, but whose presence will further increase enzymatic activity.
    * Also known as Activation nonallosteric
-   * 
+   *
    * @return 462
    */
   public static int getNonEssentialActivator() {
@@ -930,7 +930,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return The SBO term identifier corresponding to the {@link Term} with
    *         the name "partial inhibitor".
    */
@@ -939,7 +939,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getParticipant() {
@@ -949,7 +949,7 @@ public class SBO {
   /**
    * The function of a physical or conceptual entity, that is its role, in the
    * execution of an event or process.
-   * 
+   *
    * @return 3
    */
   public static int getParticipantRole() {
@@ -958,7 +958,7 @@ public class SBO {
 
   /**
    * Perturbing agent.
-   * 
+   *
    * @return
    */
   public static int getPertubingAgent() {
@@ -972,7 +972,7 @@ public class SBO {
    * tenfold change in acidity or alkalinity and that is the negative logarithm of the
    * effective hydrogen-ion concentration or hydrogen-ion activity in gram equivalents per
    * liter of the solution. (Definition from Merriam-Webster Dictionary)"
-   * 
+   *
    * @return 304
    */
   public static int getpH()
@@ -981,7 +981,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getPhenotype() {
@@ -989,7 +989,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getPhysicalCompartment() {
@@ -998,7 +998,7 @@ public class SBO {
 
   /**
    * An enumeration of the concentration of magnesium (Mg) in solution (pMg = -log10[Mg2+]).
-   * 
+   *
    * @return 641
    */
   public static int getPMg() {
@@ -1006,7 +1006,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getPhysicalParticipant() {
@@ -1014,7 +1014,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getProcess() {
@@ -1024,7 +1024,7 @@ public class SBO {
   /**
    * Creates and returns a list of molecule types that are accepted as an
    * enzyme for the given type names.
-   * 
+   *
    * @param types
    * @return
    */
@@ -1039,7 +1039,7 @@ public class SBO {
   /**
    * Substance that increases the probability of a chemical reaction without itself being consumed or transformed by the reaction. This effect is achieved by increasing the difference of free energy between the reactant(s) and the product(s)
    * Also known as Activation Allosteric
-   * 
+   *
    * @return
    */
   public static int getPotentiator()
@@ -1052,7 +1052,7 @@ public class SBO {
    * Products are the elements or compounds on the right hand side of the
    * reaction equation. A product can be produced and consumed by the same
    * reaction, its global quantity remaining unchanged.
-   * 
+   *
    * @return the SBO id corresponding to the alias 'product'
    */
   public static int getProduct() {
@@ -1061,7 +1061,7 @@ public class SBO {
 
   /**
    * Generation of a material or conceptual entity.
-   * 
+   *
    * @return 393
    */
   public static int getProduction() {
@@ -1069,7 +1069,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getProtein() {
@@ -1077,7 +1077,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getQuantitativeParameter() {
@@ -1085,7 +1085,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getRateLaw() {
@@ -1098,7 +1098,7 @@ public class SBO {
    * the Reactants are the elements or compounds on the left hand side of the
    * reaction equation. A reactant can be consumed and produced by the same
    * reaction, its global quantity remaining unchanged.
-   * 
+   *
    * @return the SBO id corresponding to the alias 'reactant'
    */
   public static int getReactant() {
@@ -1106,7 +1106,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getReceptor() {
@@ -1114,7 +1114,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getRNA() {
@@ -1131,7 +1131,7 @@ public class SBO {
 
   /**
    * Returns the root element of the SBO Ontology (SBO:0000000).
-   * 
+   *
    * @return the root element of the SBO Ontology (SBO:0000000).
    */
   public static Term getSBORoot() {
@@ -1155,7 +1155,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getSimpleMolecule() {
@@ -1164,7 +1164,7 @@ public class SBO {
 
   /**
    * Simple, non-repetitive chemical entity. Also referred to as simple chemical
-   * 
+   *
    * @return 247
    */
   public static int getSmallMolecule() {
@@ -1172,7 +1172,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getSpecificActivator() {
@@ -1180,7 +1180,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getStateTransition() {
@@ -1188,7 +1188,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getSteadyStateExpression() {
@@ -1197,7 +1197,7 @@ public class SBO {
 
   /**
    * Positive modulation of the execution of a process.
-   * 
+   *
    * @return 170
    */
   public static int getStimulation() {
@@ -1205,7 +1205,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public static int getStimulator() {
@@ -1217,7 +1217,7 @@ public class SBO {
    * mature gene products. These gene products may include RNA species as well as proteins,
    * and the process encompasses all intermediate steps required to generate the active form
    * of the gene product.
-   * 
+   *
    * @return 589
    */
   public static int getTemplateReaction()
@@ -1230,7 +1230,7 @@ public class SBO {
    * The level of defectiveness is often used to sub-classify this phenomenon.
    * Also known as Genetic Interaction
    * Biopax describes this as  Regulation of an expression reaction by a controlling element such as a transcription factor or microRNA. Usage: To represent the binding of the transcription factor to a regulatory element in the TemplateReaction, create a complex of the transcription factor and the regulatory element and set that as the controller.
-   * 
+   *
    * @return 343
    */
   public static int getTemplateReactionRegulation() {
@@ -1239,9 +1239,9 @@ public class SBO {
 
   /**
    * Gets the SBO term with the id 'sboTerm'.
-   * 
+   *
    * @jsbml.warning The methods will throw NoSuchElementException if the id is not found.
-   * 
+   *
    * @param sboTerm the id of the SBO term to search for.
    * @return the SBO term with the id 'sboTerm'.
    * @throws NoSuchElementException if the id is not found.
@@ -1252,11 +1252,11 @@ public class SBO {
 
   /**
    * Gets the SBO term with the id 'sboTerm'.
-   * 
+   *
    * <p> The id need to be of the form 'SBO:XXXXXXX' where X is a digit number.
-   * 
+   *
    * @jsbml.warning The methods will throw {@link NoSuchElementException} if the id is not found or {@code null}.
-   * 
+   *
    * @param sboTerm the id of the SBO term to search for.
    * @return the SBO term with the id 'sboTerm'.
    * @throws NoSuchElementException if the id is not found or {@code null}.
@@ -1267,21 +1267,21 @@ public class SBO {
 
   /**
    * Return the set of terms of the SBO Ontology.
-   * 
+   *
    * <p> This methods return only Term object and no Triple object that represent the
-   * relationship between terms. If you want to access the full set of {@link org.biojava.nbio.ontology.Term}
-   * containing also the {@link org.biojava.nbio.ontology.Triple}, use {@link SBO#getOntology()}
+   * relationship between terms. If you want to access the full set of {@link org.biojava.ontology.Term}
+   * containing also the {@link org.biojava.ontology.Triple}, use {@link SBO#getOntology()}
    * to get the underlying biojava object.
-   * 
+   *
    * @return the set of terms of the SBO Ontology.
    */
   public static Set<Term> getTerms() {
     if (terms.size() < sbo.getTerms().size()) {
-      for (org.biojava.nbio.ontology.Term term : sbo.getTerms()) {
+      for (org.biojava.ontology.Term term : sbo.getTerms()) {
 
-        if (term instanceof org.biojava.nbio.ontology.Triple) {
+        if (term instanceof org.biojava.ontology.Triple) {
           // does nothing
-        } else if (term instanceof org.biojava.nbio.ontology.Term) {
+        } else if (term instanceof org.biojava.ontology.Term) {
           terms.add(new Term(term));
         }
       }
@@ -1297,7 +1297,7 @@ public class SBO {
    * thermodynamic temperature scale by choosing the triple point of water as the
    * fundamental fixed point, and assigning to it the temperature 273,16 degrees Kelvin,
    * exactly (0.01 degree Celsius).
-   * 
+   *
    * @return 147
    */
   public static int getThermodynamicTemperature()
@@ -1307,7 +1307,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'TRANSCRIPTION'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'TRANSCRIPTION'
    */
   public static int getTranscription() {
@@ -1316,7 +1316,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'TRANSCRIPTIONAL_ACTIVATION'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'TRANSCRIPTIONAL_ACTIVATION'
    */
   public static int getTranscriptionalActivation() {
@@ -1325,7 +1325,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'TRANSCRIPTIONAL_INHIBITION'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'TRANSCRIPTIONAL_INHIBITION'
    */
   public static int getTranscriptionalInhibitor() {
@@ -1334,7 +1334,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'KNOWN_TRANSITION_OMITTED'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'KNOWN_TRANSITION_OMITTED'
    */
   public static int getTransitionOmitted() {
@@ -1343,7 +1343,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'TRANSLATION'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'TRANSLATION'
    */
   public static int getTranslation() {
@@ -1352,7 +1352,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'TRANSLATIONAL_ACTIVATION'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'TRANSLATIONAL_ACTIVATION'
    */
   public static int getTranslationalActivation() {
@@ -1361,7 +1361,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'TRANSLATIONAL_INHIBITION'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'TRANSLATIONAL_INHIBITION'
    */
   public static int getTranslationalInhibitor() {
@@ -1370,7 +1370,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'TRANSPORT'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'TRANSPORT'
    */
   public static int getTransport() {
@@ -1380,7 +1380,7 @@ public class SBO {
   /**
    * An event involving one or more physical entities that modifies the structure, location or free energy of at least one of the participants.
    * Also known as biochemical or transport reaction
-   * 
+   *
    * @return 167
    */
   public static int getTransportWithBiochemicalReaction() {
@@ -1389,7 +1389,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'TRIGGER'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'TRIGGER'
    */
   public static int getTrigger() {
@@ -1398,33 +1398,33 @@ public class SBO {
 
   /**
    * Returns a set of Triple which match the supplied subject, predicate and object.
-   * 
+   *
    * <p>If any of the parameters of this method are null, they are treated as wildcards.
    * For example:
-   * 
+   *
    * <pre class="brush:java">
    * getTriples(SBO.getTerm("SBO:0000002"), SBO.getTerm("is_a"), null);
    * </pre>
-   * 
+   *
    * will returned all the parent Terms of {@code SBO:0000002} and
-   * 
+   *
    * <pre class="brush:java">
    * getTriples(null, SBO.getTerm("is_a"), SBO.getTerm(188));
    * </pre>
-   * 
+   *
    * will returned all the children Terms of {@code SBO:0000188}
-   * 
+   *
    * @param subject the subject to search for, or {@code null}.
    * @param predicate the relationship to search for, or {@code null}.
    * @param object the object to search for, or {@code null}.
    * @return a set of Triple which match the supplied subject, predicate and object.
-   * 
-   * @see org.biojava.nbio.ontology.Ontology#getTriples(org.biojava.nbio.ontology.Term,
-   *      org.biojava.nbio.ontology.Term, org.biojava.nbio.ontology.Term)
+   *
+   * @see org.biojava.ontology.Ontology#getTriples(org.biojava.ontology.Term,
+   *      org.biojava.ontology.Term, org.biojava.ontology.Term)
    */
   public static Set<Triple> getTriples(Term subject, Term predicate, Term object) {
     Set<Triple> triples = new HashSet<Triple>();
-    for (org.biojava.nbio.ontology.Triple triple : sbo.getTriples(
+    for (org.biojava.ontology.Triple triple : sbo.getTriples(
       subject != null ? subject.getTerm() : null,
         object != null ? object.getTerm() : null,
           predicate != null ? predicate.getTerm() : null)) {
@@ -1435,7 +1435,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'TRUNCATED'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'TRUNCATED'
    */
   public static int getTruncated() {
@@ -1452,7 +1452,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'UNKNOWN'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'UNKNOWN'
    */
   public static int getUnknownMolecule() {
@@ -1461,7 +1461,7 @@ public class SBO {
 
   /**
    * Returns the SBO id corresponding to the alias 'UNKNOWN_TRANSITION'
-   * 
+   *
    * @return the SBO id corresponding to the alias 'UNKNOWN_TRANSITION'
    */
   public static int getUnknownTransition() {
@@ -1473,7 +1473,7 @@ public class SBO {
    * returns {@code true} if this is the case. It is recommended to call this
    * method before trying to retrieve an actual {@link Term} object, because
    * this could result in a {@link NoSuchElementException}.
-   * 
+   *
    * @param sboTerm
    *        the SBO identifier for which a term is to be retrieved.
    * @return {@code true} if an SBO {@link Term} object can be safely retrieved
@@ -1489,7 +1489,7 @@ public class SBO {
    * returns {@code true} if this is the case. It is recommended to call this
    * method before trying to retrieve an actual {@link Term} object, because
    * this could result in a {@link NoSuchElementException}.
-   * 
+   *
    * @param sboTerm
    *        the SBO identifier for which a term is to be retrieved.
    * @return {@code true} if an SBO {@link Term} object can be safely retrieved
@@ -1508,7 +1508,7 @@ public class SBO {
    * Returns the integer as a correctly formatted SBO string. If the sboTerm
    * is not in the correct range ({0,.., 9999999}), an empty string is
    * returned.
-   * 
+   *
    * @param sboTerm
    * @return the given integer sboTerm as a zero-padded seven digit string.
    */
@@ -1530,7 +1530,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @param sboTerm
    * @return
    */
@@ -1571,7 +1571,7 @@ public class SBO {
   /**
    * Checks whether the given sboTerm is a member of the SBO subgraph rooted
    * at parent.
-   * 
+   *
    * @param sboTerm
    *            An SBO term.
    * @param parent
@@ -1592,7 +1592,7 @@ public class SBO {
   /**
    * Traverses the systems biology ontology starting at {@link Term} subject until
    * either the root (SBO:0000000) or the {@link Term} object is reached.
-   * 
+   *
    * @param subject
    *            Child
    * @param object
@@ -1603,9 +1603,9 @@ public class SBO {
     if (subject.equals(object)) {
       return true;
     }
-    Set<org.biojava.nbio.ontology.Triple> relations = sbo.getTriples(
+    Set<org.biojava.ontology.Triple> relations = sbo.getTriples(
       subject != null ? subject.getTerm() : null, null, null);
-    for (org.biojava.nbio.ontology.Triple triple : relations) {
+    for (org.biojava.ontology.Triple triple : relations) {
       if (triple.getObject().equals(object.getTerm())) {
         return true;
       }
@@ -1648,7 +1648,7 @@ public class SBO {
 
   /**
    * Returns {@code true} if the term is-a conservation law, {@code false} otherwise
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a conservation law, {@code false} otherwise
    */
@@ -1658,7 +1658,7 @@ public class SBO {
 
   /**
    * Returns {@code true} if the term is-a continuous framework, {@code false} otherwise
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a continuous framework, {@code false} otherwise
    */
@@ -1668,7 +1668,7 @@ public class SBO {
 
   /**
    * Returns {@code true} if the term is-a discrete framework, {@code false} otherwise
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a discrete framework, {@code false} otherwise
    */
@@ -1677,7 +1677,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @param sboTerm
    * @return
    */
@@ -1707,7 +1707,7 @@ public class SBO {
 
   /**
    * Returns {@code true} if the term is-a Entity, {@code false} otherwise
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a Entity, {@code false} otherwise
    */
@@ -1737,7 +1737,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-an Event, {@code false} otherwise
    */
@@ -1747,7 +1747,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a functional compartment, {@code false} otherwise
    */
@@ -1757,7 +1757,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a functional entity, {@code false} otherwise
    */
@@ -1778,7 +1778,7 @@ public class SBO {
   /**
    * Returns {@code true} if the sboTerm stands for a gene coding region, false
    *         otherwise
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the sboTerm stands for a gene coding region, false
    *         otherwise
@@ -1790,7 +1790,7 @@ public class SBO {
   /**
    * Returns {@code true} if the sboTerm stands for a gene coding region or a gene,
    *         false otherwise
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the sboTerm stands for a gene coding region or a gene,
    *         false otherwise
@@ -1831,7 +1831,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-an interaction, {@code false} otherwise
    */
@@ -1861,7 +1861,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a kinetic constant, {@code false} otherwise
    */
@@ -1871,7 +1871,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a logical framework, {@code false} otherwise
    */
@@ -1881,7 +1881,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a material entity, {@code false} otherwise
    */
@@ -1891,7 +1891,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a mathematical expression, {@code false} otherwise
    */
@@ -1911,7 +1911,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a modelling framework, {@code false} otherwise
    */
@@ -1921,7 +1921,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a modifier, {@code false} otherwise
    */
@@ -1951,7 +1951,7 @@ public class SBO {
 
   /**
    * Function for checking whether the SBO term is obsolete.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-an obsolete term, {@code false} otherwise
    */
@@ -1972,7 +1972,7 @@ public class SBO {
   /**
    * Function for checking the SBO term is from correct part of SBO. This term
    * is actually obsolete.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a participant, {@code false} otherwise
    */
@@ -1982,7 +1982,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a participant role, {@code false} otherwise
    */
@@ -2013,7 +2013,7 @@ public class SBO {
   /**
    * Function for checking the SBO term is from correct part of SBO. Obsolete
    * term.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a physical participant, {@code false} otherwise
    */
@@ -2022,7 +2022,7 @@ public class SBO {
   }
 
   /**
-   * 
+   *
    * @param sboTerm
    * @return
    */
@@ -2032,7 +2032,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a product, {@code false} otherwise
    */
@@ -2052,7 +2052,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a quantitative parameter, {@code false} otherwise
    */
@@ -2062,7 +2062,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a rate law, {@code false} otherwise
    */
@@ -2072,7 +2072,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a reactant, {@code false} otherwise
    */
@@ -2142,7 +2142,7 @@ public class SBO {
 
   /**
    * Function for checking the SBO term is from correct part of SBO.
-   * 
+   *
    * @param sboTerm
    * @return {@code true} if the term is-a steady state expression, {@code false} otherwise
    */
@@ -2285,7 +2285,7 @@ public class SBO {
    * Creates and returns a 7 digit SBO number for the given {@link Term} identifier (if
    * this is a valid identifier). The returned {@link String} will not contain the
    * SBO prefix.
-   * 
+   *
    * @param sboTerm
    * @return a 7 digit SBO number for the given {@link Term} identifier (if
    * this is a valid identifier). The returned {@link String} will not contain the
@@ -2301,7 +2301,7 @@ public class SBO {
 
   /**
    * Returns the string as a correctly formatted SBO integer portion.
-   * 
+   *
    * @param sboTerm
    * @return the given string sboTerm as an integer. If the sboTerm is not in
    *         the correct format (a zero-padded, seven digit string), -1 is
@@ -2313,7 +2313,7 @@ public class SBO {
 
   /**
    * For testing purposes.
-   * 
+   *
    * @param args
    */
   public static void main(String[] args) {

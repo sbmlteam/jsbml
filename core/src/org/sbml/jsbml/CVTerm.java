@@ -525,7 +525,7 @@ public class CVTerm extends AnnotationElement {
    * @param urn
    *            string representing the resource; e.g.,
    *            'http://identifiers.org/kegg.reaction/R00351'
-   * @return {@code true} as specified in {@link Collection#add(Object)}
+   * @return {@code true} as specified in {@link java.util.Collection#add(Object)}
    */
   public boolean addResource(String urn) {
     try {
@@ -571,8 +571,8 @@ public class CVTerm extends AnnotationElement {
    * 
    * @param index - index at which the specified element is to be inserted
    * @param uri - element to be inserted
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index > size())
-   * @see List#add(int, Object)
+   * @throws IndexOutOfBoundsException if the index is out of range {@code (index < 0 || index > size())}
+   * @see java.util.List#add(int, Object)
    */
   public boolean addResource(int index, String uri)
       throws IndexOutOfBoundsException {
@@ -848,7 +848,7 @@ public class CVTerm extends AnnotationElement {
   /**
    * Returns true if the {@link Qualifier} is set and is of type {@link Type#BIOLOGICAL_QUALIFIER}
    * 
-   * @return true if the {@link Qualifier} is set and is of type {@link Type#BIOLOGICAL_QUALIFIER}, false otherwise.
+   * @return {@code true} if the {@link Qualifier} is set and is of type {@link Type#BIOLOGICAL_QUALIFIER}, false otherwise.
    */
   public boolean isSetBiologicalQualifierType() {
     return getBiologicalQualifierType() != null;
@@ -857,7 +857,7 @@ public class CVTerm extends AnnotationElement {
   /**
    * Returns true if the {@link Qualifier} is set and is of type {@link Type#MODEL_QUALIFIER}
    * 
-   * @return true if the {@link Qualifier} is set and is of type {@link Type#MODEL_QUALIFIER}, false otherwise.
+   * @return {@code true} if the {@link Qualifier} is set and is of type {@link Type#MODEL_QUALIFIER}, false otherwise.
    */
   public boolean isSetModelQualifierType() {
     return getModelQualifierType() != null;

@@ -199,7 +199,7 @@ public class ConstraintConstraints extends AbstractConstraintDeclaration {
          * 
          * @param sbase the sbase to search
          * @param prefix the prefix to search
-         * @return true if we find the given prefix and it  correspond to the XHTML
+         * @return {@code true} if we find the given prefix and it  correspond to the XHTML
          * namespace, false otherwise.
          */
         private boolean recursiveNamespaceCheck(SBase sbase, String prefix) 

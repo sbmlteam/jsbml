@@ -245,7 +245,7 @@ public class DynEventPlugin extends DynSBasePlugin {
    *
    * @param dynElement
    *            the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addDynElement(DynElement dynElement) {
     return getListOfDynElements().add(dynElement);
@@ -269,7 +269,7 @@ public class DynEventPlugin extends DynSBasePlugin {
    * @param dynElement
    *            the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeDynElement(DynElement dynElement) {
     if (isSetListOfDynElements()) {

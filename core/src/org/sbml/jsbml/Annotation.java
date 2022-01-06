@@ -41,7 +41,7 @@ import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser;
 
 /**
  * An Annotation represents the annotations of an {@link SBase} element. It
- * contains the list of {@link CVTerm} objects, a {@link Map} containing an XML
+ * contains the list of {@link CVTerm} objects, a {@link java.util.Map} containing an XML
  * name space and a {@link String} containing all the annotation elements of
  * this name space.
  *
@@ -129,7 +129,7 @@ public class Annotation extends AnnotationElement {
   /**
    * Creates an {@link Annotation} instance from a list of {@link CVTerm}
    * objects. By default, the {@link History} and otherAnnotation {@link String}s are
-   * {@code null}. The {@link Map} extensions is empty.
+   * {@code null}. The {@link java.util.Map} extensions is empty.
    *
    * @param cvTerms
    *            the list of {@link CVTerm}.
@@ -142,11 +142,11 @@ public class Annotation extends AnnotationElement {
   /**
    * Creates an {@link Annotation} instance from a {@link String} containing non RDF
    * annotation. By default, the {@link History} is null, the list of {@link CVTerm}s
-   * is empty. The {@link Map} extensions is empty.
+   * is empty. The {@link java.util.Map} extensions is empty.
    *
    * @param annotation
    *            a {@link String} containing non RDF annotation, it will be parsed to
-   *            create a {@link Map} containing an XML name space associated with a
+   *            create a {@link java.util.Map} containing an XML name space associated with a
    *            {@link String} representing all the annotation elements of
    *            this name space.
    * @throws XMLStreamException
@@ -160,11 +160,11 @@ public class Annotation extends AnnotationElement {
   /**
    * Creates an {@link Annotation} instance from a {@link String} containing
    * non RDF annotation and a list of {@link CVTerm}. By default, the
-   * {@link History} is {@code null}. The {@link Map} extensions is empty.
+   * {@link History} is {@code null}. The {@link java.util.Map} extensions is empty.
    *
    * @param annotation
    *            a {@link String} containing non RDF annotation, it will be
-   *            parsed to create a {@link Map} containing an XML name space
+   *            parsed to create a {@link java.util.Map} containing an XML name space
    *            associated with a {@link String} representing all the
    *            annotation elements of this name space.
    * @param cvTerms
@@ -803,7 +803,7 @@ public class Annotation extends AnnotationElement {
    * Removes the given {@link CVTerm}.
    *
    * @param cvTerm the {@link CVTerm} to remove
-   * @return true if the {@link CVTerm} was successfully removed.
+   * @return {@code true} if the {@link CVTerm} was successfully removed.
    */
   public boolean removeCVTerm(CVTerm cvTerm) {
     if (listOfCVTerms == null) {

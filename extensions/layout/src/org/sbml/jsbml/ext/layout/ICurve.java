@@ -17,7 +17,7 @@ public interface ICurve {
    * 
    * @param curveSegment
    * @return
-   * @see List#add(Object)
+   * @see java.util.List#add(Object)
    */
   public boolean addCurveSegment(CurveSegment curveSegment);
 

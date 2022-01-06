@@ -137,7 +137,7 @@ public interface LayoutAlgorithm {
   public Layout getLayout();
   
   /**
-   * @return true if a {@link Layout} is set for this LayoutAlgorithm, else false
+   * @return {@code true} if a {@link Layout} is set for this LayoutAlgorithm, else false
    */
   public boolean isSetLayout();
   

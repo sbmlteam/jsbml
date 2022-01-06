@@ -198,7 +198,7 @@ public class ParametricGeometry extends GeometryDefinition {
    * <p>The listOfParametricObjects is initialized if necessary.
    *
    * @param parametricObject the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addParametricObject(ParametricObject parametricObject) {
     return getListOfParametricObjects().add(parametricObject);
@@ -209,8 +209,8 @@ public class ParametricGeometry extends GeometryDefinition {
    * Removes an element from the listOfParametricObjects.
    *
    * @param parametricObject the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeParametricObject(ParametricObject parametricObject) {
     if (isSetListOfParametricObjects()) {

@@ -122,7 +122,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * RDF element needs to have the color {@link NODE_COLOR#GREEN} or {@link NODE_COLOR#ORANGE}.
      * 
      * @param contextObject - the {@link SBase} where we want to check the {@link Annotation}.
-     * @return true if the SBML RDF block is recognized as valid or partially valid..
+     * @return {@code true} if the SBML RDF block is recognized as valid or partially valid..
      */
     private boolean isValidSBMLRDF(SBase contextObject) {
 
@@ -1070,7 +1070,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * and no namespaces declared any more.
      * 
      * @param xmlNode
-     * @return true if the node was removed.
+     * @return {@code true} if the node was removed.
      */
     private boolean removeXmlNodeIfEmpty(XMLNode xmlNode)
     {

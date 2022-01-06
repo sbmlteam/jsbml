@@ -1033,8 +1033,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes an element from the listOfCompartmentGlyphs.
    *
    * @param compartmentGlyph the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element and it was removed.
+   * @see java.util.List#remove(Object)
    */
   public boolean removeCompartmentGlyph(CompartmentGlyph compartmentGlyph) {
     if (isSetListOfCompartmentGlyphs()) {
@@ -1140,8 +1140,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes an element from the listOfReactionGlyphs.
    *
    * @param reactionGlyph the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element and it was removed.
+   * @see java.util.List#remove(Object)
    */
   public boolean removeReactionGlyph(ReactionGlyph reactionGlyph) {
     if (isSetListOfReactionGlyphs()) {
@@ -1222,8 +1222,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes an element from the listOfSpeciesGlyphs.
    *
    * @param speciesGlyph the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element and it was removed.
+   * @see java.util.List#remove(Object)
    */
   public boolean removeSpeciesGlyph(SpeciesGlyph speciesGlyph) {
     if (isSetListOfSpeciesGlyphs()) {
@@ -1277,8 +1277,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes an element from the listOfTextGlyphs.
    *
    * @param textGlyph the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element and it was removed.
+   * @see java.util.List#remove(Object)
    */
   public boolean removeTextGlyph(TextGlyph textGlyph) {
     if (isSetListOfTextGlyphs()) {

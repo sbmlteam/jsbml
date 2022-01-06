@@ -2,7 +2,7 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -10,7 +10,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. Marquette University, Milwaukee, WI, USA
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -27,6 +27,7 @@ import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.Rectangle;
+import org.sbml.jsbml.ext.render.RelAbsVector;
 import org.sbml.jsbml.ext.render.RenderGroup;
 
 import jp.sbi.celldesigner.plugin.PluginCompartment;
@@ -40,16 +41,16 @@ import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 public class RenderConverter {
 
   /**
-   * 
+   *
    */
   final static double depth  =  1d;
   /**
-   * 
+   *
    */
   final static double z  =  0d;
 
   /**
-   * 
+   *
    * @param pCompartment
    * @param renderInfo
    * @param layout
@@ -60,19 +61,19 @@ public class RenderConverter {
     LocalStyle localStyle = renderInfo.getListOfLocalStyles().get("compartmentStyle");
 
     localStyle.getIDList().add("cGlyph_"+pCompartment.getId());
-    
+
     RenderGroup group = localStyle.getGroup();
     Rectangle rectangle = new Rectangle();
-    rectangle.setX(pCompartment.getX());
-    rectangle.setY(pCompartment.getY());
-    rectangle.setZ(z);
+    rectangle.setX(new RelAbsVector(pCompartment.getX()));
+    rectangle.setY(new RelAbsVector(pCompartment.getY()));
+    rectangle.setZ(new RelAbsVector(z));
     group.registerChild(rectangle);
     group.setStroke(pCompartment.getId());
     group.setStrokeWidth(pCompartment.getThickness());
   }
 
   /**
-   * 
+   *
    * @param pSpeciesAlias
    * @param renderInfo
    * @param layout
@@ -90,17 +91,17 @@ public class RenderConverter {
     if (speciesName.equals("SIMPLE MOLECULE") || speciesName.equals("ION") || speciesName.equals("DRUG"))
     {
       Ellipse ellipse = new Ellipse();
-      ellipse.setCx(pSpeciesAlias.getX());
-      ellipse.setCy(pSpeciesAlias.getY());
-      ellipse.setCz(z);
+      ellipse.setCx(new RelAbsVector(pSpeciesAlias.getX()));
+      ellipse.setCy(new RelAbsVector(pSpeciesAlias.getY()));
+      ellipse.setCz(new RelAbsVector(z));
       group.registerChild(ellipse);
     }
     else if (speciesName.equals("GENE") || speciesName.equals("PROTEIN"))
     {
       Rectangle rectangle = new Rectangle();
-      rectangle.setX(pSpeciesAlias.getX());
-      rectangle.setY(pSpeciesAlias.getY());
-      rectangle.setZ(z);
+      rectangle.setX(new RelAbsVector(pSpeciesAlias.getX()));
+      rectangle.setY(new RelAbsVector(pSpeciesAlias.getY()));
+      rectangle.setZ(new RelAbsVector(z));
       group.registerChild(rectangle);
     }
     else if (speciesName.equals("RNA") || speciesName.equals("PHENOTYPE") || speciesName.equals("RECEPTOR"))

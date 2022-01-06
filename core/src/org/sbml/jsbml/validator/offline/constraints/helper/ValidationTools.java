@@ -390,7 +390,7 @@ public final class ValidationTools {
    * A SBOTerm begins with 'SBO:' followed by exactly 7 digits
    * 
    * @param s
-   * @return true or false
+   * @return {@code true} or false
    */
   public static boolean isSboTerm(String s) {
 
@@ -424,7 +424,7 @@ public final class ValidationTools {
    * 
    * @param assignment the assignment to check
    * @param var the variable to check
-   * @return true if the given {@link Assignment} and {@link Variable} have equivalent derived units.
+   * @return {@code true} if the given {@link Assignment} and {@link Variable} have equivalent derived units.
    */
   public static boolean haveEquivalentUnits(ValidationContext ctx, Assignment assignment, Variable var) {
     // check that the units from assignment are equivalent to the units of the variable
@@ -462,7 +462,7 @@ public final class ValidationTools {
    * Returns true if the given {@link KineticLaw} has correct derived units.
    * 
    * @param kl the kineticLaw to check
-   * @return true if the given {@link KineticLaw} has correct derived units.
+   * @return {@code true} if the given {@link KineticLaw} has correct derived units.
    */
   public static boolean hasCorrectUnits(ValidationContext ctx, KineticLaw kl) {
     // check that the units from the kineticLaw are equivalent to substance / time or extent / time (for L3).

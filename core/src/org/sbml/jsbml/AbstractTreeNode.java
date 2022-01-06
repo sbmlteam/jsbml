@@ -591,7 +591,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * Returns true if JSBML is in the process of reading a model through the
    * {@link SBMLReader} methods.
    * 
-   * @return true if JSBML is in the process of reading a model
+   * @return {@code true} if JSBML is in the process of reading a model
    * @see #isInvalidSBMLAllowed()
    */
   protected boolean isReadingInProgress() {
@@ -602,7 +602,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * Returns true if JSBML is set so that invalid SBML is allowed to be set,
    * for example, for the purpose of reading a file or doing validation.
    * 
-   * @return true if JSBML is in the process of reading a model
+   * @return {@code true} if JSBML is in the process of reading a model
    */
   protected boolean isInvalidSBMLAllowed() {
     if (isSetUserObjects()
@@ -620,7 +620,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * the parent is not set. And without parent, we cannot get
    * the {@link Model} or {@link SBMLDocument} to check all the maps there and more.</p>
    * 
-   * @return true if JSBML is in the process of cloning an element.
+   * @return {@code true} if JSBML is in the process of cloning an element.
    */
   protected boolean isCloningInProgress() {
     if (isSetUserObjects()

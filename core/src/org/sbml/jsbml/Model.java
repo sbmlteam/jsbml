@@ -10,7 +10,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
@@ -48,7 +49,7 @@ import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
  * the overall container for the lists of the various model components. All of
  * the lists are optional, but if a given list container is present within the
  * model, the list must not be empty; that is, it must have length one or more.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
@@ -96,7 +97,7 @@ implements UniqueNamedSBase, IdManager {
   private ListOf<Compartment>           listOfCompartments;
   /**
    * Represents the listOfCompartmentTypes subnode of a model element.
-   * 
+   *
    * @deprecated only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
@@ -149,7 +150,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Represents the listOfSpeciesTypes subnode of a model element.
-   * 
+   *
    * @deprecated only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
@@ -206,7 +207,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a Model instance.
-   * 
+   *
    * @param level
    * @param version
    */
@@ -218,7 +219,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a Model instance from a Model.
-   * 
+   *
    * @param model
    */
   public Model(Model model) {
@@ -295,7 +296,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a Model instance from an id.
-   * 
+   *
    * @param id
    */
   public Model(String id) {
@@ -307,7 +308,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a Model instance from an id, level and version. By default, all the
    * listOfxxx and xxxUnitsID are {@code null}.
-   * 
+   *
    * @param id
    * @param level
    * @param version
@@ -342,7 +343,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Adds a Compartment instance to the listOfCompartments of this Model.
-   * 
+   *
    * @param compartment
    * @return {@code true} if the {@link #listOfCompartments} was changed as
    *         a result of this call.
@@ -355,7 +356,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Adds a CompartmentType instance to the listOfCompartmentTypes of this
    * Model.
-   * 
+   *
    * @param compartmentType
    * @return {@code true} if the {@link #listOfCompartmentTypes} was
    *         changed as a result of this call.
@@ -370,7 +371,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Adds a {@link Constraint} instance to the listOfConstraints of this
    * {@link Model}.
-   * 
+   *
    * @param constraint
    * @return {@code true} if the {@link #listOfConstraints} was changed as
    *         a result of this call.
@@ -382,7 +383,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Adds an {@link Event} instance to the listOfEvents of this Model.
-   * 
+   *
    * @param event
    * @return {@code true} if the {@link #listOfEvents} was changed as a
    *         result of this call.
@@ -400,7 +401,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Adds a {@link FunctionDefinition} instance to the listOfFunctionDefinitions
    * of this {@link Model}.
-   * 
+   *
    * @param functionDefinition
    * @return {@code true} if the {@link #listOfFunctionDefinitions} was
    *         changed as a result of this call.
@@ -413,7 +414,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Adds an InitialAssignment instance to the listOfInitialAssignments of this
    * Model.
-   * 
+   *
    * @param initialAssignment
    * @return {@code true} if the {@link #listOfInitialAssignments} was
    *         changed as a result of this call.
@@ -425,7 +426,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Adds a Parameter instance to the listOfParameters of this Model.
-   * 
+   *
    * @param parameter
    * @return {@code true} if the {@link #listOfParameters} was changed as a
    *         result of this call.
@@ -546,7 +547,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Adds a Reaction instance to the listOfReactions of this Model.
-   * 
+   *
    * @param reaction
    * @return {@code true} if the {@link #listOfReactions} was changed as a
    *         result of this call.
@@ -558,7 +559,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Adds a Rule instance to the listOfRules of this Model.
-   * 
+   *
    * @param rule
    * @return {@code true} if the {@link #listOfRules} was changed as a
    *         result of this call.
@@ -570,7 +571,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Adds a Species instance to the listOfSpecies of this Model.
-   * 
+   *
    * @param spec
    * @return {@code true} if the {@link #listOfSpecies} was changed as a
    *         result of this call.
@@ -582,7 +583,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Adds a SpeciesType instance to the listOfSpeciesTypes of this Model.
-   * 
+   *
    * @param speciesType
    * @return {@code true} if the {@link #listOfSpeciesTypes} was changed as
    *         a result of this call.
@@ -597,7 +598,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Adds an {@link UnitDefinition} instance to the
    * {@link #listOfUnitDefinitions} of this {@link Model}.
-   * 
+   *
    * @param unitDefinition
    * @return {@code true} if the {@link #listOfUnitDefinitions} was changed
    *         as a result of this call.
@@ -615,7 +616,7 @@ implements UniqueNamedSBase, IdManager {
    * to the {@link #listOfUnitDefinitions} and its identifier will be returned.
    * In any case, this method returns the identifier of a {@link UnitDefinition}
    * that is part of this {@link Model} at least after calling this method.
-   * 
+   *
    * @param units
    *        The unit to be checked and added if no identical
    *        {@link UnitDefinition} can be found.
@@ -651,7 +652,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if this model contains a reference to a
    * {@link Compartment}
    * with the given identifier.
-   * 
+   *
    * @param id the id to search for
    * @return {@code true} if this model contains a reference to a
    *         {@link Compartment}
@@ -665,7 +666,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if this model contains a reference to a
    * {@link FunctionDefinition} with the given identifier.
-   * 
+   *
    * @param id the id to search for
    * @return {@code true} if this model contains a reference to a
    *         {@link FunctionDefinition} with the given identifier.
@@ -679,7 +680,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if this model contains a reference to a
    * {@link Parameter} with
    * the given identifier.
-   * 
+   *
    * @param id the id to search for
    * @return {@code true} if this model contains a reference to a
    *         {@link Parameter} with
@@ -694,7 +695,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if this {@link Model} contains a reference to the
    * given
    * {@link Quantity}.
-   * 
+   *
    * @param quantity
    * @return {@code true} if this {@link Model} contains a reference to the
    *         given
@@ -712,7 +713,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if this {@link Model} contains a reference to the
    * given {@link Reaction}.
-   * 
+   *
    * @param id
    *        the identifier of a potential reaction.
    * @return {@code true} if this {@link Model} contains a reference to the
@@ -727,7 +728,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if this {@link Model} contains a reference to the
    * given
    * {@link Species}.
-   * 
+   *
    * @param id the id to search for
    * @return {@code true} if this {@link Model} contains a reference to the
    *         given
@@ -742,7 +743,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if this {@link Model} contains a reference to the
    * given
    * {@link UniqueNamedSBase}.
-   * 
+   *
    * @param id the id to search for
    * @return {@code true} if this {@link Model} contains a reference to the
    *         given
@@ -757,7 +758,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if this {@link Model} contains a reference to the
    * given
    * {@link UnitDefinition}.
-   * 
+   *
    * @param units
    * @return {@code true} if this {@link Model} contains a reference to the
    *         given
@@ -772,7 +773,7 @@ implements UniqueNamedSBase, IdManager {
    * Creates a new {@link AlgebraicRule} inside this {@link Model} and returns
    * it.
    * <p>
-   * 
+   *
    * @return the {@link AlgebraicRule} object created
    *         <p>
    * @see #addRule(Rule r)
@@ -788,7 +789,7 @@ implements UniqueNamedSBase, IdManager {
    * Creates a new {@link AssignmentRule} inside this {@link Model} and returns
    * it.
    * <p>
-   * 
+   *
    * @return the {@link AssignmentRule} object created
    *         <p>
    * @see #addRule(Rule r)
@@ -803,7 +804,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link Compartment} inside this {@link Model} and returns it.
    * <p>
-   * 
+   *
    * @return the {@link Compartment} object created
    *         <p>
    * @see #addCompartment(Compartment c)
@@ -815,7 +816,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a new {@link Compartment} inside this {@link Model} and returns it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link Compartment} object created
@@ -831,7 +832,7 @@ implements UniqueNamedSBase, IdManager {
    * Creates a new {@link CompartmentType} inside this {@link Model} and returns
    * it.
    * <p>
-   * 
+   *
    * @return the {@link CompartmentType} object created
    *         <p>
    * @see #addCompartmentType(CompartmentType ct)
@@ -848,7 +849,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link CompartmentType} inside this {@link Model} and returns
    * it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link CompartmentType} object created
@@ -869,7 +870,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link Constraint} inside this {@link Model} and returns it.
    * <p>
-   * 
+   *
    * @return the {@link Constraint} object created
    *         <p>
    * @see #addConstraint(Constraint c)
@@ -892,7 +893,7 @@ implements UniqueNamedSBase, IdManager {
    * in this {@link Model} object, a new {@link Delay} is <em>not</em> created
    * and {@code null} is returned instead.
    * <p>
-   * 
+   *
    * @return the {@link Delay} object created
    */
   public Delay createDelay() {
@@ -903,7 +904,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link Event} inside this {@link Model} and returns it.
    * <p>
-   * 
+   *
    * @return the {@link Event} object created
    */
   public Event createEvent() {
@@ -913,7 +914,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a new {@link Event} inside this {@link Model} and returns it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link Event} object created
@@ -935,7 +936,7 @@ implements UniqueNamedSBase, IdManager {
    * in this {@link Model} object, a new {@link EventAssignment} is <em>not</em>
    * created and {@code null} is returned instead.
    * <p>
-   * 
+   *
    * @return the {@link EventAssignment} object created
    */
   public EventAssignment createEventAssignment() {
@@ -960,7 +961,7 @@ implements UniqueNamedSBase, IdManager {
    * Creates a new {@link FunctionDefinition} inside this {@link Model} and
    * returns it.
    * <p>
-   * 
+   *
    * @return the {@link FunctionDefinition} object created
    *         <p>
    * @see #addFunctionDefinition(FunctionDefinition fd)
@@ -973,7 +974,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link FunctionDefinition} inside this {@link Model} and
    * returns it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link FunctionDefinition} object created
@@ -991,7 +992,7 @@ implements UniqueNamedSBase, IdManager {
    * Creates a new {@link InitialAssignment} inside this {@link Model} and
    * returns it.
    * <p>
-   * 
+   *
    * @return the {@link InitialAssignment} object created
    *         <p>
    * @see #addInitialAssignment(InitialAssignment ia)
@@ -1016,7 +1017,7 @@ implements UniqueNamedSBase, IdManager {
    * exists but already has a {@link KineticLaw}, a new {@link KineticLaw} is
    * <em>not</em> created and {@code null} is returned instead.
    * <p>
-   * 
+   *
    * @return the {@link KineticLaw} object created
    */
   public KineticLaw createKineticLaw() {
@@ -1050,7 +1051,7 @@ implements UniqueNamedSBase, IdManager {
    * returned
    * instead.
    * <p>
-   * 
+   *
    * @return the {@link LocalParameter} object created
    */
   public LocalParameter createKineticLawParameter() {
@@ -1062,7 +1063,7 @@ implements UniqueNamedSBase, IdManager {
    * Creates a new local {@link LocalParameter} inside the {@link KineticLaw}
    * object of the last {@link Reaction} created inside this {@link Model}, and
    * returns a pointer to it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link LocalParameter} object created
@@ -1102,7 +1103,7 @@ implements UniqueNamedSBase, IdManager {
    * is
    * returned instead.
    * <p>
-   * 
+   *
    * @return the {@link SpeciesReference} object created
    */
   public ModifierSpeciesReference createModifier() {
@@ -1112,7 +1113,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a new {@link ModifierSpeciesReference} with the specified 'id'.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link SpeciesReference} object created
@@ -1133,7 +1134,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link Parameter} inside this {@link Model} and returns it.
    * <p>
-   * 
+   *
    * @return the {@link Parameter} object created
    *         <p>
    * @see #addParameter(Parameter p)
@@ -1145,7 +1146,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a new {@link Parameter}.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link Parameter} object created
@@ -1169,7 +1170,7 @@ implements UniqueNamedSBase, IdManager {
    * returned
    * instead.
    * <p>
-   * 
+   *
    * @return the {@link SpeciesReference} object created
    */
   public SpeciesReference createProduct() {
@@ -1180,7 +1181,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates an instance of {@link SpeciesReference} and adds it to the last
    * {@link Reaction} element that has been added to this {@link Model}.
-   * 
+   *
    * @param id the product id
    * @return the new instance of {@link SpeciesReference}
    */
@@ -1202,7 +1203,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link RateRule} inside this {@link Model} and returns it.
    * <p>
-   * 
+   *
    * @return the {@link RateRule} object created
    *         <p>
    * @see #addRule(Rule r)
@@ -1228,7 +1229,7 @@ implements UniqueNamedSBase, IdManager {
    * returned
    * instead.
    * <p>
-   * 
+   *
    * @return the {@link SpeciesReference} object created
    */
   public SpeciesReference createReactant() {
@@ -1240,7 +1241,7 @@ implements UniqueNamedSBase, IdManager {
    * Creates a new {@link SpeciesReference} object, with the specified 'id', for
    * a reactant inside the last {@link Reaction} object in this {@link Model},
    * and returns a pointer to it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link SpeciesReference} object created.
@@ -1261,7 +1262,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link Reaction} inside this {@link Model} and returns it.
    * <p>
-   * 
+   *
    * @return the {@link Reaction} object created
    *         <p>
    * @see #addReaction(Reaction r)
@@ -1273,7 +1274,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a new {@link Reaction} inside this {@link Model} and returns it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link Reaction} object created
@@ -1289,7 +1290,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link Species} inside this {@link Model} and returns it.
    * <p>
-   * 
+   *
    * @return the {@link Species} object created
    *         <p>
    * @see #addSpecies(Species s)
@@ -1301,7 +1302,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a new {@link Species} inside this {@link Model} and returns it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link Species} object created
@@ -1315,7 +1316,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a new {@link Species} inside this {@link Model} and returns it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @param c
@@ -1331,7 +1332,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a new {@link Species} inside this {@link Model} and returns it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @param name
@@ -1350,7 +1351,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link SpeciesType} inside this {@link Model} and returns it.
    * <p>
-   * 
+   *
    * @return the {@link SpeciesType} object created
    *         <p>
    * @see #addSpeciesType(SpeciesType st)
@@ -1372,7 +1373,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Creates a new {@link SpeciesType} inside this {@link Model} and returns it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link SpeciesType} object created
@@ -1397,7 +1398,7 @@ implements UniqueNamedSBase, IdManager {
    * in this {@link Model} object, a new {@link Trigger} is <em>not</em> created
    * and {@code null} is returned instead.
    * <p>
-   * 
+   *
    * @return the {@link Trigger} object created
    */
   public Trigger createTrigger() {
@@ -1415,7 +1416,7 @@ implements UniqueNamedSBase, IdManager {
    * returned
    * instead.
    * <p>
-   * 
+   *
    * @return the {@link Unit} object created
    *         <p>
    * @see #addUnitDefinition(UnitDefinition ud)
@@ -1428,7 +1429,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link Unit} object within the last {@link UnitDefinition}
    * object created in this model and returns a pointer to it.
-   * 
+   *
    * @param kind
    *        the kind of the new unit.
    * @return the {@link Unit} object created
@@ -1453,7 +1454,7 @@ implements UniqueNamedSBase, IdManager {
    * Creates a new {@link UnitDefinition} inside this {@link Model} and returns
    * it.
    * <p>
-   * 
+   *
    * @return the {@link UnitDefinition} object created
    *         <p>
    * @see #addUnitDefinition(UnitDefinition ud)
@@ -1466,7 +1467,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Creates a new {@link UnitDefinition} inside this {@link Model} and returns
    * it.
-   * 
+   *
    * @param id
    *        the id of the new element to create
    * @return the {@link UnitDefinition} object created
@@ -1525,7 +1526,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns a {@link CallableSBase} element of the {@link Model} that has the
    * given 'id' as identifier or {@code null} if no element is found.
-   * 
+   *
    * @param id
    *        an identifier indicating an element of the {@link Model}.
    * @return a {@link CallableSBase} element of the {@link Model} that has the
@@ -1547,7 +1548,7 @@ implements UniqueNamedSBase, IdManager {
    * found that satisfies the method
    * {@link UnitDefinition#areIdentical(UnitDefinition, UnitDefinition)},
    * {@code null} will be returned.
-   * 
+   *
    * @param unitDefinition a {@link UnitDefinition}
    * @return A {@link UnitDefinition} object that is already part of this
    *         {@link Model}'s {@link #listOfUnitDefinitions} and satisfies the
@@ -1565,7 +1566,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Finds all instances of {@link LocalParameter} in this {@link Model} and
    * adds them to a {@link List}.
-   * 
+   *
    * @param id an id indicating a {@link LocalParameter} element of the {@link Model}.
    * @return A {@link List} of all {@link LocalParameter} instances with the
    *         given name or identifier. This {@link List} can be empty, but never
@@ -1602,7 +1603,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the {@link ModifierSpeciesReference} with all {@link Reaction}s
    * of this {@link Model} that has 'id' as id.
-   * 
+   *
    * @param id
    *        the identifier of the {@link ModifierSpeciesReference} of interest.
    *        Note that this is not the identifier of the {@link Species} instance
@@ -1624,12 +1625,12 @@ implements UniqueNamedSBase, IdManager {
    * Returns a {@link NamedSBase} element of the model that has the given 'id'
    * as id or {@code null} if no element is found. This method will return
    * only elements that had an id before SBML L3V2.
-   * 
+   *
    * @param id
    *        an id indicating an element of the model.
    * @return a {@link NamedSBase} element of the model that has the given 'id'
    *         as id or {@code null} if no element is found.
-   * @see #getSBaseById(String)        
+   * @see #getSBaseById(String)
    */
   public NamedSBase findNamedSBase(String id) {
     SBase found = findUniqueSBase(id);
@@ -1647,7 +1648,7 @@ implements UniqueNamedSBase, IdManager {
    * tries to find a {@link CallableSBase} with the given identifier and, if
    * this is not successful, it searches for an instance of {@link Event} with
    * the given id.
-   * 
+   *
    * @param id
    *        an id indicating an element of the {@link Model}.
    * @return a {@link NamedSBaseWithDerivedUnit} element of the {@link Model}
@@ -1672,7 +1673,7 @@ implements UniqueNamedSBase, IdManager {
    * {@link Reaction}s. In this case, the first match will be returned. Note
    * that also global {@link Parameter} instances have a higher priority and are
    * returned first.
-   * 
+   *
    * @param id an id indicating an {@link Quantity} element of the {@link Model}.
    * @return the {@link Compartment}, {@link Species}, {@link SpeciesReference}
    *         or {@link Parameter}, or the first {@link LocalParameter} which has
@@ -1699,7 +1700,7 @@ implements UniqueNamedSBase, IdManager {
    * {@link Reaction}s. In this case, the first match will be returned. Note
    * that also global {@link Parameter} instances have a higher priority and are
    * returned first.
-   * 
+   *
    * @param id an id indicating a {@link QuantityWithUnit} element of the
    *        {@link Model}.
    * @return a {@link QuantityWithUnit} with the given id
@@ -1723,7 +1724,7 @@ implements UniqueNamedSBase, IdManager {
    * this {@link Model} whose {@link KineticLaw}s contain a
    * {@link LocalParameter} that has the given 'id' or {@code null} if no
    * element cannot be found.
-   * 
+   *
    * @param id
    *        an id indicating an {@link LocalParameter} element of the
    *        {@link Model}.
@@ -1760,7 +1761,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the {@link SimpleSpeciesReference} within all {@link Reaction}s of
    * this {@link Model} that has 'id' as id.
-   * 
+   *
    * @param id
    *        the identifier of the {@link SimpleSpeciesReference} of interest.
    *        Note that this is not the identifier of the {@link Species} instance
@@ -1781,7 +1782,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the {@link SpeciesReference} with all {@link Reaction}s
    * of this {@link Model} that has 'id' as id.
-   * 
+   *
    * @param id
    *        the identifier of the {@link SpeciesReference} of interest.
    *        Note that this is not the identifier of the {@link Species} instance
@@ -1802,7 +1803,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Searches in the list of {@link Compartment}s, {@link Species}, and
    * {@link Parameter}s for the element with the given identifier.
-   * 
+   *
    * @param id an id indicating an {@link Symbol} element of the {@link Model}.
    * @return a {@link Symbol} element with the given identifier or {@code null}
    *         if there
@@ -1821,7 +1822,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns a {@link UniqueNamedSBase} element that has the given 'id' within
    * this {@link Model} or {@code null} if no such element can be found. This method will return
    * only elements that had an id before SBML L3V2.
-   * 
+   *
    * @param id
    *        an id indicating an {@link SBase} element of the
    *        {@link Model}.
@@ -1840,7 +1841,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns a {@link SBase} element that has the given unique 'id' within
    * this {@link Model} or {@code null} if no such element can be found.
-   * 
+   *
    * @param id
    *        an id indicating an {@link SBase} element of the
    *        {@link Model}.
@@ -1862,7 +1863,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns a {@link UnitDefinition} element that has the given 'id' within
    * this {@link Model} or {@code null} if no such element can be found.
-   * 
+   *
    * @param id
    *        an id indicating an {@link UnitDefinition} element of the
    *        {@link Model}.
@@ -1877,7 +1878,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns a {@link UnitDefinition} element that has the given 'id' within
    * this {@link Model} or {@code null} if no such element can be found.
-   * 
+   *
    * @param id
    *        an id indicating an {@link UnitDefinition} element of the
    *        {@link Model}.
@@ -1892,7 +1893,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Searches the {@link Variable} with the given identifier in this model.
-   * 
+   *
    * @param id
    *        The identifier of the {@link Variable} of interest.
    * @return the {@link Compartment}, {@link Species}, {@link SpeciesReference},
@@ -1920,14 +1921,14 @@ implements UniqueNamedSBase, IdManager {
    * Searches for the first instance of {@link AssignmentRule} within this
    * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
    * the value passed to this method.
-   * 
+   *
    * @param variable the variable to search for.
    * @return {@code null} if no {@link AssignmentRule} with the required property exists.
    */
   public AssignmentRule getAssignmentRuleByVariable(String variable) {
     ExplicitRule rule = getRuleByVariable(variable);
 
-    if (rule != null && rule instanceof AssignmentRule) {
+    if ((rule != null) && (rule instanceof AssignmentRule)) {
       return (AssignmentRule) rule;
     }
 
@@ -1936,7 +1937,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the area units ID of this {@link Model}.
-   * 
+   *
    * @return the area units ID of this {@link Model}. Returns an empty
    *         {@link String} if it is not set.
    */
@@ -1954,7 +1955,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns the {@link UnitDefinition} instance which has the
    * {@link #areaUnitsID} of
    * this {@link Model} as id.
-   * 
+   *
    * @return the {@link UnitDefinition} instance which has the
    *         {@link #areaUnitsID} of
    *         this {@link Model} as id. {@code null} if it doesn't exist.
@@ -2071,7 +2072,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Gets the n<sup>th</sup> {@link Compartment} instance of the
    * listOfCompartments.
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link Compartment} instance of the
    *         listOfCompartments.
@@ -2085,7 +2086,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Gets the {@link Compartment} of the listOfCompartments which has 'id' as
    * id.
-   * 
+   *
    * @param id the id of the element to return
    * @return the {@link Compartment} of the listOfCompartments which has 'id' as
    *         id (or name depending on the version and level). {@code null} if
@@ -2103,7 +2104,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Compartment}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Compartment}s of this {@link Model}.
    */
   public int getCompartmentCount() {
@@ -2113,7 +2114,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Gets the n<sup>th</sup> CompartmentType object in this Model.
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> CompartmentType of this Model. Returns
    *         {@code null} if there are no
@@ -2129,7 +2130,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Gets the {@link CompartmentType} with the given {@code id}.
-   * 
+   *
    * @param id the id of the element to return
    * @return the CompartmentType of the {@link #listOfCompartmentTypes} which
    *         has 'id' as
@@ -2150,7 +2151,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link CompartmentType}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link CompartmentType}s of this {@link Model}.
    * @deprecated using {@link CompartmentType} is not recommended, because this
    *             data structure is only valid in SBML Level 2 for Versions 2
@@ -2164,7 +2165,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Gets the n<sup>th</sup> Constraint object in this Model.
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> Constraint of this Model. Returns {@code null}
    *         if there are no
@@ -2177,7 +2178,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Constraint}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Constraint}s of this {@link Model}.
    */
   public int getConstraintCount() {
@@ -2187,7 +2188,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the conversionFactor ID of this {@link Model}.
-   * 
+   *
    * @return the conversionFactorID of this {@link Model}. Returns an empty
    *         {@link String} if it is not set.
    */
@@ -2199,7 +2200,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the Parameter instance which has the conversionFactorID of this
    * Model as id.
-   * 
+   *
    * @return the Parameter instance which has the conversionFactorID of this
    *         Model as id. {@code null} if it doesn't exist
    */
@@ -2210,7 +2211,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Delay}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Delay}s of this {@link Model}.
    */
   public int getDelayCount() {
@@ -2228,15 +2229,15 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns an {@link SBase} element of the model that has the given 'id'
    * as id or {@code null} if no element is found.
-   * 
+   *
    * <p>The element has to have a unique
    * id (SId) in the model to be returned by this method, meaning
    * that it need to implement the interface {@link UniqueSId}.
-   * 
+   *
    * <p>If you want to get an {@link SBase} that is not in the SId namespace,
-   * you can use the filter methods ( for example: {@link #filter(Filter)})
-   * using the {@link IdFilter} filter.
-   * 
+   * you can use the filter methods ( for example: {@link #filter(org.sbml.jsbml.util.filters.Filter)})
+   * using the {@link org.sbml.jsbml.util.filters.IdFilter} filter.
+   *
    * @param id
    *        an id indicating an element of the model.
    * @return a {@link SBase} element of the model that has the given 'id'
@@ -2250,7 +2251,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Gets the n<sup>th</sup> Event object in this Model.
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> Event of this Model. Returns {@code null} if
    *         there are no event
@@ -2263,7 +2264,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Gets the {@link Event} which as the given {@code id} as id.
-   * 
+   *
    * @param id the id of the element to return
    * @return the {@link Event} of the {@link #listOfEvents} which has 'id' as id
    *         (or name depending on the level and version). {@code null} if the
@@ -2280,7 +2281,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link EventAssignment}s of this {@link Model}.
-   * 
+   *
    * @return return the number of {@link EventAssignment}s of this {@link Model}
    *         .
    */
@@ -2295,7 +2296,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Event}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Event}s of this {@link Model}.
    */
   public int getEventCount() {
@@ -2305,7 +2306,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the extent units ID of this {@link Model}.
-   * 
+   *
    * @return the extent units ID of this {@link Model}. Returns an empty
    *         {@link String} if it is not set.
    */
@@ -2317,7 +2318,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the {@link UnitDefinition} instance which has the extent units ID
    * of this Model as id.
-   * 
+   *
    * @return the {@link UnitDefinition} instance which has the extent units ID
    *         of this Model as id. {@code null} if it doesn't exist
    */
@@ -2329,7 +2330,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Gets the n<sup>th</sup> {@link FunctionDefinition} instance of the
    * listOfFunctionDefinitions.
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link FunctionDefinition} instance of the
    *         listOfFunstionDefinitions. {@code null} if the
@@ -2345,7 +2346,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns the {@link FunctionDefinition} of the
    * {@link #listOfFunctionDefinitions}
    * which has 'id' as id.
-   * 
+   *
    * @param id the id of the element to return
    * @return the {@link FunctionDefinition} of the
    *         {@link #listOfFunctionDefinitions}
@@ -2363,7 +2364,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link FunctionDefinition}s of this {@link Model}.
    */
   public int getFunctionDefinitionCount() {
@@ -2375,7 +2376,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Gets the n<sup>th</sup> {@link InitialAssignment} object in this
    * {@link Model}.
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link InitialAssignment} of this {@link Model}.
    *         {@code null} if
@@ -2391,7 +2392,7 @@ implements UniqueNamedSBase, IdManager {
    * {@link #listOfInitialAssignments} whose {@code symbol} attribute,
    * i.e., whose {@link Variable} has the given {@code symbol} as
    * identifier.
-   * 
+   *
    * @param symbol
    *        The identifier of a {@link Variable}, for which a corresponding
    *        {@link InitialAssignment} is requested.
@@ -2411,12 +2412,12 @@ implements UniqueNamedSBase, IdManager {
    * Returns the {@link InitialAssignment} of the
    * {@link #listOfInitialAssignments} whose {@code id} attribute,
    * has the given {@code id} as identifier.
-   * 
+   *
    * @param id the id of the requested {@link InitialAssignment}
    * @return the first {@link InitialAssignment} of the
    *         {@link #listOfInitialAssignments}, whose {@code id} has the
    *         given value, {@code null} if it doesn't exist.
-   * 
+   *
    */
   public InitialAssignment getInitialAssignmentById(String id) {
 
@@ -2433,7 +2434,7 @@ implements UniqueNamedSBase, IdManager {
    * {@link #listOfInitialAssignments} whose {@code symbol} attribute,
    * i.e., whose {@link Variable} has the given {@code variable} as
    * identifier.
-   * 
+   *
    * @param variable
    *        The identifier of a variable, for which a corresponding
    *        {@link InitialAssignment} is requested.
@@ -2441,7 +2442,7 @@ implements UniqueNamedSBase, IdManager {
    *         {@link #listOfInitialAssignments}, whose {@link Variable} has the
    *         {@code variable} as identifier (or name depending on the level
    *         and version). {@code null} if it doesn't exist.
-   * 
+   *
    */
   public InitialAssignment getInitialAssignmentBySymbol(String variable) {
     if (isSetListOfInitialAssignments()) {
@@ -2454,7 +2455,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link InitialAssignment}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link InitialAssignment}s of this {@link Model}.
    */
   public int getInitialAssignmentCount() {
@@ -2465,7 +2466,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link KineticLaw}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link KineticLaw}s of this {@link Model}.
    */
   public int getKineticLawCount() {
@@ -2483,7 +2484,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the last element added in the given list.
-   * 
+   *
    * @param listOf a {@link ListOf}
    * @return the last element added in the model, corresponding to the last
    *         element of the list of these elements, or {@code null} is no
@@ -2500,7 +2501,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the length units ID of this {@link Model}.
-   * 
+   *
    * @return the length units ID of this {@link Model}. Returns an empty
    *         {@link String} if it is not set.
    */
@@ -2516,7 +2517,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the length units of this {@link Model} as a {@link UnitDefinition}.
-   * 
+   *
    * @return the {@link UnitDefinition} instance which has the
    *         {@link #lengthUnitsID} of this
    *         {@link Model} as id. {@code null} if it doesn't exist.
@@ -2528,7 +2529,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfCompartments of this {@link Model}.
-   * 
+   *
    * @return the listOfCompartments of this {@link Model}.
    */
   public ListOf<Compartment> getListOfCompartments() {
@@ -2542,7 +2543,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfCompartmentTypes of this {@link Model}.
-   * 
+   *
    * @return the listOfCompartmentTypes of this {@link Model}.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
@@ -2558,7 +2559,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfConstraints of this {@link Model}.
-   * 
+   *
    * @return the listOfConstraints of this {@link Model}. set.
    */
   public ListOf<Constraint> getListOfConstraints() {
@@ -2572,7 +2573,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link ListOf}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link ListOf}s of this {@link Model}.
    */
   public int getListOfCount() {
@@ -2619,7 +2620,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfEvents of this {@link Model}.
-   * 
+   *
    * @return the listOfEvents of this {@link Model}.
    */
   public ListOf<Event> getListOfEvents() {
@@ -2633,7 +2634,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfFunctionDefinitions of this {@link Model}.
-   * 
+   *
    * @return the listOfFunctionDefinitions of this {@link Model}.
    */
   public ListOf<FunctionDefinition> getListOfFunctionDefinitions() {
@@ -2648,7 +2649,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfInitialAssignments of this {@link Model}.
-   * 
+   *
    * @return the listOfInitialAssignments of this {@link Model}.
    */
   public ListOf<InitialAssignment> getListOfInitialAssignments() {
@@ -2663,7 +2664,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the {@link #listOfParameters} of this {@link Model}.
-   * 
+   *
    * @return the {@link #listOfParameters} of this {@link Model}.
    */
   public ListOf<Parameter> getListOfParameters() {
@@ -2677,7 +2678,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the list of predefined {@link UnitDefinition}.
-   * 
+   *
    * @return the list of predefined {@link UnitDefinition}.
    */
   public List<UnitDefinition> getListOfPredefinedUnitDefinitions() {
@@ -2688,7 +2689,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfReactions of this {@link Model}.
-   * 
+   *
    * @return the listOfReactions of this {@link Model}.
    */
   public ListOf<Reaction> getListOfReactions() {
@@ -2702,7 +2703,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfRules of this {@link Model}.
-   * 
+   *
    * @return the listOfRules of this {@link Model}.
    */
   public ListOf<Rule> getListOfRules() {
@@ -2716,7 +2717,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the {@link #listOfSpecies} of this {@link Model}.
-   * 
+   *
    * @return the {@link #listOfSpecies} of this {@link Model}.
    */
   public ListOf<Species> getListOfSpecies() {
@@ -2730,7 +2731,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfSpeciesTypes of this {@link Model}.
-   * 
+   *
    * @return the listOfSpeciesTypes of this {@link Model}.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
@@ -2746,7 +2747,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the listOfUnitDefinitions of this {@link Model}.
-   * 
+   *
    * @return the listOfUnitDefinitions of this {@link Model}.
    */
   public ListOf<UnitDefinition> getListOfUnitDefinitions() {
@@ -2761,7 +2762,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the number of parameters that are contained within kineticLaws in
    * the reactions of this model.
-   * 
+   *
    * @return the number of parameters that are contained within kineticLaws in
    *         the reactions of this model.
    */
@@ -2780,7 +2781,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of elements that can contain math in the {@link Model} .
-   * 
+   *
    * @return the number of elements that can contain math in the {@link Model} .
    * @see MathContainer
    */
@@ -2794,7 +2795,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns {@link History} of this model.
-   * 
+   *
    * @return the {@link History} of this model.
    * @see SBase#getHistory
    * @deprecated use {@link SBase#getHistory()}
@@ -2808,7 +2809,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the number of {@link ModifierSpeciesReference}s in the
    * {@link Model}.
-   * 
+   *
    * @return the number of {@link ModifierSpeciesReference}s in the
    *         {@link Model}.
    */
@@ -2826,7 +2827,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns all {@link ModifierSpeciesReference}s, registered in
    * any {@link Reaction}.
-   * 
+   *
    * @return all {@link ModifierSpeciesReference} contained in this
    *         {@link Model}.
    */
@@ -2847,7 +2848,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the number of {@link NamedSBase}s in the {@link Model}, so elements
    * that can have a name in SBML L3V1 or below.
-   * 
+   *
    * @return the number of {@link NamedSBase}s in the {@link Model}, so elements
    *         that can have a name.
    */
@@ -2862,7 +2863,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the number of {@link NamedSBaseWithDerivedUnit}s in the {@link Model}, so elements
    * that can have a name and a derived unit in SBML L3V1 or below.
-   * 
+   *
    * @return the number of {@link NamedSBaseWithDerivedUnit}s in the {@link Model}.
    */
   public int getNamedSBaseWithDerivedUnitCount() {
@@ -2873,7 +2874,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Compartment}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Compartment}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getCompartmentCount()}
    */
@@ -2884,7 +2885,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link CompartmentType}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link CompartmentType}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getCompartmentTypeCount()}
    */
@@ -2896,7 +2897,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Constraint}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Constraint}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getConstraintCount()}
    */
@@ -2907,7 +2908,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Delay}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Delay}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getDelayCount()}
    */
@@ -2918,7 +2919,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link EventAssignment}s of this {@link Model}.
-   * 
+   *
    * @return return the number of {@link EventAssignment}s of this {@link Model}
    *         .
    * @libsbml.deprecated use {@link #getEventAssignmentCount()}
@@ -2930,7 +2931,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Event}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Event}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getEventCount()}
    */
@@ -2941,7 +2942,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link FunctionDefinition}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getFunctionDefinitionCount()}
    */
@@ -2952,7 +2953,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link InitialAssignment}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link InitialAssignment}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getInitialAssignmentCount()}
    */
@@ -2963,7 +2964,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link KineticLaw}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link KineticLaw}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getKineticLawCount()}
    */
@@ -2974,7 +2975,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link ListOf}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link ListOf}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getListOfCount()}
    */
@@ -2986,7 +2987,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the number of parameters that are contained within kineticLaws in
    * the reactions of this model.
-   * 
+   *
    * @return the number of parameters that are contained within kineticLaws in
    *         the reactions of this model.
    * @libsbml.deprecated use {@link #getLocalParameterCount()}
@@ -2998,7 +2999,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of elements that can contain math in the {@link Model} .
-   * 
+   *
    * @return the number of elements that can contain math in the {@link Model} .
    * @see MathContainer
    * @libsbml.deprecated use {@link #getMathContainerCount()}
@@ -3011,7 +3012,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the number of {@link ModifierSpeciesReference}s in the
    * {@link Model}.
-   * 
+   *
    * @return the number of {@link ModifierSpeciesReference}s in the
    *         {@link Model}.
    * @libsbml.deprecated use {@link #getModifierSpeciesReferenceCount()}
@@ -3024,7 +3025,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the number of {@link NamedSBase}s in the {@link Model}, so elements
    * that can have a name.
-   * 
+   *
    * @return the number of {@link NamedSBase}s in the {@link Model}, so elements
    *         that can have a name.
    * @libsbml.deprecated use {@link #getNamedSBaseCount()}
@@ -3038,7 +3039,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns the number of {@link NamedSBaseWithDerivedUnit}s in the
    * {@link Model}, so elements that can have a name and a unit that can be
    * derived.
-   * 
+   *
    * @return the number of {@link NamedSBaseWithDerivedUnit}s in the
    *         {@link Model}, so elements that can have a name and a unit that can
    *         be derived.
@@ -3051,7 +3052,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Parameter}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Parameter}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getParameterCount()}
    */
@@ -3062,7 +3063,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Quantity}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Quantity}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getQuantityCount()}
    */
@@ -3073,7 +3074,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link QuantityWithUnit}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getQuantityWithUnitCount()}
    */
@@ -3084,7 +3085,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Reaction}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Reaction}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getReactionCount()}
    */
@@ -3095,7 +3096,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Rule}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Rule}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getRuleCount()}
    */
@@ -3106,7 +3107,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link SBase}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link SBase}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getSBaseCount()}
    */
@@ -3117,7 +3118,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getSBaseWithDerivedUnitCount()}
    */
@@ -3128,7 +3129,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Species} of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Species} of this {@link Model}.
    * @libsbml.deprecated use {@link #getSpeciesCount()}
    */
@@ -3139,7 +3140,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link SpeciesReference}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link SpeciesReference}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getSpeciesReferenceCount()}
    */
@@ -3150,7 +3151,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link SpeciesType}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link SpeciesType}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getSpeciesTypeCount()}
    */
@@ -3163,7 +3164,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the number of {@link Species} whose boundary condition is set to
    * {@code true}.
-   * 
+   *
    * @return the number of {@link Species} whose boundary condition is set to
    *         {@code true}.
    * @libsbml.deprecated use {@link #getSpeciesWithBoundaryConditionCount()}
@@ -3175,7 +3176,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link StoichiometryMath} in the {@link Model}.
-   * 
+   *
    * @return the number of {@link StoichiometryMath} in the {@link Model}.
    * @libsbml.deprecated use {@link #getStoichiometryMathCount()}
    * @deprecated since SBML L3V1.
@@ -3190,7 +3191,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns the number of all instances of {@link Symbol} referenced within the
    * model. There is no dedicated list for {@link Symbol}s. This is a convenient
    * method to support working with the model data structure.
-   * 
+   *
    * @return The number of {@link Compartment}s, {@link Species}, and
    *         {@link Parameter}s in the model.
    * @libsbml.deprecated use {@link #getSymbolCount()}
@@ -3202,7 +3203,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Trigger} of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Trigger} of this {@link Model}.
    * @libsbml.deprecated use {@link #getTriggerCount()}
    */
@@ -3213,7 +3214,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link UnitDefinition}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link UnitDefinition}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getUnitDefinitionCount()}
    */
@@ -3224,7 +3225,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Unit}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Unit}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getUnitCount()}
    */
@@ -3235,7 +3236,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Variable}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Variable}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getVariableCount()}
    */
@@ -3246,7 +3247,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Gets the n<sup>th</sup> {@link Parameter} object in this {@link Model}.
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link Parameter} of this {@link Model}.
    */
@@ -3258,7 +3259,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the {@link Parameter} of the {@link #listOfParameters} which has
    * 'id' as id
-   * 
+   *
    * @param id the id of the element to return
    * @return the {@link Parameter} of the {@link #listOfParameters} which has
    *         'id' as id
@@ -3277,7 +3278,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Parameter}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Parameter}s of this {@link Model}.
    */
   public int getParameterCount() {
@@ -3291,7 +3292,7 @@ implements UniqueNamedSBase, IdManager {
    * returns {@code null} if the given unit kind is not a valid one for the SBML
    * level
    * and version of this {@link Model}.
-   * 
+   *
    * @param unitKind
    *        a unit kind for one of the predefined units from the SBML
    *        Specifications
@@ -3314,14 +3315,14 @@ implements UniqueNamedSBase, IdManager {
       String unitKindPredefinedId = unitKind + UnitDefinition.BASE_UNIT_SUFFIX;
       for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
         // Having a Map instead of a list would be much better
-        if (unitDefinition == null || !unitDefinition.isSetId()) {
+        if ((unitDefinition == null) || !unitDefinition.isSetId()) {
           continue;
         }
 
         String udId = unitDefinition.getId();
         // For volume, substance, time, area and length, the id can be equals to
         // the given unit kind.
-        if (unitKind != null && (udId.equals(unitKind) || udId.equals(unitKindPredefinedId)))
+        if ((unitKind != null) && (udId.equals(unitKind) || udId.equals(unitKindPredefinedId)))
         {
           return unitDefinition;
         }
@@ -3333,7 +3334,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Quantity}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Quantity}s of this {@link Model}.
    */
   public int getQuantityCount() {
@@ -3343,7 +3344,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link QuantityWithUnit}s of this {@link Model}.
    */
   public int getQuantityWithUnitCount() {
@@ -3354,14 +3355,14 @@ implements UniqueNamedSBase, IdManager {
    * Searches for the first instance of {@link RateRule} within this
    * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
    * the value passed to this method.
-   * 
+   *
    * @param variable the variable to search for.
    * @return {@code null} if no {@link RateRule} with the required property exists.
    */
   public RateRule getRateRuleByVariable(String variable) {
     ExplicitRule rule = getRuleByVariable(variable);
 
-    if (rule != null && rule instanceof RateRule) {
+    if ((rule != null) && (rule instanceof RateRule)) {
       return (RateRule) rule;
     }
 
@@ -3371,7 +3372,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Gets the n-th {@link Reaction} object in this Model.
-   * 
+   *
    * @param n
    *        the reaction index
    * @return the n-th {@link Reaction} of this Model.
@@ -3384,7 +3385,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the {@link Reaction} of the {@link #listOfReactions} which has 'id'
    * as id.
-   * 
+   *
    * @param id the id of the element to return
    * @return the {@link Reaction} of the {@link #listOfReactions} which has 'id'
    *         as id
@@ -3403,7 +3404,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Reaction}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Reaction}s of this {@link Model}.
    */
   public int getReactionCount() {
@@ -3413,7 +3414,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Gets the n<sup>th</sup> {@link Rule} of the listOfRules.
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link Rule} of the listOfRules. {@code null} if
    *         it doesn't exist.
@@ -3426,7 +3427,7 @@ implements UniqueNamedSBase, IdManager {
    * Searches for the first instance of {@link ExplicitRule} within this
    * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
    * the value passed to this method.
-   * 
+   *
    * @param variable the variable to search for.
    * @return {@code null} if no element with the required property exists.
    * @deprecated Since L3V2 every {@link SBase} can have an id. Use either {@link #getRuleById(String)} or {@link #getRuleByVariable(String)}.
@@ -3440,7 +3441,7 @@ implements UniqueNamedSBase, IdManager {
    * Searches for the first instance of {@link Rule} within this
    * {@link Model}'s {@link #listOfRules}, whose id attribute is set to
    * the value passed to this method.
-   * 
+   *
    * @param id the id of a rule.
    * @return {@code null} if no element with the required property exists.
    */
@@ -3456,7 +3457,7 @@ implements UniqueNamedSBase, IdManager {
    * Searches for the first instance of {@link ExplicitRule} within this
    * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
    * the value passed to this method.
-   * 
+   *
    * @param variable the variable to search for.
    * @return {@code null} if no element with the required property exists.
    */
@@ -3474,7 +3475,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Rule}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Rule}s of this {@link Model}.
    */
   public int getRuleCount() {
@@ -3485,15 +3486,15 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns an {@link SBase} element of the model that has the given 'id'
    * as id or {@code null} if no element is found.
-   * 
+   *
    * <p>The element has to have a unique
    * id (SId) in the model to be returned by this method, meaning
    * that it need to implement the interface {@link UniqueSId}.
-   * 
+   *
    * <p>If you want to get an {@link SBase} that is not in the SId namespace,
-   * you can use the filter methods (for example: {@link #filter(Filter)})
-   * using the {@link IdFilter} filter.
-   * 
+   * you can use the filter methods (for example: {@link #filter(org.sbml.jsbml.util.filters.Filter)})
+   * using the {@link org.sbml.jsbml.util.filters.IdFilter} filter.
+   *
    * @param id
    *        an id indicating an element of the model.
    * @return a {@link SBase} element of the model that has the given 'id'
@@ -3506,11 +3507,11 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link SBase}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link SBase}s of this {@link Model}.
    */
   public int getSBaseCount() {
-    int count = getNamedSBaseCount() - getFunctionDefinitionCount()
+    int count = (getNamedSBaseCount() - getFunctionDefinitionCount())
         + getMathContainerCount() + getListOfCount() + getUnitCount() + 1;
     // one for this model
     if (getParent() != null) {
@@ -3522,17 +3523,17 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
    */
   public int getSBaseWithDerivedUnitCount() {
-    return getNamedSBaseWithDerivedUnitCount() + getMathContainerCount() - getFunctionDefinitionCount();
+    return (getNamedSBaseWithDerivedUnitCount() + getMathContainerCount()) - getFunctionDefinitionCount();
   }
 
 
   /**
    * Gets the n-th {@link Species} object in this Model.
-   * 
+   *
    * @param n the index of the element to return
    * @return the {@link Species} with the given index if it exists,
    *         {@code null} otherwise.
@@ -3545,7 +3546,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Gets the {@link Species} of the {@link #listOfSpecies} which has 'id' as
    * id.
-   * 
+   *
    * @param id the id of the element to return
    * @return the {@link Species} of the listOfSpecies which has 'id' as id (or
    *         name depending on the level and version). {@code null} if
@@ -3562,7 +3563,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Species} of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Species} of this {@link Model}.
    */
   public int getSpeciesCount() {
@@ -3572,7 +3573,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link SpeciesReference}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link SpeciesReference}s of this {@link Model}.
    */
   public int getSpeciesReferenceCount() {
@@ -3588,7 +3589,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Gets the n<sup>th</sup> {@link SpeciesType} object in this Model.
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link SpeciesType} of this Model. Returns
    *         {@code null} if there
@@ -3606,7 +3607,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns the {@link SpeciesType} of the {@link #listOfSpeciesTypes} which
    * has 'id' as
    * id.
-   * 
+   *
    * @param id the id of the element to return
    * @return the {@link SpeciesType} of the {@link #listOfSpeciesTypes} which
    *         has 'id' as
@@ -3627,7 +3628,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link SpeciesType}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link SpeciesType}s of this {@link Model}.
    * @deprecated the use of {@link SpeciesType} is not recommended, because this
    *             data structure is only valid in SBML Level 2 for Versions 2
@@ -3642,7 +3643,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the number of {@link Species} whose boundary condition is set to
    * {@code true}.
-   * 
+   *
    * @return the number of {@link Species} whose boundary condition is set to
    *         {@code true}.
    */
@@ -3653,7 +3654,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link StoichiometryMath} in the {@link Model}.
-   * 
+   *
    * @return the number of {@link StoichiometryMath} in the {@link Model}.
    * @deprecated since SBML L3V1
    */
@@ -3680,7 +3681,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the substance units ID of this model.
-   * 
+   *
    * @return the substance units ID of this model. Returns the empty
    *         {@link String} if it is not set.
    */
@@ -3698,7 +3699,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns the {@link UnitDefinition} which has the {@link #substanceUnitsID}
    * of this
    * {@link Model} as id.
-   * 
+   *
    * @return the {@link UnitDefinition} which has the {@link #substanceUnitsID}
    *         of this
    *         {@link Model} as id. {@code null} if it doesn't exist.
@@ -3712,7 +3713,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns the number of all instances of {@link Symbol} referenced within the
    * model. There is no dedicated list for {@link Symbol}s. This is a convenient
    * method to support working with the model data structure.
-   * 
+   *
    * @return The number of {@link Compartment}s, {@link Species}, and
    *         {@link Parameter}s in the model.
    */
@@ -3723,7 +3724,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the time units ID of this {@link Model}.
-   * 
+   *
    * @return the time units ID of this {@link Model} or an empty {@link String}
    *         if it is not set.
    */
@@ -3740,7 +3741,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Gets the {@link UnitDefinition} representing the time units of this
    * {@link Model}.
-   * 
+   *
    * @return the {@link UnitDefinition} representing the time units of this
    *         {@link Model}, {@code null} if it is not defined in this
    *         {@link Model}
@@ -3752,7 +3753,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Trigger} of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Trigger} of this {@link Model}.
    */
   public int getTriggerCount() {
@@ -3770,7 +3771,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Unit}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Unit}s of this {@link Model}.
    */
   public int getUnitCount() {
@@ -3787,7 +3788,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Gets the n<sup>th</sup> {@link UnitDefinition} object in this {@link Model}
    * .
-   * 
+   *
    * @param n the index of the element to return
    * @return the n<sup>th</sup> {@link UnitDefinition} of this {@link Model}.
    *         Returns
@@ -3805,7 +3806,7 @@ implements UniqueNamedSBase, IdManager {
    * the
    * {@link #listOfPredefinedUnitDefinitions}. If we still did not find a
    * {@link UnitDefinition}, {@code null} is returned.
-   * 
+   *
    * @param id the id of the element to return
    * @return the {@link UnitDefinition} of the {@link #listOfUnitDefinitions}s
    *         which has 'id' as id (or name depending on the level and version).
@@ -3814,17 +3815,17 @@ implements UniqueNamedSBase, IdManager {
   public UnitDefinition getUnitDefinition(String id) {
     UnitDefinition unitDefinition =
         mapOfUnitDefinitions != null ? mapOfUnitDefinitions.get(id) : null;
-        // Checking if it is not one of the predefined default units.
-        if (unitDefinition == null) {
-          unitDefinition = getPredefinedUnitDefinition(id);
-        }
-        return unitDefinition;
+    // Checking if it is not one of the predefined default units.
+    if (unitDefinition == null) {
+      unitDefinition = getPredefinedUnitDefinition(id);
+    }
+    return unitDefinition;
   }
 
 
   /**
    * Returns the number of {@link UnitDefinition}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link UnitDefinition}s of this {@link Model}.
    */
   public int getUnitDefinitionCount() {
@@ -3834,7 +3835,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the number of {@link Variable}s of this {@link Model}.
-   * 
+   *
    * @return the number of {@link Variable}s of this {@link Model}.
    */
   public int getVariableCount() {
@@ -3844,7 +3845,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Returns the volume units ID of this {@link Model}.
-   * 
+   *
    * @return the volume units ID of this {@link Model}. Returns an empty
    *         {@link String}
    *         if it is not set.
@@ -3863,7 +3864,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns the {@link UnitDefinition} instance which has the
    * {@link #volumeUnitsID}
    * of this {@link Model} as id.
-   * 
+   *
    * @return the {@link UnitDefinition} instance which has the
    *         {@link #volumeUnitsID}
    *         of this {@link Model} as id. {@code null} if it doesn't exist.
@@ -3909,7 +3910,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if this model has a reference to the {@link UnitDefinition} with the
    * given identifier.
-   * 
+   *
    * @param id the id of the {@link UnitDefinition} to search for
    * @return {@code true} if this model has a reference to the {@link UnitDefinition} with the
    *         given identifier, {@code false} otherwise.
@@ -3930,7 +3931,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Initializes the default values of the attributes of the {@link Model}
-   * 
+   *
    * @param level the SBML level
    * @param version the SBML version
    */
@@ -4019,150 +4020,150 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Checks if the listOfCompartments is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfCompartmentsEmpty() {
-    return listOfCompartments != null && listOfCompartments.size() == 0;
+    return (listOfCompartments != null) && (listOfCompartments.size() == 0);
   }
 
 
   /**
    * Checks if the listOfCompartmentTypes is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfCompartmentTypesEmpty() {
-    return listOfCompartmentTypes != null && listOfCompartmentTypes.size() == 0;
+    return (listOfCompartmentTypes != null) && (listOfCompartmentTypes.size() == 0);
   }
 
 
   /**
    * Checks if the listOfConstraints is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfConstraintsEmpty() {
-    return listOfConstraints != null && listOfConstraints.size() == 0;
+    return (listOfConstraints != null) && (listOfConstraints.size() == 0);
   }
 
 
   /**
    * Checks if the listOfEvents is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfEventsEmpty() {
-    return listOfEvents != null && listOfEvents.size() == 0;
+    return (listOfEvents != null) && (listOfEvents.size() == 0);
   }
 
 
   /**
    * Checks if the listOfFunctionDefinitions is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfFunctionDefinitionsEmpty() {
-    return listOfFunctionDefinitions != null
-        && listOfFunctionDefinitions.size() == 0;
+    return (listOfFunctionDefinitions != null)
+        && (listOfFunctionDefinitions.size() == 0);
   }
 
 
   /**
    * Checks if the listOfInitialAssignments is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfInitialAssignmentsEmpty() {
-    return listOfInitialAssignments != null
-        && listOfInitialAssignments.size() == 0;
+    return (listOfInitialAssignments != null)
+        && (listOfInitialAssignments.size() == 0);
   }
 
 
   /**
    * Checks if the listOfParameters is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfParametersEmpty() {
-    return listOfParameters != null && listOfParameters.size() == 0;
+    return (listOfParameters != null) && (listOfParameters.size() == 0);
   }
 
 
   /**
    * Checks if the listOfReactions is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfReactionsEmpty() {
-    return listOfReactions != null && listOfReactions.size() == 0;
+    return (listOfReactions != null) && (listOfReactions.size() == 0);
   }
 
 
   /**
    * Checks if the listOfRules is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfRulesEmpty() {
-    return listOfRules != null && listOfRules.size() == 0;
+    return (listOfRules != null) && (listOfRules.size() == 0);
   }
 
   /**
    * Checks if the listOfSpecies is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfSpeciesEmpty() {
-    return listOfSpecies != null && listOfSpecies.size() == 0;
+    return (listOfSpecies != null) && (listOfSpecies.size() == 0);
   }
 
   /**
    * Checks if the listOfSpeciesTypes is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfSpeciesTypesEmpty() {
-    return listOfSpeciesTypes != null && listOfSpeciesTypes.size() == 0;
+    return (listOfSpeciesTypes != null) && (listOfSpeciesTypes.size() == 0);
   }
 
   /**
    * Checks if the listOfUnitDefinitions is <code>!= null</code>, but has no
    * children.
-   * 
+   *
    * @return <code>true</code> if list exists, but has no children,
    *         <code>false</code> otherwise.
    */
   public boolean isListOfUnitDefinitionEmpty() {
-    return listOfUnitDefinitions != null && listOfUnitDefinitions.size() == 0;
+    return (listOfUnitDefinitions != null) && (listOfUnitDefinitions.size() == 0);
   }
 
 
   /**
    * Returns {@code true} if the area units ID of this {@link Model} is not
    * {@code null}.
-   * 
+   *
    * @return {@code true} if the area units ID of this {@link Model} is not
    *         {@code null}.
    */
@@ -4174,7 +4175,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the {@link UnitDefinition} which has the area units
    * ID of this {@link Model} as id is not {@code null}.
-   * 
+   *
    * @return {@code true} if the {@link UnitDefinition} which has the area units
    *         ID of this {@link Model} as id is not {@code null}.
    */
@@ -4186,7 +4187,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the {@link #conversionFactorID} of this
    * {@link Model} is not {@code null}.
-   * 
+   *
    * @return {@code true} if the {@link #conversionFactorID} of this
    *         {@link Model} is not {@code null}.
    */
@@ -4199,7 +4200,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the Parameter which has the conversionFactorID of
    * this
    * Model as id is not {@code null}.
-   * 
+   *
    * @return {@code true} if the Parameter which has the conversionFactorID of
    *         this
    *         Model as id is not {@code null}.
@@ -4212,7 +4213,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the extentUnitsID of this Model is not {@code null}
    * .
-   * 
+   *
    * @return {@code true} if the extentUnitsID of this Model is not {@code null}
    *         .
    */
@@ -4225,7 +4226,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the UnitDefinition which has the extentUnitsID of
    * this
    * Model as id is not {@code null}.
-   * 
+   *
    * @return {@code true} if the UnitDefinition which has the extentUnitsID of
    *         this
    *         Model as id is not {@code null}.
@@ -4238,7 +4239,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the lengthUnitsID of this Model is not {@code null}
    * .
-   * 
+   *
    * @return {@code true} if the lengthUnitsID of this Model is not {@code null}
    *         .
    */
@@ -4251,7 +4252,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the UnitDefinition which has the lengthUnitsID of
    * this
    * Model as id is not {@code null}.
-   * 
+   *
    * @return {@code true} if the UnitDefinition which has the lengthUnitsID of
    *         this
    *         Model as id is not {@code null}.
@@ -4265,7 +4266,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the listOfCompartments of this Model is not
    * {@code null} and not
    * empty.
-   * 
+   *
    * @return {@code true} if the listOfCompartments of this Model is not
    *         {@code null} and not
    *         empty.
@@ -4279,7 +4280,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the listOfCompartmentTypes of this Model is not
    * {@code null} and
    * not empty.
-   * 
+   *
    * @return {@code true} if the listOfCompartmentTypes of this Model is not
    *         {@code null} and
    *         not empty.
@@ -4296,7 +4297,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the listOfConstraints of this Model is not
    * {@code null} and not
    * empty.
-   * 
+   *
    * @return {@code true} if the listOfConstraints of this Model is not
    *         {@code null} and not
    *         empty.
@@ -4309,7 +4310,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the listOfEvents of this Model is not {@code null}
    * and not empty.
-   * 
+   *
    * @return {@code true} if the listOfEvents of this Model is not {@code null}
    *         and not empty.
    */
@@ -4322,7 +4323,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the listOfFunctionDefinitions of this Model is not
    * {@code null} and
    * not empty.
-   * 
+   *
    * @return {@code true} if the listOfFunctionDefinitions of this Model is not
    *         {@code null} and
    *         not empty.
@@ -4337,7 +4338,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the listOfInitialAssignments of this Model is not
    * {@code null} and
    * not empty.
-   * 
+   *
    * @return {@code true} if the listOfInitialAssignments of this Model is not
    *         {@code null} and
    *         not empty.
@@ -4352,7 +4353,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the listOfParameters of this Model is not
    * {@code null} and not
    * empty.
-   * 
+   *
    * @return {@code true} if the listOfParameters of this Model is not
    *         {@code null} and not
    *         empty.
@@ -4366,7 +4367,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the listOfReactions of this Model is not
    * {@code null} and not
    * empty.
-   * 
+   *
    * @return {@code true} if the listOfReactions of this Model is not
    *         {@code null} and not
    *         empty.
@@ -4379,7 +4380,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the listOfRules of this Model is not {@code null}
    * and not empty.
-   * 
+   *
    * @return {@code true} if the listOfRules of this Model is not {@code null}
    *         and not empty.
    */
@@ -4391,7 +4392,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the listOfSpecies of this Model is not {@code null}
    * and not empty.
-   * 
+   *
    * @return {@code true} if the listOfSpecies of this Model is not {@code null}
    *         and not empty.
    */
@@ -4404,7 +4405,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the listOfSpeciesTypes of this Model is not
    * {@code null} and not
    * empty.
-   * 
+   *
    * @return {@code true} if the listOfSpeciesTypes of this Model is not
    *         {@code null} and not
    *         empty.
@@ -4420,7 +4421,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the listOfUnitDefinitions of this Model is not
    * {@code null} and not
    * empty.
-   * 
+   *
    * @return {@code true} if the listOfUnitDefinitions of this Model is not
    *         {@code null} and not
    *         empty.
@@ -4434,7 +4435,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns the {@link History} of the Model. This is equivalent to the call
    * {@link SBase#isSetHistory()}.
-   * 
+   *
    * @return the {@link History} of the Model.
    * @deprecated use {@link SBase#isSetHistory()}
    */
@@ -4447,7 +4448,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the substanceUnitsID of this Model is not
    * {@code null}.
-   * 
+   *
    * @return {@code true} if the substanceUnitsID of this Model is not
    *         {@code null}.
    */
@@ -4460,7 +4461,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the UnitDefinition which has the substanceUnitsID
    * of this
    * Model as id is not {@code null}.
-   * 
+   *
    * @return {@code true} if the UnitDefinition which has the substanceUnitsID
    *         of this
    *         Model as id is not {@code null}.
@@ -4473,7 +4474,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the timeUnitsID of this {@link Model} is not
    * {@code null}.
-   * 
+   *
    * @return {@code true} if the timeUnitsID of this {@link Model} is not
    *         {@code null}.
    */
@@ -4486,7 +4487,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the UnitsDefinition which has the timeUnistID of
    * this Model
    * as id is not {@code null}.
-   * 
+   *
    * @return {@code true} if the UnitsDefinition which has the timeUnistID of
    *         this Model
    *         as id is not {@code null}.
@@ -4499,7 +4500,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Returns {@code true} if the volumeUnitsID of this Model is not {@code null}
    * .
-   * 
+   *
    * @return {@code true} if the volumeUnitsID of this Model is not {@code null}
    *         .
    */
@@ -4512,7 +4513,7 @@ implements UniqueNamedSBase, IdManager {
    * Returns {@code true} if the UnitDefinition which has the volumeUnitsID of
    * this
    * Model as id is not {@code null}.
-   * 
+   *
    * @return {@code true} if the UnitDefinition which has the volumeUnitsID of
    *         this
    *         Model as id is not {@code null}.
@@ -4574,7 +4575,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Registration of {@link LocalParameter} instances in the {@link Model}.
-   * 
+   *
    * @param kl
    *        the {@link KineticLaw} that contains the given
    *        {@link LocalParameter}
@@ -4649,7 +4650,7 @@ implements UniqueNamedSBase, IdManager {
 
 
   /**
-   * 
+   *
    * @param unsid
    * @param delete
    * @return
@@ -4707,7 +4708,7 @@ implements UniqueNamedSBase, IdManager {
    * Registers the identifier and the corresponding {@link UnitDefinition}
    * itself
    * in this {@link Model}.
-   * 
+   *
    * @param ud
    *        the {@link UnitDefinition} to be registered.
    * @param add
@@ -4728,7 +4729,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Registers the given element in this {@link Model}.
-   * 
+   *
    * @param parent
    * @param newElem
    * @param recursively
@@ -4769,17 +4770,17 @@ implements UniqueNamedSBase, IdManager {
         String localParameterId =
             localParam.isSetId() ? localParam.getId() : null;
 
-            if (localParameterId != null
-                && kl.getLocalParameter(localParameterId) == null) {
-              alreadyRegistered = false;
-            }
+        if ((localParameterId != null)
+            && (kl.getLocalParameter(localParameterId) == null)) {
+          alreadyRegistered = false;
+        }
 
-            if (logger.isDebugEnabled()) {
-              logger.debug("registerIds (main): LP id = " + localParameterId
-                + " (registered = " + alreadyRegistered + ")");
-            }
+        if (logger.isDebugEnabled()) {
+          logger.debug("registerIds (main): LP id = " + localParameterId
+            + " (registered = " + alreadyRegistered + ")");
+        }
 
-            success &= registerId(kl, localParam, delete, alreadyRegistered);
+        success &= registerId(kl, localParam, delete, alreadyRegistered);
       } else if (newNsb instanceof UnitDefinition) {
         success &= registerId((UnitDefinition) newNsb, !delete);
       } else {
@@ -4836,7 +4837,7 @@ implements UniqueNamedSBase, IdManager {
         }
       }
 
-      if (idManagerList != null && idManagerList.size() > 0 && delete) {
+      if ((idManagerList != null) && (idManagerList.size() > 0) && delete) {
         for (int i = idManagerList.size() - 1; i >= 0; i--) {
           IdManager idManager = idManagerList.get(i);
           if (idManager.accept(newElem)) {
@@ -4865,30 +4866,30 @@ implements UniqueNamedSBase, IdManager {
             String localParameterId =
                 localParam.isSetId() ? localParam.getId() : null;
 
-                if ((localParameterId != null)
-                    && (kl.getLocalParameter(localParameterId) == null)) {
-                  alreadyRegistered = false;
+            if ((localParameterId != null)
+                && (kl.getLocalParameter(localParameterId) == null)) {
+              alreadyRegistered = false;
+            }
+
+            if (logger.isDebugEnabled()) {
+              logger.debug("registerIds (main): LP id = " + localParameterId
+                + " (registered = " + alreadyRegistered + ")");
+            }
+
+            success &= registerId(kl, localParam, delete, alreadyRegistered);
+
+            // we still need to register recursively the children of a
+            // LocalParameter
+            if (child.getChildCount() > 0) {
+              for (int j = 0; (j < child.getChildCount()) && success; j++) {
+                TreeNode lpChild = child.getChildAt(j);
+
+                if (lpChild instanceof SBase) {
+                  success &= registerIds((SBase) child, (SBase) lpChild,
+                    recursively, delete, idManagerList);
                 }
-
-                if (logger.isDebugEnabled()) {
-                  logger.debug("registerIds (main): LP id = " + localParameterId
-                    + " (registered = " + alreadyRegistered + ")");
-                }
-
-                success &= registerId(kl, localParam, delete, alreadyRegistered);
-
-                // we still need to register recursively the children of a
-                // LocalParameter
-                if (child.getChildCount() > 0) {
-                  for (int j = 0; (j < child.getChildCount()) && success; j++) {
-                    TreeNode lpChild = child.getChildAt(j);
-
-                    if (lpChild instanceof SBase) {
-                      success &= registerIds((SBase) child, (SBase) lpChild,
-                        recursively, delete, idManagerList);
-                    }
-                  }
-                }
+              }
+            }
           } else {
             success &= registerIds(newElem, (SBase) child, recursively, delete,
               idManagerList);
@@ -4905,7 +4906,7 @@ implements UniqueNamedSBase, IdManager {
     }
 
     // removing the idManager(s) added
-    if (delete && idManagerAdded > 0) {
+    if (delete && (idManagerAdded > 0)) {
       for (int i = idManagerAdded; i > 0; i--) {
         idManagerList.remove(idManagerList.size() - 1);
       }
@@ -4919,7 +4920,7 @@ implements UniqueNamedSBase, IdManager {
    * Removes the element with the given id from this model if such an element
    * can be found. The type attribute is used to assess if the element with this
    * id has the required type.
-   * 
+   *
    * @param clazz
    *        The desired type of the element to be removed, can be {@code null}.
    * @param id
@@ -4953,7 +4954,7 @@ implements UniqueNamedSBase, IdManager {
    * {@link UnitDefinition}s exist in a separate namespace that might have
    * overlapping identifiers. It would therefore not be clear, which element
    * to remove in case of a identifier clash.
-   * 
+   *
    * @param id
    *        the identifier of the element that is to be removed from this model.
    * @return the removed element or {@code null} if the operation was not
@@ -4966,7 +4967,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the i-th {@link Compartment} of the {@link Model}.
-   * 
+   *
    * @param i
    *        the index of the {@link Compartment} to remove
    * @return the removed {@link Compartment}.
@@ -4978,7 +4979,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the {@link Compartment} of the {@link Model} with 'id' as id.
-   * 
+   *
    * @param id
    * @return the removed {@link Compartment}.
    */
@@ -4989,7 +4990,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the n-th {@link CompartmentType} of the {@link Model}.
-   * 
+   *
    * @param n
    *        the index of the {@link Compartment} to remove
    * @return the removed {@link CompartmentType}.
@@ -5003,7 +5004,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the {@link CompartmentType} of the {@link Model} with 'id' as id.
-   * 
+   *
    * @param id
    * @return the removed element.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
@@ -5016,7 +5017,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the n-th {@link Constraint} of the {@link Model}.
-   * 
+   *
    * @param n
    * @return the removed element.
    */
@@ -5027,7 +5028,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the n-th {@link Event} of the {@link Model}.
-   * 
+   *
    * @param n
    * @return the removed element.
    */
@@ -5038,7 +5039,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the {@link Event} of the {@link Model} with 'id' as id.
-   * 
+   *
    * @param id
    * @return the removed element.
    */
@@ -5049,7 +5050,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the n-th {@link FunctionDefinition} of the {@link Model}.
-   * 
+   *
    * @param n
    * @return the removed element.
    */
@@ -5061,7 +5062,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link FunctionDefinition} of the {@link Model} with 'id' as
    * id.
-   * 
+   *
    * @param id
    * @return the removed element.
    */
@@ -5072,7 +5073,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the n-th {@link InitialAssignment} of the {@link Model}.
-   * 
+   *
    * @param n
    * @return the removed element.
    */
@@ -5083,7 +5084,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the n-th {@link Parameter} of the {@link Model}.
-   * 
+   *
    * @param n
    * @return the removed element.
    */
@@ -5094,7 +5095,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the Parameter 'parameter' from this Model.
-   * 
+   *
    * @param parameter
    * @return {@code true} if the {@link Parameter} was found and removed.
    */
@@ -5105,7 +5106,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the {@link Parameter} of the {@link Model} with 'id' as id.
-   * 
+   *
    * @param id
    * @return the removed element.
    */
@@ -5118,7 +5119,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the n-th {@link Reaction} of the {@link Model}.
-   * 
+   *
    * @param n
    * @return the removed element.
    */
@@ -5129,7 +5130,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes a reaction from the model.
-   * 
+   *
    * @param reac
    * @return {@code true} if the {@link Reaction} was found and removed.
    */
@@ -5140,7 +5141,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the {@link Reaction} of the {@link Model} with 'id' as id.
-   * 
+   *
    * @param id
    * @return the removed element.
    */
@@ -5151,7 +5152,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the i-th {@link Rule} of the {@link Model}.
-   * 
+   *
    * @param i
    * @return the removed element.
    */
@@ -5163,7 +5164,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link Rule} of the {@link Model} with 'variableId' as
    * variable.
-   * 
+   *
    * @param variableId
    * @return the removed element.
    */
@@ -5175,7 +5176,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes a {@link Rule} from the {@link Model}.
-   * 
+   *
    * @param rule
    *        the {@link Rule} to be removed.
    * @return {@code true} if the {@link Rule} was found and removed.
@@ -5187,7 +5188,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the i-th {@link Species} of the {@link Model}.
-   * 
+   *
    * @param i
    * @return the removed element.
    */
@@ -5198,7 +5199,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes a species from the model.
-   * 
+   *
    * @param spec
    * @return {@code true} if the {@link Species} was found and removed.
    */
@@ -5209,7 +5210,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the {@link Species} of the {@link Model} with 'id' as id.
-   * 
+   *
    * @param id
    * @return the removed element.
    */
@@ -5220,7 +5221,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the n-th {@link SpeciesType} of the {@link Model}.
-   * 
+   *
    * @param n
    * @return the removed element.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
@@ -5233,7 +5234,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the {@link SpeciesType} of the {@link Model} with 'id' as id.
-   * 
+   *
    * @param id
    * @return the removed element.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
@@ -5246,7 +5247,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the n-th {@link UnitDefinition} of the {@link Model}.
-   * 
+   *
    * @param n
    * @return the removed element.
    */
@@ -5257,7 +5258,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes the {@link UnitDefinition} of the {@link Model} with 'id' as id.
-   * 
+   *
    * @param id
    * @return the removed element.
    */
@@ -5278,7 +5279,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Removes a {@link UnitDefinition} of the {@link Model}.
-   * 
+   *
    * @param unitDefininition
    * @return {@code true} if the {@link UnitDefinition} 'unitDefinition' has
    *         been removed from the {@link Model}.
@@ -5290,7 +5291,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Sets the areaUnitsID of this {@link Model} to 'areaUnitsID'
-   * 
+   *
    * @param areaUnitsID
    * @throws PropertyNotAvailableException
    *         if Level &lt; 3.
@@ -5319,7 +5320,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the areaUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'areaUnits'.
-   * 
+   *
    * @param areaUnits
    */
   public void setAreaUnits(UnitDefinition areaUnits) {
@@ -5333,7 +5334,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the conversionFactorID of this {@link Model} to the id of the
    * {@link Parameter} 'conversionFactor'.
-   * 
+   *
    * @param conversionFactor
    */
   public void setConversionFactor(Parameter conversionFactor) {
@@ -5345,7 +5346,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the conversionFactorID of this {@link Model} to
    * 'conversionFactorID'.
-   * 
+   *
    * @param conversionFactorID
    * @throws PropertyNotAvailableException
    *         if Level &lt; 3.
@@ -5364,7 +5365,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Sets the extendUnitsID of this {@link Model} to 'extentUnitsID'.
-   * 
+   *
    * @param extentUnitsID
    * @throws PropertyNotAvailableException
    *         if Level &lt; 3.
@@ -5393,7 +5394,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the extentUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'extentUnits'.
-   * 
+   *
    * @param extentUnits
    */
   public void setExtentUnits(UnitDefinition extentUnits) {
@@ -5406,7 +5407,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Sets the lengthUnitsID of this {@link Model} to 'lengthUnitsID'.
-   * 
+   *
    * @param lengthUnitsID
    * @throws PropertyNotAvailableException
    *         if Level &lt; 3.
@@ -5435,7 +5436,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the lengthUnitsID of this {@link Model} to the id of the
    * UnitDefinition 'lengthUnits'.
-   * 
+   *
    * @param lengthUnits
    */
   public void setLengthUnits(UnitDefinition lengthUnits) {
@@ -5450,7 +5451,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the listOfCompartments of this {@link Model} to 'listOfCompartments'.
    * Automatically sets the parentSBML objects of 'listOfCompartments' to this
    * Model.
-   * 
+   *
    * @param listOfCompartments
    */
   public void setListOfCompartments(ListOf<Compartment> listOfCompartments) {
@@ -5468,7 +5469,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the listOfCompartmentTypes of this Model to 'listOfCompartmentTypes'.
    * Automatically sets the parentSBML objects of 'listOfCompartmentTypes' to
    * this {@link Model}.
-   * 
+   *
    * @param listOfCompartmentTypes
    *        the listOfCompartmentTypes to set
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
@@ -5491,7 +5492,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the listOfConstraints of this {@link Model} to 'listOfConstraints'.
    * Automatically sets the parentSBML objects of 'listOfCanstraints' to this
    * Model.
-   * 
+   *
    * @param listOfConstraints
    *        the listOfConstraints to set
    */
@@ -5510,7 +5511,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the listOfEvents of this {@link Model} to 'listOfEvents'.
    * Automatically sets the parentSBML objects of 'listOfEvents' to this
    * {@link Model}.
-   * 
+   *
    * @param listOfEvents
    */
   public void setListOfEvents(ListOf<Event> listOfEvents) {
@@ -5528,7 +5529,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the listOfFunctionDefinitions of this {@link Model} to
    * 'listOfFunctionDefinitions'. Automatically sets the parentSBML objects of
    * 'listOfFunctionDefinitions' to this Model.
-   * 
+   *
    * @param listOfFunctionDefinitions
    *        the listOfFunctionDefinitions to set
    */
@@ -5549,7 +5550,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the {@link #listOfInitialAssignments} of this {@link Model} to
    * 'listOfInitialAssignments'. Automatically sets the parentSBML objects of
    * 'listOfInitialAssignments' to this Model.
-   * 
+   *
    * @param listOfInitialAssignments
    *        the listOfInitialAssignments to set
    */
@@ -5570,7 +5571,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the {@link #listOfParameters} of this {@link Model} to
    * 'listOfParameters'. Automatically sets the parentSBML objects of
    * 'listOfParameters' to this Model.
-   * 
+   *
    * @param listOfParameters
    */
   public void setListOfParameters(ListOf<Parameter> listOfParameters) {
@@ -5588,7 +5589,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the {@link #listOfReactions} of this {@link Model} to
    * 'listOfReactions'. Automatically sets the parentSBML objects of
    * 'listOfReactions' to this Model.
-   * 
+   *
    * @param listOfReactions
    */
   public void setListOfReactions(ListOf<Reaction> listOfReactions) {
@@ -5605,7 +5606,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the {@link #listOfRules} of this {@link Model} to 'listOfRules'.
    * Automatically sets the parentSBML objects of 'listOfRules' to this Model.
-   * 
+   *
    * @param listOfRules
    */
   public void setListOfRules(ListOf<Rule> listOfRules) {
@@ -5622,7 +5623,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the listOfSpecies of this {@link Model} to 'listOfSpecies'.
    * Automatically sets the parentSBML objects of 'listOfSpecies' to this Model.
-   * 
+   *
    * @param listOfSpecies
    */
   public void setListOfSpecies(ListOf<Species> listOfSpecies) {
@@ -5640,7 +5641,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the listOfSpeciesTypes of this Model to 'listOfSpeciesTypes'.
    * Automatically sets the parentSBML objects of 'listOfSpeciesTypes' to this
    * Model.
-   * 
+   *
    * @param listOfSpeciesTypes
    *        the listOfSpeciesTypes to set
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
@@ -5661,7 +5662,7 @@ implements UniqueNamedSBase, IdManager {
    * Sets the listOfUnitDefinitions of this {@link Model} to
    * 'listOfUnitDefinitions'. Automatically sets the parentSBML objects of
    * 'listOfUnitDefinitions' to this Model.
-   * 
+   *
    * @param listOfUnitDefinitions
    */
   public void setListOfUnitDefinitions(
@@ -5691,7 +5692,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the {@link #substanceUnitsID} of this {@link Model} to
    * 'substanceUnitsID'
-   * 
+   *
    * @param substanceUnitsID
    * @throws PropertyNotAvailableException
    *         if Level &lt; 3.
@@ -5711,7 +5712,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the substanceUnitsID of this {@link Model} to the id of
    * 'substanceUnits'.
-   * 
+   *
    * @param substanceUnits
    */
   public void setSubstanceUnits(UnitDefinition substanceUnits) {
@@ -5733,7 +5734,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Sets the timeUnits of this {@link Model} to 'timeUnistID'
-   * 
+   *
    * @param timeUnitsID
    * @throws PropertyNotAvailableException
    *         if Level &lt; 3.
@@ -5755,7 +5756,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the timeUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'timeUnits'.
-   * 
+   *
    * @param timeUnits
    */
   public void setTimeUnits(UnitDefinition timeUnits) {
@@ -5769,7 +5770,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the {@link #timeUnitsID} of this {@link Model} to the given unit
    * kind.
-   * 
+   *
    * @param kind
    */
   public void setTimeUnits(Unit.Kind kind) {
@@ -5779,7 +5780,7 @@ implements UniqueNamedSBase, IdManager {
 
   /**
    * Sets the volumeUnitsID of this {@link Model} to 'volumeUnitsID'
-   * 
+   *
    * @param volumeUnitsID
    * @throws PropertyNotAvailableException
    *         if Level &lt; 3.
@@ -5808,7 +5809,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Sets the volumeUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'volumeUnits'.
-   * 
+   *
    * @param volumeUnits
    */
   public void setVolumeUnits(UnitDefinition volumeUnits) {
@@ -5864,7 +5865,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfCompartments} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -5882,7 +5883,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfCompartmentTypes} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
@@ -5903,7 +5904,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfConstraints} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -5921,7 +5922,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfEvents} from this {@link Model} and notifies all
    * registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -5939,7 +5940,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfFunctionDefinitions} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -5958,7 +5959,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfInitialAssignments} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -5977,7 +5978,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfParameters} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -5995,7 +5996,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfReactions} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -6013,7 +6014,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfRules} from this {@link Model} and notifies all
    * registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -6031,7 +6032,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfSpecies} from this {@link Model} and notifies all
    * registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -6049,7 +6050,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfSpeciesTypes} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
@@ -6069,7 +6070,7 @@ implements UniqueNamedSBase, IdManager {
   /**
    * Removes the {@link #listOfUnitDefinitions} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */

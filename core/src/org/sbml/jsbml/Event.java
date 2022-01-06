@@ -830,8 +830,8 @@ UniqueNamedSBase {
    * Removes an element from the listOfEventAssignments.
    *
    * @param eventAssignment the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element and it was removed.
+   * @see java.util.List#remove(Object)
    */
   public boolean removeEventAssignment(EventAssignment eventAssignment) {
     if (isSetListOfEventAssignments()) {

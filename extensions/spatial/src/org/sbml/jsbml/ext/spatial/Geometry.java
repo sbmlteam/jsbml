@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -50,42 +50,42 @@ public class Geometry extends AbstractSpatialNamedSBase {
   private static final long serialVersionUID = 9115597691155572976L;
 
   /**
-   * 
+   *
    */
   private ListOf<CoordinateComponent> listOfCoordinateComponents;
 
   /**
-   * 
+   *
    */
   private ListOf<DomainType> listOfDomainTypes;
 
   /**
-   * 
+   *
    */
   private ListOf<Domain> listOfDomains;
 
   /**
-   * 
+   *
    */
   private ListOf<AdjacentDomains> listOfAdjacentDomains;
 
   /**
-   * 
+   *
    */
   private ListOf<GeometryDefinition> listOfGeometryDefinitions;
 
   /**
-   * 
+   *
    */
   private ListOf<SampledField> listOfSampledFields;
 
   /**
-   * 
+   *
    */
   private GeometryKind coordinateSystem;
 
   /**
-   * 
+   *
    */
   public Geometry() {
     super();
@@ -318,7 +318,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfSampledFields is initialized if necessary.
    *
    * @param sampledField the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addSampledField(SampledField sampledField) {
     return getListOfSampledFields().add(sampledField);
@@ -329,8 +329,8 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * Removes an element from the listOfSampledFields.
    *
    * @param sampledField the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeSampledField(SampledField sampledField) {
     if (isSetListOfSampledFields()) {
@@ -388,13 +388,13 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * @param i the index of the {@link SampledField} element to get.
    * @return an element from the listOfSampledFields at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound {@code (index < 0 || index > list.size)}.
    */
   public SampledField getSampledField(int i) {
-  	if (!isSetListOfSampledFields()) {
-  		throw new IndexOutOfBoundsException(Integer.toString(i));
-  	}
-  	return getListOfSampledFields().get(i);
+    if (!isSetListOfSampledFields()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfSampledFields().get(i);
   }
 
 
@@ -406,38 +406,38 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         or {@code null}.
    */
   public SampledField getSampledField(String id) {
-  	if (isSetListOfSampledFields()) {
-  		return getListOfSampledFields().get(id);
-  	}
-  	return null;
+    if (isSetListOfSampledFields()) {
+      return getListOfSampledFields().get(id);
+    }
+    return null;
   }
-  
+
 
   /**
    * Returns the number of {@link SampledField}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link SampledField}s in this
    *         {@link Geometry}.
    */
   public int getSampledFieldCount() {
-  	return isSetListOfSampledFields() ? getListOfSampledFields().size() : 0;
+    return isSetListOfSampledFields() ? getListOfSampledFields().size() : 0;
   }
-  
+
 
   /**
    * Returns the number of {@link SampledField}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link SampledField}s in this
    *         {@link Geometry}.
    * @libsbml.deprecated same as {@link #getSampledFieldCount()}
    */
   public int getNumSampledFields() {
-  	return getSampledFieldCount();
+    return getSampledFieldCount();
   }
-  
-  
+
+
   /**
    * Returns {@code true}, if listOfGeometryDefinitions contains at least one element.
    *
@@ -516,7 +516,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfGeometryDefinitions is initialized if necessary.
    *
    * @param geometryDefinition the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addGeometryDefinition(GeometryDefinition geometryDefinition) {
     return getListOfGeometryDefinitions().add(geometryDefinition);
@@ -527,8 +527,8 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * Removes an element from the listOfGeometryDefinitions.
    *
    * @param geometryDefinition the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeGeometryDefinition(GeometryDefinition geometryDefinition) {
     if (isSetListOfGeometryDefinitions()) {
@@ -551,7 +551,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
     }
     getListOfGeometryDefinitions().remove(i);
   }
-  
+
 
   /**
    * @param id
@@ -559,7 +559,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void removeGeometryDefinition(String id) {
     getListOfGeometryDefinitions().removeFirst(new NameFilter(id));
   }
-  
+
 
   /**
    * Creates a new GeometryDefinition element and adds it to the ListOfGeometryDefinitions list
@@ -567,21 +567,21 @@ public class Geometry extends AbstractSpatialNamedSBase {
    */
   public SampledFieldGeometry createSampledFieldGeometry() {
     return createSampledFieldGeometry(null);
-  }  
+  }
 
   /**
    * @return
    */
   public AnalyticGeometry createAnalyticGeometry() {
     return createAnalyticGeometry(null);
-  }  
+  }
 
   /**
    * @return
    */
   public CSGeometry createCSGeometry() {
     return createCSGeometry(null);
-  }  
+  }
 
   /**
    * @return
@@ -651,20 +651,20 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return def;
   }
 
-  
+
   /**
    * Gets an element from the {@link #listOfGeometryDefinitions} at the given index.
    *
    * @param i the index of the {@link GeometryDefinition} element to get.
    * @return an element from the listOfGeometryDefinitions at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound {@code (index < 0 || index > list.size)}.
    */
   public GeometryDefinition getGeometryDefinition(int i) {
-  	if (!isSetListOfGeometryDefinitions()) {
-  		throw new IndexOutOfBoundsException(Integer.toString(i));
-  	}
-  	return getListOfGeometryDefinitions().get(i);
+    if (!isSetListOfGeometryDefinitions()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfGeometryDefinitions().get(i);
   }
 
 
@@ -676,38 +676,38 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         or {@code null}.
    */
   public GeometryDefinition getGeometryDefinition(String id) {
-  	if (isSetListOfGeometryDefinitions()) {
-  		return getListOfGeometryDefinitions().get(id);
-  	}
-  	return null;
+    if (isSetListOfGeometryDefinitions()) {
+      return getListOfGeometryDefinitions().get(id);
+    }
+    return null;
   }
-  
+
 
   /**
    * Returns the number of {@link GeometryDefinition}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link GeometryDefinition}s in this
    *         {@link Geometry}.
    */
   public int getGeometryDefinitionCount() {
-  	return isSetListOfGeometryDefinitions() ? getListOfGeometryDefinitions().size() : 0;
+    return isSetListOfGeometryDefinitions() ? getListOfGeometryDefinitions().size() : 0;
   }
-  
+
 
   /**
    * Returns the number of {@link GeometryDefinition}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link GeometryDefinition}s in this
    *         {@link Geometry}.
    * @libsbml.deprecated same as {@link #getGeometryDefinitionCount()}
    */
   public int getNumGeometryDefinitions() {
-  	return getGeometryDefinitionCount();
+    return getGeometryDefinitionCount();
   }
-  
-  
+
+
   /**
    * Returns {@code true}, if listOfAdjacentDomains contains at least one element.
    *
@@ -786,7 +786,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The {@link #listOfAdjacentDomains} is initialized if necessary.
    *
    * @param adjacentDomains the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addAdjacentDomain(AdjacentDomains adjacentDomains) {
     return getListOfAdjacentDomains().add(adjacentDomains);
@@ -797,8 +797,8 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * Removes an element from the listOfAdjacentDomains.
    *
    * @param adjacentDomains the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeAdjacentDomain(AdjacentDomains adjacentDomains) {
     if (isSetListOfAdjacentDomains()) {
@@ -821,7 +821,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
     }
     getListOfAdjacentDomains().remove(i);
   }
-  
+
 
   /**
    * @param id
@@ -829,7 +829,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void removeAdjacentDomain(String id) {
     getListOfAdjacentDomains().removeFirst(new NameFilter(id));
   }
-  
+
 
   /**
    * Creates a new AdjacentDomain element and adds it to the ListOfAdjacentDomains list
@@ -838,7 +838,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public AdjacentDomains createAdjacentDomain() {
     return createAdjacentDomain(null);
   }
-  
+
 
   /**
    * Creates a new {@link AdjacentDomains} element and adds it to the
@@ -852,23 +852,23 @@ public class Geometry extends AbstractSpatialNamedSBase {
     addAdjacentDomain(adjacentDomains);
     return adjacentDomains;
   }
-  
-  
+
+
   /**
    * Gets an element from the {@link #listOfAdjacentDomains} at the given index.
    *
    * @param i the index of the {@link AdjacentDomains} element to get.
    * @return an element from the listOfAdjacentDomains at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound {@code (index < 0 || index > list.size)}.
    */
   public AdjacentDomains getAdjacentDomains(int i) {
-  	if (!isSetListOfAdjacentDomains()) {
-  		throw new IndexOutOfBoundsException(Integer.toString(i));
-  	}
-  	return getListOfAdjacentDomains().get(i);
+    if (!isSetListOfAdjacentDomains()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfAdjacentDomains().get(i);
   }
-  
+
 
   /**
    * Gets an element from the listOfAdjacentDomains, with the given id.
@@ -878,37 +878,37 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         or {@code null}.
    */
   public AdjacentDomains getAdjacentDomains(String id) {
-  	if (isSetListOfAdjacentDomains()) {
-  		return getListOfAdjacentDomains().get(id);
-  	}
-  	return null;
+    if (isSetListOfAdjacentDomains()) {
+      return getListOfAdjacentDomains().get(id);
+    }
+    return null;
   }
-  
+
 
   /**
    * Returns the number of {@link AdjacentDomains}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link AdjacentDomains}s in this
    *         {@link Geometry}.
    */
   public int getAdjacentDomainsCount() {
-  	return isSetListOfAdjacentDomains() ? getListOfAdjacentDomains().size() : 0;
+    return isSetListOfAdjacentDomains() ? getListOfAdjacentDomains().size() : 0;
   }
-  
+
 
   /**
    * Returns the number of {@link AdjacentDomains}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link AdjacentDomains}s in this
    *         {@link Geometry}.
    * @libsbml.deprecated same as {@link #getAdjacentDomainsCount()}
    */
   public int getNumAdjacentDomains() {
-  	return getAdjacentDomainsCount();
+    return getAdjacentDomainsCount();
   }
-  
+
 
   /**
    * Returns {@code true}, if listOfDomainTypes contains at least one element.
@@ -988,7 +988,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfDomainTypes is initialized if necessary.
    *
    * @param domainType the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addDomainType(DomainType domainType) {
     return getListOfDomainTypes().add(domainType);
@@ -999,8 +999,8 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * Removes an element from the listOfDomainTypes.
    *
    * @param domainType the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeDomainType(DomainType domainType) {
     if (isSetListOfDomainTypes()) {
@@ -1022,14 +1022,14 @@ public class Geometry extends AbstractSpatialNamedSBase {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
     getListOfDomainTypes().remove(i);
-  }  
+  }
 
   /**
    * @param id
    */
   public void removeDomainType(String id) {
     getListOfDomainTypes().removeFirst(new NameFilter(id));
-  }  
+  }
 
   /**
    * Creates a new DomainType element and adds it to the ListOfDomainTypes list
@@ -1049,23 +1049,23 @@ public class Geometry extends AbstractSpatialNamedSBase {
     DomainType domainType = new DomainType(id, getLevel(), getVersion());
     addDomainType(domainType);
     return domainType;
-  }  
-  
+  }
+
   /**
    * Gets an element from the {@link #listOfDomainTypes} at the given index.
    *
    * @param i the index of the {@link DomainType} element to get.
    * @return an element from the listOfDomainTypes at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound {@code (index < 0 || index > list.size)}.
    */
   public DomainType getDomainType(int i) {
-  	if (!isSetListOfDomainTypes()) {
-  		throw new IndexOutOfBoundsException(Integer.toString(i));
-  	}
-  	return getListOfDomainTypes().get(i);
+    if (!isSetListOfDomainTypes()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfDomainTypes().get(i);
   }
-  
+
 
   /**
    * Gets an element from the listOfDomainTypes, with the given id.
@@ -1075,37 +1075,37 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         or {@code null}.
    */
   public DomainType getDomainType(String id) {
-  	if (isSetListOfDomainTypes()) {
-  		return getListOfDomainTypes().get(id);
-  	}
-  	return null;
+    if (isSetListOfDomainTypes()) {
+      return getListOfDomainTypes().get(id);
+    }
+    return null;
   }
-  
+
 
   /**
    * Returns the number of {@link DomainType}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link DomainType}s in this
    *         {@link Geometry}.
    */
   public int getDomainTypeCount() {
-  	return isSetListOfDomainTypes() ? getListOfDomainTypes().size() : 0;
+    return isSetListOfDomainTypes() ? getListOfDomainTypes().size() : 0;
   }
-  
+
 
   /**
    * Returns the number of {@link DomainType}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link DomainType}s in this
    *         {@link Geometry}.
    * @libsbml.deprecated same as {@link #getDomainTypeCount()}
    */
   public int getNumDomainTypes() {
-  	return getDomainTypeCount();
+    return getDomainTypeCount();
   }
-  
+
 
   /**
    * Returns {@code true}, if listOfDomains contains at least one element.
@@ -1185,7 +1185,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfDomains is initialized if necessary.
    *
    * @param domain the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addDomain(Domain domain) {
     return getListOfDomains().add(domain);
@@ -1196,8 +1196,8 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * Removes an element from the listOfDomains.
    *
    * @param domain the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeDomain(Domain domain) {
     if (isSetListOfDomains()) {
@@ -1248,20 +1248,20 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return domain;
   }
 
-  
+
   /**
    * Gets an element from the {@link #listOfDomains} at the given index.
    *
    * @param i the index of the {@link Domain} element to get.
    * @return an element from the listOfDomains at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound {@code (index < 0 || index > list.size)}.
    */
   public Domain getDomain(int i) {
-  	if (!isSetListOfDomains()) {
-  		throw new IndexOutOfBoundsException(Integer.toString(i));
-  	}
-  	return getListOfDomains().get(i);
+    if (!isSetListOfDomains()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfDomains().get(i);
   }
 
   /**
@@ -1272,38 +1272,38 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         or {@code null}.
    */
   public Domain getDomain(String id) {
-  	if (isSetListOfDomains()) {
-  		return getListOfDomains().get(id);
-  	}
-  	return null;
+    if (isSetListOfDomains()) {
+      return getListOfDomains().get(id);
+    }
+    return null;
   }
-  
+
 
   /**
    * Returns the number of {@link Domain}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link Domain}s in this
    *         {@link Geometry}.
    */
   public int getDomainCount() {
-  	return isSetListOfDomains() ? getListOfDomains().size() : 0;
+    return isSetListOfDomains() ? getListOfDomains().size() : 0;
   }
-  
+
 
   /**
    * Returns the number of {@link Domain}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link Domain}s in this
    *         {@link Geometry}.
    * @libsbml.deprecated same as {@link #getDomainCount()}
    */
   public int getNumDomains() {
-  	return getDomainCount();
+    return getDomainCount();
   }
-  
-  
+
+
   /**
    * Returns {@code true}, if listOfCoordinateComponents contains at least one element.
    *
@@ -1382,7 +1382,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfCoordinateComponents is initialized if necessary.
    *
    * @param coordinateComponents the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addCoordinateComponent(CoordinateComponent coordinateComponents) {
     return getListOfCoordinateComponents().add(coordinateComponents);
@@ -1393,8 +1393,8 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * Removes an element from the listOfCoordinateComponents.
    *
    * @param coordinateComponents the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeCoordinateComponent(CoordinateComponent coordinateComponents) {
     if (isSetListOfCoordinateComponents()) {
@@ -1445,20 +1445,20 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return coordinateComponents;
   }
 
-  
+
   /**
    * Gets an element from the {@link #listOfCoordinateComponents} at the given index.
    *
    * @param i the index of the {@link CoordinateComponent} element to get.
    * @return an element from the listOfCoordinateComponents at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound {@code (index < 0 || index > list.size)}.
    */
   public CoordinateComponent getCoordinateComponent(int i) {
-  	if (!isSetListOfCoordinateComponents()) {
-  		throw new IndexOutOfBoundsException(Integer.toString(i));
-  	}
-  	return getListOfCoordinateComponents().get(i);
+    if (!isSetListOfCoordinateComponents()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfCoordinateComponents().get(i);
   }
 
   /**
@@ -1469,38 +1469,38 @@ public class Geometry extends AbstractSpatialNamedSBase {
    *         or {@code null}.
    */
   public CoordinateComponent getCoordinateComponent(String id) {
-  	if (isSetListOfCoordinateComponents()) {
-  		return getListOfCoordinateComponents().get(id);
-  	}
-  	return null;
+    if (isSetListOfCoordinateComponents()) {
+      return getListOfCoordinateComponents().get(id);
+    }
+    return null;
   }
-  
+
 
   /**
    * Returns the number of {@link CoordinateComponent}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link CoordinateComponent}s in this
    *         {@link Geometry}.
    */
   public int getCoordinateComponentCount() {
-  	return isSetListOfCoordinateComponents() ? getListOfCoordinateComponents().size() : 0;
+    return isSetListOfCoordinateComponents() ? getListOfCoordinateComponents().size() : 0;
   }
-  
+
 
   /**
    * Returns the number of {@link CoordinateComponent}s in this
    * {@link Geometry}.
-   * 
+   *
    * @return the number of {@link CoordinateComponent}s in this
    *         {@link Geometry}.
    * @libsbml.deprecated same as {@link #getCoordinateComponentCount()}
    */
   public int getNumCoordinateComponents() {
-  	return getCoordinateComponentCount();
+    return getCoordinateComponentCount();
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */

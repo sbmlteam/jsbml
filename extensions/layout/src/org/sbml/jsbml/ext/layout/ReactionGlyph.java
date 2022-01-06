@@ -131,7 +131,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    * {@link #listOfSpeciesReferenceGlyphs}.
    * 
    * @param glyph
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    * @throws NullPointerException
    *             if the specified element is null and this list does not
    *             permit null elements

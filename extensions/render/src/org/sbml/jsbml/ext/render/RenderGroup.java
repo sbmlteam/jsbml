@@ -831,7 +831,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * <p>The listOfElements is initialized if necessary.
    *
    * @param field the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addElement(Transformation2D field) {
     return getListOfElements().add(field);
@@ -842,8 +842,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * Removes an element from the listOfElements.
    *
    * @param field the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element and it was removed.
+   * @see java.util.List#remove(Object)
    */
   public boolean removeElement(Transformation2D field) {
     if (isSetListOfElements()) {

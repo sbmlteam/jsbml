@@ -221,7 +221,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    * <p>The listOfSubGlyphs is initialized if necessary.
    *
    * @param subGlyph the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addSubGlyph(GraphicalObject subGlyph) {
     return getListOfSubGlyphs().add(subGlyph);
@@ -232,7 +232,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    *
    * @param subGlyph the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeSubGlyph(GraphicalObject subGlyph) {
     if (isSetListOfSubGlyphs()) {
@@ -269,7 +269,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    * 
    * @param subGlyph the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeGeneralGlyph(GraphicalObject subGlyph) {
     return removeSubGlyph(subGlyph);
@@ -459,7 +459,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    * {@link #listOfReferenceGlyphs}.
    * 
    * @param glyph the glyph to be added.
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    * @throws NullPointerException
    *             if the specified element is null and this list does not
    *             permit null elements

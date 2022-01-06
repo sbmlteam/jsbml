@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -21,6 +21,7 @@ package org.sbml.jsbml;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -29,6 +30,7 @@ import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.util.filters.IdFilter;
 import org.sbml.jsbml.xml.XMLNode;
 
 /**
@@ -103,25 +105,25 @@ import org.sbml.jsbml.xml.XMLNode;
  * permitted for 'sboTerm'. Please consult the SBML Level&nbsp;2 Version&nbsp;4
  * specification for more information about the use of {@link SBO} and the
  * 'sboTerm' attribute.
- * 
+ *
  * <p>
  * Beginning with SBML Level 3 Version 2, {@link SBase} also has two optional
  * attributes named 'id' and 'name'. So {@link SBase} kind of replace the interface
  * {@link NamedSBase} but NamedSBase is kept so that we can easily know which elements
  * had an id and a name before SBML L3V2.
- * 
- * 
+ *
+ *
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
- * 
+ *
  */
 public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Adds a {@link CVTerm}.
-   * 
+   *
    * @param term the {@link CVTerm} to add.
    * @return {@code true} if a {@link CVTerm} instance has been added to
    *         the list of {@link CVTerm} of this object.
@@ -131,19 +133,19 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Adds an additional name space to the set of declared namespaces of this
    * {@link SBase}.
-   * 
+   *
    * @param prefix the prefix of the namespace to add
    * @param namespace the namespace to add
-   * 
+   *
    */
   public void addDeclaredNamespace(String prefix, String namespace);
 
   /**
    * Adds a {@link SBasePlugin} extension object to this {@link SBase}.
-   * 
+   *
    * <p>If a previous {@link SBasePlugin} associated with the same package
    * was present before, it will be replaced.
-   * 
+   *
    * @param nameOrUri the name or URI of the package extension.
    * @param sbasePlugin the {@link SBasePlugin} to add.
    */
@@ -151,10 +153,10 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Adds a {@link SBasePlugin} extension object to this {@link SBase}.
-   * 
+   *
    * <p>If a previous {@link SBasePlugin} associated with the same package
    * was present before, it will be replaced.
-   * 
+   *
    * @param nameOrUri the name or URI of the package extension.
    * @param sbasePlugin the {@link SBasePlugin} to add.
    * @see #addExtension(String, SBasePlugin)
@@ -165,7 +167,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Adds an additional name space to the set of name spaces of this
    * {@link SBase} if the given name space is not yet present within this
    * {@link SortedSet}.
-   * 
+   *
    * @param namespace the namespace to add
    */
   //  protected void setNamespace(String namespace);
@@ -185,7 +187,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Unlike {@link SBase#setAnnotation(XMLNode)} or
    * {@link SBase#setAnnotation(String)}, this method allows other
    * annotations to be preserved when an application adds its own data.
-   * 
+   *
    * @param annotation
    *        an XML string that is to be copied and appended to the content of
    *        the 'annotation' subelement of this object
@@ -212,7 +214,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Unlike {@link SBase#setAnnotation(XMLNode)} or
    * {@link SBase#setAnnotation(String)}, this method allows other
    * annotations to be preserved when an application adds its own data.
-   * 
+   *
    * @param annotation
    *        an XML structure that is to be copied and appended to the content of
    *        the 'annotation' subelement of this object
@@ -221,7 +223,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Appends 'notes' to the notes String of this object.
-   * 
+   *
    * @param notes
    *        the notes to be added.
    * @throws XMLStreamException
@@ -231,7 +233,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Appends 'notes' to the notes of this object.
-   * 
+   *
    * @param notes the notes to be added.
    */
   public void appendNotes(XMLNode notes);
@@ -240,7 +242,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Creates a deep copy of this object, i.e., a new {@link SBase} with the same
    * properties
    * like this one.
-   * 
+   *
    * @return a copy of this object
    */
   public SBase clone();
@@ -248,10 +250,10 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Creates a new {@link SBasePlugin} for the given package name or URI
    * and adds it to this {@link SBase}.
-   * 
+   *
    * <p>If an {@link SBasePlugin} was already present in this {@link SBase}
    * it will be replaced.
-   * 
+   *
    * @param nameOrUri the package name or URI
    * @return a new {@link SBasePlugin} for the given package name or URI
    */
@@ -259,14 +261,14 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName a package namespace URI or package name
    */
   public void disablePackage(String packageURIOrName);
 
   /**
    * Enables the given SBML Level 3 package on this {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName a package namespace URI or package name
    */
   public void enablePackage(String packageURIOrName);
@@ -274,7 +276,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Enables or disables the given SBML Level 3 package on this
    * {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        a package namespace URI or package name
    * @param enabled
@@ -288,7 +290,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Returns {@code true} if and only if the given {@link SBase} has exactly the
    * same
    * properties like this {@link SBase} instance.
-   * 
+   *
    * @param sbase
    *        the {@link SBase} to be compared to.
    * @return {@code true} if and only if the given {@link Object} is an instance
@@ -300,7 +302,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns a list of all the {@link CVTerm} with the given {@link Qualifier}.
-   * 
+   *
    * @param qualifier {@link Qualifier} used to filter the {@link CVTerm}s.
    * @return a list of all the {@link CVTerm} with the given {@link Qualifier}.
    */
@@ -311,7 +313,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * terms whose {@link Qualifier} is of the given type and selects only those
    * resources from
    * these terms that contain the given pattern.
-   * 
+   *
    * @param qualifier
    *        {@link Qualifier} used to filter the {@link CVTerm}s.
    * @param pattern
@@ -329,7 +331,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * This is a recursive implementation of
    * {@link #filterCVTerms(Qualifier, String)} that considers all child elements
    * of the current instance of {@link SBase} as well.
-   * 
+   *
    * @param qualifier
    *        {@link Qualifier} used to filter the {@link CVTerm}s.
    * @param pattern
@@ -352,7 +354,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Returns a list of resource URIs for the given {@link Qualifier} that match
    * the
    * given patterns.
-   * 
+   *
    * @param qualifier
    *        {@link Qualifier} used to filter the {@link CVTerm}s.
    * @param recursive
@@ -374,7 +376,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the content of the 'annotation' sub-element of this object as an
    *         {@link Annotation} instance.
-   * 
+   *
    * @return the content of the 'annotation' sub-element of this object as an
    *         {@link Annotation} instance.
    */
@@ -383,7 +385,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the content of the 'annotation' sub-element of this object as a
    * String.
-   * 
+   *
    * @return the content of the 'annotation' sub-element of this object as a
    *         String.
    * @throws XMLStreamException
@@ -394,7 +396,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the {@link CVTerm} instance at the position 'index' in the list of
    * {@link CVTerm}s of this object.
-   * 
+   *
    * @param index
    *        index of the element to return
    * @return the {@link CVTerm} instance at the position 'index' in the list of
@@ -408,7 +410,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the list of {@link CVTerm}s of this object.
-   * 
+   *
    * @return the list of {@link CVTerm}s of this object. If not yet set, this
    *         method
    *         initializes the annotation and returns an empty list.
@@ -419,7 +421,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Returns all the namespaces declared on this object. These will be written
    * on the
    * resulting XML element.
-   * 
+   *
    * @return all the namespaces declared on this object. These will be written
    *         on the
    *         resulting XML element.
@@ -428,17 +430,17 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the first child element found that has the given id.
-   * 
+   *
    * <p>This operation searches the model-wide SId identifier type namespace.
-   * So it will not find for example {@link LocalParameter} or {@link UnitDefinition}.<p/>
-   * 
+   * So it will not find for example {@link LocalParameter} or {@link UnitDefinition}.
+   *
    * <p>This method is here for compatibility with libSBML, it is less efficient than
-   * the methods that are located in the {@link Model} and {@link SBMLDocument} classes.</p>
+   * the methods that are located in the {@link Model} and {@link SBMLDocument} classes.
    *
    * <p>If you want to get an {@link SBase} that is not in the SId namespace,
    * you can use the filter methods (for example: {@link #filter(Filter)})
    * using the {@link IdFilter} filter.
-   * 
+   *
 
    * @param id string representing the id of the {@link SBase} to find.
    * @return the first child element found that has the given id.
@@ -448,10 +450,10 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the first child element found that has the given metaid.
-   * 
+   *
    * <p>This method is here for compatibility with libSBML, it is less efficient than
-   * the methods that are located in the {@link Model} and {@link SBMLDocument} classes.</p>
-   * 
+   * the methods that are located in the {@link Model} and {@link SBMLDocument} classes.
+   *
    * @param metaid string representing the metaid of the {@link SBase} to find.
    * @return the first child element found that has the given metaid.
    * @see SBMLDocument#findSBase(String)
@@ -460,7 +462,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the XML element name of this object.
-   * 
+   *
    * @return the XML element name of this object.
    */
   public String getElementName();
@@ -470,7 +472,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the {@link SBasePlugin} extension object which matches this package
    * name or URI.
-   * 
+   *
    * @param nameOrUri
    *        the package name or URI
    * @return the {@link SBasePlugin} extension object which matches this package
@@ -481,7 +483,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the number of {@link SBasePlugin}s of this {@link SBase}.
-   * 
+   *
    * @return the number of {@link SBasePlugin}s of this {@link SBase}.
    */
   public int getExtensionCount();
@@ -489,7 +491,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the map containing all the {@link SBasePlugin} extension objects
    * of this {@link SBase}.
-   * 
+   *
    * @return the map containing all the {@link SBasePlugin} extension objects
    * of this {@link SBase}.
    */
@@ -497,7 +499,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the {@link History} instance of this object.
-   * 
+   *
    * @return the {@link History} instance of this object.
    */
   public History getHistory();
@@ -505,7 +507,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the SBML Level of the overall SBML document. Returns -1 if it is
    * not set.
-   * 
+   *
    * @return the SBML level of this SBML object.
    * @see #getVersion()
    */
@@ -513,7 +515,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the Level and Version combination of this {@link SBase}.
-   * 
+   *
    * @return A {@link ValuePair} with the Level and Version of this
    *         {@link SBase}. Note that the returned {@link ValuePair} is never
    *         {@code null}, but if undeclared it may contain elements set to -1.
@@ -522,7 +524,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the metaid of this element.
-   * 
+   *
    * @return the metaid of this element.
    */
   public String getMetaId();
@@ -530,7 +532,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the {@link Model} object in which the current {@link SBase} is
    * located.
-   * 
+   *
    * @return the {@link Model} object in which the current {@link SBase} is
    *         located.
    */
@@ -538,7 +540,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the namespace to which this {@link SBase} belong to.
-   * 
+   *
    * @return the namespace to which this {@link SBase} belong to.
    */
   public String getNamespace();
@@ -546,7 +548,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the {@code XMLNode} containing the notes sub-element of
    * this object.
-   * 
+   *
    * @return the {@code XMLNode} containing the notes sub-element of
    *         this object.
    */
@@ -556,7 +558,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Returns the notes sub-element of this object as a {@link String}.
    * <p>
    * If no notes are set, an empty {@link String} will be returned.
-   * 
+   *
    * @return the notes sub-element of this object as a {@link String}. If no
    *         notes are set, an empty {@link String} will be returned.
    * @throws XMLStreamException
@@ -566,7 +568,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the number of {@link CVTerm}s of this {@link SBase}.
-   * 
+   *
    * @return the number of {@link CVTerm}s of this {@link SBase}.
    * @libsbml.deprecated
    */
@@ -574,7 +576,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the number of {@link SBasePlugin}s of this {@link SBase}.
-   * 
+   *
    * @return the number of {@link SBasePlugin}s of this {@link SBase}.
    * @libsbml.deprecated
    */
@@ -582,7 +584,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the number of {@link CVTerm}s of this {@link SBase}.
-   * 
+   *
    * @return the number of {@link CVTerm}s of this {@link SBase}.
    */
   public int getCVTermCount();
@@ -590,27 +592,27 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the name of the SBML Level 3 package in which this element is defined, as
    * defined in <a href="http://sbml.org/Community/Wiki"> the sbml.org community wiki</a>.
-   * 
+   *
    * <p> For example, the string "core" will be returned if this element is defined in SBML Level 3 Core.
-   * 
+   *
    * @return the name of the SBML Level 3 package in which this element is defined.
    */
   public String getPackageName();
 
   /**
    * Returns the version of the SBML Level 3 package to which this element belongs.
-   * 
+   *
    * <p>The value 0 will be returned if this element belongs to the SBML Level 3 Core package.
    * The value -1 will be returned if this element does not belong to the SBML Level core and the
    * value has not been set properly.
-   * 
+   *
    * @return the version of the SBML Level 3 package to which this element belongs.
    */
   public int getPackageVersion();
 
   /**
    * Returns the parent of this {@link SBase}.
-   * 
+   *
    * @return the parent SBML object.
    * @see #getParent()
    */
@@ -622,7 +624,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * <p>
    * If no {@link SBasePlugin} is found for this package, a new
    * {@link SBasePlugin} is created, added to this {@link SBase} and returned.
-   * 
+   *
    * @param nameOrUri
    *        the name or URI of the package
    * @return an {@link SBasePlugin} for an SBML Level 3 package extension
@@ -643,7 +645,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * model is Level 1 or Level 2.)
    * This method allows the {@link SBMLDocument} for the current object to be
    * retrieved.
-   * 
+   *
    * @return the parent {@link SBMLDocument} object of this SBML object.
    */
   public SBMLDocument getSBMLDocument();
@@ -651,7 +653,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Grants access to the Systems Biology Ontology (SBO) term associated with
    * this {@link SBase}.
-   * 
+   *
    * @return the SBOTerm attribute of this element.
    * @see SBO
    */
@@ -660,7 +662,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Grants access to the Systems Biology Ontology (SBO) term associated with
    * this {@link SBase}.
-   * 
+   *
    * @return the SBO term ID of this element.
    * @see SBO
    */
@@ -668,11 +670,11 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the namespace to which this {@link SBase} belong to. Same as {@link #getNamespace()}.
-   * 
+   *
    * <p>For example, all elements that belong to Layout Extension Version 1 for SBML Level 3 Version 1 Core
    * must have the URI 'http://www.sbml.org/sbml/level3/version1/layout/version1'.
    * <p>The elements that belong to SBML core might return null.
-   * 
+   *
    * @return the namespace to which this {@link SBase} belong to.
    * @see SBase#getNamespace()
    * @libsbml.deprecated
@@ -682,7 +684,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the Version within the SBML Level of the overall SBML document.
    * Return -1 if it is not set.
-   * 
+   *
    * @return the SBML version of this SBML object.
    * @see #getLevel()
    */
@@ -697,7 +699,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   @Override
   public int hashCode();
-  
+
   /**
    * Returns {@code true} if the given extension exists in this {@link SBase} instance.
    * @see #isSetPlugin(String)
@@ -707,7 +709,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} if the {@link Annotation} RDF 'about' attribute
    * matches the metaid of this object.
-   * 
+   *
    * @return {@code true} if the {@link Annotation} 'about' {@link String} of
    *         this
    *         object matches the metaid of this object.
@@ -718,7 +720,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Returns {@code true} or {@code false} depending on whether this object's
    * level/version and namespace values correspond to a valid SBML
    * specification.
-   * 
+   *
    * @return {@code true} if this object's level, version and namespace values
    * correspond to a valid SBML specification.
    */
@@ -726,7 +728,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns {@code true} if this object is extended by other packages.
-   * 
+   *
    * @return {@code true} if this object is extended by other packages.
    */
   public boolean isExtendedByOtherPackages();
@@ -734,7 +736,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} if the given SBML Level 3 package is enabled within
    * the containing {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within
@@ -745,7 +747,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} if the given SBML Level 3 package is enabled within
    * the containing {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within
@@ -757,7 +759,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} if the given SBML Level 3 package is enabled within
    * the containing {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within
@@ -771,7 +773,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} if the given SBML Level 3 package is enabled within
    * the containing {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within
@@ -785,7 +787,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} or {@code false} depending on whether this object's
    * 'annotation' sub-elements exists and have some content.
-   * 
+   *
    * @return {@code true} if the {@link Annotation} instance of this object is
    *         not {@code null} and contains at least one {@link CVTerm} or one
    *         {@link String} containing other annotations than RDF or a
@@ -795,14 +797,14 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns {@code true} if the {@link History} instance of this object is set.
-   * 
+   *
    * @return {@code true} if the {@link History} instance of this object is set.
    */
   public boolean isSetHistory();
 
   /**
    * Returns {@code true} if the level is set.
-   * 
+   *
    * @return {@code true} if the level is set.
    */
   public boolean isSetLevel();
@@ -810,7 +812,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} if both, Level and Version are set for this
    * {@link SBase}.
-   * 
+   *
    * @return {@code true} if {@link #isSetLevel()} and
    *         {@link #isSetVersion()}.
    */
@@ -819,7 +821,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} or {@code false} depending on whether this object's
    * 'metaid' attribute has been set.
-   * 
+   *
    * @return {@code true} if the metaid is not {@code null}.
    */
   public boolean isSetMetaId();
@@ -827,7 +829,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} or {@code false} depending on whether this object's
    * 'notes' sub-element exists and has content.
-   * 
+   *
    * @return {@code true} if the notes {@link String} is not {@code null}.
    */
   public boolean isSetNotes();
@@ -835,7 +837,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns {@code true} if the package version is not equals to '-1'.
-   * 
+   *
    * @return {@code true} if the package version is not equals to '-1'.
    */
   public boolean isSetPackageVErsion();
@@ -843,7 +845,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Check whether this {@link SBase} has been linked to a parent within the
    * hierarchical SBML data structure.
-   * 
+   *
    * @return {@code true} if this {@link SBase} has a parent SBML object,
    *         {@code false} otherwise.
    * @see #getParentSBMLObject()
@@ -853,7 +855,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns {@code true} if an {@link SBasePlugin} is defined
    * for the given package.
-   * 
+   *
    * @param nameOrUri the package name or URI
    * @return {@code true} if an {@link SBasePlugin} is defined
    * for the given package.
@@ -862,7 +864,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns {@code true} if the SBOTerm is set.
-   * 
+   *
    * @return {@code true} if the SBOTerm is set.
    * @see SBO
    */
@@ -870,17 +872,17 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns {@code true} if the version is not {@code null}.
-   * 
+   *
    * @return {@code true} if the version is not {@code null}.
    */
   public boolean isSetVersion();
 
   /**
    * Sets the given attribute in this {@link SBase}.
-   * 
+   *
    * <p>If the given attribute name is not recognized, nothing is done and
    * {@code false} is returned.
-   * 
+   *
    * @param attributeName
    *           localName of the XML attribute
    * @param prefix
@@ -899,7 +901,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * structure.
    * If the level and version of sbase are set but not valid, an
    * {@link Exception} is thrown.
-   * 
+   *
    * @param sbase
    *        the {@link SBase} to be registered.
    * @return {@code true} if the element could successfully be registered,
@@ -915,22 +917,22 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Unregisters recursively the given SBase from the {@link Model}
    * and {@link SBMLDocument}.
-   * 
+   *
    * @param sbase the {@link SBase} to be unregistered.
    */
   public void unregisterChild(SBase sbase);
 
   /**
    * Removes the given {@link CVTerm}.
-   * 
+   *
    * @param cvTerm the {@link CVTerm} to remove
-   * @return true if the {@link CVTerm} was successfully removed.
+   * @return {@code true} if the {@link CVTerm} was successfully removed.
    */
   public boolean removeCVTerm(CVTerm cvTerm);
 
   /**
    * Removes the {@link CVTerm} at the given index.
-   * 
+   *
    * @param index
    *        the index
    * @return the removed {@link CVTerm}.
@@ -942,42 +944,42 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Removes a namespace from the set of declared namespaces of this
    * {@link SBase}.
-   * 
+   *
    * @param namespace the namespace to remove
    */
   public void removeDeclaredNamespaceByNamespace(String namespace);
-  
+
   /**
    * Removes a namespace from the set of declared namespaces of this
    * {@link SBase}.
-   * 
+   *
    * @param prefix
    *        the prefix of the namespace to remove
-   */  
+   */
   public void removeDeclaredNamespaceByPrefix(String prefix);
-    
+
   /**
    * Removes the given {@link TreeNodeChangeListener} from this element.
-   * 
+   *
    * @param listener the listener to be removed.
    */
   @Override
   public void removeTreeNodeChangeListener(TreeNodeChangeListener listener);
 
-  
+
   /**
-   * Removes the top-level element within the 'annotation' subelement of 
-   * this SBML object with the given name. If the name is null, "" or "*", 
+   * Removes the top-level element within the 'annotation' subelement of
+   * this SBML object with the given name. If the name is null, "" or "*",
    * nothing will be removed (return=false).
-   * If the annotation is empty after removal, it will be removed/unset 
+   * If the annotation is empty after removal, it will be removed/unset
    * @param name of the annotation element to be removed
    * @return Whether the element was found and removed
    */
   public boolean removeTopLevelAnnotationElement(String name);
-  
+
   /**
    * Removes the top-level element within the 'annotation' subelement of
-   * this SBML object with the given name and URI. If the name is null, "" or "*", 
+   * this SBML object with the given name and URI. If the name is null, "" or "*",
    * nothing will be removed (return=false).
    * If the annotation is empty after removal, it will be removed/unset
    * @param name of the annotation element to be removed
@@ -985,62 +987,62 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * @return Whether the element was found and removed
    */
   public boolean removeTopLevelAnnotationElement(String name, String elementURI);
-  
+
   /**
    * Removes the top-level element within the 'annotation' subelement of
-   * this SBML object with the given name and URI. If the name is null, "" or "*", 
+   * this SBML object with the given name and URI. If the name is null, "" or "*",
    * nothing will be removed (return=false).
    * @param name of the annotation element to be removed
-   * @param elementURI of the annotation element to be removed (if null, "" or "*", will match 
+   * @param elementURI of the annotation element to be removed (if null, "" or "*", will match
    * 	any URI)
-   * @param removeEmpty Whether to remove/unset the annotation, if it is 
+   * @param removeEmpty Whether to remove/unset the annotation, if it is
    * 	empty after removing the specified element
    * @return Whether the element was found and removed
    */
   public boolean removeTopLevelAnnotationElement(String name, String elementURI, boolean removeEmpty);
-  
+
   /**
-   * Replaces the top-level element of this SBML object with same name as given 
+   * Replaces the top-level element of this SBML object with same name as given
    * annotation subelement by the given one. Ordering of annotation will remain the same.
-   * Name of element to be replaced is inferred from given annotation string. 
-   * @param annotation XML-string representing the annotation subelement to replace the 
+   * Name of element to be replaced is inferred from given annotation string.
+   * @param annotation XML-string representing the annotation subelement to replace the
    * 	existing one of same name
-   * @return whether a corresponding element was found and replaced 
+   * @return whether a corresponding element was found and replaced
    * @throws XMLStreamException if the annotation-string cannot be parsed into an XML
-   * @throws IllegalArgumentException if the annotation-string encodes more than 
+   * @throws IllegalArgumentException if the annotation-string encodes more than
    *  one annotation element
    */
-  public boolean replaceTopLevelAnnotationElement(String annotation) 
-  		throws XMLStreamException, IllegalArgumentException;
-  
+  public boolean replaceTopLevelAnnotationElement(String annotation)
+      throws XMLStreamException, IllegalArgumentException;
+
   /**
-   * Replaces the top-level element of this SBML object with same name as given 
+   * Replaces the top-level element of this SBML object with same name as given
    * annotation subelement by the given one. Ordering of annotation will remain the same.
-   * Name of element to be replaced is inferred from given annotation XMLNode. 
-   * @param annotation XMLNode representing the annotation subelement to replace the 
+   * Name of element to be replaced is inferred from given annotation XMLNode.
+   * @param annotation XMLNode representing the annotation subelement to replace the
    * 	existing one of same name
-   * @return whether a corresponding element was found and replaced 
+   * @return whether a corresponding element was found and replaced
    */
   public boolean replaceTopLevelAnnotationElement(XMLNode annotation);
-  
+
   /**
    * Sets the value of the 'annotation' sub-element of this SBML object to a
    * copy of annotation given as an {@link Annotation} instance.
-   * 
+   *
    * @param annotation the annotation of this {@link SBase}
    */
   public void setAnnotation(Annotation annotation);
 
   /**
    * Sets the non RDF part of the annotation.
-   * 
+   *
    * @param nonRDFAnnotation an XMLNode
    */
   public void setAnnotation(XMLNode nonRDFAnnotation);
 
   /**
    * Sets the non RDF part of the annotation.
-   * 
+   *
    * @param nonRDFAnnotation a String representing a piece of XML.
    * @throws XMLStreamException - if any problem occurs while reading the XML.
    */
@@ -1048,7 +1050,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Sets the history.
-   * 
+   *
    * @param history the history of this {@link SBase}
    */
   public void setHistory(History history);
@@ -1057,14 +1059,14 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Sets the level of this object with 'level'. If the SBML parent of this
    * object is set and 'level' is different with the SBML parent level, an
    * {@link Exception} is thrown.
-   * 
+   *
    * @param level the SBML level.
    */
   public void setLevel(int level);
 
   /**
    * Sets the metaid value with 'metaid'.
-   * 
+   *
    * @param metaid
    *        the meatId to be set.
    * @throws IllegalArgumentException
@@ -1078,7 +1080,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Sets the notes with 'notes'.
-   * 
+   *
    * @param notes the notes for this {@link SBase}.
    * @throws XMLStreamException if an error occurs while parsing the notes.
    */
@@ -1087,16 +1089,16 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Sets the {@code XMLNode} containing the notes sub-element of
    * this object.
-   * 
+   *
    * @param notesXMLNode the notes for this {@link SBase}.
    */
   public void setNotes(XMLNode notesXMLNode);
 
   /**
    * Sets the version of the SBML Level 3 package to which this element belongs.
-   * 
+   *
    * <p>Use with caution, only if you know what you are doing. This should be set automatically.
-   * 
+   *
    * @param packageVersion the version of the SBML Level 3 package to which this element belongs.
    */
   public void setPackageVersion(int packageVersion);
@@ -1121,7 +1123,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * requirements about the values permitted for 'sboTerm'. Please consult the
    * SBML Level&nbsp;2 Version&nbsp;4 specification for more information about
    * the use of {@link SBO} and the 'sboTerm' attribute.
-   * 
+   *
    * @param term
    *        the NNNNNNN integer portion of the {@link SBO} identifier
    * @see SBO
@@ -1147,7 +1149,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * requirements about the values permitted for 'sboTerm'. Please consult the
    * SBML Level&nbsp;2 Version&nbsp;4 specification for more information about
    * the use of {@link SBO} and the 'sboTerm' attribute.
-   * 
+   *
    * @param sboid
    *        the {@link SBO} identifier of the form 'SBO:NNNNNNN'
    * @see SBO
@@ -1163,7 +1165,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * If the level and version of sbase are set but not valid, an
    * {@link Exception} is
    * thrown.
-   * 
+   *
    * @param sbase
    *        the child {@link SBase}
    * @throws LevelVersionError - if the parent and the child have a different level and version.
@@ -1176,7 +1178,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Sets the version of this object with 'version'. If the SBML parent of this
    * object is set and 'version' is different with the SBMLparent version, an
    * {@link Exception} is thrown.
-   * 
+   *
    * @param version the SBML version
    */
   public void setVersion(int version);
@@ -1194,7 +1196,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Unsets the {@link SBasePlugin} extension object which matches this package
    * name or URI.
-   * 
+   *
    * @param nameOrUri
    *        the package name or URI
    */
@@ -1218,7 +1220,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Unsets the {@link SBasePlugin} extension object which matches this package
    * name or URI.
-   * 
+   *
    * @param nameOrUri
    *        the package name or URI
    */
@@ -1236,21 +1238,21 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * The attribute name is used as a key and the attribute value as value. If a
    * prefix is needed for the attribute name, it need to be set directly in this
    * map.
-   * 
+   *
    * @return a {@link Map} containing the XML attributes of this object.
    */
   public Map<String, String> writeXMLAttributes();
 
   /**
    * Returns the id of the element if it is set, an empty string otherwise.
-   * 
+   *
    * @return the id of the element if it is set, an empty string otherwise.
    */
   public String getId();
 
   /**
    * Returns the name of the element if it is set, an empty string otherwise.
-   * 
+   *
    * @return the name of the element if it is set, an empty string otherwise.
    */
   public String getName();
@@ -1259,7 +1261,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Returns {@code true}  if the identifier of this
    * {@link SBase} is required to be defined (i.e., not {@code null})
    * in the definition of SBML.
-   * 
+   *
    * @return {@code true} if the identifier of this element must be set in
    *         order to create a valid SBML representation. {@code false}
    *         otherwise, i.e., if the identifier can be understood as an optional
@@ -1269,21 +1271,21 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns {@code true} if the id is not {@code null}.
-   * 
+   *
    * @return {@code true} if the id is not {@code null}.
    */
   public boolean isSetId();
 
   /**
    * Returns {@code true} if the name is not {@code null}.
-   * 
+   *
    * @return {@code true} if the name is not {@code null}.
    */
   public boolean isSetName();
 
   /**
    * Sets the id value with 'id'
-   * 
+   *
    * @param id the id to set
    */
   public void setId(String id);
@@ -1291,7 +1293,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Sets the name value with 'name'. If level is 1, sets automatically the id
    * to 'name' as well.
-   * 
+   *
    * @param name the name to set
    */
   public void setName(String name);

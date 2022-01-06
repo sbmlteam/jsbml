@@ -193,7 +193,7 @@ public class CSGeometry extends GeometryDefinition {
    * <p>The listOfCSGObjects is initialized if necessary.
    *
    * @param csgo the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addCSGObject(CSGObject csgo) {
     return getListOfCSGObjects().add(csgo);
@@ -204,8 +204,8 @@ public class CSGeometry extends GeometryDefinition {
    * Removes an element from the listOfCSGObjects.
    *
    * @param csgo the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeCSGObject(CSGObject csgo) {
     if (isSetListOfCSGObjects()) {

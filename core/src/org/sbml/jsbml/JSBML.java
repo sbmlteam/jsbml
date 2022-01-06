@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -41,7 +41,7 @@ import org.sbml.jsbml.util.compilers.LibSBMLFormulaCompiler;
 
 /**
  * Wrapper class for global methods and constants defined by JSBML.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @since 0.8
@@ -49,7 +49,7 @@ import org.sbml.jsbml.util.compilers.LibSBMLFormulaCompiler;
 public class JSBML {
 
   /**
-   * 
+   *
    */
   public static final int DUPLICATE_OBJECT_ID = -6;
 
@@ -59,19 +59,19 @@ public class JSBML {
    */
   public static final String ILLEGAL_UNIT_EXCEPTION_MSG = "Cannot identify unit {0} in the model. Only a valid unit kind or the identifier of an existing unit definition are allowed.";
   /**
-   * 
+   *
    */
   public static final int INDEX_EXCEEDS_SIZE = -1;
   /**
-   * 
+   *
    */
   public static final int INVALID_ATTRIBUTE_VALUE = -4;
   /**
-   * 
+   *
    */
   public static final int INVALID_OBJECT = -5;
   /**
-   * 
+   *
    */
   public static final int INVALID_XML_OPERATION = -9;
   /**
@@ -79,15 +79,15 @@ public class JSBML {
    */
   private static final String jsbmlVersion = "1.6.1"; // TODO: replace automatically this version number with [BUILD.NUMBER]
   /**
-   * 
+   *
    */
   public static final int LEVEL_MISMATCH = -7;
   /**
-   * 
+   *
    */
   public static final int OPERATION_FAILED = -3;
   /**
-   * 
+   *
    */
   public static final int OPERATION_SUCCESS = 0;
   /**
@@ -107,11 +107,11 @@ public class JSBML {
    */
   public static final String UNDEFINED_PARSING_ERROR_MSG = "An error occur while parsing the file: %s.";
   /**
-   * 
+   *
    */
   public static final int UNEXPECTED_ATTRIBUTE = -2;
   /**
-   * 
+   *
    */
   public static final int VERSION_MISMATCH = -8;
 
@@ -131,16 +131,16 @@ public class JSBML {
   /**
    * String that can be added to an SBase user objects, if it is associated with the value {@code true},
    * then the getters and setters will allow to set some invalid values instead of throwing exceptions.
-   * 
+   *
    * <p>This is in particular useful when reading a file so that we read exactly what is on file or
-   * when validating as we sometimes need to create invalid objects in the process.</p>
-   * 
+   * when validating as we sometimes need to create invalid objects in the process.
+   *
    */
   public static final transient String ALLOW_INVALID_SBML = "jsbml.allow.invalid.sbml";
 
   /**
    * Key used to indicate that we are in the process of reading an XML document.
-   * 
+   *
    * @see #ALLOW_INVALID_SBML
    */
   public static final transient String READING_IN_PROGRESS = ALLOW_INVALID_SBML;
@@ -185,7 +185,7 @@ public class JSBML {
    * identifier of an equivalent {@link UnitDefinition} that is already part
    * of the model. In case that the given model is null, the return value of
    * this method will also be {@code null}.
-   * 
+   *
    * @param model
    *            The model where to add the given {@link UnitDefinition}
    * @param units
@@ -217,13 +217,13 @@ public class JSBML {
    * described in detail in the libsbml documentation for <a href=
    * "http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/ASTNode.html"
    * >ASTNode</a>.
-   * 
+   *
    * <p>Be careful that the default {@link FormulaCompilerLibSBML} used produce an output
    * a bit different than pure SBML level 1 mathematical expressions, in particular
    * for logical and relational operators. If the default output is not convenient
    * for you, you can easily extends one of the existing FormulaCompiler and overwrite
    * the methods where you want a different output.
-   * 
+   *
    * @param node
    *        the root of the {@link ASTNode} formula expression tree
    * @return the formula from the given AST as an SBML Level 1 text-string
@@ -244,7 +244,7 @@ public class JSBML {
 
   /**
    * Returns the JSBML version as a string of the form '1.2.3'.
-   * 
+   *
    * @return the JSBML version as a string of the form '1.2.3'.
    */
   public static String getJSBMLDottedVersion() {
@@ -253,7 +253,7 @@ public class JSBML {
 
   /**
    * Returns the JSBML version as an integer: version 1.2.3 becomes 123.
-   * 
+   *
    * @return the JSBML version as an integer: version 1.2.3 becomes 123.
    */
   public static int getJSBMLVersion() {
@@ -270,7 +270,7 @@ public class JSBML {
 
   /**
    * Returns the JSBML version as a string: version 1.2.3 becomes '123'.
-   * 
+   *
    * @return the JSBML version as a string: version 1.2.3 becomes '123'.
    */
   public static String getJSBMLVersionString() {
@@ -330,7 +330,7 @@ public class JSBML {
    * As well, if you have an SBML entities (species, parameter, ...) that
    * has an id identical to one of the supported mathML element, the parser will interpret the String as the
    * mathML element and not the SBML entity.
-   * 
+   *
    * <p> You can change this behaviour by using the {@link FormulaParserLL3#setCaseSensitive(boolean)}
    * method and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
 <p><pre>
@@ -349,10 +349,10 @@ public class JSBML {
 
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote></p>
-   * 
+   *
    * <p> If you are not satisfied with the behaviour of the existing parsers, you can create
    * your own, you just need to implement the {@link IFormulaParser} interface.
-   * 
+   *
    * @param formula
    *            a text-string mathematical formula.
    * @return an {@link ASTNode} representing the formula.
@@ -371,7 +371,7 @@ public class JSBML {
   /**
    * Reads the MathML from the given XML string, constructs a corresponding
    * abstract syntax tree, and returns a pointer to the root of the tree.
-   *	
+   *
    * @param xml
    *            the MathML XML string.
    * @return an {@code ASTNode}
@@ -382,7 +382,7 @@ public class JSBML {
 
   /**
    * Reads an SBML document from the given file.
-   *	
+   *
    * @param fileName
    *            the file name.
    * @return an {@code SBMLDocument} object.
@@ -397,7 +397,7 @@ public class JSBML {
 
   /**
    * Reads an SBML document from the given file.
-   *	
+   *
    * @param fileName
    *            the file name.
    * @return an {@code SBMLDocument} object.
@@ -413,7 +413,7 @@ public class JSBML {
 
   /**
    * Reads an SBML document from a string assumed to be in XML format.
-   *	
+   *
    * @param xml
    *            the SBMLDocument as XML.
    * @return an {@code SBMLDocument} object.
@@ -428,7 +428,7 @@ public class JSBML {
   /**
    * Writes the given ASTNode (and its children) to a string as MathML, and
    * returns the string.
-   *	
+   *
    * @param node
    *            the {@code ASTNode}
    * @return the MathML string representing the given {@code ASTNode}
@@ -442,7 +442,7 @@ public class JSBML {
 
   /**
    * Writes the XML representation of an SBML document to a file.
-   *	
+   *
    * @param d
    *            the {@code SBMLdocument}
    * @param filename
@@ -460,7 +460,7 @@ public class JSBML {
 
   /**
    * Writes the given SBML document to an in-memory string.
-   *	
+   *
    * @param d
    *            the {@link SBMLDocument}
    * @return the XML representation of the {@link SBMLDocument} as a
@@ -476,7 +476,7 @@ public class JSBML {
   }
 
   /**
-   * 
+   *
    * @param level
    * @param version
    * @return the name space matching the level and version.

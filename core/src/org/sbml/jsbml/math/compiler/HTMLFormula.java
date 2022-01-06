@@ -10,7 +10,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -63,7 +63,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
   /**
    * Basic method which links several elements with a mathematical operator.
    * All empty StringBuffer object are excluded.
-   * 
+   *
    * @param operator
    * @param elements
    * @return
@@ -71,7 +71,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
   private static final StringBuffer arith(Object operator, Object... elements) {
     List<Object> vsb = new Vector<Object>();
     for (Object sb : elements) {
-      if (sb != null && sb.toString().length() > 0) {
+      if ((sb != null) && (sb.toString().length() > 0)) {
         vsb.add(sb);
       }
     }
@@ -87,7 +87,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
   }
 
   /**
-   * 
+   *
    * @param arith
    * @return
    */
@@ -98,7 +98,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
   /**
    * Returns the basis to the power of the exponent as StringBuffer. Several
    * special cases are treated.
-   * 
+   *
    * @param basis
    * @param exponent
    * @return
@@ -129,7 +129,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
 
   /**
    * Returns the sum of the given elements as StringBuffer.
-   * 
+   *
    * @param summands
    * @return
    */
@@ -139,7 +139,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
 
   /**
    * Returns the product of the given elements as StringBuffer.
-   * 
+   *
    * @param factors
    * @return
    */
@@ -148,7 +148,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
   }
 
   /**
-   * 
+   *
    * @param u
    * @return
    */
@@ -162,7 +162,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
       StringBuffer pow = new StringBuffer();
       pow.append(u.getKind().getSymbol());
       String prefix = u.getPrefix();
-      if (prefix.length() > 0 && !prefix.startsWith("10")) {
+      if ((prefix.length() > 0) && !prefix.startsWith("10")) {
         pow.insert(0, prefix);
       } else if (u.getScale() != 0) {
         pow.insert(0, ' ');
@@ -181,7 +181,7 @@ public class HTMLFormula extends MathMLXMLStreamCompiler {
   /**
    * Creates an HTML string representation of this UnitDefinition.
    * @param ud
-   * 
+   *
    * @return
    */
   public static String toHTML(UnitDefinition ud) {

@@ -258,7 +258,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
    * <p>The listOfSampledVolumes is initialized if necessary.
    *
    * @param sampledVolume the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addSampledVolume(SampledVolume sampledVolume) {
     return getListOfSampledVolumes().add(sampledVolume);
@@ -269,8 +269,8 @@ public class SampledFieldGeometry extends GeometryDefinition {
    * Removes an element from the listOfSampledVolumes.
    *
    * @param sampledVolume the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeSampledVolume(SampledVolume sampledVolume) {
     if (isSetListOfSampledVolumes()) {

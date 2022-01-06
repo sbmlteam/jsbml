@@ -35,7 +35,7 @@ public interface IdManager {
    * the given {@link SBase}.
    * 
    * @param sbase
-   * @return true if this {@link IdManager} can register or unregister 
+   * @return {@code true} if this {@link IdManager} can register or unregister 
    * the given {@link SBase}.
    */
   boolean accept(SBase sbase);

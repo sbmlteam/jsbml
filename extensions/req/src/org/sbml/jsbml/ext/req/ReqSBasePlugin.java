@@ -221,7 +221,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
    * <p>The listOfChangedMaths is initialized if necessary.
    *
    * @param changedMath the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addChangedMath(ChangedMath changedMath) {
     return getListOfChangedMaths().add(changedMath);
@@ -231,8 +231,8 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
    * Removes an element from the listOfChangedMaths.
    *
    * @param changedMath the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeChangedMath(ChangedMath changedMath) {
     if (isSetListOfChangedMaths()) {

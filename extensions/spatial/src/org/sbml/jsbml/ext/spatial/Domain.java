@@ -241,7 +241,7 @@ public class Domain extends AbstractSpatialNamedSBase {
    * <p>The listOfInteriorPoints is initialized if necessary.
    *
    * @param interiorPoint the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addInteriorPoint(InteriorPoint interiorPoint) {
     return getListOfInteriorPoints().add(interiorPoint);
@@ -252,8 +252,8 @@ public class Domain extends AbstractSpatialNamedSBase {
    * Removes an element from the listOfInteriorPoints.
    *
    * @param interiorPoint the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeInteriorPoint(InteriorPoint interiorPoint) {
     if (isSetListOfInteriorPoints()) {

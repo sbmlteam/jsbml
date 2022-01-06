@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -58,20 +58,20 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
 /**
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
  * expression.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @author Alexander D&ouml;rr
  * @since 0.8
  */
-public class ASTNode extends AbstractTreeNode { 
+public class ASTNode extends AbstractTreeNode {
 
   /**
    * An enumeration of all possible types that can be represented by an
    * abstract syntax tree node.
-   * 
+   *
    * @author Andreas Dr&auml;ger
-   * 
+   *
    */
   public static enum Type {
     /**
@@ -98,11 +98,11 @@ public class ASTNode extends AbstractTreeNode {
      */
     CONSTRUCTOR_OTHERWISE,
     /**
-     * 
+     *
      */
     CONSTANT_TRUE,
     /**
-     * 
+     *
      */
     DIVIDE,
     /**
@@ -111,119 +111,119 @@ public class ASTNode extends AbstractTreeNode {
      */
     FUNCTION,
     /**
-     * 
+     *
      */
     FUNCTION_ABS,
     /**
-     * 
+     *
      */
     FUNCTION_ARCCOS,
     /**
-     * 
+     *
      */
     FUNCTION_ARCCOSH,
     /**
-     * 
+     *
      */
     FUNCTION_ARCCOT,
     /**
-     * 
+     *
      */
     FUNCTION_ARCCOTH,
     /**
-     * 
+     *
      */
     FUNCTION_ARCCSC,
     /**
-     * 
+     *
      */
     FUNCTION_ARCCSCH,
     /**
-     * 
+     *
      */
     FUNCTION_ARCSEC,
     /**
-     * 
+     *
      */
     FUNCTION_ARCSECH,
     /**
-     * 
+     *
      */
     FUNCTION_ARCSIN,
     /**
-     * 
+     *
      */
     FUNCTION_ARCSINH,
     /**
-     * 
+     *
      */
     FUNCTION_ARCTAN,
     /**
-     * 
+     *
      */
     FUNCTION_ARCTANH,
     /**
-     * 
+     *
      */
     FUNCTION_CEILING,
     /**
-     * 
+     *
      */
     FUNCTION_COS,
     /**
-     * 
+     *
      */
     FUNCTION_COSH,
     /**
-     * 
+     *
      */
     FUNCTION_COT,
     /**
-     * 
+     *
      */
     FUNCTION_COTH,
     /**
-     * 
+     *
      */
     FUNCTION_CSC,
     /**
-     * 
+     *
      */
     FUNCTION_CSCH,
     /**
-     * 
+     *
      */
     FUNCTION_DELAY,
     /**
-     * 
+     *
      */
     FUNCTION_EXP,
     /**
-     * 
+     *
      */
     FUNCTION_FACTORIAL,
     /**
-     * 
+     *
      */
     FUNCTION_FLOOR,
     /**
-     * 
+     *
      */
     FUNCTION_LN,
     /**
-     * 
+     *
      */
     FUNCTION_LOG,
     /**
-     * 
+     *
      */
     FUNCTION_MAX,
     /**
-     * 
+     *
      */
     FUNCTION_MIN,
     /**
-     * 
+     *
      */
     FUNCTION_PIECEWISE,
     /**
@@ -242,51 +242,51 @@ public class ASTNode extends AbstractTreeNode {
      */
     FUNCTION_QUOTIENT,
     /**
-     * 
+     *
      */
     FUNCTION_RATE_OF,
     /**
      * The rem element is the operator that returns the "remainder" of a division modulo
      * a particular base. When the rem operator is applied to integer arguments a and b,
      * the result is the "remainder of a divided by b". That is, rem returns the unique
-     * integer, r such that a = q b+ r, where r < q. (In common usage, q is called the
+     * integer, r such that a = q b+ r, where r &lt; q. (In common usage, q is called the
      * quotient and r is the remainder.)
      */
     FUNCTION_REM,
     /**
-     * 
+     *
      */
     FUNCTION_ROOT,
     /**
-     * 
+     *
      */
     FUNCTION_SEC,
     /**
-     * 
+     *
      */
     FUNCTION_SECH,
     /**
-     * 
+     *
      */
     FUNCTION_SELECTOR,
     /**
-     * 
+     *
      */
     FUNCTION_SIN,
     /**
-     * 
+     *
      */
     FUNCTION_SINH,
     /**
-     * 
+     *
      */
     FUNCTION_TAN,
     /**
-     * 
+     *
      */
     FUNCTION_TANH,
     /**
-     * 
+     *
      */
     INTEGER,
     /**
@@ -296,7 +296,7 @@ public class ASTNode extends AbstractTreeNode {
      */
     LAMBDA,
     /**
-     * 
+     *
      */
     LOGICAL_AND,
     /**
@@ -310,12 +310,12 @@ public class ASTNode extends AbstractTreeNode {
      * logically equivalent also to ¬p∨q (either not p, or q (or both)), and
      * to ¬q→¬p (if not q then not p). But it is not equivalent to ¬p→¬q, which is
      * equivalent to q→p.
-     * 
+     *
      *<p>Truth table:
      *
      *<pre>
      * p   q  p→q
-     * 
+     *
      * T   T   T
      * T   F   F
      * F   T   T
@@ -325,19 +325,19 @@ public class ASTNode extends AbstractTreeNode {
      */
     LOGICAL_IMPLIES,
     /**
-     * 
+     *
      */
     LOGICAL_NOT,
     /**
-     * 
+     *
      */
     LOGICAL_OR,
     /**
-     * 
+     *
      */
     LOGICAL_XOR,
     /**
-     * 
+     *
      */
     MINUS,
     /**
@@ -350,11 +350,11 @@ public class ASTNode extends AbstractTreeNode {
      */
     NAME_AVOGADRO,
     /**
-     * 
+     *
      */
     NAME_TIME,
     /**
-     * 
+     *
      */
     PLUS,
     /**
@@ -425,7 +425,7 @@ public class ASTNode extends AbstractTreeNode {
      */
     SUM,
     /**
-     * 
+     *
      */
     TIMES,
     /**
@@ -438,11 +438,11 @@ public class ASTNode extends AbstractTreeNode {
      */
     SEMANTICS,
     /**
-     * 
+     *
      */
     UNKNOWN,
     /**
-     * 
+     *
      */
     VECTOR,
     /**
@@ -450,10 +450,10 @@ public class ASTNode extends AbstractTreeNode {
      */
     FUNCTION_CSYMBOL;
 
-    
+
     /**
      * Returns the {@link Type} corresponding to the given {@link String}.
-     * 
+     *
      * @param type
      *            e.g., sin, asin, exp, and so on. See the specification of
      *            the MathML subset used in SBML.
@@ -659,9 +659,9 @@ public class ASTNode extends AbstractTreeNode {
     /**
      * Checks whether this type is valid for the given SBML
      * Level/Version combination.
-     * 
+     *
      * @jsbml.warning this method is not implemented
-     * 
+     *
      * @param level
      * @param version
      * @return whether this type is valid for the given SBML
@@ -731,7 +731,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates and returns an {@link ASTNode} that computes the absolute value
    * of the given double value.
-   * 
+   *
    * @param d a double value
    * @param parent the parent {@link ASTNode}
    * @return an {@link ASTNode} that computes the absolute value
@@ -746,7 +746,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates and returns an {@link ASTNode} that computes the absolute value
    * of the given integer value.
-   * 
+   *
    * @param integer an integer value
    * @param parent  the parent {@link ASTNode}
    * @return an {@link ASTNode} that computes the absolute value
@@ -760,7 +760,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a new {@link ASTNode} of type {@code operator} and adds the given nodes as children.
-   * 
+   *
    * @param operator the type of arithmetic operation
    * @param ast the children of the new ASTNode
    * @return a new {@link ASTNode} of type {@code operator} and adds the given nodes as children.
@@ -802,7 +802,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a new {@link ASTNode} of type MINUS and adds the given nodes as children
-   * 
+   *
    * @param ast the children of the new ASTNode
    * @return a new {@link ASTNode} of type MINUS and adds the given nodes as children
    */
@@ -812,7 +812,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a new {@link ASTNode} of type RELATIONAL_EQ.
-   * 
+   *
    * @param left the left child.
    * @param right the right child.
    * @return a new {@link ASTNode} of type RELATIONAL_EQ.
@@ -824,7 +824,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns a new {@link ASTNode} that represents Euler's constant raised by the
    * power of the given exponent.
-   * 
+   *
    * @param exponent the exponent
    * @return a new {@link ASTNode} that represents Euler's constant raised by the
    * power of the given exponent.
@@ -837,8 +837,8 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns the formula from the given ASTNode as an SBML Level 1 text-string
    *         mathematical formula.
-   * 
-   * 
+   *
+   *
    * @param tree
    *            the root of the ASTNode formula expression tree
    * @return the formula from the given AST as an SBML Level 1 text-string
@@ -847,7 +847,7 @@ public class ASTNode extends AbstractTreeNode {
    *         returned if the given argument is {@code null}.
    * @throws SBMLException if the {@link ASTNode} is not well formed.
    * @see #toFormula()
-   * 
+   *
    */
   public static String formulaToString(ASTNode tree) throws SBMLException {
     if (tree == null) {
@@ -860,8 +860,8 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns the formula from the given {@link ASTNode} as an
    * infix mathematical formula produce by the given {@link FormulaCompiler}.
-   * 
-   * 
+   *
+   *
    * @param tree
    *            the root of the ASTNode formula expression tree
    * @param compiler the {@link FormulaCompiler} to use
@@ -872,10 +872,10 @@ public class ASTNode extends AbstractTreeNode {
    * @see #toFormula()
    * @see FormulaCompiler
    * @see FormulaCompilerLibSBML
-   * 
+   *
    */
   public static String formulaToString(ASTNode tree, FormulaCompiler compiler) throws SBMLException {
-    if (tree == null || compiler == null) {
+    if ((tree == null) || (compiler == null)) {
       return null;
     }
 
@@ -885,7 +885,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a new {@link ASTNode} of type DIVIDE with the given nodes as children.
-   * 
+   *
    * @param numerator the numerator
    * @param denominator the denominator
    * @return a new {@link ASTNode} of type DIVIDE with the given nodes as children.
@@ -897,7 +897,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates a new {@link ASTNode} that of type DIVIDE with the given numerator and
    * denominator.
-   * 
+   *
    * @param numerator the numerator
    * @param denominator the denominator
    * @return a new {@link ASTNode} that of type DIVIDE with the given numerator and
@@ -910,7 +910,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a new {@link ASTNode} that divides two {@link CallableSBase} objects.
-   * 
+   *
    * @param container the parent object
    * @param numerator the numerator
    * @param denominator the denominator
@@ -925,7 +925,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns a new {@link ASTNode} that of type DIVIDE with the two entities as numerator and denominator.
-   * 
+   *
    * @param container the parent object
    * @param numeratorId the numerator
    * @param denominatorId the numerator
@@ -940,7 +940,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates an {@link ASTNode} representing greater or equal for
    * the two given nodes.
-   * 
+   *
    * @param left the left child.
    * @param right the right child.
    * @return an {@link ASTNode} representing greater or equal.
@@ -952,7 +952,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates an {@link ASTNode} representing greater than for
    * the two given left and right child.
-   * 
+   *
    * @param left the left child.
    * @param right the right child.
    * @return an {@link ASTNode} representing greater than for
@@ -965,7 +965,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates an {@link ASTNode} representing less or equal for
    * the two given left and right child.
-   * 
+   *
    * @param left the left child.
    * @param right the right child.
    * @return an {@link ASTNode} representing less or equal for
@@ -977,7 +977,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates an {@link ASTNode} representing a logarithm to base 10 of the given value.
-   * 
+   *
    * @param value the value which is the argument of the logarithm.
    * @return an {@link ASTNode} representing a logarithm to base 10 of the given value.
    */
@@ -989,7 +989,7 @@ public class ASTNode extends AbstractTreeNode {
    * Creates an {@link ASTNode} that represents the logarithm function with
    * the given base and value. The parent SBML object will be taken from the
    * {@link ASTNode} value.
-   * 
+   *
    * @param base
    *            The basis of this logarithm. Can be null; then a base of 10
    *            will be assumed.
@@ -1016,7 +1016,7 @@ public class ASTNode extends AbstractTreeNode {
    * Creates an {@link ASTNode} that performs a less than comparison between
    * two {@link ASTNode}s. The parent SBML object of the resulting node will
    * be taken from the left node.
-   * 
+   *
    * @param left the left child.
    * @param right the right child.
    * @return an {@link ASTNode} that performs a less than comparison between
@@ -1030,7 +1030,7 @@ public class ASTNode extends AbstractTreeNode {
    * Creates an {@link ASTNode} that performs a less than comparison between a
    * variable and another {@link ASTNode}. The parent SBML object will be
    * taken from the given {@link ASTNode}.
-   * 
+   *
    * @param variable the left child.
    * @param node the right child.
    * @return an {@link ASTNode} that performs a less than comparison between a
@@ -1043,7 +1043,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates an {@link ASTNode} that performs a not equal comparison between
    * two {@link ASTNode}s.
-   * 
+   *
    * @param left the left child.
    * @param right the right child.
    * @return an {@link ASTNode} that performs a not equal comparison between
@@ -1056,7 +1056,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Parses a text-string mathematical formula and returns a representation as
    * an Abstract Syntax Tree.
-   * 
+   *
    * <p>
    * Support the syntax defined in {@link FormulaParserLL3} which is almost the same syntax as defined in
    * <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#parseL3Formula(java.lang.String)">
@@ -1069,14 +1069,14 @@ public class ASTNode extends AbstractTreeNode {
    * operator, {@code <cos>}. As well, if you have an SBML entities (species, parameter, ...) that
    * has an id identical to one of the supported mathML element, the parser will interpret the String as the
    * mathML element and not the SBML entity.
-   * 
+   *
    * <p> You can change this behaviour by using the {@link FormulaParserLL3#setCaseSensitive(boolean)}
    * method and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
 <p><blockquote><pre>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
-</pre></blockquote></p>
+</pre></blockquote>
    *
    * <p> This method has a different behaviour since JSBML-1.0 compare to JSBML-0.8. There is a different
    * operator precedence, the parsing is now case sensitive for mathML elements and boolean operators are
@@ -1086,11 +1086,11 @@ public class ASTNode extends AbstractTreeNode {
 <p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
-</pre></blockquote></p>
-   * 
+</pre></blockquote>
+   *
    * <p> If you are not satisfied with the behavior of the existing parsers, you can create
    * your own, you just need to implement the {@link IFormulaParser} interface.
-   * 
+   *
    * @param formula
    *            a text-string mathematical formula.
    * @return an {@link ASTNode} representing the formula.
@@ -1118,29 +1118,29 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Parses a text-string mathematical formula, using the given {@link IFormulaParser} and returns a representation as
    * an Abstract Syntax Tree.
-   * 
+   *
    * <p> Support the syntax defined in the {@link IFormulaParser} provided.
    *
    * <p> You can for example use you own parser or use an existing parser with different options.
-   * 
+   *
    * <p>For example, you can change the behaviour of the {@link FormulaParserLL3} class by using the
    * {@link FormulaParserLL3#setCaseSensitive(boolean)} method:
 <p><blockquote><pre>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
-</pre></blockquote></p>
+</pre></blockquote>
    *
    * <p> You can as well use the {@link FormulaParser} class to get the same parsing behaviour as in JSBML-0.8:
 <p><blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
-</pre></blockquote></p>
-   * 
+</pre></blockquote>
+   *
    * <p> If you are not satisfied with the behaviour of the existing parsers, you can create
    * your own, you just need to implement the {@link IFormulaParser} interface.
-   * 
-   * 
+   *
+   *
    * @param formula
    *            a text-string mathematical formula.
    * @param parser
@@ -1178,11 +1178,11 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a piecewise {@link ASTNode}.
-   * 
+   *
    * <p>At least one {@link ASTNode} must be given
    * as a child. The parent SBML object of this first node will be the parent
    * of the resulting {@link ASTNode}.
-   * 
+   *
    * @param node the parent SBML object of this node will be the parent
    * of the resulting {@link ASTNode}.
    * @param nodes the children of the new piecewise ASTNode
@@ -1216,16 +1216,16 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a power {@link ASTNode}.
-   * 
+   *
    * @param basis the basis
    * @param exponent the exponent
    * @return a power {@link ASTNode}.
    */
   public static ASTNode pow(ASTNode basis, ASTNode exponent) {
-    if (!(exponent.isInteger() && exponent.getInteger() == 1)
-        && !(exponent.getType() == Type.REAL && exponent.getReal() == 1d)) {
-      if ((exponent.isInteger() && exponent.getInteger() == 0)
-          || (exponent.getType() == Type.REAL && exponent.getReal() == 0d)) {
+    if (!(exponent.isInteger() && (exponent.getInteger() == 1))
+        && !((exponent.getType() == Type.REAL) && (exponent.getReal() == 1d))) {
+      if ((exponent.isInteger() && (exponent.getInteger() == 0))
+          || ((exponent.getType() == Type.REAL) && (exponent.getReal() == 0d))) {
         basis = new ASTNode(1, basis.getParentSBMLObject());
       } else {
         setParentSBMLObject(exponent, basis.getParentSBMLObject(), 0);
@@ -1237,7 +1237,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a power {@link ASTNode}.
-   * 
+   *
    * @param basis the basis
    * @param exponent the exponent
    * @return a power {@link ASTNode}.
@@ -1249,7 +1249,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a power {@link ASTNode}.
-   * 
+   *
    * @param basis the basis
    * @param exponent the exponent
    * @return a power {@link ASTNode}.
@@ -1261,7 +1261,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Raises the given basis by the power of the given exponent.
-   * 
+   *
    * @param container the parent object
    * @param basis the basis
    * @param exponent the exponent
@@ -1275,10 +1275,10 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Reads the MathML from the given XML string.
-   * 
+   *
    * <p>Constructs a corresponding
    * abstract syntax tree, and returns a pointer to the root of the tree.
-   * 
+   *
    * @param xml
    *            the MathML XML string.
    * @return an {@link ASTNode}
@@ -1298,7 +1298,7 @@ public class ASTNode extends AbstractTreeNode {
    * children left and right.
    * <p> Sets the parent SBML object of all nodes to
    * the one provided by the left child.
-   * 
+   *
    * @param type the type of relational node.
    * @param left the left child.
    * @param right the right child.
@@ -1318,7 +1318,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a root {@link ASTNode}.
-   * 
+   *
    * @param radicand the radicand
    * @param rootExponent the exponent of the root element.
    * @return a root {@link ASTNode}.
@@ -1334,7 +1334,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sets the Parent of the node and its children to the given value
-   * 
+   *
    * @param node the orphan node
    * @param parent the parent
    */
@@ -1345,7 +1345,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sets the parent of the node and its children to the given value
-   * 
+   *
    * @param node the orphan node
    * @param parent the parent
    * @param depth the current depth in the {@link ASTNode} tree.
@@ -1362,7 +1362,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a root {@link ASTNode}.
-   * 
+   *
    * @param radicand
    * @return a root {@link ASTNode}.
    */
@@ -1372,7 +1372,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates a new {@link ASTNode} of type Plus with the given nodes as children.
-   * 
+   *
    * @param ast the children nodes.
    * @return a new {@link ASTNode} of type Plus with the given nodes as children.
    */
@@ -1382,7 +1382,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sum of several NamedSBase objects.
-   * 
+   *
    * @param parent the parent
    * @param sbase
    * @return the sum of several NamedSBase objects.
@@ -1398,7 +1398,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates an {@link ASTNode} of type times and adds the given nodes as children.
-   * 
+   *
    * @param ast
    * @return an {@link ASTNode} of type times and adds the given nodes as children.
    */
@@ -1408,7 +1408,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Multiplies several {@link CallableSBase} objects.
-   * 
+   *
    * @param parent
    * @param sbase
    * @return the multiplication of several {@link CallableSBase} objects.
@@ -1425,7 +1425,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates a new {@link ASTNode} that has exactly one child and which is of type
    * minus, i.e., this negates what is encoded in ast.
-   * 
+   *
    * @param ast
    * @return a new {@link ASTNode} that has exactly one child and which is of type
    * minus, i.e., this negates what is encoded in ast.
@@ -1439,7 +1439,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates a new {@link ASTNode} that has exactly one child and which is of type
    * minus, i.e., this negates what is encoded in ast.
-   * 
+   *
    * @param container
    * @param sbase
    * @return a new {@link ASTNode} that has exactly one child and which is of type
@@ -1458,12 +1458,12 @@ public class ASTNode extends AbstractTreeNode {
   private String definitionURL;
 
   /**
-   * 
+   *
    */
   private int denominator;
 
   /**
-   * 
+   *
    */
   private int exponent;
 
@@ -1472,15 +1472,15 @@ public class ASTNode extends AbstractTreeNode {
    */
   private String id;
   /**
-   * 
+   *
    */
   private String style;
   /**
-   * 
+   *
    */
   private String className;
   /**
-   * 
+   *
    */
   private String encoding;
 
@@ -1493,7 +1493,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Tells if the type attribute of the cn element was set and we need to
    * write it back or if it is set to the default (REAL).
-   * 
+   *
    */
   private boolean isSetNumberType = false;
 
@@ -1571,7 +1571,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTNode}.
-   * 
+   *
    * @param astNode
    *            the {@link ASTNode} to be copied.
    */
@@ -1636,7 +1636,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode} referring to the given {@link CallableSBase}.
-   * 
+   *
    * @param nsb
    * @param parent
    */
@@ -1648,7 +1648,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates a new {@link ASTNode} representing an operator, i.e., an internal
    * node.
-   * 
+   *
    * @param operator
    */
   public ASTNode(char operator) {
@@ -1659,7 +1659,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates a new {@link ASTNode} representing an operator, i.e., an internal
    * node.
-   * 
+   *
    * @param operator
    * @param parent
    */
@@ -1670,7 +1670,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode}.
-   * 
+   *
    * @param real
    */
   public ASTNode(double real) {
@@ -1680,7 +1680,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode}.
-   * 
+   *
    * @param mantissa
    * @param exponent
    */
@@ -1691,7 +1691,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode}.
-   * 
+   *
    * @param mantissa
    * @param exponent
    * @param parent
@@ -1703,7 +1703,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode}.
-   * 
+   *
    * @param real
    * @param parent
    */
@@ -1714,7 +1714,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode} with the given integer value.
-   * 
+   *
    * @param integer
    */
   public ASTNode(int integer) {
@@ -1725,7 +1725,7 @@ public class ASTNode extends AbstractTreeNode {
    * Creates and returns a new {@link ASTNode} with the given integer value for
    * the
    * given {@link MathContainer} as its parent SBML object.
-   * 
+   *
    * @param integer
    * @param parent
    */
@@ -1737,7 +1737,7 @@ public class ASTNode extends AbstractTreeNode {
    * Creates and returns a new {@link ASTNode} with the given integer value with
    * the given associated {@link #unitId} for the
    * given {@link MathContainer} as its parent SBML object.
-   * 
+   *
    * @param integer
    * @param unitsID
    * @param parent
@@ -1752,11 +1752,11 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode}.
-   * 
+   *
    * By default, the returned node will have a type of {@link Type#UNKNOWN}.
    * The calling code should set the node type to something else as soon as
    * possible using setType(int)
-   * 
+   *
    * @param parent
    *            the parent SBML object
    */
@@ -1770,7 +1770,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode} with the given name.
-   * 
+   *
    * @param name  the name of this ASTNode
    */
   public ASTNode(String name) {
@@ -1780,7 +1780,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode} with the given name.
-   * 
+   *
    * @param name the name of this ASTNode
    * @param parent
    *            the parent SBML object.
@@ -1793,7 +1793,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates a new {@link ASTNode} of the given {@link Type} but without a
    * pointer to its {@link MathContainer}.
-   * 
+   *
    * @param type
    */
   public ASTNode(Type type) {
@@ -1803,7 +1803,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Creates and returns a new {@link ASTNode}.
-   * 
+   *
    * @param type
    *            the type of the ASTNode to create.
    * @param parent
@@ -1816,7 +1816,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Adds a child to this node.
-   * 
+   *
    * @param child
    *            the node to add as child.
    */
@@ -1838,7 +1838,7 @@ public class ASTNode extends AbstractTreeNode {
    * adds the new node as left child of this node and the given {@link ASTNode} as the
    * right child of this node. The parentSBMLObject of the whole resulting
    * {@link ASTNode} is then set to the parent of this node.
-   * 
+   *
    * @param operator
    *        The new type of this node. This has to be one of the
    *        following: {@link Type#PLUS}, {@link Type#MINUS}, {@link Type#TIMES},
@@ -1868,7 +1868,7 @@ public class ASTNode extends AbstractTreeNode {
         /*
          * Here we want to restructure the tree by making an equivalent of the current node
          * being a child of the current node. This node will then become of some different type.
-         * 
+         *
          * In order to avoid deep-cloning we save a pointer to the children, remove all
          * children, clone this current node, and add all children to the copy. At the end,
          * the copied node will become some child of the current node
@@ -1910,7 +1910,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Compiles this {@link ASTNode} and returns the result.
-   * 
+   *
    * @param compiler
    *            An instance of an {@link ASTNodeCompiler} that provides
    *            methods to translate this {@link ASTNode} into something
@@ -1922,7 +1922,7 @@ public class ASTNode extends AbstractTreeNode {
    *         object.
    * @throws SBMLException
    *             Thrown if an error occurs during the compilation process.
-   * 
+   *
    */
   public ASTNodeValue compile(ASTNodeCompiler compiler) throws SBMLException {
     ASTNodeValue value;
@@ -1967,7 +1967,7 @@ public class ASTNode extends AbstractTreeNode {
       break;
     case DIVIDE:
       int childCount = getChildCount();
-      if (childCount != 2 && !isInvalidSBMLAllowed()) {
+      if ((childCount != 2) && !isInvalidSBMLAllowed()) {
         throw new SBMLException(MessageFormat.format(
           resourceBundle.getString("ASTNode.compile1"), childCount));
       }
@@ -2207,7 +2207,7 @@ public class ASTNode extends AbstractTreeNode {
       }
       if (name != null) {
 
-          value = compiler.functionCsymbol(this);
+        value = compiler.functionCsymbol(this);
 
       } else {
         logger.debug(MessageFormat.format(
@@ -2286,11 +2286,11 @@ public class ASTNode extends AbstractTreeNode {
    * Returns {@code true} or {@code false} depending on whether this
    * {@link ASTNode} refers to elements such as parameters or numbers with
    * undeclared units.
-   * 
+   *
    * A return value of {@code true} indicates that the {@code UnitDefinition}
    * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
    * represent the units of the expression.
-   * 
+   *
    * @return {@code true} if the math expression of this {@link ASTNode}
    *         includes parameters/numbers with undeclared units,
    *         {@code false} otherwise.
@@ -2309,8 +2309,8 @@ public class ASTNode extends AbstractTreeNode {
           if ((model != null) && model.isSetTimeUnits()) {
             return false;
           }
-        } else if ((type == Type.NAME_AVOGADRO) || (getVariable() != null)
-            && (!getVariable().containsUndeclaredUnits())) {
+        } else if ((type == Type.NAME_AVOGADRO) || ((getVariable() != null)
+            && (!getVariable().containsUndeclaredUnits()))) {
           return false;
         }
 
@@ -2331,7 +2331,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Evaluates recursively this ASTNode and creates a new UnitDefinition with
    * respect of all referenced elements.
-   * 
+   *
    * @return the derived unit of the node.
    * @throws SBMLException
    *             if they are problems going through the ASTNode tree.
@@ -2366,7 +2366,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Divides this node by the given node
-   * 
+   *
    * @param ast
    *            an ASTNode
    * @return the current node for convenience.
@@ -2378,7 +2378,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Divides this node by the given SBML element.
-   * 
+   *
    * @param namedSBase
    *            an SBML element that can be represented by a value.
    * @return the current node for convenience.
@@ -2408,12 +2408,12 @@ public class ASTNode extends AbstractTreeNode {
         }
       }
       if (isRational() && ast.isRational()) {
-        equal &= ast.getNumerator() == getNumerator()
-            && ast.getDenominator() == getDenominator();
+        equal &= (ast.getNumerator() == getNumerator())
+            && (ast.getDenominator() == getDenominator());
       }
       if ((ast.getType() == Type.REAL_E) && (type == Type.REAL_E)) {
-        equal &= Double.isNaN(getMantissa()) ? Double.isNaN(ast.getMantissa()) : ast.getMantissa() == getMantissa()
-            && ast.getExponent() == getExponent();
+        equal &= Double.isNaN(getMantissa()) ? Double.isNaN(ast.getMantissa()) : (ast.getMantissa() == getMantissa())
+          && (ast.getExponent() == getExponent());
       } else if (isReal() && ast.isReal()) {
         equal &= Double.isNaN(getReal()) ? Double.isNaN(ast.getReal()) : ast.getReal() == getReal();
       }
@@ -2451,7 +2451,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Goes through the formula and identifies all global parameters that are
    * referenced by this rate equation.
-   * 
+   *
    * @return all global parameters that are referenced by this rate equation.
    */
   public List<Parameter> findReferencedGlobalParameters() {
@@ -2481,7 +2481,7 @@ public class ASTNode extends AbstractTreeNode {
    * Gets the value of this node as a single character. This function should
    * be called only when ASTNode.getType() is one of PLUS, MINUS, TIMES,
    * DIVIDE or POWER.
-   * 
+   *
    * @return the value of this ASTNode as a single character
    * @throws IllegalArgumentException
    *             if the type of the node is not one of PLUS, MINUS, TIMES,
@@ -2509,7 +2509,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Gets a child of this node according to an index number.
-   * 
+   *
    * @param index
    *            the index of the child to get
    * @return the child of this {@link ASTNode} with the given index.
@@ -2543,7 +2543,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the list of children of the current ASTNode.
-   * 
+   *
    * @return the list of children of the current ASTNode.
    */
   public List<ASTNode> getChildren() {
@@ -2552,7 +2552,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the class name of the mathML element represented by this ASTNode.
-   * 
+   *
    * @return the class name of the mathML element represented by this ASTNode.
    */
   public String getClassName() {
@@ -2561,7 +2561,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the definitionURL
-   * 
+   *
    * @return the definitionURL
    */
   public String getDefinitionURL() {
@@ -2571,7 +2571,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Gets the value of the denominator of this node. This function should be
    * called only when getType() == RATIONAL, otherwise an Exception is thrown.
-   * 
+   *
    * @return the value of the denominator of this ASTNode.
    * @throws IllegalArgumentException
    *             if the method is called on a node that is not of type
@@ -2586,7 +2586,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the encoding of the mathML element represented by this ASTNode.
-   * 
+   *
    * @return the encoding of the mathML element represented by this ASTNode.
    */
   public String getEncoding() {
@@ -2597,13 +2597,13 @@ public class ASTNode extends AbstractTreeNode {
    * Gets the exponent value of this ASTNode. This function should be called
    * only when {@link #getType()} returns REAL_E or REAL, otherwise an Exception is
    * thrown.
-   * 
+   *
    * @return the value of the exponent of this ASTNode.
    * @throws IllegalArgumentException
    *             if the method is called on a node that is not of type real.
    */
   public int getExponent() {
-    if (type == Type.REAL || type == Type.REAL_E) {
+    if ((type == Type.REAL) || (type == Type.REAL_E)) {
       return exponent;
     }
     throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getExponent"));
@@ -2611,7 +2611,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the id of the mathML element represented by this ASTNode.
-   * 
+   *
    * @return the id of the mathML element represented by this ASTNode.
    */
   public String getId() {
@@ -2621,7 +2621,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Gets the value of this node as an integer. This function should be called
    * only when getType() == INTEGER, otherwise an Exception is thrown.
-   * 
+   *
    * @return the value of this ASTNode as an integer.
    * @throws IllegalArgumentException
    *             if the node is not of type integer.
@@ -2635,7 +2635,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Gets the left child of this node.
-   * 
+   *
    * @return the left child of this ASTNode. This is equivalent to
    *         getChild(0);
    */
@@ -2645,7 +2645,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the list of children of the current ASTNode.
-   * 
+   *
    * @return the list of children of the current ASTNode.
    */
   public List<ASTNode> getListOfNodes() {
@@ -2655,7 +2655,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns the list of children of the current ASTNode that satisfy the
    * given filter.
-   * 
+   *
    * @param filter
    * @return the list of children of the current ASTNode that satisfy the
    *         given filter.
@@ -2676,11 +2676,11 @@ public class ASTNode extends AbstractTreeNode {
    * Gets the mantissa value of this node. This function should be called only
    * when getType() returns REAL_E or REAL, otherwise an Exception is thrown.
    * If getType() returns REAL, this method is identical to getReal().
-   * 
+   *
    * @return the value of the mantissa of this ASTNode.
    */
   public double getMantissa() {
-    if ((type == Type.REAL) || type == Type.REAL_E) {
+    if ((type == Type.REAL) || (type == Type.REAL_E)) {
       return mantissa;
     }
     throw new IllegalArgumentException(resourceBundle.getString("ASTNode.getMantissa"));
@@ -2689,7 +2689,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Gets the name of this node. This method may be called on nodes that are
    * not operators ({@code isOperator() == false}) or numbers ({@code isNumber() == false}).
-   * 
+   *
    * @return the name of this node.
    * @throws IllegalArgumentException
    *             if the method is called on nodes that are operators or
@@ -2709,8 +2709,8 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Gets the value of the numerator of this node. This method should be
    * called only when getType() == RATIONAL, otherwise an Exception is thrown.
-   * 
-   * 
+   *
+   *
    * @return the value of the numerator of this ASTNode.
    * @throws IllegalArgumentException
    *             if this method is called on a node type other than rational.
@@ -2735,7 +2735,7 @@ public class ASTNode extends AbstractTreeNode {
    * objects in an SBML model. It allows direct access to the
    * {@link MathContainer}; element containing it. From this
    * {@link MathContainer} even the overall {@link Model} can be accessed.
-   * 
+   *
    * @return the parent SBML object.
    */
   public MathContainer getParentSBMLObject() {
@@ -2745,10 +2745,10 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Gets the real-numbered value of this node. This function should be called
    * only when {@code isReal() == true}, otherwise and Exception is thrown.
-   * 
+   *
    * This function performs the necessary arithmetic if the node type is
    * REAL_E (mantissa^exponent) or RATIONAL (numerator / denominator).
-   * 
+   *
    * @return the value of this ASTNode as a real (double).
    * @throws IllegalArgumentException
    *             if this node is not of type real.
@@ -2788,9 +2788,9 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns a set of all the {@link NamedSBase} referenced on this node and
    * all his descendant.
-   * 
+   *
    * Just for testing purposes...
-   * 
+   *
    * @return a set of all the {@link NamedSBase} referenced on this node and
    *         all his descendant.
    */
@@ -2813,7 +2813,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the last child in the list of children of this node.
-   * 
+   *
    * @return This is equivalent to calling
    *         {@code getListOfNodes().getLast()}.
    */
@@ -2824,7 +2824,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the style of the mathML element represented by this ASTNode.
-   * 
+   *
    * @return the style of the mathML element represented by this ASTNode.
    */
   public String getStyle() {
@@ -2833,7 +2833,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the type of this node.
-   * 
+   *
    * @return the type of this node.
    */
   public Type getType() {
@@ -2842,7 +2842,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the units attribute.
-   * 
+   *
    * @return the units attribute.
    */
   public String getUnits() {
@@ -2855,7 +2855,7 @@ public class ASTNode extends AbstractTreeNode {
    * Note that in case that this {@link ASTNode} is associated with a
    * {@link Unit.Kind}, the created {@link UnitDefinition} will not be part of
    * the model, it is just a container for the {@link Unit.Kind}.
-   * 
+   *
    * @return A {@link UnitDefinition} or {@code null}.
    */
   public UnitDefinition getUnitsInstance() {
@@ -2888,7 +2888,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns the variable of this node. This function should be called only
    * when {@code isVariable()} == true}, otherwise an Exception is thrown.
-   * 
+   *
    * @return the variable of this node
    * @throws RuntimeException
    *             if {@link #isVariable()} returns {@code false}.
@@ -2970,7 +2970,7 @@ public class ASTNode extends AbstractTreeNode {
     } else if (!isNumber() && !isOperator() && (isSetName() || (variable != null))) {
       hashCode += prime * getName().hashCode();
     } else if (isRational()) {
-      hashCode += prime * getNumerator() + prime * getDenominator();
+      hashCode += (prime * getNumerator()) + (prime * getDenominator());
     } else if (isReal()) {
       hashCode += prime * getReal();
     }
@@ -3001,7 +3001,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if the current ASTNode or any of his descendant has a unit
    * defined.
-   * 
+   *
    * @return {@code true} if the current ASTNode or any of his descendant has a unit
    *         defined.
    */
@@ -3067,7 +3067,7 @@ public class ASTNode extends AbstractTreeNode {
    * Inserts the given {@link ASTNode} at point n in the list of children of this
    * {@link ASTNode}. Inserting a child within an {@link ASTNode} may result in an inaccurate
    * representation.
-   * 
+   *
    * @param n
    *            long the index of the {@link ASTNode} being added
    * @param newChild
@@ -3082,26 +3082,26 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if this node has a boolean type (a logical operator, a
    * relational operator, or the constants {@code true} or {@code false}).
-   * 
+   *
    * @return {@code true} if this ASTNode is a boolean, {@code false} otherwise.
    */
   public boolean isBoolean() {
-    return type == Type.CONSTANT_FALSE || type == Type.CONSTANT_TRUE
+    return (type == Type.CONSTANT_FALSE) || (type == Type.CONSTANT_TRUE)
         || isLogical() || isRelational();
   }
 
   /**
    * Returns {@code true} if this node represents a MathML constant (e.g., {@code true}, Pi).
-   * 
+   *
    * @return {@code true} if this ASTNode is a MathML constant, {@code false} otherwise.
    */
   public boolean isConstant() {
-    return type.toString().startsWith("CONSTANT") || type == Type.NAME_AVOGADRO;
+    return type.toString().startsWith("CONSTANT") || (type == Type.NAME_AVOGADRO);
   }
 
   /**
    * Checks if this {@link ASTNode} represents a difference.
-   * 
+   *
    * @return {@code true} if this {@link ASTNode} represents a difference, {@code false}
    *         otherwise.
    */
@@ -3116,7 +3116,7 @@ public class ASTNode extends AbstractTreeNode {
    * {@link FunctionDefinition} object. Without having a valid reference to
    * the {@link MathContainer} that owns this {@link ASTNode} it is impossible
    * to identify the referenced {@link FunctionDefinition}.
-   * 
+   *
    * @return {@code true} if this {@link ASTNode} is a function, {@code false} otherwise.
    */
   public boolean isFunction() {
@@ -3126,7 +3126,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if this node represents the special IEEE 754 value infinity,
    * {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this ASTNode is the special IEEE 754 value infinity,
    *         {@code false} otherwise.
    */
@@ -3140,7 +3140,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this node contains an integer value, {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this ASTNode is of type INTEGER, {@code false} otherwise.
    */
   public boolean isInteger() {
@@ -3149,7 +3149,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this node is a MathML &lt;lambda&gt;, {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this ASTNode is of type LAMBDA, {@code false} otherwise.
    */
   public boolean isLambda() {
@@ -3158,11 +3158,11 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this node is constant or of type INTEGER, REAL or RATIONAL, {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this ASTNode is constant or of type INTEGER, REAL or RATIONAL, {@code false} otherwise.
    */
   public boolean isLiteral() {
-    return isConstant() || type == Type.INTEGER || type == Type.RATIONAL || type == Type.REAL;
+    return isConstant() || (type == Type.INTEGER) || (type == Type.RATIONAL) || (type == Type.REAL);
   }
 
 
@@ -3171,20 +3171,20 @@ public class ASTNode extends AbstractTreeNode {
    * More precisely, this predicate returns {@code true} if the node type is
    * FUNCTION_LOG with two children, the first of which is an INTEGER equal to
    * 10.
-   * 
+   *
    * @return {@code true} if the given ASTNode represents a log10() function, {@code false}
    *         otherwise.
    */
   public boolean isLog10() {
-    return type == Type.FUNCTION_LOG && listOfNodes.size() == 2
+    return (type == Type.FUNCTION_LOG) && (listOfNodes.size() == 2)
         && getLeftChild().isInteger()
-        && getLeftChild().getInteger() == 10;
+        && (getLeftChild().getInteger() == 10);
   }
 
   /**
    * Returns {@code true} if this node is a MathML logical operator (i.e., and, or,
    * not, xor).
-   * 
+   *
    * @return {@code true} if this ASTNode is a MathML logical operator.
    */
   public boolean isLogical() {
@@ -3194,7 +3194,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if this astnode represents the number minus one (either as
    * integer or as real value).
-   * 
+   *
    * @return {@code true} if this astnode represents the number minus one (either as
    * integer or as real value).
    */
@@ -3208,7 +3208,7 @@ public class ASTNode extends AbstractTreeNode {
    * Returns {@code true} if this node is a user-defined {@link Variable} name in SBML L1, L2
    * (MathML), or the special symbols time, Avogadro or rateOf. The predicate returns
    * {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this {@link ASTNode} is a user-defined variable name in SBML L1,
    *         L2 (MathML) or the special symbols time, Avogadro or rateOf.
    */
@@ -3220,7 +3220,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if this node is a type Real and represents the special IEEE
    * 754 value 'not a number' {@link Double#NaN}, {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this ASTNode is the {@link Double#NaN}
    */
   public boolean isNaN() {
@@ -3230,7 +3230,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if this node represents the special IEEE 754 value 'negative
    * infinity' {@link Double#NEGATIVE_INFINITY}, {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this ASTNode is {@link Double#NEGATIVE_INFINITY}, {@code false}
    *         otherwise.
    */
@@ -3245,11 +3245,11 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if this node contains a number, {@code false} otherwise. This is
    * functionally equivalent to the following code:
-   * 
+   *
    * <pre class="brush:java">
    * isInteger() || isReal()
    * </pre>
-   * 
+   *
    * @return {@code true} if this ASTNode is a number, {@code false} otherwise.
    */
   public boolean isNumber() {
@@ -3259,29 +3259,29 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if this {@link ASTNode} represents the number one (either as
    * integer or as real value).
-   * 
+   *
    * @return {@code true} if this {@link ASTNode} represents the number one.
    */
   public boolean isOne() {
-    return (isReal() && getReal() == 1d)
-        || (isInteger() && getInteger() == 1);
+    return (isReal() && (getReal() == 1d))
+        || (isInteger() && (getInteger() == 1));
   }
 
   /**
    * Returns {@code true} if this node is a mathematical operator, meaning, +, -, *, /
    * or ^ (power).
-   * 
+   *
    * @return {@code true} if this ASTNode is an operator.
    */
   public boolean isOperator() {
-    return type == Type.PLUS || type == Type.MINUS || type == Type.TIMES
-        || type == Type.DIVIDE || type == Type.POWER;
+    return (type == Type.PLUS) || (type == Type.MINUS) || (type == Type.TIMES)
+        || (type == Type.DIVIDE) || (type == Type.POWER);
   }
 
   /**
    * Returns {@code true} if this node is the MathML &lt;piecewise&gt; construct,
    * {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this ASTNode is a MathML piecewise function
    */
   public boolean isPiecewise() {
@@ -3290,7 +3290,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this node represents a rational number, {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this ASTNode is of type {@link Type#RATIONAL}.
    */
   public boolean isRational() {
@@ -3301,33 +3301,33 @@ public class ASTNode extends AbstractTreeNode {
    * Returns {@code true} if this node can represent a real number, {@code false} otherwise.
    * More precisely, this node must be of one of the following types: REAL,
    * REAL_E or RATIONAL.
-   * 
+   *
    * @return {@code true} if the value of this ASTNode can represented a real number,
    *         {@code false} otherwise.
    */
   public boolean isReal() {
-    return type == Type.REAL || type == Type.REAL_E
-        || type == Type.RATIONAL;
+    return (type == Type.REAL) || (type == Type.REAL_E)
+        || (type == Type.RATIONAL);
   }
 
   /**
    * Returns {@code true} if this node is a MathML relational operator, meaning ==,
    * &gt;=, &gt;, &lt;, &lt;=, and !=.
-   * 
+   *
    * @return {@code true} if this ASTNode is a MathML relational operator, {@code false}
    *         otherwise.
    */
   public boolean isRelational() {
-    return type == Type.RELATIONAL_EQ || type == Type.RELATIONAL_GEQ
-        || type == Type.RELATIONAL_GT || type == Type.RELATIONAL_LEQ
-        || type == Type.RELATIONAL_LT || type == Type.RELATIONAL_NEQ;
+    return (type == Type.RELATIONAL_EQ) || (type == Type.RELATIONAL_GEQ)
+        || (type == Type.RELATIONAL_GT) || (type == Type.RELATIONAL_LEQ)
+        || (type == Type.RELATIONAL_LT) || (type == Type.RELATIONAL_NEQ);
   }
 
 
   /**
    * Return true if this node contain some semantics annotations.
-   * 
-   * @return true if this node contain some semantics annotations.
+   *
+   * @return {@code true} if this node contain some semantics annotations.
    * @see #getNumSemanticsAnnotations()
    */
   public boolean isSemantics() {
@@ -3372,7 +3372,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if the number type is set.
-   * 
+   *
    * @return {@code true} if the number type is set.
    */
   public boolean isSetNumberType() {
@@ -3382,7 +3382,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Checks if a parent SBML object, i.e., a {@link MathContainer}, is set as a
    * parent SBML object for this {@link ASTNode}.
-   * 
+   *
    * @return
    */
   public boolean isSetParentSBMLObject() {
@@ -3398,7 +3398,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if a unit is defined on this node.
-   * 
+   *
    * @return {@code true} if a unit is defined on this node.
    */
   public boolean isSetUnits() {
@@ -3408,24 +3408,24 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if this node represents a square root function, {@code false}
    * otherwise.
-   * 
+   *
    * More precisely, the node type must be {@link Type#FUNCTION_ROOT} with two
    * children, the first of which is an {@link Type#INTEGER} node having value
    * equal to 2.
-   * 
+   *
    * @return {@code true} if the given ASTNode represents a sqrt() function, {@code false}
    *         otherwise.
    */
   public boolean isSqrt() {
-    return type == Type.FUNCTION_ROOT && listOfNodes.size() == 2
+    return (type == Type.FUNCTION_ROOT) && (listOfNodes.size() == 2)
         && getLeftChild().isInteger()
-        && getLeftChild().getInteger() == 2;
+        && (getLeftChild().getInteger() == 2);
   }
 
   /**
    * Returns {@code true} if this node is a name or refers to a
    * {@link FunctionDefinition}.
-   * 
+   *
    * @return {@code true} if this {@link ASTNode} is a user-defined variable name in SBML L1,
    *         L2 (MathML) or the special symbols time or Avogadro.
    * @see #isName()
@@ -3436,7 +3436,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Checks if this {@link ASTNode} represents a sum.
-   * 
+   *
    * @return {@code true} if this {@link ASTNode} represents a sum, {@code false} otherwise.
    */
   public boolean isSum() {
@@ -3447,12 +3447,12 @@ public class ASTNode extends AbstractTreeNode {
    * Returns {@code true} if this node is a unary minus operator, {@code false} otherwise. A
    * node is defined as a unary minus node if it is of type MINUS and has
    * exactly one child.
-   * 
+   *
    * For numbers, unary minus nodes can be 'collapsed' by negating the number.
    * In fact, SBML_parseFormula() does this during its parse. However, unary
    * minus nodes for symbols (NAMES) cannot be 'collapsed', so this predicate
    * function is necessary.
-   * 
+   *
    * @return {@code true} if this ASTNode is a unary minus, {@code false} otherwise.
    */
   public boolean isUMinus() {
@@ -3461,7 +3461,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Checks whether the number of child nodes is exactly one.
-   * 
+   *
    * @return {@code true} if the number of child nodes is exactly one.
    */
   public boolean isUnary() {
@@ -3470,14 +3470,14 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this node has an {@link Type#UNKNOWN} type.
-   * 
+   *
    * 'Unknown' nodes have the type {@link Type#UNKNOWN}. Nodes with unknown types will not
    * appear in an ASTNode tree returned by JSBML based upon valid SBML
    * input; the only situation in which a node with type UNKNOWN may appear is
    * immediately after having created a new, untyped node using the ASTNode
    * constructor. Callers creating nodes should endeavor to set the type to a
    * valid node type as soon as possible after creating new nodes.
-   * 
+   *
    * @return {@code true} if this ASTNode is of type {@link Type#UNKNOWN}, {@code false} otherwise.
    */
   public boolean isUnknown() {
@@ -3486,16 +3486,16 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this node represents a {@link Variable}.
-   * 
+   *
    * @return {@code true} if this node represents a {@link Variable}.
    */
   public boolean isVariable() {
-    return type == Type.NAME || type == Type.FUNCTION;
+    return (type == Type.NAME) || (type == Type.FUNCTION);
   }
 
   /**
    * Checks if this {@link ASTNode} represents a vector.
-   * 
+   *
    * @return {@code true} if this {@link ASTNode} represents a vector, {@code false} otherwise.
    */
   public boolean isVector() {
@@ -3505,17 +3505,17 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if this node represents the number zero (either as integer
    * or as real value).
-   * 
+   *
    * @return {@code true} if this node represents the number zero.
    */
   public boolean isZero() {
-    return (isReal() && getReal() == 0d)
-        || (isInteger() && getInteger() == 0);
+    return (isReal() && (getReal() == 0d))
+        || (isInteger() && (getInteger() == 0));
   }
 
   /**
    * Subtracts the given ASTNode from this node.
-   * 
+   *
    * @param ast
    *            an {@code ASTNode}
    * @return the current node for convenience.
@@ -3527,7 +3527,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Subtracts the given number from this node.
-   * 
+   *
    * @param real
    *            a double number.
    * @return the current node for convenience.
@@ -3539,7 +3539,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Subtracts the given integer from this node.
-   * 
+   *
    * @param integer
    *            an integer number.
    * @return the current node for convenience.
@@ -3549,7 +3549,7 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * 
+   *
    * @param integer
    * @param unitsID
    * @return
@@ -3561,7 +3561,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Multiplies this {@link ASTNode} with the given node
-   * 
+   *
    * @param ast
    *            an {@code ASTNode}
    * @return the current node for convenience.
@@ -3574,7 +3574,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Multiplies this {@link ASTNode} with the given nodes, i.e., all given nodes
    * will be children of this node, whose type will be set to {@link Type#TIMES}.
-   * 
+   *
    * @param nodes
    *            some {@code ASTNode}
    * @return The current node for convenience.
@@ -3589,7 +3589,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Multiplies this {@link ASTNode} with the given SBML element.
-   * 
+   *
    * @param nsb
    *            an SBML element that can be represented by a value.
    * @return the current node for convenience.
@@ -3600,7 +3600,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Adds a given node to this node.
-   * 
+   *
    * @param ast
    *            an {@code ASTNode}
    * @return the current node for convenience.
@@ -3612,7 +3612,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Adds an SBML element to this node.
-   * 
+   *
    * @param nsb
    *            an SBML element that can be represented by a value.
    * @return the current node for convenience.
@@ -3624,7 +3624,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Adds a number to this node.
-   * 
+   *
    * @param real
    *            a double number.
    * @return the current node for convenience.
@@ -3636,7 +3636,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Adds an integer number to this node.
-   * 
+   *
    * @param integer
    *            an integer number.
    * @return the current node for convenience.
@@ -3649,7 +3649,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Adds the given node as a child of this ASTNode. This method adds child
    * nodes from right to left.
-   * 
+   *
    * @param child
    *            an {@code ASTNode}
    */
@@ -3661,7 +3661,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Raises this ASTNode by the power of the value of the given node.
-   * 
+   *
    * @param exponent
    *            an {@code ASTNode}
    * @return the current node for convenience.
@@ -3673,7 +3673,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Raises this ASTNode by the power of the value of this named SBase object.
-   * 
+   *
    * @param nsb
    *            an SBML element that can be represented by a value.
    * @return the current node for convenience.
@@ -3684,7 +3684,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Raises this {@link ASTNode} by the power of the given number.
-   * 
+   *
    * @param exponent
    *            a double number.
    * @return the current node for convenience.
@@ -3720,13 +3720,13 @@ public class ASTNode extends AbstractTreeNode {
    * Reduces this {@link ASTNode} to a binary tree, e.g., if the formula in this
    * {@link ASTNode} is and(x, y, z) then the formula of the reduced node would
    * be and(and(x, y), z).
-   * </p>
+   *
    * <p>
    * This method is not yet completed. Currently, only {@link Type#PLUS},
    * {@link Type#TIMES}, {@link Type#LOGICAL_AND}, {@link Type#LOGICAL_OR} are
    * touched by the method. All other nodes are left unchanged, but it traverses
    * the entire tree rooted at this node.
-   * </p>
+   *
    */
   private void reduceToBinary() {
     if (getChildCount() > 2) {
@@ -3807,7 +3807,7 @@ public class ASTNode extends AbstractTreeNode {
    * identifier with the given id. This method can be used to scan a formula
    * for a specific parameter or species and detect whether this component is
    * used by this formula. This search is done using a DFS.
-   * 
+   *
    * @param id
    *            the id of an SBML element.
    * @return {@code true} if this node or one of its descendants contains the
@@ -3827,11 +3827,11 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Removes child n of this ASTNode. Removing a child from an ASTNode may
    * result in an inaccurate representation.
-   * 
+   *
    * @param n
    *            the index of the child to remove
    * @return boolean indicating the success or failure of the operation
-   * 
+   *
    */
   public boolean removeChild(int n) {
     if ((listOfNodes.size() > n) && (n >= 0)) {
@@ -3849,7 +3849,7 @@ public class ASTNode extends AbstractTreeNode {
    * the formula in this ASTNode is x + y; bvar is x and arg is an ASTNode
    * representing the real value 3 ReplaceArgument substitutes 3 for x within
    * this ASTNode.
-   * 
+   *
    * @param bvar
    *            a string representing the variable name to be substituted
    * @param arg
@@ -3869,7 +3869,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Replaces the n<sup>th</sup> child of this ASTNode with the given ASTNode.
-   * 
+   *
    * @param n
    *            long the index of the child to replace
    * @param newChild
@@ -3893,7 +3893,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Resets the parentSBMLObject to null recursively.
-   * 
+   *
    * @param node
    */
   private void resetParentSBMLObject(ASTNode node) {
@@ -3908,7 +3908,7 @@ public class ASTNode extends AbstractTreeNode {
    * Sets the value of this ASTNode to the given character. If character is
    * one of +, -, *, / or ^, the node type will be set accordingly. For all
    * other characters, the node type will be set to UNKNOWN.
-   * 
+   *
    * @param value
    *            the character value to which the node's value should be set.
    */
@@ -3939,7 +3939,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sets the class name of the mathML element represented by this ASTNode.
-   * 
+   *
    * @param className
    *            the class name.
    */
@@ -3950,7 +3950,7 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * 
+   *
    * @param definitionURL
    */
   public void setDefinitionURL(String definitionURL) {
@@ -3961,7 +3961,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sets the encoding of the mathML element represented by this ASTNode.
-   * 
+   *
    * @param encoding
    *            the encoding
    */
@@ -3973,7 +3973,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sets the id of the mathML element represented by this ASTNode.
-   * 
+   *
    * @param id
    *            the id.
    */
@@ -3984,7 +3984,7 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * 
+   *
    * @param isSetNumberType
    */
   public void setIsSetNumberType(boolean isSetNumberType) {
@@ -3995,11 +3995,11 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sets the value of this {@link ASTNode} to the given name.
-   * 
+   *
    * The node type will be set (to {@link Type#NAME}) only if the {@link ASTNode} was previously an
    * operator ({@code isOperator(node) == true}) or number ({@code isNumber(node) == true}).
    * This allows names to be set for {@link Type#FUNCTION}s and the like.
-   * 
+   *
    * @param name
    */
   // TODO: javadoc not synchronized with the code, we are not using
@@ -4009,8 +4009,8 @@ public class ASTNode extends AbstractTreeNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
     if ((!type.toString().startsWith("NAME")) && (type != Type.FUNCTION)
-        && (type != Type.FUNCTION_DELAY) && (type != Type.FUNCTION_RATE_OF) 
-        && (type != Type.FUNCTION_CSYMBOL) ) 
+        && (type != Type.FUNCTION_DELAY) && (type != Type.FUNCTION_RATE_OF)
+        && (type != Type.FUNCTION_CSYMBOL) )
     {
       Type oldType = type;
       type = variable == null ? Type.FUNCTION : Type.NAME;
@@ -4020,7 +4020,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sets the Parent of the node to the given value
-   * 
+   *
    * @param parent the parent
    */
   public void setParentSBMLObject(MathContainer parent) {
@@ -4029,7 +4029,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sets the style of the mathML element represented by this {@link ASTNode}.
-   * 
+   *
    * @param style
    *            the style.
    */
@@ -4043,7 +4043,7 @@ public class ASTNode extends AbstractTreeNode {
    * Sets the type from a String. The method accept all the supported mathML
    * elements, the possible types of cn elements or the possible definitionURL
    * of csymbol elements.
-   * 
+   *
    * @param typeStr
    *            the type as a String.
    */
@@ -4069,7 +4069,7 @@ public class ASTNode extends AbstractTreeNode {
    * Sets the type of this ASTNode to the given Type. A side-effect of doing
    * this is that any numerical values previously stored in this node are
    * reset to zero.
-   * 
+   *
    * @param type
    *            the type to which this node should be set
    */
@@ -4124,7 +4124,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Sets the units attribute.
-   * 
+   *
    * @param unitId
    * @throws IllegalArgumentException
    *             if the ASTNode is not a kind of numbers (&lt;cn&gt; in mathml) or
@@ -4168,7 +4168,7 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * 
+   *
    * @param unit
    */
   public void setUnits(Unit.Kind unit) {
@@ -4176,7 +4176,7 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * 
+   *
    * @param ud
    */
   public void setUnits(UnitDefinition ud) {
@@ -4186,13 +4186,13 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Sets the value of this ASTNode to the given double number and sets the
    * node type to REAL.
-   * 
+   *
    * This is functionally equivalent to:
-   * 
+   *
    * <pre class="brush:java">
    * setValue(value, 0);
    * </pre>
-   * 
+   *
    * @param value
    *            the double format number to which this node's value should be
    *            set
@@ -4212,7 +4212,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Sets the value of this ASTNode to the given real (double) in two parts:
    * the mantissa and the exponent. The node type is set to REAL_E.
-   * 
+   *
    * @param mantissa
    *            the mantissa of this node's real-numbered value
    * @param exponent
@@ -4233,7 +4233,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Sets the value of this ASTNode to the given (long) integer and sets the
    * node type to INTEGER.
-   * 
+   *
    * @param value
    */
   public void setValue(int value) {
@@ -4251,7 +4251,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Sets the value of this ASTNode to the given rational in two parts: the
    * numerator and denominator. The node type is set to RATIONAL.
-   * 
+   *
    * @param numerator
    *            the numerator value of the rational
    * @param denominator
@@ -4276,7 +4276,7 @@ public class ASTNode extends AbstractTreeNode {
    * will get lost when cloning this node. Only references to identifiers are
    * permanently stored. The pointer can also not be written to an SBML file
    * without a valid identifier.
-   * 
+   *
    * @param variable a pointer to a {@link CallableSBase}.
    */
   public void setVariable(CallableSBase variable) {
@@ -4301,7 +4301,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Applies the square root function on this syntax tree and returns the
    * resulting tree.
-   * 
+   *
    * @return the current node for convenience.
    */
   public ASTNode sqrt() {
@@ -4313,23 +4313,23 @@ public class ASTNode extends AbstractTreeNode {
    * <p>
    * Swaps the children of this {@link ASTNode} with the children of that
    * {@link ASTNode}.
-   * </p>
+   *
    * <p>
    * Unfortunately, when swapping child nodes, we have to recursively traverse
    * the entire subtrees in order to make sure that all pointers to the parent
    * SBML object are correct. However, this must only be done if the parent SBML
    * object of that differs from the one surrounding this node.
-   * </p>
+   *
    * <p>
    * In any case, the pointer from each sub-node to its parent must be changed.
    * In contrast to other SBML elements, {@link ASTNode}s have sub-nodes as
    * direct children, i.e., there is no child called 'ListOfNodes'. The
    * {@code setParent} method is also not recursive.
-   * </p>
+   *
    * <p>
    * However, this might cause many calls to listeners.
-   * </p>
-   * 
+   *
+   *
    * @param that
    *        the other node whose children should be used to replace this
    *        node's children
@@ -4371,7 +4371,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Converts this {@link ASTNode} to a text string using a specific syntax for
    * mathematical formulas.
-   * 
+   *
    * <p>
    * The text-string form of mathematical formulas produced by
    * toFormula() and read by parseFormula() are simple C-inspired infix
@@ -4381,8 +4381,8 @@ public class ASTNode extends AbstractTreeNode {
    * system. Be careful that the default {@link FormulaCompilerLibSBML} used produce an output
    * a bit different than pure SBML level 1 mathematical expressions, in particular
    * for logical and relational operators.
-   * </p>
-   * 
+   *
+   *
    * @return the formula representing this {@link ASTNode} as an SBML Level 1 text-string
    *         mathematical formula.
    * @throws SBMLException
@@ -4395,7 +4395,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Converts this {@link ASTNode} to a text string using a specific {@link FormulaCompiler}.
-   * 
+   *
    * @param compiler
    * @return the formula representing this {@link ASTNode}. {@code null} is
    *         returned if the given compiler is {@code null}.
@@ -4414,7 +4414,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Converts this node recursively into a LaTeX formatted String.
-   * 
+   *
    * @return A String representing the LaTeX code necessary to write the
    *         formula corresponding to this node in a document.
    * @throws SBMLException
@@ -4427,7 +4427,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Converts this node recursively into a MathML string that corresponds to
    * the subset of MathML defined in the SBML specification.
-   * 
+   *
    * @return the representation of this node in MathML.
    */
   public String toMathML() {
@@ -4452,7 +4452,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns the infix formula representing this ASTNode or an empty String if there was
    * a problem to construct the formula.
-   * 
+   *
    * @return the infix formula representing this ASTNode
    */
   public String printASTNode() {
@@ -4481,7 +4481,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns a simple String representing the content of the ASTNode.
-   * 
+   *
    * @return a simple String representing the content of the ASTNode.
    */
   public String toSimpleString() {
@@ -4550,7 +4550,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Unset the units attribute.
-   * 
+   *
    */
   public void unsetUnits() {
     String oldValue = unitId;
@@ -4589,7 +4589,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns a simple tree view of the ASTNode internal, including mainly
    * node type and hierarchy.
-   * 
+   *
    * @param n
    * @param tree
    * @param indent
@@ -4610,7 +4610,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Adds the given {@link XMLNode} as a MathML  {@code <semantics>}
    * element to this {@link ASTNode}.
-   * 
+   *
    * <p>
    * The {@code <semantics>} element is a MathML&nbsp;2.0 construct
    * that can be used to associate additional information with a MathML
@@ -4641,7 +4641,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Gets the number of <em>semantic annotation</em> elements inside this node.
-   * 
+   *
    * <p>
    * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
    * that can be used to associate additional information with a MathML
@@ -4667,7 +4667,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Gets the nth <code>&lt;semantics&gt;</code> annotation of this node.
-   * 
+   *
    * <p>
    * The <code>&lt;semantics&gt;</code> element is a MathML&nbsp;2.0 construct
    * that can be used to associate additional information with a MathML
@@ -4679,15 +4679,15 @@ public class ASTNode extends AbstractTreeNode {
    * to the MathML&nbsp;2.0 documentation, particularly the <a target="_blank"
    * href="http://www.w3.org/TR/2007/WD-MathML3-20071005/chapter5.html#mixing.semantic.annotations">Section
    * 5.2, Semantic Annotations</a> for more information about these constructs.
-   * 
-   * @return the nth annotation of this {@link ASTNode}, or <code>null</code> if this node has
+   *
+   * @return the nth annotation of this {@link ASTNode}, or {@code null} if this node has
    * no nth annotation (<code>n &gt;</code>
    * {@link ASTNode#getNumSemanticsAnnotations()}
-   * <code>- 1</code> or n < 0).
+   * <code>- 1</code> or n &lt; 0).
    * @see ASTNode#addSemanticsAnnotation(XMLNode sAnnotation)
    */
   public XMLNode getSemanticsAnnotation(int n) {
-    if (semanticsAnnotationList == null || n < 0 || (n > (getNumSemanticsAnnotations() -1))) {
+    if ((semanticsAnnotationList == null) || (n < 0) || (n > (getNumSemanticsAnnotations() -1))) {
       return null;
     }
 
@@ -4696,7 +4696,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the list of semantics annotations of this node.
-   * 
+   *
    * @return the list of semantics annotations of this node or null if no semantics annotation are present.
    */
   public List<XMLNode> getListOfSemanticsAnnotations() {
@@ -4709,10 +4709,10 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Creates a new {@link ASTNodePlugin} for the given package name or URI
    * and adds it to this {@link ASTNode}.
-   * 
+   *
    * <p>If an {@link ASTNodePlugin} was already present in this {@link ASTNode}
    * it will be replaced.
-   * 
+   *
    * @param nameOrUri the package name or URI
    * @return a new {@link ASTNodePlugin} for the given package name or URI
    */
@@ -4733,10 +4733,10 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Adds a {@link ASTNodePlugin} object to this {@link ASTNode}.
-   * 
+   *
    * <p>If a previous {@link ASTNodePlugin} associated with the same package
    * was present before, it will be replaced.
-   * 
+   *
    * @param nameOrUri the name or URI of the package extension.
    * @param sbasePlugin the {@link ASTNodePlugin} to add.
    */
@@ -4774,10 +4774,10 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Adds a {@link ASTNodePlugin} object to this {@link ASTNode}.
-   * 
+   *
    * <p>If a previous {@link ASTNodePlugin} associated with the same package
    * was present before, it will be replaced.
-   * 
+   *
    * @param nameOrUri the name or URI of the package extension.
    * @param sbasePlugin the {@link ASTNodePlugin} to add.
    * @see #addExtension(String, ASTNodePlugin)
@@ -4788,7 +4788,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName a package namespace URI or package name
    */
   public void disablePackage(String packageURIOrName) {
@@ -4797,7 +4797,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Enables the given SBML Level 3 package on this {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName a package namespace URI or package name
    */
   public void enablePackage(String packageURIOrName) {
@@ -4807,7 +4807,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Enables or disables the given SBML Level 3 package on this
    * {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        a package namespace URI or package name
    * @param enabled
@@ -4828,7 +4828,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns the {@link ASTNodePlugin} object which matches this package
    * name or URI.
-   * 
+   *
    * @param nameOrUri
    *        the package name or URI
    * @return the {@link ASTNodePlugin} object which matches this package
@@ -4849,7 +4849,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
-   * 
+   *
    * @return the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
    */
   public int getExtensionCount() {
@@ -4874,7 +4874,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
-   * 
+   *
    * @return the number of {@link ASTNodePlugin}s of this {@link ASTNode}.
    */
   public int getNumPlugins() {
@@ -4887,7 +4887,7 @@ public class ASTNode extends AbstractTreeNode {
    * <p>
    * If no {@link ASTNodePlugin} is found for this package, a new
    * {@link ASTNodePlugin} is created, added to this {@link ASTNode} and returned.
-   * 
+   *
    * @param nameOrUri
    *        the name or URI of the package
    * @return an {@link ASTNodePlugin} for an SBML Level 3 package extension
@@ -4913,7 +4913,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this object is extended by other packages.
-   * 
+   *
    * @return {@code true} if this object is extended by other packages.
    */
   public boolean isExtendedByOtherPackages() {
@@ -4923,7 +4923,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if the given SBML Level 3 package is enabled within
    * the containing {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within
@@ -4943,7 +4943,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if the given SBML Level 3 package is enabled within
    * the containing {@link SBMLDocument}.
-   * 
+   *
    * @param packageURIOrName
    *        the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within
@@ -4958,7 +4958,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns {@code true} if an {@link ASTNodePlugin} is defined
    * for the given package.
-   * 
+   *
    * @param nameOrUri the package name or URI
    * @return {@code true} if an {@link ASTNodePlugin} is defined
    * for the given package.
@@ -4979,7 +4979,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Unsets the {@link ASTNodePlugin} extension object which matches this package
    * name or URI.
-   * 
+   *
    * @param nameOrUri
    *        the package name or URI
    */
@@ -5003,7 +5003,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Unsets the {@link ASTNodePlugin} plugin object which matches this package
    * name or URI.
-   * 
+   *
    * @param nameOrUri
    *        the package name or URI
    * @see #unsetExtension(String)
@@ -5015,7 +5015,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Returns the map containing all the {@link ASTNodePlugin} extension objects
    * of this {@link ASTNode}.
-   * 
+   *
    * @return the map containing all the {@link ASTNodePlugin} extension objects
    * of this {@link ASTNode}.
    */

@@ -184,7 +184,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
    *
    * @param spatialComponent
    *            the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addSpatialComponent(SpatialComponent spatialComponent) {
     return getListOfSpatialComponents().add(spatialComponent);
@@ -208,7 +208,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
    * @param spatialComponent
    *            the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeSpatialComponent(SpatialComponent spatialComponent) {
     if (isSetListOfSpatialComponents()) {

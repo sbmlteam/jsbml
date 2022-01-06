@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -25,10 +25,10 @@ import java.io.Serializable;
 
 /**
  * This is a wrapper class for the corresponding BioJava class
- * {@link org.biojava.nbio.ontology.Triple}, to allow for simplified access to
+ * {@link org.biojava.ontology.Triple}, to allow for simplified access to
  * the properties of a subject-predicate-object triple in this ontology.
- * 
- * @see org.biojava.nbio.ontology.Triple
+ *
+ * @see org.biojava.ontology.Triple
  */
 public class Triple implements Cloneable, Comparable<Triple>, Serializable {
 
@@ -38,17 +38,17 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
   private static final long serialVersionUID = 7289048361260650338L;
 
   /**
-   * The BioJava {@link org.biojava.nbio.ontology.Triple}.
+   * The BioJava {@link org.biojava.ontology.Triple}.
    */
-  private org.biojava.nbio.ontology.Triple triple;
+  private org.biojava.ontology.Triple triple;
 
   /**
    * Creates a new {@link Triple} from a given corresponding object from
    * BioJava.
-   * 
+   *
    * @param triple
    */
-  public Triple(org.biojava.nbio.ontology.Triple triple) {
+  public Triple(org.biojava.ontology.Triple triple) {
     if (triple == null) {
       throw new NullPointerException("Triple must not be null.");
     }
@@ -71,23 +71,23 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
     String subject = getSubject() != null ? getSubject().toString() : "";
     String predicate = getPredicate() != null ? getPredicate()
       .toString() : "";
-      String object = getObject() != null ? getObject().toString() : "";
-      String tSub = triple.getSubject() != null ? triple.getSubject()
-        .toString() : "";
-        String tPred = triple.getPredicate() != null ? triple
-          .getPredicate().toString() : "";
-          String tObj = triple.getObject() != null ? triple.getObject()
-            .toString() : "";
-            int compare = subject.compareTo(tSub);
-            if (compare != 0) {
-              return compare;
-            }
-            compare = predicate.compareTo(tPred);
-            if (compare != 0) {
-              return compare;
-            }
-            compare = object.compareTo(tObj);
-            return compare;
+    String object = getObject() != null ? getObject().toString() : "";
+    String tSub = triple.getSubject() != null ? triple.getSubject()
+      .toString() : "";
+    String tPred = triple.getPredicate() != null ? triple
+      .getPredicate().toString() : "";
+    String tObj = triple.getObject() != null ? triple.getObject()
+      .toString() : "";
+    int compare = subject.compareTo(tSub);
+    if (compare != 0) {
+      return compare;
+    }
+    compare = predicate.compareTo(tPred);
+    if (compare != 0) {
+      return compare;
+    }
+    compare = object.compareTo(tObj);
+    return compare;
   }
 
   /* (non-Javadoc)
@@ -103,7 +103,7 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
 
   /**
    * Returns the object of this {@link Triple}.
-   * 
+   *
    * @return the object of this {@link Triple}.
    */
   public Term getObject() {
@@ -112,7 +112,7 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
 
   /**
    * Returns the predicate of this {@link Triple}.
-   * 
+   *
    * @return the predicate of this {@link Triple}.
    */
   public Term getPredicate() {
@@ -121,7 +121,7 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
 
   /**
    * Returns the subject of this {@link Triple}.
-   * 
+   *
    * @return the subject of this {@link Triple}.
    */
   public Term getSubject() {
@@ -130,12 +130,12 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
 
   /**
    * Grants access to the original BioJava
-   * {@link org.biojava.nbio.ontology.Triple}.
-   * 
+   * {@link org.biojava.ontology.Triple}.
+   *
    * @return the original BioJava
-   * {@link org.biojava.nbio.ontology.Triple}.
+   * {@link org.biojava.ontology.Triple}.
    */
-  public org.biojava.nbio.ontology.Triple getTriple() {
+  public org.biojava.ontology.Triple getTriple() {
     return triple;
   }
 

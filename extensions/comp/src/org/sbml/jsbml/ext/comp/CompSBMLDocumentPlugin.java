@@ -93,7 +93,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * 
    * @param index an index
    * @return the {@link ExternalModelDefinition} with the given index if it exists.
-   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException if the index is out of range: {@code (index < 0 || index >= size())}
    */
   public ExternalModelDefinition getExternalModelDefinition(int index) {
     return getListOfExternalModelDefinitions().get(index);
@@ -278,7 +278,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * <p>The listOfExternalModelDefinitions is initialized if necessary.
    *
    * @param externalModelDefinition the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addExternalModelDefinition(ExternalModelDefinition externalModelDefinition) {
 
@@ -292,7 +292,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    *
    * @param externalModelDefinition the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeExternalModelDefinition(ExternalModelDefinition externalModelDefinition) {
     if (isSetListOfExternalModelDefinitions()) {
@@ -329,7 +329,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * 
    * @param index an index
    * @return the {@link ModelDefinition} with the given index if it exists.
-   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException if the index is out of range: {@code (index < 0 || index >= size())}
    */
   public ModelDefinition getModelDefinition(int index) {
     return getListOfModelDefinitions().get(index);
@@ -494,7 +494,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * <p>The listOfModelDefinitions is initialized if necessary.
    *
    * @param modelDefinition the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addModelDefinition(ModelDefinition modelDefinition) {
 
@@ -508,7 +508,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    *
    * @param modelDefinition the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeModelDefinition(ModelDefinition modelDefinition) {
     if (isSetListOfModelDefinitions()) {

@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -26,12 +26,13 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
 
 /**
  * Represents the reaction XML element of a SBML file.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
  * @author Marine Dumousseau
@@ -96,7 +97,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Creates a new Reaction instance from a given SBML level and version.
-   * 
+   *
    * @param level the SBML level
    * @param version the SBML version
    */
@@ -107,7 +108,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Creates a Reaction instance from a given reaction.
-   * 
+   *
    * @param reaction
    */
   public Reaction(Reaction reaction) {
@@ -147,7 +148,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param id
    */
   public Reaction(String id) {
@@ -159,7 +160,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Creates a {@link Reaction} instance from an id, level and version. By default,
    * the compartmentID, {@link #kineticLaw}, {@link #listOfReactants}, {@link #listOfProducts} and
    * {@link #listOfModifiers} are empty.
-   * 
+   *
    * @param id
    * @param level
    * @param version
@@ -171,7 +172,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Adds a {@link ModifierSpeciesReference} instance to this {@link Reaction}.
-   * 
+   *
    * @param modspecref
    * @return {@code true} if the {@link #listOfModifiers} was
    *         changed as a result of this call.
@@ -182,7 +183,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Adds a {@link SpeciesReference} instance to the listOfProducts of this {@link Reaction}.
-   * 
+   *
    * @param specref
    * @return {@code true} if the {@link #listOfProducts} was
    *         changed as a result of this call.
@@ -193,7 +194,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Adds a {@link SpeciesReference} instance to the listOfReactants of this {@link Reaction}.
-   * 
+   *
    * @param specref
    * @return {@code true} if the {@link #listOfReactants} was
    *         changed as a result of this call.
@@ -222,9 +223,9 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Creates a new {@link KineticLaw} object, installs it as this
    * {@link Reaction}'s 'kineticLaw' sub-element, and returns it.
-   * 
+   *
    * If this {@link Reaction} had a previous KineticLaw, it will be destroyed.
-   * 
+   *
    * @return the new {@link KineticLaw} object
    */
   public KineticLaw createKineticLaw() {
@@ -235,7 +236,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Creates a new {@link ModifierSpeciesReference}, adds it to this
    * {@link Reaction}'s list of modifiers and returns it.
-   * 
+   *
    * @return a new {@link ModifierSpeciesReference} object.
    */
   public ModifierSpeciesReference createModifier() {
@@ -246,7 +247,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Creates a new {@link ModifierSpeciesReference}, which points to the given
    * {@link Species}, adds it to this {@link Reaction}'s
    * {@link #listOfModifiers}, and returns a pointer to it.
-   * 
+   *
    * @param species
    *            the {@link Species} to which this modifier should point.
    * @return
@@ -257,7 +258,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param id
    * @return
    */
@@ -273,7 +274,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * {@code id} as its identifier, which points to the given
    * {@link Species}, adds it to this {@link Reaction}'s
    * {@link #listOfModifiers}, and returns a pointer to it.
-   * 
+   *
    * @param id
    *            the identifier of the {@link ModifierSpeciesReference} to be
    *            created.
@@ -292,7 +293,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * {@code id} as its identifier, which points to the {@link Species}
    * with the given {@code id}, adds it to this {@link Reaction}'s
    * {@link #listOfModifiers}, and returns a pointer to it.
-   * 
+   *
    * @param id
    *            the identifier of the {@link ModifierSpeciesReference} to be
    *            created.
@@ -309,7 +310,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Creates a new {@link SpeciesReference}, adds it to this {@link Reaction}'s
    * {@link #listOfProducts} and returns it.
-   * 
+   *
    * @return a new {@link SpeciesReference} object.
    */
   public SpeciesReference createProduct() {
@@ -320,7 +321,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Creates a new {@link SpeciesReference}, which points to the given
    * {@link Species}, adds it to this {@link Reaction}'s
    * {@link #listOfProducts} and returns a pointer to it.
-   * 
+   *
    * @param species
    *            the {@link Species} to which the {@link SpeciesReference}
    *            should point.
@@ -333,7 +334,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param id
    * @return
    */
@@ -349,7 +350,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * its identifier, which points to the given {@link Species}, adds it to
    * this {@link Reaction}'s {@link #listOfProducts} and returns a pointer to
    * it.
-   * 
+   *
    * @param id
    *            the identifier of the {@link SpeciesReference} to be created.
    * @param species
@@ -365,7 +366,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param species
    * @return
@@ -379,7 +380,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Creates a new {@link SpeciesReference}, adds it to this {@link Reaction}'s
    * {@link #listOfReactants} and returns it.
-   * 
+   *
    * @return a new SpeciesReference object.
    */
   public SpeciesReference createReactant() {
@@ -389,7 +390,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Creates a new {@link SpeciesReference} to the given {@link Species} and
    * adds it to the {@link #listOfReactants}.
-   * 
+   *
    * @param species
    * @return the newly created instance of {@link SpeciesReference} that
    *         points to the given {@link Species}.
@@ -402,7 +403,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Creates a new {@link SpeciesReference} with the given identifier and adds
    * it to this {@link Reaction}'s {@link #listOfReactants}.
-   * 
+   *
    * @param id
    *        the id of the {@link SpeciesReference} that is to be created.
    * @return a new instance of {@link SpeciesReference}, which is already linked
@@ -419,7 +420,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Creates a new {@link SpeciesReference} with the given {@code id} as
    * identifier, which points to the given {@link Species} and adds it to the
    * {@link #listOfReactants}.
-   * 
+   *
    * @param id
    *            the identifier of the {@link SpeciesReference} to be created.
    * @param species
@@ -433,7 +434,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param species
    * @return
@@ -542,7 +543,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Only available if Level &gt;= 3.
-   * 
+   *
    * @return the compartmentID of this {@link Reaction}. The empty
    *         {@link String} if it is not set.
    */
@@ -583,7 +584,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Returns the fast Boolean of this Reaction.
-   * 
+   *
    * <p>In SBML Level 3 Version 2, the fast attribute has been removed: every Reaction in a Level 3 Version 2 Core
    * model is equivalent to an SBML Level 3 Version 1 Reaction with a fast value of 'false'. This means that
    * for Level 3 Version 2 Core, the speed of every Reaction will always be determined by its KineticLaw. To
@@ -591,24 +592,24 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * the {@link KineticLaw} should be constructed to produce a value in the desired time scale, or the reaction can be
    * replaced with an {@link AssignmentRule} or {@link AlgebraicRule} object as in the example of Section 7.5 on p. 122
    * of the SBML Level 3 Version 2 specification.
-   * 
+   *
    * @return the fast Boolean of this Reaction.
    * @throws PropertyNotAvailableException if used for SBML L3V2 or above.
    */
   @Deprecated
   public boolean getFast() {
-    
-    if (!isReadingInProgress() && getLevelAndVersion().compareTo(3, 2) >= 0) {
+
+    if (!isReadingInProgress() && (getLevelAndVersion().compareTo(3, 2) >= 0)) {
       throw new PropertyNotAvailableException("fast", this);
     }
-    
+
     // Not using the isSetFast here to allow the value set in initDefaults() to
     // be returned.
     return fast != null ? fast : false;
   }
 
   /**
-   * 
+   *
    * @return the kineticLaw of this Reaction. Can be null if not set.
    */
   public KineticLaw getKineticLaw() {
@@ -616,7 +617,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return the listOfModifiers of this Reaction. Is initialized here if not
    *         yet set.
    */
@@ -629,7 +630,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return the listOfProducts of this Reaction. Is initialized here if not
    *         yet set.
    */
@@ -643,7 +644,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return the listOfReactants of this Reaction. Is initialized here if not
    *         yet set.
    */
@@ -657,7 +658,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param i
    * @return the ith ModifierSpeciesReference of the listOfModifiers. Can be
    *         null if it doesn't exist.
@@ -670,7 +671,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Searches the first {@link ModifierSpeciesReference} in the
    * {@link #listOfModifiers} of this {@link Reaction} with the given
    * identifier.
-   * 
+   *
    * @param id
    *            identifier of the desired {@link ModifierSpeciesReference}.
    *            Note that this is not the identifier of the {@link Species}.
@@ -687,7 +688,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return the number of {@link ModifierSpeciesReference}s of this
    *         {@link Reaction}.
    */
@@ -699,7 +700,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Returns the first {@link ModifierSpeciesReference} in the
    * {@link #listOfModifiers} of this {@link Reaction} whose 'species'
    * attribute points to a {@link Species} with the given identifier.
-   * 
+   *
    * @param id
    *            The identifier of a referenced {@link Species}
    * @return the {@link ModifierSpeciesReference} of the
@@ -727,7 +728,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return the number of products {@link SpeciesReference}.
    * @libsbml.deprecated you could use {@link #getProductCount()}
    */
@@ -736,7 +737,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return the number of reactants {@link SpeciesReference}.
    * @libsbml.deprecated you could use {@link #getReactantCount()}
    */
@@ -754,7 +755,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param i
    * @return the ith product SpeciesReference of the listOfProducts. Can be
    *         null if it doesn't exist.
@@ -766,7 +767,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Searches the first {@link SpeciesReference} in the listOfProducts of this
    * {@link Reaction} with the given identifier.
-   * 
+   *
    * @param id
    *            identifier of the desired {@link SpeciesReference}. Note that
    *            this is not the identifier of the {@link Species}.
@@ -778,12 +779,12 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
     if (isSetListOfProducts()) {
       return getListOfProducts().firstHit(new NameFilter(id));
     }
-    
+
     return null;
   }
 
   /**
-   * 
+   *
    * @return the number of products {@link SpeciesReference}.
    */
   public int getProductCount() {
@@ -794,7 +795,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Returns the first {@link SpeciesReference} in the {@link #listOfProducts}
    * of this {@link Reaction} whose 'species' attribute points to a
    * {@link Species} with the given identifier.
-   * 
+   *
    * @param id
    *            The identifier of a referenced {@link Species}
    * @return the {@link SpeciesReference} of the {@link #listOfProducts} which
@@ -807,12 +808,12 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
       srf.setFilterForSpecies(true);
       return getListOfProducts().firstHit(srf);
     }
-    
+
     return null;
   }
 
   /**
-   * 
+   *
    * @param i
    * @return the ith reactant {@link SpeciesReference} of the listOfReactants.
    *         Can be null if it doesn't exist.
@@ -824,7 +825,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Searches the first {@link SpeciesReference} in the listOfReactants of
    * this {@link Reaction} with the given identifier.
-   * 
+   *
    * @param id
    *            identifier of the desired {@link SpeciesReference}. Note that
    *            this is not the identifier of the {@link Species}.
@@ -836,12 +837,12 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
     if (isSetListOfReactants()) {
       return getListOfReactants().firstHit(new NameFilter(id));
     }
-    
+
     return null;
   }
 
   /**
-   * 
+   *
    * @return the number of reactants {@link SpeciesReference}.
    */
   public int getReactantCount() {
@@ -852,7 +853,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Returns the first {@link SpeciesReference} in the
    * {@link #listOfReactants} of this {@link Reaction} whose 'species'
    * attribute points to a {@link Species} with the given identifier.
-   * 
+   *
    * @param id
    *            The identifier of a referenced {@link Species}
    * @return the {@link SpeciesReference} of the {@link #listOfReactants}
@@ -865,12 +866,12 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
       srf.setFilterForSpecies(true);
       return getListOfReactants().firstHit(srf);
     }
-    
+
     return null;
   }
 
   /**
-   * 
+   *
    * @return the reversible Boolean of this reaction.
    */
   // Not using the isSetReversible here to allow the value set in
@@ -899,7 +900,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param s
    * @return
    */
@@ -908,7 +909,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param s
    * @return
    */
@@ -917,7 +918,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param s
    * @return
    */
@@ -942,7 +943,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param level
    * @param version
    * @param explicit
@@ -962,7 +963,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Convenient test if the given species takes part in this reaction as a
    * reactant, product, or modifier.
-   * 
+   *
    * @param s
    * @return
    */
@@ -980,7 +981,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    *  Returns the boolean value of fast if it is set, {@code false} otherwise.
-   *  
+   *
    * <p>In SBML Level 3 Version 2, the fast attribute has been removed: every Reaction in a Level 3 Version 2 Core
    * model is equivalent to an SBML Level 3 Version 1 Reaction with a fast value of 'false'. This means that
    * for Level 3 Version 2 Core, the speed of every Reaction will always be determined by its KineticLaw. To
@@ -988,7 +989,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * the {@link KineticLaw} should be constructed to produce a value in the desired time scale, or the reaction can be
    * replaced with an {@link AssignmentRule} or {@link AlgebraicRule} object as in the example of Section 7.5 on p. 122
    * of the SBML Level 3 Version 2 specification.
-   * 
+   *
    * @return the boolean value of fast if it is set, {@code false} otherwise.
    * @see #getFast()
    * @throws PropertyNotAvailableException if used for SBML L3V2 or above.
@@ -1008,7 +1009,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Returns {@code true} if the listOfModifiers of this Reaction is empty.
-   * 
+   *
    * @return {@code true} if the listOfModifiers of this Reaction is empty.
    */
   public boolean isListOfModifiersEmpty() {
@@ -1017,7 +1018,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Returns {@code true} if the listOfProducts of this reaction is empty.
-   * 
+   *
    * @return {@code true} if the listOfProducts of this reaction is empty.
    */
   public boolean isListOfProductsEmpty() {
@@ -1026,7 +1027,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Returns {@code true} if the listOfReactants of this Reaction is empty.
-   * 
+   *
    * @return {@code true} if the listOfReactants of this Reaction is empty.
    */
   public boolean isListOfReactantsEmpty() {
@@ -1035,7 +1036,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
 
   /**
-   * 
+   *
    * @return the value of reversible if it is set, {@code false} otherwise.
    */
   public boolean isReversible() {
@@ -1059,7 +1060,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return {@code true} if fast is not {@code null}.
    */
   public boolean isSetFast() {
@@ -1067,7 +1068,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return {@code true} if the kineticLaw of this Reaction is not {@code null}.
    */
   public boolean isSetKineticLaw() {
@@ -1075,7 +1076,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return {@code true} if the listOfModifiers of this Reaction is not {@code true} and not
    *         empty.
    */
@@ -1084,7 +1085,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return {@code true} if the listOfProducts of this reaction is not {@code true} and not
    *         empty.
    */
@@ -1093,7 +1094,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return {@code true} if the listOfReactants of this Reaction is not {@code true} and not
    *         empty.
    */
@@ -1102,7 +1103,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @return {@code true} if reversible is not {@code null}.
    */
   public boolean isSetReversible() {
@@ -1135,7 +1136,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Checks whether the given list references the given species.
-   * 
+   *
    * @param list
    * @param s
    * @return
@@ -1149,7 +1150,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   }
 
   /**
-   * 
+   *
    * @param list
    * @param id
    * @return
@@ -1176,7 +1177,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Removes the nth modifier species (ModifierSpeciesReference object) in the
    * list of modifiers in this Reaction and returns it.
-   * 
+   *
    * @param i
    *            the index of the ModifierSpeciesReference object to remove.
    * @return the removed ModifierSpeciesReference object, or null if the given
@@ -1188,7 +1189,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Removes the ModifierSpeciesReference 'modspecref' from this Reaction.
-   * 
+   *
    * @param modspecref
    * @return
    */
@@ -1200,7 +1201,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Removes the modifier species (ModifierSpeciesReference object) having the
    * given 'species' attribute in the list of modifiers in this Reaction and
    * returns it.
-   * 
+   *
    * @param id
    *            the 'species' attribute of the ModifierSpeciesReference object
    *            (which correspond to a species id).
@@ -1213,7 +1214,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Removes the nth product species (SpeciesReference object) in the list of
    * products in this Reaction and returns it.
-   * 
+   *
    * @param i
    *            the index of the SpeciesReference object to remove.
    * @return the removed SpeciesReference object, or null if the given index
@@ -1226,7 +1227,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Removes the SpeciesReference 'modspecref' from the listOfProducts of this
    * Reaction.
-   * 
+   *
    * @param specref
    */
   public void removeProduct(SpeciesReference specref) {
@@ -1237,7 +1238,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Removes the product species (SpeciesReference object) having the given
    * 'species' attribute in the list of products in this Reaction and returns
    * it.
-   * 
+   *
    * @param id
    *            the 'species' attribute of the SpeciesReference object (which
    *            correspond to a species id).
@@ -1250,7 +1251,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Removes the nth reactant species (SpeciesReference object) in the list of
    * reactants in this Reaction and returns it.
-   * 
+   *
    * @param i
    *            the index of the SpeciesReference object to remove.
    * @return the removed SpeciesReference object, or null if the given index
@@ -1263,7 +1264,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Removes the SpeciesReference 'modspecref' from the listOfReactants of
    * this Reaction.
-   * 
+   *
    * @param specref
    * @return
    */
@@ -1275,7 +1276,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * Removes the reactant species (SpeciesReference object) having the given
    * 'species' attribute in the list of reactants in this Reaction and returns
    * it.
-   * 
+   *
    * @param id
    *            the 'species' attribute of the SpeciesReference object (which
    *            correspond to a species id).
@@ -1296,7 +1297,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Sets the compartmentID of this Reaction to 'compartmentID'. This method
    * is only available for Level &gt;= 3.
-   * 
+   *
    * @param compartmentID
    * @throws PropertyNotAvailableException
    *             if Level &lt; 3.
@@ -1319,7 +1320,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Sets the fast Boolean of this {@link Reaction}.
-   * 
+   *
    * <p>In SBML Level 3 Version 2, the fast attribute has been removed: every Reaction in a Level 3 Version 2 Core
    * model is equivalent to an SBML Level 3 Version 1 Reaction with a fast value of 'false'. This means that
    * for Level 3 Version 2 Core, the speed of every Reaction will always be determined by its KineticLaw. To
@@ -1327,17 +1328,17 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
    * the {@link KineticLaw} should be constructed to produce a value in the desired time scale, or the reaction can be
    * replaced with an {@link AssignmentRule} or {@link AlgebraicRule} object as in the example of Section 7.5 on p. 122
    * of the SBML Level 3 Version 2 specification.
-   * 
+   *
    * @param fast - the value to set for the fast attribute
    * @throws PropertyNotAvailableException if used for SBML L3V2 or above.
    */
   @Deprecated
   public void setFast(boolean fast) {
-    
-    if (!isReadingInProgress() && getLevelAndVersion().compareTo(3, 2) >= 0) {
+
+    if (!isReadingInProgress() && (getLevelAndVersion().compareTo(3, 2) >= 0)) {
       throw new PropertyNotAvailableException("fast", this);
     }
-    
+
     Boolean oldFast = this.fast;
     this.fast = Boolean.valueOf(fast);
     isSetFast = true;
@@ -1346,7 +1347,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Sets the kineticLaw of this {@link Reaction}.
-   * 
+   *
    * @param kineticLaw
    */
   public void setKineticLaw(KineticLaw kineticLaw) {
@@ -1358,7 +1359,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Sets the listOfModifiers of this {@link Reaction}. Automatically sets the
    * parentSBML object of the list to this {@link Reaction} instance.
-   * 
+   *
    * @param listOfModifiers
    */
   public void setListOfModifiers(ListOf<ModifierSpeciesReference> listOfModifiers) {
@@ -1373,7 +1374,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Sets the {@link #listOfProducts} of this {@link Reaction}. Automatically sets the
    * parentSBML object of the list to this {@link Reaction} instance.
-   * 
+   *
    * @param listOfProducts
    */
   public void setListOfProducts(ListOf<SpeciesReference> listOfProducts) {
@@ -1388,7 +1389,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Sets the listOfReactants of this {@link Reaction}. Automatically sets the
    * parentSBML object of the list to this {@link Reaction} instance.
-   * 
+   *
    * @param listOfReactants
    */
   public void setListOfReactants(ListOf<SpeciesReference> listOfReactants) {
@@ -1402,7 +1403,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Sets the reversible Boolean of this {@link Reaction}.
-   * 
+   *
    * @param reversible
    */
   public void setReversible(boolean reversible) {
@@ -1437,8 +1438,8 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Sets the {@link KineticLaw} of this {@link Reaction} to null and notifies
-   * all {@link TreeNodeChangeListener} about changes.
-   * 
+   * all {@link org.sbml.jsbml.util.TreeNodeChangeListener} about changes.
+   *
    * @return {@code true} if calling this method changed the properties
    *         of this element.
    */
@@ -1454,8 +1455,8 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
 
   /**
    * Removes the {@link #listOfModifiers} from this {@link Reaction} and notifies
-   * all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -1472,7 +1473,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Removes the {@link #listOfProducts} from this {@link Reaction} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
@@ -1489,7 +1490,7 @@ implements CallableSBase, CompartmentalizedSBase, UniqueNamedSBase {
   /**
    * Removes the {@link #listOfReactants} from this {@link Reaction} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
-   * 
+   *
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */

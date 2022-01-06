@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -27,28 +27,28 @@ import org.sbml.jsbml.ListOf;
 
 
 /**
- * 
+ *
  * @author Alex Thomas
  * @since 0.8
  */
 public class MixedGeometry extends GeometryDefinition {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -7544034155315224945L;
 
   /**
-   * 
+   *
    */
   ListOf<GeometryDefinition> listOfGeometryDefinitions;
   /**
-   * 
+   *
    */
   ListOf<OrdinalMapping> listOfOrdinalMappings;
 
   /**
-   * 
+   *
    */
   public MixedGeometry() {
     super();
@@ -81,7 +81,7 @@ public class MixedGeometry extends GeometryDefinition {
 
 
   /**
-   * 
+   *
    * @param id
    * @param level
    * @param version
@@ -208,7 +208,7 @@ public class MixedGeometry extends GeometryDefinition {
    * <p>The listOfGeometryDefinitions is initialized if necessary.
    *
    * @param listOfGeometryDefinitions the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addGeometryDefinition(GeometryDefinition listOfGeometryDefinitions) {
     return getListOfGeometryDefinitions().add(listOfGeometryDefinitions);
@@ -219,8 +219,8 @@ public class MixedGeometry extends GeometryDefinition {
    * Removes an element from the listOfGeometryDefinitions.
    *
    * @param listOfGeometryDefinitions the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeGeometryDefinition(GeometryDefinition listOfGeometryDefinitions) {
     if (isSetListOfGeometryDefinitions()) {
@@ -416,7 +416,7 @@ public class MixedGeometry extends GeometryDefinition {
    * <p>The listOfOrdinalMappings is initialized if necessary.
    *
    * @param ordinalMapping the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addOrdinalMapping(OrdinalMapping ordinalMapping) {
     return getListOfOrdinalMappings().add(ordinalMapping);
@@ -427,8 +427,8 @@ public class MixedGeometry extends GeometryDefinition {
    * Removes an element from the listOfOrdinalMappings.
    *
    * @param ordinalMapping the element to be removed from the list
-   * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element
+   * @see java.util.List#remove(Object)
    */
   public boolean removeOrdinalMapping(OrdinalMapping ordinalMapping) {
     if (isSetListOfOrdinalMappings()) {

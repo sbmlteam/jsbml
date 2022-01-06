@@ -214,7 +214,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * <p>The listOfIndices is initialized if necessary.
    *
    * @param field the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addIndex(Index field) {
     return getListOfIndices().add(field);
@@ -224,8 +224,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * Removes an element from the listOfIndices.
    *
    * @param field the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element and it was removed.
+   * @see java.util.List#remove(Object)
    */
   public boolean removeIndex(Index field) {
     if (isSetListOfIndices()) {
@@ -239,9 +239,9 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    *
    * @param arrayDim
    *        the element with given array dimension to be removed from the list.
-   * @return true if the list contained the specified element with given array
+   * @return {@code true} if the list contained the specified element with given array
    *         dimension and it was removed.
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeIndexByArrayDimension(int arrayDim) {
     if (isSetListOfIndices()) {
@@ -421,7 +421,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * <p>The listOfDimensions is initialized if necessary.
    *
    * @param field the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addDimension(Dimension field) {
     return getListOfDimensions().add(field);
@@ -431,8 +431,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * Removes an element from the listOfDimensions.
    *
    * @param field the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
+   * @return {@code true} if the list contained the specified element and it was removed.
+   * @see java.util.List#remove(Object)
    */
   public boolean removeDimension(Dimension field) {
     if (isSetListOfDimensions()) {

@@ -98,7 +98,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * <p>The listOfPorts is initialized if necessary.
    *
    * @param port the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addPort(Port port) {
     return getListOfPorts().add(port);
@@ -109,7 +109,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * <p>The listOfSubmodels is initialized if necessary.
    *
    * @param submodel the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addSubmodel(Submodel submodel) {
     return getListOfSubmodels().add(submodel);
@@ -372,7 +372,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * 
    * @param index an index
    * @return the {@link Port} with the given index if it exists.
-   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException if the index is out of range: {@code (index < 0 || index >= size())}
    */
   public Port getPort(int index) {
     return getListOfPorts().get(index);
@@ -413,7 +413,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * 
    * @param index an index
    * @return the {@link Submodel} with the given index if it exists.
-   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException if the index is out of range: {@code (index < 0 || index >= size())}
    */
   public Submodel getSubmodel(int index) {
     return getListOfSubmodels().get(index);
@@ -501,7 +501,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    *
    * @param port the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removePort(Port port) {
     if (isSetListOfPorts()) {
@@ -529,7 +529,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    *
    * @param id the id of the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeSubmodel(String id) {
     Submodel removedSM = getListOfSubmodels().removeFirst(new NameFilter(id));
@@ -546,7 +546,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    *
    * @param submodel the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeSubmodel(Submodel submodel) {
     if (isSetListOfSubmodels()) {

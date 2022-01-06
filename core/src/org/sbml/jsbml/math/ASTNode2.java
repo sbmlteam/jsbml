@@ -2,7 +2,7 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -10,7 +10,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -24,6 +24,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
@@ -32,7 +33,7 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 /**
  * A node in the Abstract Syntax Tree (AST) representation of a mathematical
  * expression.
- * 
+ *
  * @author Victor Kofia
  * @since 1.0
  */
@@ -40,14 +41,14 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
 
   /**
    * Clone ASTNode2
-   * 
+   *
    * @return ASTNode2 node
    */
   public ASTNode2 clone();
 
   /**
    * Compiles this {@link ASTNode2} and returns the result.
-   * 
+   *
    * @param compiler
    *            An instance of an {@link ASTNode2Compiler} that provides
    *            methods to translate this {@link ASTNode2} into something
@@ -59,13 +60,13 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *         object.
    * @throws SBMLException
    *             Thrown if an error occurs during the compilation process.
-   * 
+   *
    */
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler);
 
   /**
    * Get the id of this node
-   * 
+   *
    * @return the id
    */
   public String getId();
@@ -73,28 +74,28 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   /**
    * Returns the class of the MathML element represented by
    * this {@link ASTNode2}
-   * 
+   *
    * @return String name
    */
   public String getMathMLClass();
 
   /**
    * Return the parentSBMLObject of this {@link ASTNode2}
-   * 
+   *
    * @return MathContainer container
    */
   public MathContainer getParentSBMLObject();
 
   /**
    * Return the style of this node
-   * 
+   *
    * @return the style
    */
   public String getStyle();
 
   /**
    * Returns the type of this ASTNode2.
-   * 
+   *
    * @return Type type
    */
   public Type getType();
@@ -108,14 +109,14 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
 
   /**
    * Returns true iff id has been set
-   * 
+   *
    * @return boolean
    */
   public boolean isSetId();
 
   /**
    * Returns true iff mathMLClass has been set
-   * 
+   *
    * @return boolean
    */
   public boolean isSetMathMLClass();
@@ -123,21 +124,21 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   /**
    * Checks if a parent SBML object, i.e., a {@link MathContainer}, is set as a
    * parent SBML object for this {@link ASTNode2}.
-   * 
+   *
    * @return boolean
    */
   public boolean isSetParentSBMLObject();
 
   /**
    * Returns true iff style has been set
-   * 
+   *
    * @return boolean
    */
   public boolean isSetStyle();
 
   /**
    * Returns true iff type has been set
-   * 
+   *
    * @return boolean
    */
   public boolean isSetType();
@@ -147,14 +148,14 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * nodes can only contain the specified # of children. When false, there is
    * a bit of leeway (i.e. ASTUnaryFunction can contain more than one child)
    * (not recommended).
-   * 
+   *
    * @return boolean
    */
   public boolean isStrict();
 
   /**
    * Set the id of this node
-   * 
+   *
    * @param id the id to set
    */
   public void setId(String id);
@@ -174,14 +175,14 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
 
   /**
    * Sets the parentSBMLObject to container recursively
-   * 
+   *
    * @param container
    */
   public void setParentSBMLObject(MathContainer container);
 
   /**
    * Set the style of this node
-   * 
+   *
    * @param style the style to set
    */
   public void setStyle(String style);
@@ -190,7 +191,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * Sets the type from a String. This method accepts all the supported mathML
    * elements, the possible types of cn elements or the possible definitionURL
    * of csymbol elements.
-   * 
+   *
    * @param typeStr
    *            the type as a String.
    */
@@ -198,7 +199,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
 
   /**
    * Set the type of the MathML element represented by this {@link ASTNode2}
-   * 
+   *
    * @param type
    */
   public void setType(Type type);
@@ -217,7 +218,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * system. The syntax is described in detail in the documentation for
    * ASTNode.
    * </p>
-   * 
+   *
    * @return the formula from the given AST as an SBML Level 1 text-string
    *         mathematical formula. The caller owns the returned string and is
    *         responsible for freeing it when it is no longer needed. {@code null} is
@@ -229,7 +230,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
 
   /**
    * Converts this node recursively into a LaTeX formatted String.
-   * 
+   *
    * @return A String representing the LaTeX code necessary to write the
    *         formula corresponding to this node in a document.
    * @throws SBMLException
@@ -240,7 +241,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   /**
    * Converts this node recursively into a MathML string that corresponds to
    * the subset of MathML defined in the SBML specification.
-   * 
+   *
    * @return the representation of this node in MathML.
    */
   public String toMathML();
@@ -255,7 +256,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
 
   /**
    * Set the strictness of this node
-   * 
+   *
    * @param strict
    */
   public abstract void setStrictness(boolean strict);

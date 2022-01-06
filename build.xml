@@ -841,6 +841,9 @@
 			
 		  ant maven-deploy -Ddeploy=ossrh_release
 		  -> makes a stable release
+
+                  Note: When making a release, it is also necessary to run 'ant dist' to prepare the
+                        binary distribution
 		-->
 		<!-- Defining which options to use depending of the 'deploy' property content -->
 		<!-- using var here as property are not re-writable in ant -->

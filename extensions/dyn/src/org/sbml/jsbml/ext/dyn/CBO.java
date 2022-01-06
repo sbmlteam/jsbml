@@ -10,7 +10,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. Boston University, Boston, MA, USA
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -27,8 +27,8 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.biojava.nbio.ontology.Ontology;
-import org.biojava.nbio.ontology.io.OboParser;
+import org.biojava.ontology.Ontology;
+import org.biojava.ontology.io.OboParser;
 import org.sbml.jsbml.ontology.Term;
 import org.sbml.jsbml.ontology.Triple;
 import org.sbml.jsbml.resources.Resource;
@@ -64,7 +64,7 @@ import org.sbml.jsbml.resources.Resource;
  * is to associate model components with terms from carefully curated controlled
  * vocabularies (CVs) such as CBO. This is the purpose of the cboTerm provided
  * through the extended SBase class in this package.
- * 
+ *
  * @author Harold G&oacute;mez
  * @since 1.0
  */
@@ -102,7 +102,7 @@ public class CBO {
 
   /**
    * Checks the format of the given CBO string.
-   * 
+   *
    * @param cboTerm
    * @return {@code true} if cboTerm is in the correct format (starts with
    *         right header), {@code false} otherwise.
@@ -113,7 +113,7 @@ public class CBO {
 
   /**
    * Grants access to the underlying {@link Ontology} form BioJava.
-   * 
+   *
    * @return
    */
   public static Ontology getOntology() {
@@ -122,10 +122,10 @@ public class CBO {
 
   /**
    * Gets the CBO term with the id 'cboTerm'.
-   * 
+   *
    * @jsbml.warning The methods will throw NoSuchElementException if the id is
    *                not found or null.
-   * 
+   *
    * @param cboTerm
    *            the id of the CBO term to search for.
    * @return the CBO term with the id 'cboTerm'.
@@ -138,20 +138,20 @@ public class CBO {
 
   /**
    * Return the set of terms of the CBO.
-   * 
+   *
    * <p>
    * This methods return only Term object and no Triple object that represent
    * the relationship between terms. If you want to access the full set of
-   * {@link org.biojava.nbio.ontology.Term} containing also the
-   * {@link org.biojava.nbio.ontology.Triple}, use {@link CBO#getOntology()} to get
+   * {@link org.biojava.ontology.Term} containing also the
+   * {@link org.biojava.ontology.Triple}, use {@link CBO#getOntology()} to get
    * the underlying biojava object.
-   * 
+   *
    * @return the set of terms of the CBO.
    */
   public static Set<Term> getTerms() {
     if (terms.size() < cbo.getTerms().size()) {
-      for (org.biojava.nbio.ontology.Term term : cbo.getTerms()) {
-        if (term instanceof org.biojava.nbio.ontology.Term) {
+      for (org.biojava.ontology.Term term : cbo.getTerms()) {
+        if (term instanceof org.biojava.ontology.Term) {
           terms.add(new Term(term));
         }
       }
@@ -162,11 +162,11 @@ public class CBO {
   /**
    * Returns a set of Triple which match the supplied subject, predicate and
    * object.
-   * 
+   *
    * <p>
    * If any of the parameters of this method are null, they are treated as
    * wildcards.
-   * 
+   *
    * @param subject
    *            the subject to search for, or {@code null}.
    * @param predicate
@@ -175,14 +175,14 @@ public class CBO {
    *            the object to search for, or {@code null}.
    * @return a set of Triple which match the supplied subject, predicate and
    *         object.
-   * 
-   * @see org.biojava.nbio.ontology.Ontology#getTriples(org.biojava.nbio.ontology.Term,
-   *      org.biojava.nbio.ontology.Term, org.biojava.nbio.ontology.Term)
+   *
+   * @see org.biojava.ontology.Ontology#getTriples(org.biojava.ontology.Term,
+   *      org.biojava.ontology.Term, org.biojava.ontology.Term)
    */
   public static Set<Triple> getTriples(Term subject, Term predicate,
     Term object) {
     Set<Triple> triples = new HashSet<Triple>();
-    for (org.biojava.nbio.ontology.Triple triple : cbo.getTriples(
+    for (org.biojava.ontology.Triple triple : cbo.getTriples(
       subject != null ? subject.getTerm() : null,
         object != null ? object.getTerm() : null,
           predicate != null ? predicate.getTerm() : null)) {
@@ -193,7 +193,7 @@ public class CBO {
 
   /**
    * Test main class
-   * 
+   *
    * @param args
    */
   public static void main(String[] args) {

@@ -80,7 +80,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    * <p>listOfGroups is initialized if necessary.
    *
    * @param group
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addGroup(Group group) {
     return getListOfGroups().add(group);

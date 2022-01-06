@@ -3,14 +3,14 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -23,6 +23,7 @@ package org.sbml.jsbml.util;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
@@ -34,7 +35,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * adding methods to keep track of changes within the tree, such as
  * adding/removing, or exchanging of child nodes or the change of any other
  * attributes.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @since 0.8
  */
@@ -44,11 +45,11 @@ Serializable {
   /**
    * Adds recursively all given {@link TreeNodeChangeListener} instances to
    * this element.
-   * 
+   *
    * @param listeners
    *            the set of listeners to add
    * @return {@code true} if the set of listeners is added with success.
-   * 
+   *
    */
   public boolean addAllChangeListeners(
     Collection<TreeNodeChangeListener> listeners);
@@ -59,7 +60,7 @@ Serializable {
    * identical to the call
    * {@link #addTreeNodeChangeListener(TreeNodeChangeListener, boolean)} where
    * {@code recursively = true}.
-   * 
+   *
    * @param listener
    *            the listener to add
    * @see #addTreeNodeChangeListener(TreeNodeChangeListener, boolean)
@@ -69,7 +70,7 @@ Serializable {
   /**
    * Adds a listener to this {@link TreeNodeWithChangeSupport} object and
    * optionally also to all of its child nodes.
-   * 
+   *
    * @param listener
    *        the listener to add
    * @param recursive
@@ -83,7 +84,7 @@ Serializable {
   /**
    * Removes all of the mappings from the map of user objects (optional
    * operation). The map will be empty after this call returns.
-   * 
+   *
    * @see Map#clear()
    */
   public abstract void clearUserObjects();
@@ -101,7 +102,7 @@ Serializable {
    * internal nodes that do not satisfy the filter criterion by themselves
    * are not contained in the resulting list, the recursion continues at
    * their children.
-   * 
+   *
    * @param filter
    *        A criterion to select a sub-set of nodes of this tree.
    * @return A {@link List} of {@link TreeNode}s that do all satisfy the
@@ -115,7 +116,7 @@ Serializable {
    * {@link TreeNode}s that are accepted by the {@link Filter}. The second
    * argument decides whether or not internal nodes that do not by themselves
    * satisfy the filter criterion should still be retained in the result list.
-   * 
+   *
    * @param filter
    *            A criterion to select a sub-set of nodes of this tree.
    * @param retainInternalNodes
@@ -138,7 +139,7 @@ Serializable {
    * themselves satisfy the filter criterion should be retained in the list,
    * and if the recursion should be aborted as soon as the first hit is
    * discovered.
-   * 
+   *
    * @param filter
    * @param retainInternalNodes
    *            decides whether or not internal nodes should be added to the
@@ -173,7 +174,7 @@ Serializable {
   /**
    * All {@link TreeNodeChangeListener}s are informed about the change in this
    * {@link TreeNodeWithChangeSupport}.
-   * 
+   *
    * @param propertyName
    *            Tells the {@link TreeNodeChangeListener} the name of the
    *            property whose value has been changed.
@@ -189,7 +190,7 @@ Serializable {
   /**
    * Returns all {@link TreeNodeChangeListener}s that are assigned to this
    * element.
-   * 
+   *
    * @return all {@link TreeNodeChangeListener}s that are assigned to this
    * element.
    */
@@ -215,19 +216,19 @@ Serializable {
 
   /**
    * Opposite of {@link #isSetParent()}.
-   * 
-   * Returns {@code true} if this {@link AbstractTreeNode} is the root
+   *
+   * Returns {@code true} if this {@link org.sbml.jsbml.AbstractTreeNode} is the root
    * node of a tree, {@code false} otherwise.
-   * 
-   * @return {@code true} if this {@link AbstractTreeNode} is the root
+   *
+   * @return {@code true} if this {@link org.sbml.jsbml.AbstractTreeNode} is the root
    *         node of a tree, {@code false} otherwise.
-   * 
+   *
    * @see #isSetParent()
    */
   public abstract boolean isRoot();
 
   /**
-   * 
+   *
    * @return
    */
   public boolean isSetParent();
@@ -235,7 +236,7 @@ Serializable {
   /**
    * Checks whether any user-defined key-value pairs have been attached
    * to this object.
-   * 
+   *
    * @return {@code true} if at least one user-defined key-value pair has
    *         been attached to this object.
    */
@@ -268,7 +269,7 @@ Serializable {
    * Will fail (and not delete itself) if it has no parent object. This function
    * will work for all objects whose parent is of type {@link List} and most
    * instances of {@link TreeNode}.
-   * 
+   *
    * @return {@code false} if this element is a root node, {@code true}
    *         otherwise.
    */
@@ -280,7 +281,7 @@ Serializable {
    * is equivalent to calling
    * {@link #removeTreeNodeChangeListener(TreeNodeChangeListener, boolean)}
    * where the second argument is {@code true}.
-   * 
+   *
    * @param listener
    *        the listener to remove.
    * @see #removeTreeNodeChangeListener(TreeNodeChangeListener, boolean)
@@ -289,7 +290,7 @@ Serializable {
 
   /**
    * Removes the given change listener from this element.
-   * 
+   *
    * @param listener
    *        the listener to remove.
    * @param recursive
@@ -300,7 +301,7 @@ Serializable {
   public void removeTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive);
 
   /**
-   * 
+   *
    * @param key
    * @return
    */

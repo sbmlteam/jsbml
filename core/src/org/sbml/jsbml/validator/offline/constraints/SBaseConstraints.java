@@ -622,7 +622,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
    * @param ctx the Validation context
    * @param sb the SBase we are validating
    * @param topLevelNode the XMLNode to validate
-   * @return true if each sub elements of the given {@link XMLNode} are allowed inside a body element, false otherwise.
+   * @return {@code true} if each sub elements of the given {@link XMLNode} are allowed inside a body element, false otherwise.
    */
   public static boolean checkHtmlBodyContent(ValidationContext ctx, SBase sb, XMLNode topLevelNode) {
     
@@ -651,7 +651,7 @@ public class SBaseConstraints extends AbstractConstraintDeclaration {
    * @param ctx the Validation context
    * @param sb the SBase we are validating
    * @param topLevelNode the XMLNode to validate
-   * @return true if each sub elements of the given {@link XMLNode} are allowed inside a head element, false otherwise.
+   * @return {@code true} if each sub elements of the given {@link XMLNode} are allowed inside a head element, false otherwise.
    */
   public static  boolean checkHtmlHeadContent(ValidationContext ctx, SBase sb, XMLNode topLevelNode) {
     

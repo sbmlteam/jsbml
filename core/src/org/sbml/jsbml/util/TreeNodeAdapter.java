@@ -47,7 +47,7 @@ import org.sbml.jsbml.ListOf;
  * {@link TreeNode}. The {@code userObject} is an instance of
  * <ul>
  * <li>{@link TreeNode}: recursive operations are continued at this element</li>
- * <li>{@link Collection}: recursion leads to the i<sup>th</sup> element in the
+ * <li>{@link java.util.Collection}: recursion leads to the i<sup>th</sup> element in the
  * {@link Iterator}</li>
  * <li>{@link Map}: the key set is sorted (only possible if the keys implement
  * the {@link Comparable} interface) and recursion continues at the i<sup>th</sup> key.</li>

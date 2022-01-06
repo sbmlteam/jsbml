@@ -24,10 +24,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
+
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
-import org.sbml.jsbml.math.parser.IFormulaParser;
 
 /**
  * Class used to parse infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
@@ -774,7 +774,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
           left = getInteger(leftChild);
           right = getInteger(rightChild);
           // TODO - check if libsbml behave the same way
-          if (left != null && right != null) // Node transformed into a ASTNode.Type.RATIONAL number if both left and right are integer
+          if ((left != null) && (right != null)) // Node transformed into a ASTNode.Type.RATIONAL number if both left and right are integer
           {
             node = new ASTNode();
             node.setValue(left, right);
@@ -1695,7 +1695,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     }
     if (jj_rescan) {
       int i = 0; Token tok = token;
-      while (tok != null && tok != jj_scanpos) { i++; tok = tok.next; }
+      while ((tok != null) && (tok != jj_scanpos)) { i++; tok = tok.next; }
       if (tok != null) {
         jj_add_error_token(kind, i);
       }
@@ -1703,7 +1703,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     if (jj_scanpos.kind != kind) {
       return true;
     }
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) {
+    if ((jj_la == 0) && (jj_scanpos == jj_lastpos)) {
       throw jj_ls;
     }
     return false;
@@ -1753,7 +1753,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     if (pos >= 100) {
       return;
     }
-    if (pos == jj_endpos + 1) {
+    if (pos == (jj_endpos + 1)) {
       jj_lasttokens[jj_endpos++] = kind;
     } else if (jj_endpos != 0) {
       jj_expentry = new int[jj_endpos];
@@ -1847,7 +1847,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       if (p.next == null) { p = p.next = new JJCalls(); break; }
       p = p.next;
     }
-    p.gen = jj_gen + xla - jj_la; p.first = token; p.arg = xla;
+    p.gen = (jj_gen + xla) - jj_la; p.first = token; p.arg = xla;
   }
 
   static final class JJCalls {

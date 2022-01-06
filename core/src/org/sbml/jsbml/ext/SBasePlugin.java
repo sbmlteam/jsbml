@@ -135,7 +135,7 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
   /**
    * Check whether an extended SBase has been set.
    * 
-   * @return true if an extended SBase has been set.
+   * @return {@code true} if an extended SBase has been set.
    */
   public boolean isSetExtendedSBase();
 

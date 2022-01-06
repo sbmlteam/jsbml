@@ -132,7 +132,7 @@ public class MathMLStaxParser implements ReadingParser {
   /**
    * Returns true if indenting
    * 
-   * @return true if indenting
+   * @return {@code true} if indenting
    */
   public boolean getIndenting() {
     return indenting;
@@ -142,7 +142,7 @@ public class MathMLStaxParser implements ReadingParser {
   /**
    * Returns true if we need to omit the XML declaration.
    * 
-   * @return true if we need to omit the XML declaration.
+   * @return {@code true} if we need to omit the XML declaration.
    */
   public boolean getOmitXMLDeclaration() {
     return omitXMLDeclaration;

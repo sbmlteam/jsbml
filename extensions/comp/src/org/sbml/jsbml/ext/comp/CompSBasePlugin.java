@@ -299,7 +299,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    *
    * @param index an index
    * @return the {@link ReplacedElement} with the given index if it exists.
-   * @throws IndexOutOfBoundsException if the index is out of range: (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException if the index is out of range: {@code (index < 0 || index >= size())}
    */
   public ReplacedElement getReplacedElement(int index) {
     return getListOfReplacedElements().get(index);
@@ -415,7 +415,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    * <p>listOfReplacedElements is initialized if necessary.
    *
    * @param replacedElement the element to be added to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addReplacedElement(ReplacedElement replacedElement) {
     return getListOfReplacedElements().add(replacedElement);
@@ -426,7 +426,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    *
    * @param replacedElement the element to be removed from the list
    * @return {@code true} if this list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeReplacedElement(ReplacedElement replacedElement) {
     if (isSetListOfReplacedElements()) {

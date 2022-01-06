@@ -392,7 +392,7 @@ public class ValidationContext {
    * Returns true if the given {@link CHECK_CATEGORY} is enabled in this {@link ValidationContext}.
    * 
    * @param checkCategory the check category
-   * @return true if the given {@link CHECK_CATEGORY} is enabled in this {@link ValidationContext}.
+   * @return {@code true} if the given {@link CHECK_CATEGORY} is enabled in this {@link ValidationContext}.
    */
   public boolean isEnabledCategory(CHECK_CATEGORY checkCategory) {
     return categories.contains(checkCategory);
@@ -594,7 +594,7 @@ public class ValidationContext {
    * Validates the object against the loaded constraints.
    * 
    * @param o object to be validated
-   * @return true if no constraint was broken
+   * @return {@code true} if no constraint was broken
    */
   public boolean validate(Object o) {
     return validate(o, true);

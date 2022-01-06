@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -30,7 +30,7 @@ import org.sbml.jsbml.Species;
  * whether this {@link SpeciesReferenceFilter} should use the given identifier
  * to filter for the actual {@link SimpleSpeciesReference} or for the referenced
  * {@link Species}.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @since 0.8
  */
@@ -52,8 +52,9 @@ public class SpeciesReferenceFilter extends NameFilter {
 
   /**
    * Creates a new {@link SpeciesReferenceFilter} that only accepts instances of
-   * {@link SpeciesReference} pointing to the id of the given {@link Species}.
-   * 
+   * {@link org.sbml.jsbml.SpeciesReference} pointing to the id of the given
+   * {@link Species}.
+   *
    * @param species
    *        the {@link Species} of interest.
    */
@@ -64,10 +65,11 @@ public class SpeciesReferenceFilter extends NameFilter {
 
   /**
    * @param id
-   *        the identifier of a {@link Species} or {@link SpeciesReference} we
-   *        are interested in. Whether we accept the id of a {@link Species} or
-   *        a {@link SpeciesReference} depends on the flag that can be defined
-   *        with {@link #setFilterForSpecies(boolean)}.
+   *        the identifier of a {@link Species} or
+   *        {@link org.sbml.jsbml.SpeciesReference} we are interested in.
+   *        Whether we accept the id of a {@link Species} or a
+   *        {@link org.sbml.jsbml.SpeciesReference} depends on the flag that can
+   *        be defined with {@link #setFilterForSpecies(boolean)}.
    * @see #setFilterForSpecies(boolean)
    */
   public SpeciesReferenceFilter(String id) {
@@ -76,10 +78,11 @@ public class SpeciesReferenceFilter extends NameFilter {
 
   /**
    * @param id
-   *        the identifier of a {@link Species} or {@link SpeciesReference} we
-   *        are interested in. Whether we accept the id of a {@link Species} or
-   *        a {@link SpeciesReference} depends on the flag that can be defined
-   *        with {@link #setFilterForSpecies(boolean)}.
+   *        the identifier of a {@link Species} or
+   *        {@link org.sbml.jsbml.SpeciesReference} we are interested in.
+   *        Whether we accept the id of a {@link Species} or a
+   *        {@link org.sbml.jsbml.SpeciesReference} depends on the flag that can
+   *        be defined with {@link #setFilterForSpecies(boolean)}.
    * @param name
    *        the name of the element we are interested in.
    * @see #setFilterForSpecies(boolean)

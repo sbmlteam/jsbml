@@ -612,7 +612,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   //   * <p>The listOfMemberConstraints is initialized if necessary.
   //   *
   //   * @param memberConstraint the element to add to the list
-  //   * @return true (as specified by {@link java.util.Collection#add})
+  //   * @return {@code true} (as specified by {@link java.util.Collection#add})
   //   */
   //  public boolean addMemberConstraint(MemberConstraint memberConstraint) {
   //    return getListOfMemberConstraints().add(memberConstraint);
@@ -622,7 +622,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   //   * Removes an element from the listOfMemberConstraints.
   //   *
   //   * @param memberConstraint the element to be removed from the list
-  //   * @return true if the list contained the specified element
+  //   * @return {@code true} if the list contained the specified element
   //   * @see java.util.List#remove(Object)
   //   */
   //  public boolean removeMemberConstraint(MemberConstraint memberConstraint) {

@@ -598,7 +598,7 @@ public class RenderCurve extends GraphicalPrimitive1D implements ICurve {
    * @param i the index of the {@link CurveSegment} element to get.
    * @return an element from the listOfCurveSegments at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound {@code (index < 0 || index > list.size)}.
    */
   public CurveSegment getCurveSegment(int i) {
     if (!isSetListOfCurveSegments()) {

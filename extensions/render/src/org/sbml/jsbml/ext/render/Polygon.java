@@ -464,7 +464,7 @@ public class Polygon extends GraphicalPrimitive2D implements ICurve {
    * @return an element from the listOfCurveSegments at the given index.
    * @throws IndexOutOfBoundsException
    *         if the listOf is not set or
-   *         if the index is out of bound (index < 0 || index > list.size).
+   *         if the index is out of bound {@code (index < 0 || index > list.size)}.
    */
   public CurveSegment getCurveSegment(int i) {
     if (!isSetListOfCurveSegments()) {

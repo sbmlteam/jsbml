@@ -393,7 +393,7 @@ public class Uncertainty extends AbstractDistribSBase {
    * @param i the index of the {@link UncertParameter} element to get.
    * @return an element from the listOfUncertParameters at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound {@code (index < 0 || index > list.size)}.
    */
   public UncertParameter getUncertParameter(int i) {
     if (!isSetListOfUncertParameters()) {

@@ -2,7 +2,7 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -10,7 +10,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -36,14 +36,14 @@ import org.sbml.jsbml.util.ValuePair;
 /**
  * An Abstract Syntax Tree (AST) node representing an exponent
  * in a mathematical expression
- * 
+ *
  * @author Victor Kofia
  * @since 1.0
  */
 public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Double>> {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 2454959490592406140L;
 
@@ -54,7 +54,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
 
   /**
    * Creates a new {@link ASTCnExponentialNode} that lacks a pointer
-   * to its containing {@link MathContainer}.
+   * to its containing {@link org.sbml.jsbml.MathContainer}.
    */
   public ASTCnExponentialNode() {
     super();
@@ -64,7 +64,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
   /**
    * Copy constructor; Creates a deep copy of the given
    * {@link ASTCnExponentialNode}.
-   * 
+   *
    * @param node
    *            the {@link ASTCnExponentialNode} to be copied.
    */
@@ -94,7 +94,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
 
   /**
    * Get the exponent value of this node.
-   * 
+   *
    * @return int exponent
    */
   public int getExponent() {
@@ -111,7 +111,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
 
   /**
    * Get the mantissa value of this node.
-   * 
+   *
    * @return double mantissa
    */
   public double getMantissa() {
@@ -136,7 +136,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
 
   /**
    * Returns True iff exponent has been set
-   * 
+   *
    * @return boolean
    */
   public boolean isSetExponent() {
@@ -145,7 +145,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
 
   /**
    * Returns {@code true} iff mantissa has been set
-   * 
+   *
    * @return boolean
    */
   public boolean isSetMantissa() {
@@ -154,7 +154,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
 
   /**
    * Set the exponent value of this node
-   * 
+   *
    * @param exponent
    */
   public void setExponent(int exponent) {
@@ -168,7 +168,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
 
   /**
    * Get the mantissa value of this node
-   * 
+   *
    * @param mantissa
    */
   public void setMantissa(double mantissa) {

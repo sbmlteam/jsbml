@@ -4842,7 +4842,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Return true if this node contain some semantics annotations.
    * 
-   * @return true if this node contain some semantics annotations.
+   * @return {@code true} if this node contain some semantics annotations.
    * @see #getNumSemanticsAnnotations()
    */
   public boolean isSemantics() {

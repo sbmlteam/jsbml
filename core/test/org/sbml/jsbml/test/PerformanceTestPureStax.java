@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -43,7 +43,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
- * 
+ *
  * @author Nicolas Rodriguez
  * @since 1.0
  */
@@ -133,7 +133,7 @@ public class PerformanceTestPureStax {
 
   /**
    * Test class used to check the jsbml speed to read and write SBML models.
-   * 
+   *
    * @param args
    * @throws SBMLException
    */
@@ -180,9 +180,9 @@ public class PerformanceTestPureStax {
 
     double globalInit = Calendar.getInstance().getTimeInMillis();
     double globalEnd = 0;
-    XMLInputFactory inputFactory = XMLInputFactory.newFactory();
-    
-    System.out.println("XMLInputFactory class = " + inputFactory.getClass().getName());    
+    XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+
+    System.out.println("XMLInputFactory class = " + inputFactory.getClass().getName());
 
     for (File file : files)
     {
@@ -234,7 +234,7 @@ public class PerformanceTestPureStax {
       double nbSecondsWrite = (end - afterRead)/1000;
 
       if (nbSeconds > 120) {
-        System.out.println("It took " + nbSeconds/60 + " minutes.");
+        System.out.println("It took " + (nbSeconds/60) + " minutes.");
       } else {
         System.out.println("It took " + nbSeconds + " seconds.");
       }
@@ -253,7 +253,7 @@ public class PerformanceTestPureStax {
       double globalSeconds = globalNbMilliseconds / 1000;
 
       System.out.println("Reading and writing " + files.length + " models took : " + globalSeconds + " seconds.");
-      System.out.println("Mean per model = " + globalSeconds / files.length + " seconds (" + globalNbMilliseconds / files.length + " ms).");
+      System.out.println("Mean per model = " + (globalSeconds / files.length) + " seconds (" + (globalNbMilliseconds / files.length) + " ms).");
 
       System.out.println((int)globalNbMilliseconds);
     }

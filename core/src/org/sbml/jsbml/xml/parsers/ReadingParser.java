@@ -58,7 +58,7 @@ public interface ReadingParser {
    *        the object to set or modify depending on the identity of the current
    *        attribute. This object
    *        represents the context of the XML attribute in the SBMLDocument.
-   * @return true if the attribute was recognized and stored in the contextObject, false otherwise.
+   * @return {@code true} if the attribute was recognized and stored in the contextObject, false otherwise.
    */
   public boolean processAttribute(String elementName, String attributeName, String value, String URI, String prefix, boolean isLastAttribute, Object contextObject);
 

@@ -119,7 +119,7 @@ ASTCSymbolBaseNode {
    * numbers with undeclared units.
    *
    * A return value of {@code true} indicates that the {@code UnitDefinition}
-   * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
+   * returned by {@link org.sbml.jsbml.Variable#getDerivedUnitDefinition()} may not accurately
    * represent the units of the expression.
    *
    * @return {@code true} if the math expression of this {@link ASTCiNumberNode}
@@ -129,7 +129,7 @@ ASTCSymbolBaseNode {
   public boolean containsUndeclaredUnits() {
     if (isSetRefId()) {
       CallableSBase reference = getReferenceInstance();
-      if (reference != null && reference instanceof QuantityWithUnit) {
+      if ((reference != null) && (reference instanceof QuantityWithUnit)) {
         return ! ((QuantityWithUnit)reference).isSetUnits();
       } else {
         // TODO: reaction doesn't have units but may still have undeclared units
@@ -250,9 +250,9 @@ ASTCSymbolBaseNode {
   public int hashCode() {
     final int prime = 1489;
     int result = super.hashCode();
-    result = prime * result
+    result = (prime * result)
         + ((definitionURL == null) ? 0 : definitionURL.hashCode());
-    result = prime * result + ((refId == null) ? 0 : refId.hashCode());
+    result = (prime * result) + ((refId == null) ? 0 : refId.hashCode());
     return result;
   }
 

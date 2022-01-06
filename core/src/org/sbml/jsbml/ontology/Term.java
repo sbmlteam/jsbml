@@ -9,7 +9,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -25,18 +25,18 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.biojava.nbio.ontology.Synonym;
-import org.biojava.nbio.ontology.utils.Annotation;
+import org.biojava.bio.Annotation;
+import org.biojava.ontology.Synonym;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.util.StringTools;
 
 /**
  * This is a convenient wrapper class for the corresponding implementation
- * of {@link org.biojava.nbio.ontology.Term} in BioJava as it provides
+ * of {@link org.biojava.ontology.Term} in BioJava as it provides
  * specialized methods to obtain the information from the SBO OBO file
  * directly and under the same name as the keys are given in that file.
- * 
- * @see org.biojava.nbio.ontology.Term
+ *
+ * @see org.biojava.ontology.Term
  */
 public class Term implements Cloneable, Comparable<Term>, Serializable {
 
@@ -47,7 +47,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
   /**
    * Returns a String representing a term the same way as in the OBO file.
-   * 
+   *
    * @param term the term to print
    * @return a String representing a term the same way as in the OBO file.
    */
@@ -94,14 +94,14 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
   /**
    * The underlying BioJava {@link Term}.
    */
-  private org.biojava.nbio.ontology.Term term;
+  private org.biojava.ontology.Term term;
 
   /**
    * Creates a new Term instance.
-   * 
-   * @param term a {@link org.biojava.nbio.ontology.Term} object
+   *
+   * @param term a {@link org.biojava.ontology.Term} object
    */
-  public Term(org.biojava.nbio.ontology.Term term) {
+  public Term(org.biojava.ontology.Term term) {
     if (term == null) {
       throw new NullPointerException("Term must not be null.");
     }
@@ -141,7 +141,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
   /**
    * Returns a set of all the children Term.
-   * 
+   *
    * @return  a set of all the children Term.
    */
   public Set<Term> getChildren() {
@@ -159,7 +159,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
   /**
    * Returns the definition of this {@link Term}, which is stored in the
    * corresponding OBO file under the key {@code def}.
-   * 
+   *
    * @return the definition of this {@link Term}.
    */
   public String getDefinition() {
@@ -168,12 +168,12 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
       Object definition;
       annotation = term.getAnnotation();
       try {
-      definition = (annotation != null)
-          && (annotation.keys().size() > 0) ? annotation
-            .getProperty("def") : null;
-            def = definition != null ? definition.toString() : "";
-            def = def.replace("\\n", "\n").replace("\\t", "\t").replace("\\", "");
-            def = def.trim();
+        definition = (annotation != null)
+            && (annotation.keys().size() > 0) ? annotation
+              .getProperty("def") : null;
+        def = definition != null ? definition.toString() : "";
+        def = def.replace("\\n", "\n").replace("\\t", "\t").replace("\\", "");
+        def = def.trim();
       } catch (NoSuchElementException e) {
         def = "";
       }
@@ -184,7 +184,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
   /**
    * Returns the SBO identifier of this {@link Term}, for instance:
    * {@code SBO:0000031}.
-   * 
+   *
    * @return the SBO identifier of this {@link Term}
    */
   public String getId() {
@@ -196,7 +196,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
   /**
    * Returns the name of this {@link Term}, i.e., a very short characterization.
-   * 
+   *
    * @return the name of this {@link Term}
    */
   public String getName() {
@@ -212,15 +212,15 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
   /**
    * Returns the parent Terms.
-   * 
+   *
    * @return the parent Terms.
-   * 
+   *
    */
   public Set<Term> getParentTerms() {
 
     Set<Term> parents = new HashSet<Term>();
 
-    for (org.biojava.nbio.ontology.Triple triple : term.getOntology().getTriples(term, null, term.getOntology().getTerm("is_a")))
+    for (org.biojava.ontology.Triple triple : term.getOntology().getTriples(term, null, term.getOntology().getTerm("is_a")))
     {
       parents.add(new Term(triple.getObject()));
     }
@@ -230,7 +230,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
   /**
    * Returns all {@link Synonym}s of this {@link Term}.
-   * 
+   *
    * @return all {@link Synonym}s of this {@link Term}. Returns
    * an empty array if no {@link Synonym}s exist for this term,
    * but never null.
@@ -249,18 +249,18 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
   /**
    * Grants access to the underlying BioJava
-   * {@link org.biojava3.ontology.Term}.
-   * 
+   * {@link org.biojava.ontology.Term}.
+   *
    * @return the underlying BioJava
-   * {@link org.biojava3.ontology.Term}.
+   * {@link org.biojava.ontology.Term}.
    */
-  public org.biojava.nbio.ontology.Term getTerm() {
+  public org.biojava.ontology.Term getTerm() {
     return term;
   }
 
   /**
    * Checks whether or not this {@link Term} is obsolete.
-   * 
+   *
    * @return whether or not this {@link Term} is obsolete.
    */
   public boolean isObsolete() {
