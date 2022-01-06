@@ -1072,7 +1072,7 @@ public class ASTNode extends AbstractTreeNode {
    *
    * <p> You can change this behaviour by using the {@link FormulaParserLL3#setCaseSensitive(boolean)}
    * method and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><blockquote><pre>
+<blockquote><pre>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
@@ -1083,7 +1083,7 @@ public class ASTNode extends AbstractTreeNode {
    * now differently interpreted: '&amp;&amp;' and '||' are used instead of 'and' and 'or'.<br>
    * If you want to use the parser used in JSBML-0.8, you can do that by using the {@link FormulaParser}
    * parser class and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><blockquote><pre>
+<blockquote><pre>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote>

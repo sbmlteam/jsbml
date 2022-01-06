@@ -44,8 +44,6 @@ import org.sbml.jsbml.resources.Resource;
  * <p> You can change this behaviour by using the {@link #setCaseSensitive(boolean)}
  * method.
  *
- *
- * <p>
  * <table border="0" width="95%"
        class="centered text-table normal-font alt-row-colors"
        style="padding-bottom: 0.5em">
@@ -97,8 +95,6 @@ import org.sbml.jsbml.resources.Resource;
  * href='http://sbml.org/Documents/Specifications#SBML_Level_1_Version_2'>SBML
  * Level&nbsp;1 Version&nbsp;2 specification</a> with additions based on the
  * functions added in SBML Level 2 and Level 3:
- <p>
-
  * <table border="0" width="95%"
        class="centered text-table normal-font alt-row-colors">
  <tr>
