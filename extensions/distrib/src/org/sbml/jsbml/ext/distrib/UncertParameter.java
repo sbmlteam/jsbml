@@ -8,7 +8,7 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -40,12 +40,12 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.converters.ExpandFunctionDefinitionConverter;
 
 /**
- * Defines one uncertainty statistic about the parent element. 
- * 
+ * Defines one uncertainty statistic about the parent element.
+ *
  * <p>It has one required attribute 'type' which defines what statistic it describes (i.e. 'mean', 'standardDeviation', 'distribution',
  * etc.). Its other attributes (value, var, units, and definitionURL), and children (math and listOfUncertParameters)
  * are all optional, each usable according to which type it is.</p>
- * 
+ *
  * @author rodrigue
  * @since 1.5
  */
@@ -53,28 +53,28 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
 
   /**
    * The different {@link UncertParameter} and {@link UncertSpan} type values.
-   * 
+   *
    * @author rodrigue
    *
    */
   public static enum Type {
-    
+
     // The following kinds are all single-value types, and thus may either be defined by value or var,
     // and must only be used for UncertParameter elements, not UncertSpan elements.
     // Definitions taken from https://web.archive.org/web/20161029215725/uncertml.org/
-      
+
     /**
      * For a random variable with mean μ and strictly positive standard deviation σ,
-     * the coefficient of variation is defined as the ratio (σ / |μ|).One benefit of using the 
+     * the coefficient of variation is defined as the ratio (σ / |μ|).One benefit of using the
      * coefficient of variation rather than the standard deviation is that it is unitless.
      */
     coefficientOfVariation,
     /**
-     * The kurtosis of a distribution is a measure of how peaked the distribution is. 
+     * The kurtosis of a distribution is a measure of how peaked the distribution is.
      */
     kurtosis,
     /**
-     * The arithmetic mean (typically just the mean) is what is commonly called the average. 
+     * The arithmetic mean (typically just the mean) is what is commonly called the average.
      */
     mean,
     /**
@@ -108,11 +108,11 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
      * units of the quantity being considered. Note that if a finite sample of a population has been
      * used then the sample standard deviation is the appropriate unbiased estimator to use.
      */
-    standardDeviation,    
+    standardDeviation,
     /**
      * The standard error is the standard deviation of estimates of a population value. If that population
      * value is a mean, this statistic is called the standard error of the mean. It is calculated as the standard
-     * deviation of a sample divided by the square root of the number of the sample size. As the sample size 
+     * deviation of a sample divided by the square root of the number of the sample size. As the sample size
      * increases, the sample size draws closer to the population size, and the standard error approaches zero.
      */
     standardError,
@@ -121,73 +121,73 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
      * deviation of that variable from its mean.
      */
     variance,
-    
+
     // The following Type values are all spans, and may only be used for UncertSpan elements. They are defined by
     // an upper and lower value. Definitions taken from taken from https://web.archive.org/web/20161029215725/uncertml.org/.
 
     /**
-     * For a univariate random variable x, a confidence interval is a range [a, b], a < b, so that x lies between a and b
+     * For a univariate random variable x, a confidence interval is a range [a, b], a &lt; b, so that x lies between a and b
      * with given probability. For example, a 95% confidence interval is a range in which x falls 95% of the time
      * (or with probability 0.95). Confidence intervals provide intuitive summaries of the statistics of the variable x.
-     * 
+     *
      * <p>Unless specified otherwise, the confidence interval is usually chosen so that the remaining probability is split
-     * equally, that is P (x < a) = P (x > b). If x has a symmetric distribution, then the confidence intervals are usually
-     * centered around the mean. However, non-centered confidence intervals are possible and are better described by their 
-     * lower and upper quantiles or levels. For example, a 50% confidence interval would usually lie between the 25% and 
+     * equally, that is P (x &lt; a) = P (x &gt; b). If x has a symmetric distribution, then the confidence intervals are usually
+     * centered around the mean. However, non-centered confidence intervals are possible and are better described by their
+     * lower and upper quantiles or levels. For example, a 50% confidence interval would usually lie between the 25% and
      * 75% quantiles, but could in theory also lie between the 10% and 60% quantiles, although this would be rare in practice.
-     * The confidenceInterval allows you the flexibility to specify non-symmetric confidence intervals however in practice 
+     * The confidenceInterval allows you the flexibility to specify non-symmetric confidence intervals however in practice
      * we would expect the main usage to be for symmetric intervals.</p>
-     * 
+     *
      * <p>The confidenceInterval child of a Uncertainty is always the 95% confidence interval. For other confidence intervals,
      * use an UncertParameter of type 'externalParameter' instead.</p>
      */
     confidenceInterval,
     /**
-     * In Bayesian statistics, a credible interval is similar to a confidence interval determined from the posterior 
-     * distribution of a random variable x. That is, given a prior distribution p(x) and some observations D, the 
-     * posterior probability p(x | D) can be computed using Bayes theorem. Note that the interpretation of a credible 
+     * In Bayesian statistics, a credible interval is similar to a confidence interval determined from the posterior
+     * distribution of a random variable x. That is, given a prior distribution p(x) and some observations D, the
+     * posterior probability p(x | D) can be computed using Bayes theorem. Note that the interpretation of a credible
      * interval is not the same as a (frequentist) confidence interval.
-     * 
+     *
      * <p>The credibleInterval child of a Uncertainty is always the 95% credible interval. For other credibility
      * intervals, use an UncertParameter of type 'externalParameter' instead.</p>
      */
     credibleInterval,
     /**
-     * The interquartile range is the range between the 1st and 3rd quartiles. It contains the middle 50% of the 
+     * The interquartile range is the range between the 1st and 3rd quartiles. It contains the middle 50% of the
      * sample realisations (or of the sample probability). It is typically used and shown in box plots.
      */
     interquartileRange,
     /**
-     * The range is the interval [a, b] so that a < b and contains all possible values of x. This is also often called 
-     * the statistical range, which is the distance from the smallest value to the largest value in a sample dataset. 
-     * For a sample dataset X = (x 1 , ..., x N ), the range is the distance from the smallest x i to the largest. It is 
+     * The range is the interval [a, b] so that a &lt; b and contains all possible values of x. This is also often called
+     * the statistical range, which is the distance from the smallest value to the largest value in a sample dataset.
+     * For a sample dataset X = (x 1 , ..., x N ), the range is the distance from the smallest x i to the largest. It is
      * often used as a first estimate of the sample dispersion.
      */
     range,
-    
+
     //  Finally, we have the 'distribution' and 'externalParameter' types
-    
-    
+
+
     /**
-     * If the uncertainty is defined by a known distribution, that distribution may either be defined by using the 
-     * child math element, or by using the definitionURL . When the math child is used, that math should contain 
-     * the distribution in question: typically this will be a distribution csymbol but may be something more 
-     * complicated, like a piecewise function. If the definitionURL is used, many more distributions may be used than 
-     * are defined in this specification (like an externalParameter , below). To fully define this distribution, it 
-     * will almost certainly be necessary to further define that distribution with child UncertParameter elements. For 
-     * example, a Beta distribution takes two parameters (α and β), each of which could be defined by a child 
-     * UncertParameter of type 'externalParameter', with appropriate definitionURL values. A type of value 
+     * If the uncertainty is defined by a known distribution, that distribution may either be defined by using the
+     * child math element, or by using the definitionURL . When the math child is used, that math should contain
+     * the distribution in question: typically this will be a distribution csymbol but may be something more
+     * complicated, like a piecewise function. If the definitionURL is used, many more distributions may be used than
+     * are defined in this specification (like an externalParameter , below). To fully define this distribution, it
+     * will almost certainly be necessary to further define that distribution with child UncertParameter elements. For
+     * example, a Beta distribution takes two parameters (α and β), each of which could be defined by a child
+     * UncertParameter of type 'externalParameter', with appropriate definitionURL values. A type of value
      * 'distribution' is only valid for UncertParameter elements, not UncertSpan elements.
      */
     distribution,
     /**
-     * This type is uniquely described by an appropriate definitionURL, and is provided to allow a modeler to 
-     * encode externally-provided parameters not otherwise explicitly handled by this specification. The range of 
-     * possibilities is vast, so modelers should ensure that the tool they wish to use encodes support for any 
-     * UncertParameter they define. As an external parameter may take any form, there are no restrictions on what 
-     * other attributes or children may be used by an UncertParameter of this type: it may be a single value; it may 
-     * be a span; it may be defined by a child math element; it may be defined by child UncertParameter elements; it 
-     * may be defined by any combination of the above. The only restriction is that the definitionURL must be defined 
+     * This type is uniquely described by an appropriate definitionURL, and is provided to allow a modeler to
+     * encode externally-provided parameters not otherwise explicitly handled by this specification. The range of
+     * possibilities is vast, so modelers should ensure that the tool they wish to use encodes support for any
+     * UncertParameter they define. As an external parameter may take any form, there are no restrictions on what
+     * other attributes or children may be used by an UncertParameter of this type: it may be a single value; it may
+     * be a span; it may be defined by a child math element; it may be defined by child UncertParameter elements; it
+     * may be defined by any combination of the above. The only restriction is that the definitionURL must be defined
      * for any UncertParameter of type 'externalParameter'. This type value may be used for either UncertParameter or UncertSpan elements.
      */
     externalParameter
@@ -199,42 +199,42 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
   private static final transient Logger logger = Logger.getLogger(AbstractMathContainer.class);
 
   /**
-   * 
+   *
    */
   private Type type;
-  
+
   /**
-   * 
+   *
    */
   private Double value;
-  
+
   /**
-   * 
+   *
    */
   private String var;
-  
+
   /**
-   * 
+   *
    */
   private String units;
-  
+
   /**
-   * 
+   *
    */
   private String definitionURL;
-  
+
   /**
    * The math formula as an abstract syntax tree.
    */
   private ASTNode math;
 
   /**
-   * 
+   *
    */
   private ListOf<UncertParameter> listOfUncertParameters;
 
   /**
-   * Creates an UncertParameter instance 
+   * Creates an UncertParameter instance
    */
   public UncertParameter() {
     super();
@@ -243,7 +243,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
 
   /**
    * Creates a UncertParameter instance with an id.
-   * 
+   *
    * @param id the identifier for the new element.
    */
   public UncertParameter(String id) {
@@ -253,7 +253,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
 
   /**
    * Creates a UncertParameter instance with a level and version.
-   * 
+   *
    * @param level SBML Level
    * @param version SBML Version
    */
@@ -263,7 +263,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
 
   /**
    * Creates a UncertParameter instance with an id, level, and version.
-   * 
+   *
    * @param id the identifier for this element.
    * @param level the SBML Level
    * @param version the SBML Version
@@ -274,7 +274,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
 
   /**
    * Creates a UncertParameter instance with an id, name, level, and version.
-   * 
+   *
    * @param id the identifier for this element.
    * @param name a human-readable name for this element that can be used for display purposes.
    * @param level the SBML Level
@@ -320,6 +320,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
   /**
    * Clones this class
    */
+  @Override
   public UncertParameter clone() {
     return new UncertParameter(this);
   }
@@ -333,7 +334,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     setPackageVersion(-1);
   }
 
-  
+
   /**
    * Returns the value of {@link #type}.
    *
@@ -381,8 +382,8 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #value}.
    *
@@ -431,8 +432,8 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #var}.
    *
@@ -480,8 +481,8 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #units}.
    *
@@ -529,8 +530,8 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     }
     return false;
   }
-  
-  
+
+
   /**
    * Returns the value of {@link #definitionURL}.
    *
@@ -586,15 +587,15 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
   public int hashCode() {
     final int prime = 907;
     int result = super.hashCode();
-    result = prime * result
+    result = (prime * result)
         + ((definitionURL == null) ? 0 : definitionURL.hashCode());
-    result = prime * result + ((listOfUncertParameters == null) ? 0
-        : listOfUncertParameters.hashCode());
-    result = prime * result + ((math == null) ? 0 : math.hashCode());
-    result = prime * result + ((type == null) ? 0 : type.hashCode());
-    result = prime * result + ((units == null) ? 0 : units.hashCode());
-    result = prime * result + ((value == null) ? 0 : value.hashCode());
-    result = prime * result + ((var == null) ? 0 : var.hashCode());
+    result = (prime * result) + ((listOfUncertParameters == null) ? 0
+      : listOfUncertParameters.hashCode());
+    result = (prime * result) + ((math == null) ? 0 : math.hashCode());
+    result = (prime * result) + ((type == null) ? 0 : type.hashCode());
+    result = (prime * result) + ((units == null) ? 0 : units.hashCode());
+    result = (prime * result) + ((value == null) ? 0 : value.hashCode());
+    result = (prime * result) + ((var == null) ? 0 : var.hashCode());
     return result;
   }
 
@@ -679,11 +680,11 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     if (isSetMath()) {
       Model m = getModel();
       ASTNode expandedMath = math;
-      
-      if (m != null && m.getFunctionDefinitionCount() > 0) {
+
+      if ((m != null) && (m.getFunctionDefinitionCount() > 0)) {
         expandedMath = ExpandFunctionDefinitionConverter.expandFunctionDefinition(m, math);
       }
-      
+
       try {
         ud = expandedMath.deriveUnit();
       } catch (Throwable exc) {
@@ -824,8 +825,8 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
   public void unsetMath() {
     setMath(null);
   }
-  
-  
+
+
   /**
    * Returns {@code true} if {@link #listOfUncertParameters} contains at least
    * one element.
@@ -1015,7 +1016,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
   /**
    * Returns the number of {@link UncertParameter}s in this
    * {@link UncertParameter}.
-   * 
+   *
    * @return the number of {@link UncertParameter}s in this
    *         {@link UncertParameter}.
    */
@@ -1026,7 +1027,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
   /**
    * Returns the number of {@link UncertParameter}s in this
    * {@link UncertParameter}.
-   * 
+   *
    * @return the number of {@link UncertParameter}s in this
    *         {@link UncertParameter}.
    * @libsbml.deprecated same as {@link #getUncertParameterCount()}
@@ -1035,7 +1036,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     return getUncertParameterCount();
   }
 
-  
+
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
@@ -1060,7 +1061,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     } else {
       index -= count;
     }
-    
+
     if (isSetMath()) {
       if (index == pos) {
         return getMath();
@@ -1073,7 +1074,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
       }
       pos++;
     }
-    
+
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"),
       index, Math.min(pos, 0)));
@@ -1092,11 +1093,11 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     if (isSetListOfUncertParameters()) {
       count++;
     }
-    
+
     return count;
   }
 
-  
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -1116,16 +1117,16 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
     if (isSetType()) {
       attributes.put(DistribConstants.shortLabel + ":" + DistribConstants.type, getType().toString());
     }
-    
+
     return attributes;
   }
 
   @Override
   public boolean readAttribute(String attributeName, String prefix,
-      String value) {
+    String value) {
 
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead) {
       isAttributeRead = true;
 
@@ -1143,7 +1144,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
       }
       else if (attributeName.equals(DistribConstants.type)) {
         setType(Type.valueOf(value));
-        
+
         // TODO - add a try/catch block
       }
       else {

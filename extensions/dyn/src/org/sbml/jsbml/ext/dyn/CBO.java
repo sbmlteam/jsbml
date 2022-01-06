@@ -27,8 +27,8 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.biojava.ontology.Ontology;
-import org.biojava.ontology.io.OboParser;
+import org.biojava.nbio.ontology.Ontology;
+import org.biojava.nbio.ontology.io.OboParser;
 import org.sbml.jsbml.ontology.Term;
 import org.sbml.jsbml.ontology.Triple;
 import org.sbml.jsbml.resources.Resource;
@@ -150,7 +150,7 @@ public class CBO {
    */
   public static Set<Term> getTerms() {
     if (terms.size() < cbo.getTerms().size()) {
-      for (org.biojava.ontology.Term term : cbo.getTerms()) {
+      for (org.biojava.nbio.ontology.Term term : cbo.getTerms()) {
         if (term instanceof org.biojava.ontology.Term) {
           terms.add(new Term(term));
         }
@@ -182,7 +182,7 @@ public class CBO {
   public static Set<Triple> getTriples(Term subject, Term predicate,
     Term object) {
     Set<Triple> triples = new HashSet<Triple>();
-    for (org.biojava.ontology.Triple triple : cbo.getTriples(
+    for (org.biojava.nbio.ontology.Triple triple : cbo.getTriples(
       subject != null ? subject.getTerm() : null,
         object != null ? object.getTerm() : null,
           predicate != null ? predicate.getTerm() : null)) {

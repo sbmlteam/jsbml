@@ -28,8 +28,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.biojava.ontology.Ontology;
-import org.biojava.ontology.io.OboParser;
+import org.biojava.nbio.ontology.Ontology;
+import org.biojava.nbio.ontology.io.OboParser;
 import org.sbml.jsbml.ontology.Term;
 import org.sbml.jsbml.ontology.Triple;
 import org.sbml.jsbml.resources.Resource;
@@ -1269,19 +1269,19 @@ public class SBO {
    * Return the set of terms of the SBO Ontology.
    *
    * <p> This methods return only Term object and no Triple object that represent the
-   * relationship between terms. If you want to access the full set of {@link org.biojava.ontology.Term}
-   * containing also the {@link org.biojava.ontology.Triple}, use {@link SBO#getOntology()}
+   * relationship between terms. If you want to access the full set of {@link org.biojava.nbio.ontology.Term}
+   * containing also the {@link org.biojava.nbio.ontology.Triple}, use {@link SBO#getOntology()}
    * to get the underlying biojava object.
    *
    * @return the set of terms of the SBO Ontology.
    */
   public static Set<Term> getTerms() {
     if (terms.size() < sbo.getTerms().size()) {
-      for (org.biojava.ontology.Term term : sbo.getTerms()) {
+      for (org.biojava.nbio.ontology.Term term : sbo.getTerms()) {
 
-        if (term instanceof org.biojava.ontology.Triple) {
+        if (term instanceof org.biojava.nbio.ontology.Triple) {
           // does nothing
-        } else if (term instanceof org.biojava.ontology.Term) {
+        } else if (term instanceof org.biojava.nbio.ontology.Term) {
           terms.add(new Term(term));
         }
       }
@@ -1419,12 +1419,12 @@ public class SBO {
    * @param object the object to search for, or {@code null}.
    * @return a set of Triple which match the supplied subject, predicate and object.
    *
-   * @see org.biojava.ontology.Ontology#getTriples(org.biojava.ontology.Term,
-   *      org.biojava.ontology.Term, org.biojava.ontology.Term)
+   * @see org.biojava.nbio.ontology.Ontology#getTriples(org.biojava.nbio.ontology.Term,
+   *      org.biojava.nbio.ontology.Term, org.biojava.nbio.ontology.Term)
    */
   public static Set<Triple> getTriples(Term subject, Term predicate, Term object) {
     Set<Triple> triples = new HashSet<Triple>();
-    for (org.biojava.ontology.Triple triple : sbo.getTriples(
+    for (org.biojava.nbio.ontology.Triple triple : sbo.getTriples(
       subject != null ? subject.getTerm() : null,
         object != null ? object.getTerm() : null,
           predicate != null ? predicate.getTerm() : null)) {
@@ -1603,9 +1603,9 @@ public class SBO {
     if (subject.equals(object)) {
       return true;
     }
-    Set<org.biojava.ontology.Triple> relations = sbo.getTriples(
+    Set<org.biojava.nbio.ontology.Triple> relations = sbo.getTriples(
       subject != null ? subject.getTerm() : null, null, null);
-    for (org.biojava.ontology.Triple triple : relations) {
+    for (org.biojava.nbio.ontology.Triple triple : relations) {
       if (triple.getObject().equals(object.getTerm())) {
         return true;
       }

@@ -25,18 +25,18 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.biojava.bio.Annotation;
-import org.biojava.ontology.Synonym;
+import org.biojava.nbio.ontology.Synonym;
+import org.biojava.nbio.ontology.utils.Annotation;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.util.StringTools;
 
 /**
  * This is a convenient wrapper class for the corresponding implementation
- * of {@link org.biojava.ontology.Term} in BioJava as it provides
+ * of {@link org.biojava.nbio.ontology.Term} in BioJava as it provides
  * specialized methods to obtain the information from the SBO OBO file
  * directly and under the same name as the keys are given in that file.
  *
- * @see org.biojava.ontology.Term
+ * @see org.biojava.nbio.ontology.Term
  */
 public class Term implements Cloneable, Comparable<Term>, Serializable {
 
@@ -94,14 +94,14 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
   /**
    * The underlying BioJava {@link Term}.
    */
-  private org.biojava.ontology.Term term;
+  private org.biojava.nbio.ontology.Term term;
 
   /**
    * Creates a new Term instance.
    *
-   * @param term a {@link org.biojava.ontology.Term} object
+   * @param term a {@link org.biojava.nbio.ontology.Term} object
    */
-  public Term(org.biojava.ontology.Term term) {
+  public Term(org.biojava.nbio.ontology.Term term) {
     if (term == null) {
       throw new NullPointerException("Term must not be null.");
     }
@@ -220,7 +220,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
     Set<Term> parents = new HashSet<Term>();
 
-    for (org.biojava.ontology.Triple triple : term.getOntology().getTriples(term, null, term.getOntology().getTerm("is_a")))
+    for (org.biojava.nbio.ontology.Triple triple : term.getOntology().getTriples(term, null, term.getOntology().getTerm("is_a")))
     {
       parents.add(new Term(triple.getObject()));
     }
@@ -249,12 +249,12 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
   /**
    * Grants access to the underlying BioJava
-   * {@link org.biojava.ontology.Term}.
+   * {@link org.biojava.nbio.ontology.Term}.
    *
    * @return the underlying BioJava
-   * {@link org.biojava.ontology.Term}.
+   * {@link org.biojava.nbio.ontology.Term}.
    */
-  public org.biojava.ontology.Term getTerm() {
+  public org.biojava.nbio.ontology.Term getTerm() {
     return term;
   }
 

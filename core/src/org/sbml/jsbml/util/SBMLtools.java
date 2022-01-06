@@ -2,14 +2,14 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -41,14 +41,14 @@ import org.sbml.jsbml.xml.XMLNode;
  * @since 1.0
  */
 public class SBMLtools {
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(SBMLtools.class);
 
   /**
-   * 
+   *
    * @param model
    */
   public static final void addPredefinedUnitDefinitions(Model model) {
@@ -114,7 +114,7 @@ public class SBMLtools {
   }
 
   /**
-   * 
+   *
    * @param sbase
    * @param level
    * @param version
@@ -159,7 +159,7 @@ public class SBMLtools {
   }
 
   /**
-   * 
+   *
    * @param xml
    * @return
    */
@@ -172,10 +172,10 @@ public class SBMLtools {
       return ""; // needed when xml is null for example.
     }
   }
-  
+
   /**
    * Generate a valid SBML identifier using UUID.
-   * 
+   *
    * @param model
    * @return
    */
@@ -191,9 +191,9 @@ public class SBMLtools {
     } while (model.findNamedSBase(idOne) != null);
     return idOne;
   }
-  
+
   /**
-   * 
+   *
    * @param sbase
    * @param term
    */
@@ -207,13 +207,13 @@ public class SBMLtools {
         SBO.sboNumberString(term), sbase.getElementName(), sbase.getLevel(), sbase.getVersion()));
     }
   }
-  
+
   /**
    * Generates a valid SId from a given name. If the name already is a valid
    * SId, the name is returned. If the SId already exists in this document,
-   * "_&lt;number>" will be appended and the next free number is being assigned.
-   * => See SBML L2V4 document for the Definition of SId. (Page 12/13)
-   * 
+   * "_&lt;number&gt;" will be appended and the next free number is being assigned.
+   * &rArr; See SBML L2V4 document for the Definition of SId. (Page 12/13)
+   *
    * @param name
    * @return SId
    */
@@ -233,15 +233,15 @@ public class SBMLtools {
         ret = incrementSIdSuffix(ret, doc);
       }
     }
-    
+
     return ret;
   }
-  
+
   /**
    * Appends "_&lt;number&gt;" to a given String. &lt;number&gt; is being set to
    * the next free number, so that this sID is unique in this
    * {@link SBMLDocument}. Should only be called from {@link #nameToSId(String)}.
-   * 
+   *
    * @return
    */
   private static String incrementSIdSuffix(String prefix, SBMLDocument doc) {
@@ -253,9 +253,9 @@ public class SBMLtools {
     }
     return aktString;
   }
-  
+
   /**
-   * 
+   *
    * @param name
    * @return
    */
@@ -263,12 +263,12 @@ public class SBMLtools {
     name = name.trim();
     StringBuilder id = new StringBuilder(name.length() + 4);
     char c = name.charAt(0);
-    
+
     // Must start with letter or '_'.
-    if (!(isLetter(c) || c == '_')) {
+    if (!(isLetter(c) || (c == '_'))) {
       id.append("_");
     }
-    
+
     // May contain letters, digits or '_'
     for (int i = 0; i < name.length(); i++) {
       c = name.charAt(i);
@@ -278,14 +278,14 @@ public class SBMLtools {
       if (isLetter(c) || Character.isDigit(c) || (c == '_')) {
         id.append(c);
       } else if ((c == '-') || (c == '(') || (c == ')')) {
-        if (i < name.length() - 1) {
+        if (i < (name.length() - 1)) {
           id.append('_');
         }
       } // else: skip other invalid characters
     }
     return id.toString();
   }
-  
+
   /**
    * @param c
    * @return {@code true} if c is out of A-Z or a-z

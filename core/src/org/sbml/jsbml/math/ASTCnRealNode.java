@@ -2,7 +2,7 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -10,7 +10,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -34,14 +34,14 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 /**
  * An Abstract Syntax Tree (AST) node representing a real number
  * in a mathematical expression
- * 
+ *
  * @author Victor Kofia
  * @since 1.0
  */
 public class ASTCnRealNode extends ASTCnNumberNode<Double> {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 6142072741733701867L;
   /**
@@ -51,7 +51,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
 
   /**
    * Creates a new {@link ASTCnRealNode} that lacks a pointer
-   * to its containing {@link MathContainer}.
+   * to its containing {@link org.sbml.jsbml.MathContainer}.
    */
   public ASTCnRealNode() {
     super();
@@ -61,7 +61,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnRealNode}.
-   * 
+   *
    * @param node
    *            the {@link ASTCnRealNode} to be copied.
    */
@@ -71,7 +71,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
 
   /**
    * Creates a new {@link ASTCnRealNode} that lacks a pointer
-   * to its containing {@link MathContainer} but has the
+   * to its containing {@link org.sbml.jsbml.MathContainer} but has the
    * specified real value.
    * @param value
    */
@@ -132,7 +132,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
 
   /**
    * Get the real value of this node.
-   * 
+   *
    * @return double real
    */
   public double getReal() {
@@ -146,7 +146,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   public int hashCode() {
     final int prime = 1777;
     int result = super.hashCode();
-    result = prime * result + ((number == null) ? 0 : number.hashCode());
+    result = (prime * result) + ((number == null) ? 0 : number.hashCode());
     return result;
   }
 
@@ -161,7 +161,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   /**
    * Returns {@code true} if this {@link ASTCnRealNode} represents the special IEEE 754 value infinity,
    * {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this {@link ASTCnRealNode} is the special IEEE 754 value
    * infinity,
    *         {@code false} otherwise.
@@ -174,7 +174,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   /**
    * Returns {@code true} if this {@link ASTCnRealNode} represents the special IEEE 754 value 'negative
    * infinity' {@link Double#NEGATIVE_INFINITY}, {@code false} otherwise.
-   * 
+   *
    * @return {@code true} if this {@link ASTCnRealNode} is {@link Double#NEGATIVE_INFINITY}, {@code false}
    *         otherwise.
    */
@@ -193,7 +193,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
 
   /**
    * Set the value of this node
-   * 
+   *
    * @param real
    */
   public void setReal(double real) {

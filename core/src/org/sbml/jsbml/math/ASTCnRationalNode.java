@@ -2,7 +2,7 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -10,7 +10,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -36,14 +36,14 @@ import org.sbml.jsbml.util.ValuePair;
 /**
  * An Abstract Syntax Tree (AST) node representing a rational number
  * in a mathematical expression
- * 
+ *
  * @author Victor Kofia
  * @since 1.0
  */
 public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer>> {
 
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = -6844137576018089451L;
 
@@ -54,7 +54,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
 
   /**
    * Creates a new {@link ASTCnRationalNode} that lacks a pointer
-   * to its containing {@link MathContainer}.
+   * to its containing {@link org.sbml.jsbml.MathContainer}.
    */
   public ASTCnRationalNode() {
     super();
@@ -63,7 +63,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnRationalNode}.
-   * 
+   *
    * @param node
    *            the {@link ASTCnRationalNode} to be copied.
    */
@@ -91,7 +91,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
 
   /**
    * Get the denominator value of this node.
-   * 
+   *
    * @return int denominator
    */
   public int getDenominator() {
@@ -108,7 +108,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
 
   /**
    * Get the numerator value of this node.
-   * 
+   *
    * @return int numerator
    */
   public int getNumerator() {
@@ -141,7 +141,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
 
   /**
    * Returns {@code true} iff numerator has been set
-   * 
+   *
    * @return boolean
    */
   public boolean isSetNumerator() {
@@ -150,7 +150,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
 
   /**
    * Set the value of the denominator
-   * 
+   *
    * @param denominator
    */
   public void setDenominator(int denominator) {
@@ -164,7 +164,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
 
   /**
    * Set the value of the numerator
-   * 
+   *
    * @param numerator
    */
   public void setNumerator(int numerator) {
