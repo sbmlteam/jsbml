@@ -45,7 +45,7 @@ public class LevelVersionError extends SBMLError {
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -5549251465153191735L;
+  private static final long serialVersionUID = -5549251.7-SNAPSHOT53191735L;
   /**
    * Message to indicate that an invalid combination of the level and version
    * attribute has been set.

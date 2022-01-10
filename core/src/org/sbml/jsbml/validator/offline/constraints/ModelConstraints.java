@@ -116,7 +116,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
     case MODELING_PRACTICE:
       break;
     case OVERDETERMINED_MODEL:
-      set.add(CORE_10601);
+      set.add(CORE_1.7-SNAPSHOT);
       break;
     case SBO_CONSISTENCY:
       if ((level == 2 && version > 1) || level > 2) {
@@ -438,7 +438,7 @@ public class ModelConstraints extends AbstractConstraintDeclaration {
       break;
 
 
-    case CORE_10601:
+    case CORE_1.7-SNAPSHOT:
       func = new ValidationFunction<Model>() {
 
         @Override

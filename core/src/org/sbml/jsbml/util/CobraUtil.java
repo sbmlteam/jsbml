@@ -68,7 +68,7 @@ public class CobraUtil {
     &lt;p&gt;SUBSYSTEM: Vitamin D metabolism&lt;/p&gt;
     &lt;p&gt;EC Number: &lt;/p&gt;
     &lt;p&gt;Confidence Level: 4&lt;/p&gt;
-    &lt;p&gt;AUTHORS: PMID:14671156,PMID:9333115&lt;/p&gt;
+    &lt;p&gt;AUTHORS: PMID:1.7-SNAPSHOT156,PMID:9333115&lt;/p&gt;
     &lt;p&gt;NOTES: based on Vitamins, G.F.M. Ball,2004, Blackwell publishing, 1st ed (book) pg.196 IT&lt;/p&gt;
   &lt;/body&gt;
 </pre>

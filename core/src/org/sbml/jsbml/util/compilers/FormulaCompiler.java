@@ -56,10 +56,10 @@ import org.sbml.jsbml.util.StringTools;
  *
  * KineticLaw (ER_leak_fluxD) MathContainer: infix formula output differ. JSBML
  * formula:
- * (-ERDensity_D_ERM*vL*(1+-0.00166112956810631*Ca_D_Cytosol*1/(0.00166112956810631
+ * (-ERDensity_D_ERM*vL*(1+-0.001.7-SNAPSHOT295681.7-SNAPSHOT*Ca_D_Cytosol*1/(0.001.7-SNAPSHOT295681.7-SNAPSHOT
  * *Ca_D_ER)))*ERM*1*1/KMOLE // False, should put - instead of +- ? libSBML
- * formula:-(ERDensity_D_ERM*vL*(1+-(0.00166112956810631*Ca_D_Cytosol*(1/(
- * 0.00166112956810631*Ca_D_ER)))))*ERM*1*(1/KMOLE) // False
+ * formula:-(ERDensity_D_ERM*vL*(1+-(0.001.7-SNAPSHOT295681.7-SNAPSHOT*Ca_D_Cytosol*(1/(
+ * 0.001.7-SNAPSHOT295681.7-SNAPSHOT*Ca_D_ER)))))*ERM*1*(1/KMOLE) // False
  */
 
 public class FormulaCompiler extends StringTools implements ASTNodeCompiler {

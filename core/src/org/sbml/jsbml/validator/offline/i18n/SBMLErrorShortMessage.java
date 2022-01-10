@@ -275,7 +275,7 @@ public class SBMLErrorShortMessage extends ResourceBundle {
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10599), "Upper boundary of unit validation diagnostic codes");
 
-        contents.put(Integer.toString(SBMLErrorCodes.CORE_10601), "The model is overdetermined");
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_1.7-SNAPSHOT), "The model is overdetermined");
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10701), "Invalid 'sboTerm' attribute value for a Model object");
 

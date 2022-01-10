@@ -638,7 +638,7 @@ public class SBMLValidator {
     /**
      * Static analysis of whether the system of equations implied by a model
      * is mathematically overdetermined.  With respect to the SBML
-     * specification, this is validation rule #10601 in the SBML Level 2 or
+     * specification, this is validation rule #1.7-SNAPSHOT in the SBML Level 2 or
      * Level 3 specifications.
      */
     OVERDETERMINED_MODEL,

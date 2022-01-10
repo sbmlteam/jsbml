@@ -764,7 +764,7 @@ static final int[] jjnextStates = {
 /** Token literal values. */
 public static final String[] jjstrLiteralImages = {
 "", null, null, null, null, null, null, null, "\53", "\136", "\55", "\52", 
-"\57", "\146\141\143\164\157\162\151\141\154", "\50", "\51", "\173", "\175", "\133", 
+"\57", "\1.7-SNAPSHOT41\143\164\157\162\151\141\154", "\50", "\51", "\173", "\175", "\133", 
 "\135", null, null, null, null, null, null, "\154\157\147", null, null, null, null, };
 
 /** Lexer state names. */

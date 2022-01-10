@@ -1605,7 +1605,7 @@ public class SBMLDocument extends AbstractSBase {
    * :
    * Static analysis of whether the system of equations implied by a model
    * is mathematically over-determined. With respect to the SBML
-   * specification, this is validation rule #10601 in the SBML Level&nbsp;2
+   * specification, this is validation rule #1.7-SNAPSHOT in the SBML Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
    * <li>
    * {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#MODELING_PRACTICE}
