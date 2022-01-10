@@ -8,7 +8,7 @@ JSBML
 ![Code Size](https://img.shields.io/github/languages/code-size/sbmlteam/jsbml.svg?style=plastic)
 ![Download count](https://img.shields.io/github/downloads/sbmlteam/jsbml/total.svg?style=plastic)
 [![Build Status](https://img.shields.io/travis/com/sbmlteam/jsbml.svg?style=plastic)](https://travis-ci.com/sbmlteam/jsbml)
-[![Stable version](https://img.shields.io/badge/stable_version-1.6.1-brightgreen.svg?style=plastic)](https://github.com/sbmlteam/jsbml/releases/tag/v1.6.1)
+[![Stable version](https://img.shields.io/badge/stable_version-1.6.1-brightgreen.svg?style=plastic)](https://github.com/sbmlteam/jsbml/releases/tag/jsbml-1.6.1)
 [![Maven Central](https://img.shields.io/maven-central/v/org.sbml.jsbml/jsbml?version=1.6.1?label=Maven%20Central&style=plastic)](https://search.maven.org/search?q=jsbml)
 [![DOI](http://img.shields.io/badge/DOI-10.1093%20%2F%20bioinformatics%20%2F%20btv341-blue.svg?style=plastic)](https://doi.org/10.1093/bioinformatics/btv341)
 
@@ -81,7 +81,8 @@ Article citations are **critical** for us to be able to continue support for JSB
 
 Please also indicate the specific version of JSBML you use, to improve other people's ability to reproduce your results.  You can use the Zenodo DOIs we provide for this purpose:
 
-* JSBML release 1.6.1 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5820927.svg)](https://doi.org/10.5281/zenodo.5820927)
+* JSBML release 1.6.1 &rArr;
+* JSBML release 1.6.1ɑ &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5820927.svg)](https://doi.org/10.5281/zenodo.5820927)
 * JSBML release 1.6 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5789493.svg?style=plastic)](https://doi.org/10.5281/zenodo.5789493)
 * JSBML release 1.5 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3751775.svg?style=plastic)](https://doi.org/10.5281/zenodo.3751775)
 * JSBML release 1.4 &rArr; [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1346189.svg?style=plastic)](https://doi.org/10.5281/zenodo.1346189)
