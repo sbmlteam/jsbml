@@ -1,7 +1,54 @@
 # JSBML NEWS -- History of user-visible changes
 
 ==================================
-## Version 1.6.1 (05-01-2022)
+## Version 1.6.1 (10-01-2022)
+==================================
+
+This is a stable release of JSBML version 1.6.1. It comprises the two previously
+published snapshot releases, version 1.6 and version 1.6.1ɑ.
+
+To access this version of JSBML via Maven, please use:
+```
+  <dependency>
+    <groupId>org.sbml.jsbml</groupId>
+    <artifactId>jsbml</artifactId>
+    <version>1.6.1</version>
+  </dependency>
+```
+
+### New Features
+
+  - biojava-ontology was bumped to version 6.0.4.
+  - Convenient features, such as quick check for the presence of any specific
+    `SBase` extension
+  - Improvements to the documentation (JavaDoc, users' guide, and the project's
+    README file)
+  - Broader coverage of the offline validation capability
+  - Improved support for constraint-based modeling in the ModelBuilder:
+    automatic creation of common unit definition objects.
+
+### Bug Fixes
+
+  - Update the dependency to log4j to version 2.17.0 after the announcement of
+    a major security issue in the previous version.
+  - JSBML core does no longer have dependencies to any of the packages
+  - Preventing `ASTNode.astNodeToTree` from recursive calls
+  - Correction of wrong comparisons with `==` where `.equals()` needs to be
+    called for `String` comparison
+  - Fixed Incorrect usage of model annotation
+  - Fixed return type of `createRenderCubicBezier` method to `RenderCubicBezier`
+    Thanks to Eike Pertuch for this fix!
+  - Fixed incorrect unit derivation. Thanks to Eike Pertuch for this analysis!
+
+When using JSBML, please cite:
+Rodriguez N, Thomas A, Watanabe L, Vazirabad IY, Kofia V et al. JSBML 1.0:
+providing a smorgasbord of options to encode systems biology models.
+Bioinformatics (2015), 31(20):3383–3386.
+https://doi.org/10.1093%2Fbioinformatics%2Fbtv341
+
+
+==================================
+## Version 1.6.1ɑ (05-01-2022)
 ==================================
 
 This release fixes dependencies to third-party libraries. Changes to the code
@@ -19,7 +66,7 @@ libraries (jar files):
 
   - Convenient features, such as quick check for the presence of any specific
     `SBase` extension
-  - Improvements to the documentation (JavaDoc, users' guide, and the project's 
+  - Improvements to the documentation (JavaDoc, users' guide, and the project's
     README file)
   - Broader coverage of the offline validation capability
   - Improved support for constraint-based modeling in the ModelBuilder:
@@ -48,71 +95,71 @@ libraries (jar files):
   - Implemented the SBML Level 3 distrib package version 1.
 
   - Implemented the render package validation constraints.
-  
+
   - Implemented most of the spatial package validation constraints (Thanks to
     Bhavye Jain who did this among other things during GSOC 2019).
-  
-  - Implemented some of the comp, fbc and multi package validation constraints, 
+
+  - Implemented some of the comp, fbc and multi package validation constraints,
     added a way to specify which package version you want to validate against.
 
-  - Added a new FUNCTION_CSYMBOL type to ASTNode so that we can parse and write 
+  - Added a new FUNCTION_CSYMBOL type to ASTNode so that we can parse and write
     generic csymbol defined elsewhere than in the core. Allow to read and write
     correctly the distrib defined csymbol.
-    
+
   - Added a converter to transfer the COBRA like SBML notes into RDF annotations
     when possible.
-  
+
   - Added removeTopLevelAnnotationElement and replaceTopLevelAnnotationElement
     methods on SBase.
-  
+
   - Added some helper methods to converter a comp model with external model
     definition(s) into a comp model without external model definition(s).
-  
-  
-  
+
+
+
 ### Bug Fixes:
 
   - Improved the validation check for valid metaId.
-  
+
   - Improved the layout package with addition of some missing methods like the
     unset methods that were not there for all attributes or elements.
-  
+
   - Fixed few layout validation constraints to have all of them pass now.
-  
+
   - Fixed several issues to the render package to align properly with the
     specifications and the libSBML implementation, some changes to the API
     introduced with the use of the RelAbsVector type.
-  
+
   - Fixed several issues to the converters from SBML Level 2 with COBRA
     annotations to FBC version 1 and version 2 and vice versa.
-  
+
   - Improved the output of History.toString() and XMLNode.toString().
-  
+
   - Fixed several issues to the spatial parser found when implementing
     validation.
-  
+
   - Fixes for issues #157 and #158. The combined list of SpeciesFeature and
     SubListOfSpeciesFeatures was not created properly.
-  
+
   - Security bug fix: disallow external entity definitions inside SBML files.
     This prevents attackers from loading potentially sensitive files (e.g.,
     /etc/passwd) into the content of the model. See
     https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.md
     for more information. Thanks to Mihai Glont for providing the fix.
-  
+
  - Fixed a bug in BindingSiteSpeciesType, the XML element name used when writing
    was left to 'speciesType' instead of 'bindingSiteSpeciesType'.
- 
+
  - Fixed issue #159 by making the multi parser more robust against invalid xml
-   elements. 
- 
+   elements.
+
  - Removed unused class SpeciesFeatureChange.
- 
+
  - Fixed a bug in SBMLErrorFactory so that an exception is not thrown if some
    data is missing for the validation message. If nothing is found about a
    specific error id, the SBMLerror should still be created with the default
    post message.
- 
+
  - Fixed issue #195. Now XMLNode use a new SBMLReader each time reading notes
    from String. Previously, a bug could appear when JSBML was used in a multi-
    threaded environment. Thanks to Piotr Gawron for finding and reporting the
@@ -127,49 +174,49 @@ libraries (jar files):
 
   - Converters from SBML Level 2 with COBRA annotations to FBC version 1 and
     version 2 and vice versa.
-  
+
   - Added a utility class to help removing or disabling Level 3 packages
     (PackageDisabler).
-  
+
   - Added a comp flattening converter.
-  
+
   - Implemented remaining qual validation rules.
-  
+
   - Added a function to convert an ASTNode2 into an ASTNode in ASTFactory.
-  
-  - Added a source of type SBase to the SBMLError when created with the offline 
+
+  - Added a source of type SBase to the SBMLError when created with the offline
     validator. This will allow users to find easily the SBase that is the cause
     of the reported error.
-  
+
   - Updated the SBMLDocument documentation about validation and created the
     method checkConsistencyOnline() that will keep using the online validator
     for people who want to use it in the future, in case checkConsistency() start
     using the offline validator.
-  
-  
+
+
 ### Bug Fixes:
 
   - SBMLDocument unsets 'fast' upon converting to L3V2 if possible.
-  
+
   - Fixed issue #146. When creating an SBMLdocument in memory, the declared
     namespace was not automatically defined which made some validation
     constraints failed. Thanks to Refizul3399 for reporting the problem.
-  
+
   - Fixed issue #145. The E-notation pattern was wrongly including an optional
     '-' sign at the start. Thanks to Refizul3399 for reporting the problem.
-  
+
   - Fixed a bug in the UnitsCompiler. When checking for assignment cycle, the
     logic was wrong and would report a cycle when there was none, thus returning
     an invalid unit. Thanks to Matthias Koenig for reporting the problem.
-  
+
   - Fixed issue #143. When setting SBOterm to 'null', the existing value will
     just be unset. Before the user would have gotten a NullPointerException.
     Thanks to Piotr Gawron for reporting the issue.
-  
+
   - Fixed issue #142. One of the values of the InterpolationKind enum in the
     spatial package was wrong. Thanks to Franck Bergmann who reported the problem.
-  
-  
+
+
 
 ==================================
 ## Version 1.3.1 (19-12-2017)
@@ -189,9 +236,9 @@ libraries (jar files):
 
   - Added a new interface that can be used to write converters to transform SBML
     documents.
-  
+
   - Implemented a converter that expands the user-defined function definitions.
-  
+
   - Implemented a converter from SBML Level 2 with COBRA annotation to SBML
     Level 3, encoding the COBRA annotations using the FBC version 1 package. The
     converter from FBC Version 1 to Version 2 will arrived in a later release.
@@ -200,35 +247,35 @@ libraries (jar files):
     returned to the user. The system allow internationalizing of the error
     messages if needed. Added a default post message for all SBMLError, to try at
     least to give the id or metaid of the problematic element.
-  
+
   - Modified the FormulaParserLL3 to allow to have different behavior when
     encountering the 'log' operator. Modified as well FormulaCompiler to output
     'ln' for the FUNCTION\_LN type.
-  
+
   - Added a new method in Species: getDerivedSubtanceUnitDefinition, which
     allows getting the derived substance units only, never dividing by the
     compartment units.
-  
+
   - Added a new constant and method to allow invalid SBML in other situation
     than just reading a file, like validation.
-  
+
   - Included nested CVTerms in the tree structure of JSBML and made them
     reachable through all the filters.
-  
+
   - Added some helper methods from ModelPolisher to convert gene association
     string into FBC version 2 objects.
-  
-  - Added a way for the users to set their tidy instance if they want to change 
+
+  - Added a way for the users to set their tidy instance if they want to change
     the default options.
 
   - Added a JSBML tutorial for total beginners in SBML.
-  
+
   - Implementation of validation started for the FBC and Multi packages.
-  
-  - Implementation of validation substantially complete for the Qual and Layout 
+
+  - Implementation of validation substantially complete for the Qual and Layout
     packages.
-  
-  
+
+
 ### Bug Fixes:
 
   - Corrected the way we read SBML Level 1 ParameterRule, the 'name' XML
@@ -237,22 +284,22 @@ libraries (jar files):
   - Modified the offline validation API so that we have access to the Validation
     Context in all method, in case we need extra information, like all the enabled
     check categories or the package version.
-  
+
   - Corrected the offline validationnot to validate SBasePlugin recursively as
     the TreeNode.children() method already validates their children.
-  
+
   - Corrected the SBMLErrorConverter class so that any missing elements from the
     XML returned by the sbml.org validator REST API would be fine. Improved the
     error messages displayed to the user when we cannot parse properly the String
     returned by the sbml.org validator API.
-  
-  - Corrected the method ASTNode.setName not to revert the type to FUNCTION for 
+
+  - Corrected the method ASTNode.setName not to revert the type to FUNCTION for
     FUNCTION\_RATE\_OF.
 
   - Corrected the date written to XML as a comment when the SBMLWriter has an
     application name set (issue [#91](/sbmlteam/jsbml/issues/91)). The minutes
     were written instead of the month in the date.
-  
+
   - Fixed the parsing of the modulo operator. Thanks to Chris Myers who reported
     the problem.
 
@@ -261,55 +308,55 @@ libraries (jar files):
     the problem.
 
   - Simplified the way XMLResourceBundleControl load resources.
-  
-  - Fixed the method Species.getDerivedUnitDefinition so that the default value 
+
+  - Fixed the method Species.getDerivedUnitDefinition so that the default value
     for hasOnlySubstanceUnits is used for SBML level and version below L3.
 
   - Corrected an inconsistency between getDerivedUnitDefinition() and getDerived
     Units() in Species. Thanks to Matthias König who reported the problem.
-  
+
   - Made sure to convert the units to SI before comparing them. Corrected the
     method UnitDefinition.convertsToSIUnits as it was provoking a lot of
     unnecessary warnings.
-  
+
   - Added a new constant to store the invalid XML differently from the unknown
     XML so that we can validate them separately.
-  
+
   - Fixed FormulaParserLL3 so that it transforms FUNCTION\_LN into FUNCTION\_LOG
     if it has more than one child.
-  
-  - Corrected the way we output 'power' ('^') in infix formula. Added more test 
+
+  - Corrected the way we output 'power' ('^') in infix formula. Added more test
     to put parenthesis when the arguments of 'power' are logical or relational
     operators.
-  
+
   - Fixed the brackets used for denominator when writing MathML to infix
     formula.
-  
-  - The method AbstractSBase.checkAttribute(String) cannot be used when cloning 
+
+  - The method AbstractSBase.checkAttribute(String) cannot be used when cloning
     an object as the parent is not set when cloning and many checks depend on the
     parent to be set to work properly. Thanks to Mihai Glont for reporting this
     problem.
 
   - Corrected an indexing problem in the RDF annotation writer.
-  
+
   - Change the way we set the max element depth as it does fail inside Matlab.
-  
+
   - Removed the line wrapping by default in the tidy XML writer as it could
     cause problem by cutting into several lines the old COBRA-style SBML.
-  
+
   - Small fixes to be able to compile the code with Java 9.
-  
+
   - Write the id and name of comp related SBaseRef elements into the comp
     namespace.
-  
+
   - Checking that the model and the LayoutPlugin are defined before using them
     in the RenderParser.processEndDocument method. Fixing GitHub issue
     [#132](/sbmlteam/jsbml/issues/132), thanks to Mihai Glont who reported this
     error.
-  
+
   - Fixed the clone methods in the render package. Removed some potential
     NullPointerExceptions.
-  
+
   - Relaxed a bit the check on the FBC chemical formula when reading an SBML
     file but the test should probably be relaxed to prevent losing information.
 
@@ -320,24 +367,24 @@ libraries (jar files):
 
 ### New Features:
 
-  - Updated the implementation of the SBML Level 3 Multi package to the Version 
+  - Updated the implementation of the SBML Level 3 Multi package to the Version
     1.0.7 specification (August 2016).
-  
+
   - JSBML is now deployed to Maven central to make it easier for people using
     maven to integrate it.
-  
+
 
 ### Bug Fixes:
 
   - Several corrections to the Spatial package, when writing to XML. Thanks to
     Kaito Ii for reporting the errors.
-  
+
   - Updated the implementation of the SBML Level 3 Render package to the draft
     specification (April 2015). Plenty of XML elements where not written with the
     correct names. Any files created by JSBML before version 1.2 should still be
     readable by JSBML 1.2 so that you can just read them and write them to get the
     correct XML.
-  
+
   - Returning the correct namespace for core elements when calling
     getNamespace() or getURI() (instead of 'null' previously).
 
@@ -360,11 +407,11 @@ libraries (jar files):
   - The minimum JDK requirement is now 1.7.
 
   - Added SBML L3V2 support, except for support of VCard4.
-  
+
   - Added support for the MathML <semantics> annotations.
 
   - Added the ASTNodePlugin interface so that ASTNode can have plugins.
-  
+
   - Added new initDefaults method in most SBase based classes with an additional
     Boolean flag 'explicit' as parameter. This allows, for example, setting the
     SBML Level 2 default in an SBML Level 3 class. If the explicit boolean is
@@ -373,39 +420,39 @@ libraries (jar files):
   - JSBML now tries to retain any unknown XML elements encountered while reading
     an XML source. This makes it possible to write them back, and users can also
     access them through a user object XMLNode.
-    
+
   - Added a static function parseMathML() in ASTNode to make the function easier
     to find. Thanks to Jason Zwolak who suggested it.
-  
+
   - Added two methods, hasTerm(int) and hasTerm(String), in SBO to allow users
     to safely check if a term can be retrieved for a given SBO identifier without
     having to catch a NoSuchElementException.
-  
+
   - Updated the implementation of the SBML Level 3 Groups package to the final
     Version 1, Release 1 specification.
 
   - Integrated a draft version of an offline SBML validation system that was
     begun during GSOC 2016 by Roman Schulte. The current version should only be
     used for testing; it is not complete and should not yet be used in production.
-    
+
   - The toString() methods of most classes have been replaced by a generic
     method so you might find some changes. Please don't hesitate to provide us
-    with feedback about this change. 
-  
+    with feedback about this change.
+
   - We deprecated the Model.getInitialAssignment() and Model.getRule() methods
     because they have been made ambiguous by the introduction of an id on SBase
     in SBML L3V2. The JSBML JavaDoc will point you to the replacement methods.
     The new method names make it explicit what is used to retrieve the element,
     for example 'Model.getRuleByVariable()'.
-  
-  - We introduced a new class, UniqueSId, to help recognize any class that must 
+
+  - We introduced a new class, UniqueSId, to help recognize any class that must
     have a unique SId in the whole Model. This class replaced UniqueNamedSBase
     which was not change and can help recognize any class that must have a unique
     SId in the whole Model before SBML L3V2. The same applies to SBase and
     NamedSBase, every SBase have now an id and a name and the NamedSBase class
     only apply to elements that had an id and a name before SBML L3V2.
-  
-  
+
+
 ### Bug Fixes:
 
   - A whole SBMLDocument was not serializable because a few classes did not
@@ -415,27 +462,27 @@ libraries (jar files):
   - Fixed the SBMLReader class to make sure the UTF-8 encoding was used when
     reading an SBML model from a String. Thanks to Matthias König who reported
     this problem.
-    
+
   - Corrected an encoding problem in the tidy SBML writer that happened when the
     default JVM encoding was not UTF-8.
-  
-  - Several improvements were made to the infix formula reading/writing. Thanks 
+
+  - Several improvements were made to the infix formula reading/writing. Thanks
     to Miguel de Alba who reported some problem and the libSBML team who provided
     a large set of test cases.
 
   - When writing a 'sbml:units' attribute on MathML <cn> elements for real
     numbers with e-notation, the XML tag <cn> was closed before the attribute
     was written. Thanks to Matthias König who reported this problem.  
-  
+
   - The clone constructor for SBaseRef was not cloning properly its child
     SBaseRef.
 
   - The equals method of ASTNode was failing when one of the double values was
     set to NaN.
-  
+
   - Corrected the 'metaid' attribute value pattern; it did not include the colon
     character.
-  
+
   - Corrected the FBCModelPlugin clone constructor so that it properly cloned
     the 'strict' attribute.
 
@@ -444,10 +491,10 @@ libraries (jar files):
 
   - Corrected several potential NullPointerExceptions that could occur during
     the cloning of an SBMLDocument that contain plugins.
-    
+
   - Corrected a potential NullPointerException in the TreeNodeAdapter(Object,
     TreeNode) constructor.
-  
+
   - Corrected the number returned by ASTNode.getReal() in the case of REAL\_E,
     when the mantissa is NaN or infinity.
 
@@ -489,11 +536,11 @@ libraries (jar files):
 
   - The clone constructor for the FunctionDefinition class did not copy the
     id attribute.
-  
+
   - Since the merge with the astnode2 branch in 1.1-beta1, the attributes
-    on mathML elements where processed before calling the main 
+    on mathML elements where processed before calling the main
     processAttributes method and as a consequence, some of them where not
-    processed at all, like 'sbml:units'. Thanks to Matthias König who 
+    processed at all, like 'sbml:units'. Thanks to Matthias König who
     reported the problem.
 
 ===========================================================================
@@ -582,8 +629,8 @@ libraries (jar files):
   - When writing math formula, in some cases, parentheses were not generated
     properly surrounding relational expressions.  This is now fixed. Thanks
     to Miguel de Alba for reporting this problem.
-     
-  
+
+
 ===========================================================================
 ## Version 1.0 (09-12-2014)
 ===========================================================================
@@ -609,16 +656,16 @@ libraries (jar files):
 
   - Solved error #82 in Unit.removeMultiplier. Thanks to Christian Thöns
     for pointing this out.
-    
+
   - The registerChild method now returns a boolean value to indicate if
     the operation was successfully completed. This prevents users from
     adding duplicates to ListOf objects.
 
   - Improvements made to the java API documentation (javadoc).
- 
+
   - Added a check to write only the necessary namespaces when writting
     CVTerm to XML.
- 
+
  ### Support for SBML Level 3 'Hierarchical Model Composition (comp)' package:
 
   - Registering SBaseRef correctly in the document. Corrected the clone
@@ -650,7 +697,7 @@ libraries (jar files):
 
   - Added two new BioModels.net qualifiers, bqmodel:isIntanceOf and
     bqmodel:hasInstance.
-    
+
   - BioJava was updated to the latest version and the dependency is
     now to biojava3-ontology.   
 
@@ -662,38 +709,38 @@ libraries (jar files):
   - JSBML now provides a convenient ModelBuilder that can be used to create
     SBML models with a significantly lower  number of lines of code for the
     end user.
-    
+
   - Improved Java source code documentation (in particular CVTerm).
-  
+
   - The SBMLDocument has now a convenient method to access all metaIds
     within the document in form of an unmodifiable Collection.
-    
+
   - The SBO class provides more methods to access those terms that are of
     particular interest for SBGN displays.
 
   - A general Pair of arbitrary values now generalizes ValuePair.
-  
+
   - The toString() methods in UnitDefinition and SpeciesReferences have
     been improved and are now more informative.
-    
+
   - Internally, JSBML no longer creates Unit objects that lack required
     attributes when reading models. (However, this does not prevent users
     from creating new Unit objects without such attributes.)
-  
+
   - Species and Compartment 'containsUndeclaredUnits' method has been
     overridden because in SBML L3 Species and Compartments can inherit a
     default unit from the Model. This is now considered. In this case,
     containsUndeclaredUnits will return false even if the object itself
     does not explicitly declare its unit. This is important because the
     unit of the element is not undefined.
-    
+
   - Added some missing methods to manipulate EvenAssignment in Event and
     improved the JavaDoc of the Event class.
-  
+
   - Added some missing getter in the L3 packages classes.
 
 ### Support for SBML Level 3 'Arrays' package:
- 
+
   - Arrays package implemented, version 05/05/14. Only selector and vector
     supported for now. Validations, flattening available.
 
@@ -704,7 +751,7 @@ libraries (jar files):
 
   - Added missing methods to remove GeneralGlyph objects from a Layout
     object.
-  
+
   - Added further missing remove or unset methods in the layout package.
 
 ### Support for SBML Level 3 'Qualitative Models (qual)' package:
@@ -715,9 +762,9 @@ libraries (jar files):
     created to be used instead.
 
 ### Support for SBML Level 3 'Spatial Processes (spatial)' package:
- 
+
   - Updated to implement version 0.88 of the draft specifications.
-  
+
 
 ### Bug Fixes:
 
@@ -726,63 +773,63 @@ libraries (jar files):
 
   - Corrected the SBMLWriter so that disabled packages are not written to
     XML any more (they are still cloned).
-  
+
   - Corrected the method SBase.appendNotes that contained several problems.
- 
+
   - Corrected a bug when cloning a text XMLToken.
- 
+
   - Fixed the AbstractSBase equals method that could throw a
     NullPointerException in some cases and was not testing all fields.
- 
+
   - Fixed the CVTerm.removeResource(String) method. Thanks to Camille
     Laibe who reported the problem (tracker item #80).
 
   - Corrected the method ASTNode.parseFormula so that they catch any
     Exception or Error and throw a ParseException instead.
- 
+
   - Added the support for the 'root' function in the parsing of math
     formula.
 
-  - The FormulaParserLL3 was not reading properly formula like 
+  - The FormulaParserLL3 was not reading properly formula like
     'kf * S0 * S1'. Only two arguments were read instead of three or more.
     Thanks to Chris J. Myers for reporting this problem.
-  
+
   - Corrected a bug in Event#setListOfEventAssignments method that
     prevented the listOfEventAssignments to be registered properly in the
     model (ids and metaids registered).
-    
+
   - Corrected the removeFromParent method to make it working for
     SBasePlugin instances.
 
   - The ListOf.remove(String) will not throw a ClassCastException anymore
     when used on list that do not contain elements with id.
-    
-  - The static method JSBML.read(String) was not calling the right helper 
+
+  - The static method JSBML.read(String) was not calling the right helper
     method.
-    
+
   - ASTNode threw a NullPointerException when trying to un-set its
     variable.
-  
-  - The AbstractTreeNode recursive method 
+
+  - The AbstractTreeNode recursive method
     removeTreeNodeChangeListener(TreeNodeChangeListener, boolean) was not
     actually recursive.
 
   - Solved source for potential NullPointerException in LaTeXCompiler.
 
-### Support for SBML Level 3 'Hierarchical Model Composition (comp)' 
+### Support for SBML Level 3 'Hierarchical Model Composition (comp)'
    package:
-  
+
   - Fixed several issues when cloning 'comp' elements and L3 packages
     elements in general. Thanks to Chris J. Myers and the iBioSim team for
     their help to find and fix all issues.
 
 ### Support for SBML Level 3 'Flux Balance Constraints (fbc)' package:
- 
+
   - The required flag for the fbc package was set to true instead of false,
     thanks to Chris J. Myers for reporting this problem.
 
 ### Support for SBML Level 3 'Layout' package:
- 
+
   - The implementation of the layout package contained unnecessary classes
     that all represented a Point object (Start, End, Position, BasePoint1,
     BasePoint2). In order to avoid confusion and to simplify the
@@ -791,20 +838,20 @@ libraries (jar files):
   - Corrected the method Layout#setListOfAdditionalGraphicalObjects to
     avoid the warnings when cloning the list and to avoid to create a new
     list when not needed.
-    
+
 ### Support for SBML Level 3 'Qualitative Models (qual)' package:
- 
+
   - The SBML qual attribute Output.outputLevel was not read properly from
     XML.
 
 ### Support for SBML Level 3 'Rendering (render)' package:
- 
+
   - Fixed severals bugs in the experimental render package. Renamed the
     Group class to RenderGroup and the Curve class to RenderCurve. Added
     the possibility to add children to a RenderGroup and corrected
     the way it was written to XML.
- 
-  
+
+
 ======================================================================
 ## Version 1.0-beta1 (06-03-2014)
 ======================================================================
@@ -840,7 +887,7 @@ libraries (jar files):
     has been implemented, following the working specification Version 1
     release 0.80 (latest version is release 0.85, 13 December 2013).
 
-  - (Experimental) support for the SBML Groups package (groups) has been 
+  - (Experimental) support for the SBML Groups package (groups) has been
     implemented, following the draft Version 1 Release 0.4 spec. (17 May 2013).
 
   - (Experimental) support for the SBML Render package (render) has been
@@ -863,8 +910,8 @@ libraries (jar files):
     TreeNodeWithChangeSupport. It offers the ability to remove any element
     from the JSBML tree from its parent.
 
-  - An alternative class to parse mathematical formula has been implemented. 
-    It is named FormulaParserLL3 and it respects the same syntax as the 
+  - An alternative class to parse mathematical formula has been implemented.
+    It is named FormulaParserLL3 and it respects the same syntax as the
     libSBML L3 parser.
 
   - Some filter methods have been added to TreeNodeWithChangeSupport (and
@@ -1034,7 +1081,7 @@ libraries (jar files):
 ======================================================================
 
 ### New Features:
-  
+
   - The new specialized EventObject TreeNodeRemovedEvent has been
     implemented in order to make sure that deleted nodes do no longer
     have a pointer to their previous parent within the tree. At the
@@ -1042,18 +1089,18 @@ libraries (jar files):
     location using the field in the new EventObject.
 
 ### Bug Fixes:
-	
-  - When cloning ASTNodes the direct pointer to referenced variables 
+
+  - When cloning ASTNodes the direct pointer to referenced variables
     (instances of CallableSBase) are set to null in the cloned object.
     However, we have to keep the identifier of the variable. Otherwise
     it might happen that the cloned Tree completely looses its
     meaningfulness. So far, when calling setVariable with an instance of
     CallableSBase only the pointer to the object was stored, but not the
     id. This has been corrected now.
-    
+
   - When creating an ASTNode with a direct pointer to a CallableSBase,
     no reference to the id of the SBase has been stored.   
-  
+
   - There is now a rounding correction for multipliers when merging units
     that tries to shift multipliers to the scale of a unit. This can only
     be done if the logarithm to the base 10 of the multiplier is nearly
@@ -1069,13 +1116,13 @@ libraries (jar files):
 
 ### Known issues :
 
-  - Reading of more than one RDF Description elements in the RDF annotation 
-    block (the official SBML annotation scheme) is not supported at the 
-    moment. Planned for the next major release. 
+  - Reading of more than one RDF Description elements in the RDF annotation
+    block (the official SBML annotation scheme) is not supported at the
+    moment. Planned for the next major release.
   - The RDF block at the top level of the annotation is considered to be the
     official SBML annotation.
   - SBML L3 packages are not supported and not kept.  
-  
+
 ======================================================================
 ## Version 0.8-rc2 (12-04-2012)
 ======================================================================
@@ -1088,58 +1135,58 @@ libraries (jar files):
 
   - It was forgotten to implement an unsetSubstanceUnits method on the Model
     class. Thanks to Robert Byrnes for reporting this problem.
-  
+
   - In the Reaction class, the setReversible method only accepted Boolean,
     no boolean.
-  
+
   - Several bug fixes and improvements to units derivation, merging and
     simplifying.
-    
+
   - There was a bug in KineticLaw that prevented a correct iteration
     through all child elements.
-    
+
   - When cloning JSBML wrongly assigned the same TreeNodeChangeListeners
     to the new data structure. Now, the TreeNodeChangeListeners are not
     copied when cloning a JSBML object.
-    
+
   - The clone methods were corrected to register properly all entities
   	with an id.
-    
+
   - QuantityWithUnit did not fire update events when changing its value
     because of an incorrect comparison between the previous and the new
     value.
-    
-  - Corrected a bug that made it impossible to set a kinetic law with an 
-    existing list of local parameters as the new kinetic law in a 
+
+  - Corrected a bug that made it impossible to set a kinetic law with an
+    existing list of local parameters as the new kinetic law in a
     different reaction.
-    
-  - Meike Aichele detected and fixed the problem that some Listeners were 
+
+  - Meike Aichele detected and fixed the problem that some Listeners were
     set too soon in the Model class, so that no Event was detected.
-  
-  - One rdf namespace declaration was missing when creating an History 
+
+  - One rdf namespace declaration was missing when creating an History
     element from scratch.
-     
-  - [Tracker item #3511439] : Model.getSpeciesType(String) was 
+
+  - [Tracker item #3511439] : Model.getSpeciesType(String) was
     corrected and it's speed improved. Thanks to Thomas Bernard who noticed
     and reported the problem.
-  
+
   - Annotation elements that are missing a proper namespace declaration will
     be correctly read and not considered as improper SBML elements.
-  
+
   - [Tracker item #3487517] : If one empty rdf Bag element was present in an
-    annotation read by jsbml, an XML element was not closed properly, 
+    annotation read by jsbml, an XML element was not closed properly,
     resulting in an invalid generated SBML. Thanks to Anna Zhukova to report
     this problem.
-  
+
   - [Tracker item #3434930] : The parsing of a Message as an XML String was
     incorrect as the method was expecting only a notes element to enclose
     the HTML.
-  
+
 ### Known issues :
 
-  - Reading of more than one RDF Description elements in the RDF annotation 
-    block (the official SBML annotation scheme) is not supported at the 
-    moment. Planned for the next major release. 
+  - Reading of more than one RDF Description elements in the RDF annotation
+    block (the official SBML annotation scheme) is not supported at the
+    moment. Planned for the next major release.
   - The RDF block at the top level of the annotation is considered to be the
     official SBML annotation.
   - SBML L3 packages are not supported and not kept.  
@@ -1154,10 +1201,10 @@ libraries (jar files):
     whether the identifier of this element must be defined in the SBML
     representation.
 
-  - The SBMLReader can now be used in connection with a 
+  - The SBMLReader can now be used in connection with a
     TreeNodeChangeListener. This allows users to keep track about the
     parsing process of XML files.
-  
+
   - The new interface TreeNodeWithChangeSupport separates manipulation
     of change listeners from SBase, allowing multiple implementations.
 
@@ -1168,101 +1215,101 @@ libraries (jar files):
     Also the super type XMLError has been renamed to XMLException in
     order to come closer to the default Java naming convention in
     JSBML.
-  
-  - ASTNode has now a userObject attribute through which any 
+
+  - ASTNode has now a userObject attribute through which any
     computation result or other additional information can be stored
     in the tree.
-  
-  - Restructured the extension package: There is now one extra 
-    directory including a specialized source folder for each extension. 
+
+  - Restructured the extension package: There is now one extra
+    directory including a specialized source folder for each extension.
     The core does no longer contain the ext package. Besides the source
-    folder, there is also an extra doc folder that contains the 
+    folder, there is also an extra doc folder that contains the
     description of the type hierarchy of the implementation for this
     package.
-    
+
   - Data structures for the spatial extension are implemented.
-  
+
   - When accessing the i-th child of an AbstractSBase, it is no longer
-    necessary to sort all extension packages as these are now 
+    necessary to sort all extension packages as these are now
     maintained in a sorted data structure.
-  
+
   - The compile method in ASTNode has become more efficient now by
     restructuring its case distinctions.
-  
+
   - Implemented the hashCode method for all elements belonging to the
-    hierarchical SBML data structure (SBase, Annotation, ASTNode 
+    hierarchical SBML data structure (SBase, Annotation, ASTNode
     etc.).
-  
-  - In order to get closer to the Java package structure, the change 
-    listener for SBML objects is now located in the package 
+
+  - In order to get closer to the Java package structure, the change
+    listener for SBML objects is now located in the package
     org.sbml.jsbml.util package. For the sake of more similarity to
-    standard Java classes and a greater flexibility, the 
+    standard Java classes and a greater flexibility, the
     SBaseChangedListener has been renamed to TreeNodeChangeListener
-    and now extends the PropertyChangeListener in the package 
+    and now extends the PropertyChangeListener in the package
     java.beans. The same holds for the corresponding
     SBaseChangedEvent that is now called TreeNodeChangeEvent and also
-    located in the package org.sbml.jsbml.util. Furthermore, all 
+    located in the package org.sbml.jsbml.util. Furthermore, all
     elements of the SBML tree, including annotations, ASTNodes etc.
     now make use of change events and notify their listeners, which
     are now organized in a list instead of a set to make sure that
     they are always called in the same order. The management of these
-    listeners is now performed in AbstractTreeNode, the new super 
+    listeners is now performed in AbstractTreeNode, the new super
     class for all recursive elements in JSBML. Thanks to Sarah Rachel
     MÃ¼ller vom Hagen to support this effort.
-  
+
   - Notes, annotations, and extension packages are now part of the tree
     representation of the JSBML data structure.
-    
+
   - The new super class AnnotationElement has been introduced to gather
     all those elements that can be used to annotate instances of SBase.
-      
+
   - The new Type AbstractTreeNode implements basic recursive functions
     and is now used as the new super class for ASTNode, AbstractSBase,
     the new type AnnotationElement, and XMLToken (as the super class of
     XMLNode). In this way, recursion and iteration over child elements
     within the SBML data structure now follow a unified structure and
-    can be accessed uniquely within all such elements, including 
+    can be accessed uniquely within all such elements, including
     annotations and extensions. Furthermore, the new interface
-    TreeNodeWithChangeSupport that is extended by SBase and 
+    TreeNodeWithChangeSupport that is extended by SBase and
     AbstractTreeNode gathers methods to add, remove, and notify listeners
     about changes within the data structure (such as adding, removing
     or exchanging child nodes, or change of any attributes).
-    
-  - A simple implementation of AbstractTreeNode, the class 
+
+  - A simple implementation of AbstractTreeNode, the class
     TreeNodeAdapter has been implemented that contains some methods
     also present in the interface MutableTreeNode. However, it does not
     fully implement this interface because there are also some methods
     that are not suitable for JSBML purposes. The TreeNodeAdapter works
-    as a wrapper class for elements that are part of the SBML data 
+    as a wrapper class for elements that are part of the SBML data
     hierarchy but that do not implement the TreeNode interface. With this
-    adapter, it is possible to include the list of Creators within a 
+    adapter, it is possible to include the list of Creators within a
     history that is not a ListOf object, or the list of CVTerms in an
     annotation in the hierarchy.
-    
-  - Sebastian FrÃ¶hlich provided some contributions to the parser for the 
+
+  - Sebastian FrÃ¶hlich provided some contributions to the parser for the
     SBML level 3 layout extension package. JSBML now  supports experimental
     reading for this package. The full stable API for reading/writing of
     SBML level 3 packages is planned for the next release of JSBML.
 
   - The SBMLReader now follows the factory pattern by providing static
     methods to directly read SBML content from Files, InputStreams, or
-    Strings. Thanks to Martin GrÃ¤ÃŸlin for this idea in tracker issue 
+    Strings. Thanks to Martin GrÃ¤ÃŸlin for this idea in tracker issue
     #3300433.
 
   - JSBML now provides a Maven script file. Thanks to Igor Rodchenkov
     for contributing this file.
 
-  - Where necessary, initDefaults has been complemented with an 
+  - Where necessary, initDefaults has been complemented with an
     additional method, for which the level/version combination can be
     directly specified, i.e., it is now possible for those elements to
-    set their defaults as these would be for the specified 
+    set their defaults as these would be for the specified
     level/version combination.
 
   - A basic check to avoid setting the same meta identifier more than
     once has been implemented. It maintains a set of metaIds on the
-    SBMLDocument. Thanks to Stefan Hoops for making clear that such a 
+    SBMLDocument. Thanks to Stefan Hoops for making clear that such a
     check is mandatory.
-    
+
   - A check for duplicate identifiers has been implemented. JSBML now
     registers all elements that might have an identifier in hashes
     mapping the id to the object itself. Different rules depending on
@@ -1270,13 +1317,13 @@ libraries (jar files):
     only allowable identifiers can be accepted. To this end, the new
     interface UniqueNamedSBase tags all those elements whose id is
     intended to be unique within one model.
-        
+
   - When adding an element with undefined Level/Version combination
-    or at least with undefined Version to an element whose L/V 
+    or at least with undefined Version to an element whose L/V
     configuration has been defined, JSBML now recursively updates this
     configuration for the child element. In case of differing L/V
     configurations an exception will be thrown on adding the element.
-    
+
 ### Bug Fixes:
 
   - Corrected mistakes in the org.sbml.jsbml.util.Maths class, where
@@ -1284,7 +1331,7 @@ libraries (jar files):
 
   - When writing SBML Level 1 the name attribute (which has become the
     id attribute in later SBML versions) was never written because JSBML
-    uses the id only as an internal representation. The check for 
+    uses the id only as an internal representation. The check for
     Level 1 name attributes was not correct.
 
   - In SBML Level 1 MathML code was written in KineticLaws although
@@ -1298,20 +1345,20 @@ libraries (jar files):
 
   - [Tracker issue #3323886]: The units of Species were not derived
     correctly because if the units were not explicitly defined, the method
-    getDerivedUnitsInstance() always returned the predefined unit 
+    getDerivedUnitsInstance() always returned the predefined unit
     "substance", or null for models in Level 3. Now it considers the
     surrounding compartment, the hasOnlySubstanceUnits, and spatialSizeUnits
     attributes depending on the Level/Version configuration.
 
-  - Cloning of SBMLDocuments was not done correctly: The set of already 
+  - Cloning of SBMLDocuments was not done correctly: The set of already
     existing metaIds was initialized after adding the model to the document.
-    In the mean time, there could already be access to this set. 
+    In the mean time, there could already be access to this set.
 
   - When reading SBML content from a file or writing JSBML data structures
-    as SBML to a file, the SBMLReader/Writer did not close streams after 
+    as SBML to a file, the SBMLReader/Writer did not close streams after
     finishing. This caused that sometimes files could not be opened by other
     programs although writing was already done. Unfortunately, by correcting
-    this bug, an IOException needs to be thrown, but previously, a 
+    this bug, an IOException needs to be thrown, but previously, a
     FileNotFoundException was already sufficient. Hence, users need to catch
     a different exception now when reading/writing SBML.
 
@@ -1324,40 +1371,40 @@ libraries (jar files):
 
   - [Tracker issue #3300430]: In some condition, the JVM was not checking
     the type of an Object before adding it to a typed variable which later
-    lead to some ClassCastException that prevented jsbml to save some 
-    models. Thanks to Martin Graesslin to report the bugs alongside some 
+    lead to some ClassCastException that prevented jsbml to save some
+    models. Thanks to Martin Graesslin to report the bugs alongside some
     unit tests and to help resolved it.
-    
-  - [Tracker issue #3300490] : The method SBase.getNotesString() was 
-    returning null instead of the empty string, as stated in the java 
+
+  - [Tracker issue #3300490] : The method SBase.getNotesString() was
+    returning null instead of the empty string, as stated in the java
     documentation. This has been corrected and the empty String is returned
-    now. Thanks to Martin Graesslin to report the bugs alongside some 
+    now. Thanks to Martin Graesslin to report the bugs alongside some
     unit tests.
-       
-  - The SBML level 1 rules were incorrectly read, now when the 'type' 
+
+  - The SBML level 1 rules were incorrectly read, now when the 'type'
     attribute is set to 'rate', a RateRule is properly created.     
 
-  - The SubModel utility class was fixed and an example of how to use it 
+  - The SubModel utility class was fixed and an example of how to use it
     added.
 
   - Corrected the clone method for listOf objects. The typeOfList was
     not set in the clone so it was not possible to save a model that contain
     a cloned list.
-    
+
   - [Tracker item #3306135] : the handling to the number NaN (NotANumber) has
     been improved and the correct mathML element is created when saving the
-    formula to XML. 
-  
+    formula to XML.
+
   - The attribute denominator on level1v2 SpeciesReferences was never read.
-    Thanks to the numerus models in the SBML Test Suite to help us detecting 
+    Thanks to the numerus models in the SBML Test Suite to help us detecting
     this problem.
-  
+
 ### Known issues :
 
-  - Reading of more than one RDF Description elements in the RDF annotation 
-    block (the official SBML annotation scheme) is not supported at the 
-    moment. Planned for the next major release. 
-  
+  - Reading of more than one RDF Description elements in the RDF annotation
+    block (the official SBML annotation scheme) is not supported at the
+    moment. Planned for the next major release.
+
 ======================================================================
 ## Version 0.8-b2 (18-04-2011)
 ======================================================================
@@ -1367,14 +1414,14 @@ libraries (jar files):
   - The new interface CallableSBase ensures that only instances of this
     type may be referenced in ASTNodes. In this way, it is no longer
     possible to refer to Events from ASTNodes.
-    
+
   - Additional type of error: abstract PropertyError with its two sub-
-    types PropertyNotAvailableError and PropertyUndefinedError. The 
+    types PropertyNotAvailableError and PropertyUndefinedError. The
     PropertyNotAvailableError one indicates that a certain property
-    of an SBase is not defined for its current Level/Version 
-    combination, whereas the latter one indicates that the value 
+    of an SBase is not defined for its current Level/Version
+    combination, whereas the latter one indicates that the value
     belonging to a mandatory property, for which there is no default
-    value has not been defined. At least in the Trigger class, 
+    value has not been defined. At least in the Trigger class,
     PropertyUndefinedErrors are now thrown when attempting to access
     the value of the persistent or initialValue attribute for models
     with Level >= 3 and an undeclared value. Thanks to Roland Keller
@@ -1385,92 +1432,92 @@ libraries (jar files):
   - The class Maths, a compilation of useful mathematical functions,
     provided an implementation of the factorial function that took
     a double as its argument. However, for this purpose, the Gamma
-    function must be implemented. We changed this function to take 
+    function must be implemented. We changed this function to take
     integer values only.
 
   - A NullPointerException could occur when deriving the unit of an
     expression containing a call to the factorial function. Thanks
-    to Roland Keller for reporting this. 
+    to Roland Keller for reporting this.
 
   - [Tracker issue #3208887] : When trying to access the previously
     set value for  UseValuesFromTriggerTime it was possible that a
     NullPointerException could occur due to the attempt to clone this
-    element. This has been fixed. Thanks to Sebastian FrÃ¶hlich for 
+    element. This has been fixed. Thanks to Sebastian FrÃ¶hlich for
     reporting this.
 
-  - [Tracker issue #3208903] : Priority elements were 
-    properly read and written. Thanks to Sebastian FrÃ¶hlich for 
+  - [Tracker issue #3208903] : Priority elements were
+    properly read and written. Thanks to Sebastian FrÃ¶hlich for
     reporting this.
 
-  - [Tracker issue #3204275] : It was impossible to set the size of a 
-    compartment for models in Level 3 if the spatial dimensions was 
-    undefined, i.e., NaN. Since it is only prohibited to set the size 
-    if the dimensions equal 0, we provided another test in the set 
+  - [Tracker issue #3204275] : It was impossible to set the size of a
+    compartment for models in Level 3 if the spatial dimensions was
+    undefined, i.e., NaN. Since it is only prohibited to set the size
+    if the dimensions equal 0, we provided another test in the set
     method in Compartment to allow for this.
-  
+
   - Corrected a typo in the method SBO.getAntisenseRNA(), the method was
     always returning -1. It is now returning the correct value (317), thanks
     to Anushya Muruganujan for reporting this.
 
-  - [Tracker issue #3175906] : Removed plenty of unused methods in the 
-    Annotation class that were dealing with writing the annotation as XML. 
+  - [Tracker issue #3175906] : Removed plenty of unused methods in the
+    Annotation class that were dealing with writing the annotation as XML.
     Everything is handle now in the stax SBMLWriter.
-    The getAnnotationString method was not present in the SBase interface, 
+    The getAnnotationString method was not present in the SBase interface,
     it is now added and should be the only method used to get the Annotation
-    as XML. 
-    
-  - [Tracker issue #3175911] : compartment.spatialDimensions type changed 
-    to double to be consistent with the SBML level 3 specifications, as a 
+    as XML.
+
+  - [Tracker issue #3175911] : compartment.spatialDimensions type changed
+    to double to be consistent with the SBML level 3 specifications, as a
     consequence the return type of the getSpatialDimensions as been changed.
-    
+
   - [Tracker issue #3176548] : id containing underscores were not parsed
     properly by the infix formula parser, this is now fix and any valid SId
     should work. Thanks to Goksel Misirli for reporting this.
-    
+
   - [Tracker issue #3175833] : annotation tags were not properly closed when
     a mathML element was present on the same element.
     Thanks to Goksel Misirli for reporting this.  
-  
-  - A new interface, CallableSBase, was introduced to encompass all the 
+
+  - A new interface, CallableSBase, was introduced to encompass all the
     different SBML elements that can be referenced inside a mathML 'ci'
     element. As a consequence, some methods signature have changed.
 
-  - [Tracker issue #3175833] : in some cases, an empty annotation was 
-    written if a metaid was defined. Some methods were added to the 
+  - [Tracker issue #3175833] : in some cases, an empty annotation was
+    written if a metaid was defined. Some methods were added to the
     Annotation class to test which part of the annotation is defined.
 
   - [Tracker issue #3196284] : the unit exponent was incorrectly always read
-    as an integer. This has been corrected and if the level of the model is 
-    3, the exponent is read as a double. 
+    as an integer. This has been corrected and if the level of the model is
+    3, the exponent is read as a double.
 
   - [Tracker issue #3196638] : the message constraint was not properly read,
-    it was stored in the notes instead of the message ! This is now 
+    it was stored in the notes instead of the message ! This is now
     corrected, thanks to the person who reported that.
 
   - Corrected several bugs in the SBMLValidator and implemented properly all
-    the classes related to SBMLdocument.checkConsistency() so that is works 
+    the classes related to SBMLdocument.checkConsistency() so that is works
     as expected.
-    
-  - [Tracker issue #3199792] : localParameter were not parsed correctly in 
+
+  - [Tracker issue #3199792] : localParameter were not parsed correctly in
     SBML level 3. Thanks for the persons who reported it.
-      
+
   - [Tracker issue #3216183] : all the XML elements that were belonging to
-    the RDF namespace were sent to a parser that understood only the 
+    the RDF namespace were sent to a parser that understood only the
     specific SBML RDF annotations. This as been fixed and we can now have
     some RDF elements anywhere in the annotation.   
-      
+
 ### Known issues :
 
-  - SBML level 1 rules when the 'type' attribute is equal to 'rate' are 
+  - SBML level 1 rules when the 'type' attribute is equal to 'rate' are
     created as AssignmentRule instead of RateRule.
-  
-  - The support for the mathML elements notanumber and infinity is not 
+
+  - The support for the mathML elements notanumber and infinity is not
     complete.
-  
-  - Reading of more than one RDF Description elements in the RDF annotation 
-    block (the official SBML annotation scheme) is not supported at the 
-    moment. 
-  
+
+  - Reading of more than one RDF Description elements in the RDF annotation
+    block (the official SBML annotation scheme) is not supported at the
+    moment.
+
 ===========================================================================
 ## Version 0.8-b1 (04-02-2011)
 ===========================================================================
@@ -1478,22 +1525,22 @@ libraries (jar files):
 This the first beta release of JSBML 0.8, JSBML is a community-driven
 project to create a free, open-source, pure Java library for reading,
 writing, and manipulating SBML files and data streams. It is an
-alternative to the mixed Java/native code-based interface provided in 
+alternative to the mixed Java/native code-based interface provided in
 libSBML.
 
 For more details, please visit http://sbml.org/Software/JSBML
 
 ### Bug Fixes:
   - [Tracker issue #3137967]
-    Namespaces in the sbml element were incorrectly parsed, some known 
-    namespaces like html were not kept for examples. This is fixed, thanks 
+    Namespaces in the sbml element were incorrectly parsed, some known
+    namespaces like html were not kept for examples. This is fixed, thanks
     to Paulo Maia for reporting this.
 
 ### Known issues:
   - problem of output indentation for notes, when there is several top
     level elements.
-  
-  - the method SBMLDocument.checkConsistency() is not working. There is a 
+
+  - the method SBMLDocument.checkConsistency() is not working. There is a
     problem in the parsing of the XML return by the sbml.org validator.
 
   - dependency on the sbml.org validator which might not be robust
@@ -1504,7 +1551,7 @@ For more details, please visit http://sbml.org/Software/JSBML
   - in a mathML block, if one 'ci'element is suppose to represent a
     functionDefinition but the id is not a valid id, the type of the
     ASTNode is not set properly, so there are some errors when trying to
-    use the corresponding ASTNode tree. (cf model generated by COBRA) 
+    use the corresponding ASTNode tree. (cf model generated by COBRA)
 
 ---------------------------------------------------------------------------
 
