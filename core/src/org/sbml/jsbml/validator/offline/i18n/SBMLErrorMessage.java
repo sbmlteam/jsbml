@@ -280,7 +280,7 @@ public class SBMLErrorMessage extends ResourceBundle {
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10599), "");
 
-        contents.put(Integer.toString(SBMLErrorCodes.CORE_1.7-SNAPSHOT), "The system of equations created from an SBML model must not be overdetermined (Reference: L3V1 Section 4.9.5).");
+        contents.put(Integer.toString(SBMLErrorCodes.CORE_10601), "The system of equations created from an SBML model must not be overdetermined (Reference: L3V1 Section 4.9.5).");
 
         contents.put(Integer.toString(SBMLErrorCodes.CORE_10701), "The value of the 'sboTerm' attribute on a <model> is expected to be an SBO identifier (http://www.biomodels.net/SBO/).  In SBML Level 2 prior to Version 4 the value is expected to be a term derived from SBO:0000004, \"modeling framework\"; in Version 4 and above it is expected to be a term derived from SBO:0000231 \"occurring entity representation\").Reference: L3V1 Section 5).");
 

@@ -77,7 +77,7 @@ public class SBMLException extends XMLException {
     /**
      * Error in the system of equations in the model: the system is
      * overdetermined, therefore violating a tenet of proper SBML. With
-     * respect to the SBML specification, this is validation rule #1.7-SNAPSHOT in
+     * respect to the SBML specification, this is validation rule #10601 in
      * the SBML Level 2 Versions 2 and 3 specifications.
      */
     OVERDETERMINED_MODEL,

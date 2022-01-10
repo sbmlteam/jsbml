@@ -908,11 +908,11 @@ public interface SBMLErrorCodes {
  	 public static final int CORE_10599 = 10599; 
 
 	 /**
-	  * Error code 1.7-SNAPSHOT:
+	  * Error code 10601:
 	  * The system of equations created from an SBML model must not be overdetermined. 
 	  * Reference: L3V1 Section 4.9.5 
 	  */
- 	 public static final int CORE_1.7-SNAPSHOT = 1.7-SNAPSHOT; 
+ 	 public static final int CORE_10601 = 10601; 
 
 	 /**
 	  * Error code 10701:
