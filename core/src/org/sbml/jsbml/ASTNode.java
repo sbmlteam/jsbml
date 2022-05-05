@@ -1821,10 +1821,19 @@ public class ASTNode extends AbstractTreeNode {
    *            the node to add as child.
    */
   public void addChild(ASTNode child) {
+    /*
+    This code for debugging was commented out because it can cause an OutOfBoundsException during
+    the parsing of a model if it contains a lambda element. The reason for this is that
+    in astNodeToTree units are derived for the node and for lambda nodes the children
+    are necessary for this derivation. The children are not yet present however as addChild()
+    is responsible for adding them.
+     */
+    /*
     if (isDebugEnabled) {
       logger.debug(" adding child current node: \n" + astNodeToTree(this, "", ""));
       logger.debug(" adding child: \n" + astNodeToTree(child, "", ""));
     }
+     */
     listOfNodes.add(child);
     setParentSBMLObject(child, parentSBMLObject, 0);
     child.setParent(this);
