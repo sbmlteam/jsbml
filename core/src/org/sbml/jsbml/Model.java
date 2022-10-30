@@ -750,7 +750,7 @@ implements UniqueNamedSBase, IdManager {
    *         {@link UniqueNamedSBase}.
    */
   public boolean containsUniqueNamedSBase(String id) {
-    return mapOfUniqueNamedSBases.containsKey(id);
+    return mapOfUniqueNamedSBases == null ? false : mapOfUniqueNamedSBases.containsKey(id);
   }
 
 
