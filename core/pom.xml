@@ -55,7 +55,7 @@
     <repository>
       <id>maven-central</id>
       <name>Maven central repository</name>
-      <url>http://repo.maven.apache.org/maven2/</url>
+      <url>https://repo.maven.apache.org/maven2/</url>
     </repository>
     <repository>
       <id>biojava-maven-repo</id>
@@ -65,7 +65,7 @@
     <repository>
       <id>ebi-repo</id>
       <name>The EBI internal repository</name>
-      <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+      <url>https://www.ebi.ac.uk/~maven/m2repo</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>

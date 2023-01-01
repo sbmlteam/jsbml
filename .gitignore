@@ -34,6 +34,7 @@ bin
 jsbmlTestResults.txt
 target
 libsbmlCompatibilityTestResults.txt
+jsbmlOnlineValidatorTestResults.txt
 *.log
 **/.wtpmodules
 **/.fatjar
@@ -70,5 +71,6 @@ dev/maven/*.asc
 MyTest*
 
 *.dll
-
+*.save
+*.bak
 .pydevproject

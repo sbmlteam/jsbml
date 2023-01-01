@@ -445,6 +445,36 @@
 
 	</target>
 
+        <!-- =================================================================== -->
+        <!-- Test the SBML online validator                                      -->
+        <!-- =================================================================== -->
+        <target
+          name="test-online-validator"
+          description="Test the SBML online validator"
+          depends="jar"
+        >
+
+                <!-- Launching the tests for core and packages -->
+                <echo message="There should be NO failures or errors."/>
+                <echo message=""/>
+                <echo message="You can see a detailled output of the tests on the file: jsbmlTestResults.txt"/>
+                <echo message=""/>
+
+                <junit printsummary="yes" >
+                        <formatter type="plain"/>
+                        <test name="org.sbml.jsbml.xml.test.CheckConsistencyTests" outfile="jsbmlOnlineValidatorTestResults">
+                                <formatter type="plain"/>
+                        </test>
+                        <classpath>
+                                <path refid="classpath"/>
+                                <pathelement location="${dist.dir}/${name}-${version}.jar"/>
+                        </classpath>
+                </junit>
+                <echo message=""/>
+
+        </target>
+
+
 	<!-- =================================================================== -->
 	<!-- Test the jsbml library (long)                                       -->
 	<!-- =================================================================== -->

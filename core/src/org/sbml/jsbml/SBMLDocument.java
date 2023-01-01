@@ -606,7 +606,7 @@ public class SBMLDocument extends AbstractSBase {
    * @see #checkConsistencyOffline()
    */
   public int checkConsistency() {
-    return checkConsistencyOnline();
+    return checkConsistencyOffline();
   }
   
   

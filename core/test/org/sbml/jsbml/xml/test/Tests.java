@@ -35,10 +35,13 @@ import org.sbml.jsbml.test.RemoveFromParentTest;
  * @since 0.8
  */
 @RunWith(value=Suite.class)
-@SuiteClasses(value={SBML_L1VxTests.class, SBML_L2V1Test.class, CheckConsistencyTests.class, GetNotesStringTests.class,
+@SuiteClasses(value={SBML_L1VxTests.class, SBML_L2V1Test.class, GetNotesStringTests.class,
   UnregisterTests.class, RemoveFromParentTest.class, CVTermTests.class, RemoveFromParentTest.class, ASTNodeTest.class,
   ASTNodeInfixParsingTest.class, TestInfixOperatorPrecedence.class, IdRegistrationTest.class, XMLTokenTest.class,
   CreatorTests.class, NestedCVTermTests.class, XXEInjectionTests.class, LibsbmlCompatibilityTests.class})
 public class Tests {
 
 }
+
+// Removing for now to prevent problems with SBML online validator
+// CheckConsistencyTests.class
