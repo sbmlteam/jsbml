@@ -250,16 +250,22 @@ public class ModelBuilder {
    * @param sizeUnits
    * @return
    */
-  public Compartment buildCompartment(String id, boolean constant, String name, double spatialDimensions, double size, String sizeUnits) {
+  public Compartment buildCompartment(String id, boolean constant, String name,
+      double spatialDimensions, double size, String sizeUnits) {
     Model model = getModel();
-    Compartment c = model.createCompartment(id);
-    c.setConstant(constant);
-    c.setName(name);
-    c.setSpatialDimensions(spatialDimensions);
-    c.setSize(size);
-    if (sizeUnits != null) {
-      c.setUnits(sizeUnits);
+    Compartment c = model.getCompartment(id);
+
+    if (c == null) {
+      c = model.createCompartment(id);
+      c.setConstant(constant);
+      c.setName(name);
+      c.setSpatialDimensions(spatialDimensions);
+      c.setSize(size);
+      if (sizeUnits != null) {
+        c.setUnits(sizeUnits);
+      }
     }
+
     return c;
   }
 
@@ -298,8 +304,18 @@ public class ModelBuilder {
    * @return
    */
   public Model buildModel(String id, String name) {
-    Model model = doc.createModel(id);
-    model.setName(name);
+    Model model;
+
+    if (doc.isSetModel()) {
+      model = doc.getModel();
+    } else {
+      model = doc.createModel(id);
+    }
+
+    if (name != null) {
+      model.setName(name);
+    }
+
     return model;
   }
 
@@ -312,12 +328,19 @@ public class ModelBuilder {
    * @param units
    * @return
    */
-  public Parameter buildParameter(String id, String name, double value, boolean constant, String units) {
-    Parameter p = getModel().createParameter(id);
-    p.setName(name);
-    p.setValue(value);
-    p.setConstant(constant);
-    p.setUnits(units);
+  public Parameter buildParameter(String id, String name, double value,
+      boolean constant, String units) {
+    Model model = getModel();
+    Parameter p = model.getParameter(id);
+
+    if (p == null) {
+      p = model.createParameter(id);
+      p.setName(name);
+      p.setValue(value);
+      p.setConstant(constant);
+      p.setUnits(units);
+    }
+
     return p;
   }
 
@@ -369,15 +392,21 @@ public class ModelBuilder {
    * @param reversible
    * @return
    */
-  public Reaction buildReaction(String id, String name, String compartment, boolean fast, boolean reversible) {
+  public Reaction buildReaction(String id, String name, String compartment,
+      boolean fast, boolean reversible) {
     Model model = getModel();
-    Reaction r = model.createReaction(id);
-    r.setName(name);
-    if (compartment != null) {
-      r.setCompartment(compartment);
+    Reaction r = model.getReaction(id);
+
+    if (r == null) {
+      r = model.createReaction(id);
+      r.setName(name);
+      if (compartment != null) {
+        r.setCompartment(compartment);
+      }
+      r.setFast(fast);
+      r.setReversible(reversible);
     }
-    r.setFast(fast);
-    r.setReversible(reversible);
+
     return r;
   }
 
@@ -451,18 +480,23 @@ public class ModelBuilder {
    * @return
    */
   public Species buildSpecies(String id, String name,
-    String compartmentId, boolean hasOnlySubstanceUnits,
-    boolean boundaryCondition, boolean constant, double initialConcentration,
-    String substanceUnits) {
+      String compartmentId, boolean hasOnlySubstanceUnits,
+      boolean boundaryCondition, boolean constant, double initialConcentration,
+      String substanceUnits) {
     Model model = getModel();
-    Species s = model.createSpecies(id);
-    s.setName(name);
-    s.setCompartment(compartmentId);
-    s.setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
-    s.setBoundaryCondition(boundaryCondition);
-    s.setConstant(constant);
-    s.setInitialConcentration(initialConcentration);
-    s.setSubstanceUnits(substanceUnits);
+    Species s = model.getSpecies(id);
+
+    if (s == null) {
+      s = model.createSpecies(id);
+      s.setName(name);
+      s.setCompartment(compartmentId);
+      s.setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
+      s.setBoundaryCondition(boundaryCondition);
+      s.setConstant(constant);
+      s.setInitialConcentration(initialConcentration);
+      s.setSubstanceUnits(substanceUnits);
+    }
+
     return s;
   }
 
@@ -483,13 +517,18 @@ public class ModelBuilder {
    */
   public UnitDefinition buildUnitDefinition(String id, String name, Unit... units) {
     Model model = getModel();
-    UnitDefinition ud = model.createUnitDefinition(id);
-    ud.setName(name);
-    if (units != null) {
-      for (Unit unit : units) {
-        ud.addUnit(unit);
+    UnitDefinition ud = model.getUnitDefinition(id);
+
+    if (ud == null) {
+      ud = model.createUnitDefinition(id);
+      ud.setName(name);
+      if (units != null) {
+        for (Unit unit : units) {
+          ud.addUnit(unit);
+        }
       }
     }
+
     return ud;
   }
 
