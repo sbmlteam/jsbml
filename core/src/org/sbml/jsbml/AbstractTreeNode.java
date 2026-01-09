@@ -437,7 +437,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
         changeType = 0; // element added
       } else if ((oldValue != null) && (newValue == null)) {
         changeType = 1; // element removed
-      } else if ((oldValue != null) && !oldValue.equals(newValue)) {
+      } else if ((oldValue != null) &&
+                (!oldValue.equals(newValue) || oldValue != newValue)) {
         changeType = 2; // real property change
       }
       if (-1 < changeType) {
