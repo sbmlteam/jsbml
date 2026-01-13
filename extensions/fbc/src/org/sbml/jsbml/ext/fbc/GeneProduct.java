@@ -112,12 +112,22 @@ public class GeneProduct extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * Creates a new {@link GeneProduct} instance.
+   * Creates a new {@link GeneProduct} instance by copying all fields.
    * 
    * @param nsb the instance to clone
    */
   public GeneProduct(GeneProduct nsb) {
     super(nsb);
+
+    // copy GeneProduct-specific fields
+    if (nsb.isSetLabel()) {
+      // use the setter to keep property-change semantics consistent
+      setLabel(nsb.getLabel());
+    }
+
+    if (nsb.isSetAssociatedSpecies()) {
+      setAssociatedSpecies(nsb.getAssociatedSpecies());
+    }
   }
 
   /**
