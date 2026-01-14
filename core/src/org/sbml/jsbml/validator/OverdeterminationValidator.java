@@ -814,6 +814,46 @@ public class OverdeterminationValidator {
   }
 
   /**
+   * Resolve an identifier from a MathML {@link ASTNode} to the
+   * corresponding {@link SBase} object in the model.
+   *
+   * This is in particular needed for SBML Level&nbsp;3 Version&nbsp;2
+   * {@code rateOf} csymbols, where the {@link ASTNode#getVariable()}
+   * may not yet be initialized.
+   *
+   * @param id the SBML id of the object
+   * @return the corresponding {@link SBase}, or {@code null} if none
+   *         can be found.
+   */
+  private SBase resolveSBaseFromId(String id) {
+    if (model == null || id == null) {
+      return null;
+    }
+
+    Species species = model.getSpecies(id);
+    if (species != null) {
+      return species;
+    }
+
+    Compartment compartment = model.getCompartment(id);
+    if (compartment != null) {
+      return compartment;
+    }
+
+    Parameter parameter = model.getParameter(id);
+    if (parameter != null) {
+      return parameter;
+    }
+
+    Reaction reaction = model.getReaction(id);
+    if (reaction != null) {
+      return reaction;
+    }
+
+    return null;
+  }
+
+  /**
    * Returns the variables in a MathML object without local parameter
    * 
    * @param param
@@ -824,45 +864,58 @@ public class OverdeterminationValidator {
   private void getVariables(ListOf<LocalParameter> param, ASTNode node,
     List<SBase> variables, int level) {
     
-    if (node  == null)
-    {
+    if (node == null) {
       return;
     }
     
-    // found node with species
-    if ((node.getChildCount() == 0) && (node.isString()) &&
-        (node.getType() != Type.NAME_TIME) &&
-        (node.getType() != Type.NAME_AVOGADRO)) { // TODO - deal with csymbol rateOf as well ?
+    // found node with species / compartment / parameter / reaction id
+    if ((node.getChildCount() == 0) && node.isString()
+        && (node.getType() != Type.NAME_TIME)
+        && (node.getType() != Type.NAME_AVOGADRO)) {
+      
       if (!node.isConstant()) {
-        if (param == null) {
-          SBase variable=node.getVariable();
-          if (level==1) {
-            int insertingPosition = 0;
-            for (SBase element:variables) {
-              if (!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
-                insertingPosition++;
-              }
-            }
-            variables.add(insertingPosition, variable);
+
+        // Try to get the referenced SBase. For identifiers used in
+        // csymbol rateOf (L3V2), getVariable() may not yet be set,
+        // so we fall back to resolving the id in the model.
+        SBase variable = node.getVariable();
+        if (variable == null) {
+          String id = node.getName();
+          if (id != null) {
+            variable = resolveSBaseFromId(id);
           }
-          else {
-            variables.add(variable);
-          }
-        } else {
-          if (!param.contains(node.getVariable())) {
-            SBase variable=node.getVariable();
-            if (level==1) {
-              int insertingPosition=0;
-              for (SBase element:variables) {
-                if (!(element instanceof Parameter) ||
-                    (!((Parameter) element).isSetValue())) {
+        }
+
+        if (variable != null) {
+          if (param == null) {
+            // Global identifier
+            if (level == 1) {
+              int insertingPosition = 0;
+              for (SBase element : variables) {
+                if (!(element instanceof Parameter)
+                    || (!((Parameter) element).isSetValue())) {
                   insertingPosition++;
                 }
               }
               variables.add(insertingPosition, variable);
-            }
-            else {
+            } else {
               variables.add(variable);
+            }
+          } else {
+            // Exclude local parameters
+            if (!param.contains(variable)) {
+              if (level == 1) {
+                int insertingPosition = 0;
+                for (SBase element : variables) {
+                  if (!(element instanceof Parameter)
+                      || (!((Parameter) element).isSetValue())) {
+                    insertingPosition++;
+                  }
+                }
+                variables.add(insertingPosition, variable);
+              } else {
+                variables.add(variable);
+              }
             }
           }
         }
