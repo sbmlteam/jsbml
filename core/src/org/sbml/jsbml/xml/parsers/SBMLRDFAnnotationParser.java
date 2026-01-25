@@ -70,6 +70,20 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
    * Namespace for vCard4 RDF (used by some tools such as libSBML).
    */
   private static final String VCARD4_NS = "http://www.w3.org/2006/vcard/ns#";
+    // vCard 3 element names
+  private static final String VCARD3_ELEMENT_N       = "N";
+  private static final String VCARD3_ELEMENT_EMAIL   = "EMAIL";
+  private static final String VCARD3_ELEMENT_ORG     = "ORG";
+  private static final String VCARD3_ELEMENT_FAMILY  = "Family";
+  private static final String VCARD3_ELEMENT_GIVEN   = "Given";
+  private static final String VCARD3_ELEMENT_ORGNAME = "Orgname";
+
+  // vCard 4 element names
+  private static final String VCARD4_ELEMENT_HAS_NAME          = "hasName";
+  private static final String VCARD4_ELEMENT_FAMILY_NAME       = "family-name";
+  private static final String VCARD4_ELEMENT_GIVEN_NAME        = "given-name";
+  private static final String VCARD4_ELEMENT_HAS_EMAIL         = "hasEmail";
+  private static final String VCARD4_ELEMENT_ORGANIZATION_NAME = "organization-name";
 
   /**
    * 
@@ -299,9 +313,9 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       // nothing really mandatory there !!
 
       // vCard:N->vCard:Family|vCard:given  vCard:EMAIL   vCard:ORG->vCard:Orgname
-      XMLNode nameNode = xmlNode.getChildElement("N", Creator.URI_RDF_VCARD_NS);
-      XMLNode emailNode = xmlNode.getChildElement("EMAIL", Creator.URI_RDF_VCARD_NS);
-      XMLNode orgNode = xmlNode.getChildElement("ORG", Creator.URI_RDF_VCARD_NS);
+      XMLNode nameNode  = xmlNode.getChildElement(VCARD3_ELEMENT_N,     Creator.URI_RDF_VCARD_NS);
+      XMLNode emailNode = xmlNode.getChildElement(VCARD3_ELEMENT_EMAIL, Creator.URI_RDF_VCARD_NS);
+      XMLNode orgNode   = xmlNode.getChildElement(VCARD3_ELEMENT_ORG,   Creator.URI_RDF_VCARD_NS);
 
       // at least one of these three nodes is present
       if (nameNode != null || emailNode != null || orgNode != null) {
@@ -765,14 +779,14 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
         // ---- vCard3 name (N/Family/Given) ----
         boolean nameFound = false;
-        List<XMLNode> nameNodes = liNode.getChildElements("N", Creator.URI_RDF_VCARD_NS);
+        List<XMLNode> nameNodes = liNode.getChildElements(VCARD3_ELEMENT_N, Creator.URI_RDF_VCARD_NS);
 
         if (nameNodes != null && nameNodes.size() == 1)
         {
           XMLNode nameNode = nameNodes.get(0);
 
           // family name
-          List<XMLNode> famillyNameNodes = nameNode.getChildElements("Family", Creator.URI_RDF_VCARD_NS);
+          List<XMLNode> famillyNameNodes = nameNode.getChildElements(VCARD3_ELEMENT_FAMILY, Creator.URI_RDF_VCARD_NS);
           if (famillyNameNodes != null & famillyNameNodes.size() == 1)
           {
             XMLNode famillyNode = famillyNameNodes.get(0);
@@ -796,7 +810,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
           }
 
           // given name
-          List<XMLNode> firstNameNodes = nameNode.getChildElements("Given", Creator.URI_RDF_VCARD_NS);
+          List<XMLNode> firstNameNodes = nameNode.getChildElements(VCARD3_ELEMENT_GIVEN, Creator.URI_RDF_VCARD_NS);
           if (firstNameNodes != null & firstNameNodes.size() == 1)
           {
             XMLNode firstNameNode = firstNameNodes.get(0);
@@ -831,12 +845,12 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         // ---- vCard4 name (hasName/family-name/given-name) ----
         if (!nameFound)
         {
-          List<XMLNode> v4NameNodes = liNode.getChildElements("hasName", VCARD4_NS);
+          List<XMLNode> v4NameNodes = liNode.getChildElements(VCARD4_ELEMENT_HAS_NAME, VCARD4_NS);
           if (v4NameNodes != null && v4NameNodes.size() == 1)
           {
             XMLNode hasNameNode = v4NameNodes.get(0);
 
-            List<XMLNode> familyNodes = hasNameNode.getChildElements("family-name", VCARD4_NS);
+            List<XMLNode> familyNodes = hasNameNode.getChildElements(VCARD4_ELEMENT_FAMILY_NAME, VCARD4_NS);
             if (familyNodes != null && familyNodes.size() == 1)
             {
               XMLNode familyNode = familyNodes.get(0);
@@ -849,7 +863,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
               }
             }
 
-            List<XMLNode> givenNodes = hasNameNode.getChildElements("given-name", VCARD4_NS);
+            List<XMLNode> givenNodes = hasNameNode.getChildElements(VCARD4_ELEMENT_GIVEN_NAME, VCARD4_NS);
             if (givenNodes != null && givenNodes.size() == 1)
             {
               XMLNode givenNode = givenNodes.get(0);
@@ -865,7 +879,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         }
 
         // ---- email (vCard3: EMAIL) ----
-        List<XMLNode> emailNodes = liNode.getChildElements("EMAIL", Creator.URI_RDF_VCARD_NS);
+                List<XMLNode> emailNodes = liNode.getChildElements(VCARD3_ELEMENT_EMAIL, Creator.URI_RDF_VCARD_NS);
 
         if (emailNodes != null && emailNodes.size() == 1)
         {
@@ -892,7 +906,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         // ---- email (vCard4: hasEmail) ----
         if (!creator.isSetEmail())
         {
-          List<XMLNode> v4EmailNodes = liNode.getChildElements("hasEmail", VCARD4_NS);
+          List<XMLNode> v4EmailNodes = liNode.getChildElements(VCARD4_ELEMENT_HAS_EMAIL, VCARD4_NS);
 
           if (v4EmailNodes != null && v4EmailNodes.size() == 1)
           {
@@ -909,13 +923,14 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         }
 
         // ---- organisation (vCard3: ORG/Orgname) ----
-        List<XMLNode> orgNodes = liNode.getChildElements("ORG", Creator.URI_RDF_VCARD_NS);
+        List<XMLNode> orgNodes = liNode.getChildElements(VCARD3_ELEMENT_ORG, Creator.URI_RDF_VCARD_NS);
 
         if (orgNodes != null && orgNodes.size() == 1)
         {
           XMLNode firstNode = orgNodes.get(0);
 
-          List<XMLNode> orgNameNodes = firstNode.getChildElements("Orgname", Creator.URI_RDF_VCARD_NS);
+          List<XMLNode> orgNameNodes = firstNode.getChildElements(VCARD3_ELEMENT_ORGNAME, Creator.URI_RDF_VCARD_NS);
+
 
           if (orgNameNodes != null & orgNameNodes.size() == 1)
           {
@@ -950,7 +965,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         // ---- organisation (vCard4: organization-name) ----
         if (!creator.isSetOrganisation())
         {
-          List<XMLNode> v4OrgNodes = liNode.getChildElements("organization-name", VCARD4_NS);
+          List<XMLNode> v4OrgNodes = liNode.getChildElements(VCARD4_ELEMENT_ORGANIZATION_NAME, VCARD4_NS);
 
           if (v4OrgNodes != null && v4OrgNodes.size() == 1)
           {
@@ -1739,34 +1754,34 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
           if (creator.isSetFamilyName() || creator.isSetGivenName())
           {
-            XMLNode vCardNNode = getOrCreate(liNode, "N", Creator.URI_RDF_VCARD_NS, "vCard");
+            XMLNode vCardNNode = getOrCreate(liNode, VCARD3_ELEMENT_N, Creator.URI_RDF_VCARD_NS, "vCard");
             vCardNNode.addAttr("parseType", "Resource", Annotation.URI_RDF_SYNTAX_NS, "rdf");
 
             if (creator.isSetFamilyName())
             {
-              XMLNode vCardFamilyNode = getOrCreate(vCardNNode, "Family", Creator.URI_RDF_VCARD_NS, "vCard");
-              vCardFamilyNode.insertChild(0, new XMLNode(creator.getFamilyName()));
+              XMLNode vCardFamilyNode = getOrCreate(vCardNNode, VCARD3_ELEMENT_FAMILY, Creator.URI_RDF_VCARD_NS, "vCard");
+              vCardFamilyNode.insertChild(0, new XMLNode(creator.getFamilyName())); 
             }
 
             if (creator.isSetGivenName())
             {
-              XMLNode vCardGivenNode = getOrCreate(vCardNNode, "Given", Creator.URI_RDF_VCARD_NS, "vCard");
+              XMLNode vCardGivenNode = getOrCreate(vCardNNode, VCARD3_ELEMENT_GIVEN, Creator.URI_RDF_VCARD_NS, "vCard");
               vCardGivenNode.insertChild(0, new XMLNode(creator.getGivenName()));
             }
           }
 
           if (creator.isSetEmail())
           {
-            XMLNode vCardEmailNode = getOrCreate(liNode, "EMAIL", Creator.URI_RDF_VCARD_NS, "vCard");
+            XMLNode vCardEmailNode = getOrCreate(liNode, VCARD3_ELEMENT_EMAIL, Creator.URI_RDF_VCARD_NS, "vCard");
             vCardEmailNode.insertChild(0, new XMLNode(creator.getEmail()));
           }
 
           if (creator.isSetOrganisation())
           {
-            XMLNode vCardOrgNode = getOrCreate(liNode, "ORG", Creator.URI_RDF_VCARD_NS, "vCard");
+            XMLNode vCardOrgNode = getOrCreate(liNode, VCARD3_ELEMENT_ORG, Creator.URI_RDF_VCARD_NS, "vCard");
             vCardOrgNode.addAttr("parseType", "Resource", Annotation.URI_RDF_SYNTAX_NS, "rdf");
 
-            XMLNode vCardOrgNameNode = getOrCreate(vCardOrgNode, "Orgname", Creator.URI_RDF_VCARD_NS, "vCard");
+            XMLNode vCardOrgNameNode = getOrCreate(vCardOrgNode, VCARD3_ELEMENT_ORGNAME, Creator.URI_RDF_VCARD_NS, "vCard");
             vCardOrgNameNode.insertChild(0, new XMLNode(creator.getOrganisation()));
           }
 
