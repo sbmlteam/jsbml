@@ -38,6 +38,7 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
@@ -45,6 +46,9 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.w3c.dom.Node;
+
+import com.thoughtworks.xstream.io.binary.Token.StartNode;
 
 /**
  * This class creates a bipartite graph and a matching for the given model using
@@ -821,33 +825,29 @@ public class OverdeterminationValidator {
    * {@code rateOf} csymbols, where the {@link ASTNode#getVariable()}
    * may not yet be initialized.
    *
+   * Only model-level {@link Species}, {@link Compartment},
+   * {@link Parameter}, and {@link Reaction} objects are considered.
+   *
    * @param id the SBML id of the object
    * @return the corresponding {@link SBase}, or {@code null} if none
-   *         can be found.
+   *         can be found or if the id refers to another type of
+   *         {@link NamedSBase}.
    */
   private SBase resolveSBaseFromId(String id) {
     if (model == null || id == null) {
       return null;
     }
 
-    Species species = model.getSpecies(id);
-    if (species != null) {
-      return species;
+    NamedSBase named = model.findNamedSBase(id);
+    if (named == null) {
+      return null;
     }
 
-    Compartment compartment = model.getCompartment(id);
-    if (compartment != null) {
-      return compartment;
-    }
-
-    Parameter parameter = model.getParameter(id);
-    if (parameter != null) {
-      return parameter;
-    }
-
-    Reaction reaction = model.getReaction(id);
-    if (reaction != null) {
-      return reaction;
+    if (named instanceof Species
+        || named instanceof Compartment
+        || named instanceof Parameter
+        || named instanceof Reaction) {
+      return named;
     }
 
     return null;
