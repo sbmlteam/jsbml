@@ -727,12 +727,23 @@ public class UnitsCompiler implements ASTNode2Compiler {
   @Override
   // TODO: Specify generic type T i.e. ASTNode2Value<?>
   public <T> ASTNode2Value<?> lambda(List<ASTNode2> values) throws SBMLException {
-    for (int i = 0; i < values.size() - 1; i++) {
-      namesToUnits.put(values.get(i).toString(),
-        values.get(i).compile(this));
+    // When the lambda node is first constructed, its child list may be empty;
+    // in that case, there is no body and no arguments yet, so we cannot derive
+    // any meaningful units. Returning an invalid unit definition here avoids
+    // out-of-bounds exceptions while signalling "units unknown".
+    if (values == null || values.isEmpty()) {
+      return invalid();
     }
-    return new ASTNode2Value(values.get(values.size() - 1).compile(this)
-      .getUnits(), this);
+
+    // For a fully-formed lambda expression, all but the last child are
+    // arguments; the last child is the body whose units we want to derive.
+    for (int i = 0; i < values.size() - 1; i++) {
+      namesToUnits.put(values.get(i).toString(), values.get(i).compile(this));
+    }
+
+    return new ASTNode2Value(
+        values.get(values.size() - 1).compile(this).getUnits(),
+        this);
   }
 
   /* (non-Javadoc)
