@@ -846,11 +846,26 @@ public class SBMLReader {
             isInsideAnnotation = false;
             annotationDeepness = -1;
 
-            // calling the annotation parsers
-            for (AnnotationReader annoReader : annotationParsers) {
-              annoReader.processAnnotation((SBase) ((Annotation) lastElement).getParent()); // or take the second element in the stack ??
-            }
+            // calling the annotation parsers, but be robust against unexpected stack contents
+            if (lastElement instanceof Annotation) {
+              Annotation annotation = (Annotation) lastElement;
+              Object parent = annotation.getParent();
 
+              if (parent instanceof SBase) {
+                for (AnnotationReader annoReader : annotationParsers) {
+                  annoReader.processAnnotation((SBase) parent); // or take the second element in the stack ??
+                }
+              } else {
+                logger.error("End of <annotation>: expected parent of Annotation to be an SBase but found "
+                    + (parent == null ? "null" : parent.getClass().getCanonicalName())
+                    + ". Skipping annotation parsing.");
+              }
+            } else {
+              logger.error("End of <annotation>: expected top stack element to be an Annotation but found "
+                  + (lastElement == null ? "null" : lastElement.getClass().getCanonicalName())
+                  + ". Skipping annotation parsing.");
+            }
+            
           } else if (isInsideAnnotation) {
             annotationDeepness--;
           }
