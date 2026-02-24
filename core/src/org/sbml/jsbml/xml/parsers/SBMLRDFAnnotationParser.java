@@ -37,6 +37,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
+import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser.NODE_COLOR;
 import org.w3c.util.DateParser;
 import org.w3c.util.InvalidDateException;
 
@@ -1443,7 +1444,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * @return
      */
     private XMLNode getOrCreateWithCustomRDF(XMLNode parent, int precedingTermIndex,
-      String elementName, String cvtermURI,	String cvtermPrefix, Object customRDFXMLNode)
+          String elementName, String cvtermURI, String cvtermPrefix, Object customRDFXMLNode)
     {
       int index = precedingTermIndex;
 
@@ -1636,6 +1637,29 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * @param history
      * @param descriptionNode
      */
+
+    /**
+     * Appends an rdf:li node for a creator at the end of the given parent node,
+     * preserving the order in which creators are written. If a custom RDF XMLNode
+     * is provided, it is reused instead of creating a new li node.
+     */
+    private XMLNode appendLiNodeForCreator(XMLNode parent,
+                                          String elementName,
+                                          String cvtermURI,
+                                          String cvtermPrefix,
+                                          Object customRDFXMLNode) {
+      XMLNode child;
+      if (customRDFXMLNode != null) {
+        child = (XMLNode) customRDFXMLNode;
+      } else {
+        child = new XMLNode(new XMLTriple(elementName, cvtermURI, cvtermPrefix), new XMLAttributes());
+      }
+
+      // Simply append at the end; whitespace formatting is not critical for semantics.
+      parent.addChild(child);
+      return child;
+    }
+
     private void writeCreators(History history, XMLNode descriptionNode)
     {
       if (history.getCreatorCount() > 0)
@@ -1643,13 +1667,20 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         // creator node
         XMLNode creatorNode = getOrCreate(descriptionNode, "creator", JSBML.URI_PURL_ELEMENTS, "dc");
         XMLNode bagNode = getOrCreate(creatorNode, "Bag", Annotation.URI_RDF_SYNTAX_NS, "rdf");
-        int i = 0;
 
         for (Creator creator : history.getListOfCreators())
         {
           // rdf:li node
-          XMLNode liNode = getOrCreateWithCustomRDF(bagNode, i, "li", Annotation.URI_RDF_SYNTAX_NS, "rdf", creator.getUserObject(CUSTOM_RDF));
+          XMLNode liNode = appendLiNodeForCreator(
+              bagNode,
+              "li",
+              Annotation.URI_RDF_SYNTAX_NS,
+              "rdf",
+              creator.getUserObject(CUSTOM_RDF)
+          );
           liNode.addAttr("parseType", "Resource", Annotation.URI_RDF_SYNTAX_NS, "rdf");
+
+          // rest of method unchanged...
 
           if (creator.isSetFamilyName() || creator.isSetGivenName())
           {
@@ -1683,8 +1714,6 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
             XMLNode vCardOrgNameNode = getOrCreate(vCardOrgNode, "Orgname", Creator.URI_RDF_VCARD_NS, "vCard");
             vCardOrgNameNode.insertChild(0, new XMLNode(creator.getOrganisation()));
           }
-
-          i++;
         }
       }
     }
