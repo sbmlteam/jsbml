@@ -336,9 +336,9 @@ public class SBMLDocument extends AbstractSBase {
    * flag in the individual SBMLError objects returned by
    * {@link SBMLDocument#getError(int)} to determine the nature of the failures.
    * 
-   * <p>The offline validator is not yet as complete as the online one so it is not
-   * currently used by default when calling {@link #checkConsistency()} but it might be
-   * in future versions. To get an up to date status, please check the page 
+   * <p>The offline validator was initially less complete than the online one but
+   * has evolved and is now used by default when calling {@link #checkConsistency()}.
+   * The online validator remains available via {@link #checkConsistencyOnline()}. 
    * <a href="https://github.com/sbmlteam/jsbml/wiki/Offline-validator-status">Offline-validator-status</a>.</p>
    * 
    * @return the number of errors found
@@ -580,9 +580,11 @@ public class SBMLDocument extends AbstractSBase {
 
   /**
    * Validates the {@link SBMLDocument}.
-   * 
-   * <p> The validation is currently performed using the
-   * SBML.org online validator (http://sbml.org/validator/).</p>
+   *
+   * <p>The validation is currently performed using the JSBML internal
+   * offline validator, see {@link #checkConsistencyOffline()}. The SBML.org
+   * online validator (http://sbml.org/validator/) is still available via
+   * {@link #checkConsistencyOnline()}.</p>
    * 
    * <p>
    * You can control the consistency checks that are performed when
