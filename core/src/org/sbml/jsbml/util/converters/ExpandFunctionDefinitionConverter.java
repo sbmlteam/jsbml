@@ -237,11 +237,16 @@ public class ExpandFunctionDefinitionConverter implements SBMLConverter {
           ASTNode current = (ASTNode) o;
 
           if (current.equals(bvar)) {
-            ASTNode parent = (ASTNode) current.getParent();
-            int index = parent.getIndex(current);
+            TreeNode parentNode = current.getParent();
 
-            if (index != -1) {
-              parent.replaceChild(index, expandedBVar);
+            // Only attempt replacement if the parent is a non-null ASTNode
+            if (parentNode instanceof ASTNode) {
+              ASTNode parent = (ASTNode) parentNode;
+              int index = parent.getIndex(current);
+
+              if (index != -1) {
+                parent.replaceChild(index, expandedBVar);
+              }
             }
           }
         }

@@ -1,0 +1,1055 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" metaid="_3d5b9cab-3f05-455f-92c2-e4766e387cf0" version="4" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">
+  <model id="whitcomb04" metaid="metaid_whitcomb04" name="Whitcomb2004_Bicarbonate_Pancreas">
+    <notes>
+      <body xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          <b>A mathematical model of the pancreatic duct cell generating high bicarbonate concentrations in pancreatic juice</b>
+          <br/>David C Whitcomb, G Bard Ermentrout, <i>Pancreas</i> 2004 29:e30-40; PubMedID:<a href="http://www.ncbi.nlm.nih.gov/pubmed/15257112">15257112</a>
+        </p>
+        <p>
+Abstract:<br/>
+        <b>OBJECTIVE:</b>
+
+To develop a simple, physiologically based mathematical model of pancreatic duct cell secretion using experimentally derived parameters that generates pancreatic fluid bicarbonate concentrations of >140 mM after CFTR activation.<br/>
+        <b>METHODS:</b>
+
+A new mathematical model was developed simulating a duct cell within a proximal pancreatic duct and included a sodium-2-bicarbonate cotransporter (NBC) and sodium-potassium pump (NaK pump) on a chloride-impermeable basolateral membrane, CFTR on the luminal membrane with 0.2 to 1 bicarbonate to chloride permeability ratio. Chloride-bicarbonate antiporters (Cl/HCO3 AP) were added or subtracted from the basolateral (APb) and luminal (APl) membranes. The model was integrated over time using XPPAUT.<br/>
+        <b>RESULTS:</b>
+
+This model predicts robust, NaK pump-dependent bicarbonate secretion with opening of the CFTR, generates and maintains pancreatic fluid secretion with bicarbonate concentrations >140 mM, and returns to basal levels with CFTR closure. Limiting CFTR permeability to bicarbonate, as seen in some CFTR mutations, markedly inhibited pancreatic bicarbonate and fluid secretion.<br/>
+        <b>CONCLUSIONS:</b>
+
+A simple CFTR-dependent duct cell model can explain active, high-volume, high-concentration bicarbonate secretion in pancreatic juice that reproduces the experimental findings. This model may also provide insight into why CFTR mutations that predominantly affect bicarbonate permeability predispose to pancreatic dysfunction in humans.
+</p>
+        <p>This SBML version of the model was created directly from the XPPAUT code found in the appendix with the exception of the parameter <b>vr</b>, the ratio between the duct cell volume and the duct lumen, which is defined inversely to the main text in the XPPAUT code. <b>vr</b> was defined as the ratio of the duct cell volume to the duct lumen volume as in the main text. The model reproduces the figures found in the article. The model uses initial assignments for the lumen volume and events to trigger CFTR opening, so only tools supporting these features can be used to simulate it (eg. Copasi and SBW/Roadrunner).</p>
+      </body>
+    </notes>
+    <annotation>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+        <rdf:Description rdf:about="#metaid_whitcomb04">
+	<dc:creator>
+	<rdf:Bag>
+	<rdf:li rdf:parseType="Resource">
+	<vCard:N rdf:parseType="Resource">
+	<vCard:Family>Endler</vCard:Family>
+	<vCard:Given>Lukas</vCard:Given>
+	</vCard:N>
+	<vCard:EMAIL>lukas@ebi.ac.uk</vCard:EMAIL>
+	<vCard:ORG rdf:parseType="Resource">
+	<vCard:Orgname>EMBL-EBI</vCard:Orgname>
+	</vCard:ORG>
+	</rdf:li>
+	<rdf:li rdf:parseType="Resource">
+	<vCard:N rdf:parseType="Resource">
+	<vCard:Family>Smallbone</vCard:Family>
+	<vCard:Given>Kieran</vCard:Given>
+	</vCard:N>
+	<vCard:EMAIL>kieran.smallbone@manchester.ac.uk</vCard:EMAIL>
+	<vCard:ORG rdf:parseType="Resource">
+	<vCard:Orgname>University of Manchester</vCard:Orgname>
+	</vCard:ORG>
+	</rdf:li>
+	</rdf:Bag>
+	</dc:creator>
+	<dcterms:created rdf:parseType="Resource">
+	<dcterms:W3CDTF>2011-04-14T00:00:00Z</dcterms:W3CDTF>
+	</dcterms:created>
+	<dcterms:modified rdf:parseType="Resource">
+	<dcterms:W3CDTF>2016-04-08T16:59:34Z</dcterms:W3CDTF>
+	</dcterms:modified>
+	<bqmodel:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.db/MODEL1104180000"/>
+	</rdf:Bag>
+	</bqmodel:is>
+	<bqmodel:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/biomodels.db/BIOMD0000000327"/>
+	</rdf:Bag>
+	</bqmodel:is>
+	<bqmodel:isDescribedBy>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/pubmed/15257112"/>
+	</rdf:Bag>
+	</bqmodel:isDescribedBy>
+	<bqbiol:hasTaxon>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/taxonomy/9606"/>
+	<rdf:li rdf:resource="http://identifiers.org/bto/BTO:0002362"/>
+	</rdf:Bag>
+	</bqbiol:hasTaxon>
+	<bqbiol:isVersionOf>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/go/GO:0030157"/>
+	</rdf:Bag>
+	</bqbiol:isVersionOf>
+	</rdf:Description>
+	
+	</rdf:RDF>
+	</annotation>
+      <listOfFunctionDefinitions>
+      <functionDefinition id="ap" metaid="_126629">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <lambda>
+            <bvar>
+              <ci> ao </ci>
+            </bvar>
+            <bvar>
+              <ci> ai </ci>
+            </bvar>
+            <bvar>
+              <ci> bo </ci>
+            </bvar>
+            <bvar>
+              <ci> bi </ci>
+            </bvar>
+            <bvar>
+              <ci> ka </ci>
+            </bvar>
+            <bvar>
+              <ci> kb </ci>
+            </bvar>
+            <apply>
+              <divide/>
+              <apply>
+                <minus/>
+                <apply>
+                  <times/>
+                  <ci> ao </ci>
+                  <ci> bi </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <ci> bo </ci>
+                  <ci> ai </ci>
+                </apply>
+              </apply>
+              <apply>
+                <times/>
+                <ci> ka </ci>
+                <ci> kb </ci>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> ai </ci>
+                        <ci> ka </ci>
+                      </apply>
+                      <apply>
+                        <divide/>
+                        <ci> bi </ci>
+                        <ci> kb </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <apply>
+                        <divide/>
+                        <ci> ao </ci>
+                        <ci> ka </ci>
+                      </apply>
+                      <apply>
+                        <divide/>
+                        <ci> bo </ci>
+                        <ci> kb </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> ao </ci>
+                        <ci> ka </ci>
+                      </apply>
+                      <apply>
+                        <divide/>
+                        <ci> bo </ci>
+                        <ci> kb </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <apply>
+                        <divide/>
+                        <ci> ai </ci>
+                        <ci> ka </ci>
+                      </apply>
+                      <apply>
+                        <divide/>
+                        <ci> bi </ci>
+                        <ci> kb </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </lambda>
+        </math>
+            </functionDefinition>
+      <functionDefinition id="g" metaid="_126630">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <lambda>
+            <bvar>
+              <ci> xi </ci>
+            </bvar>
+            <bvar>
+              <ci> xo </ci>
+            </bvar>
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> xi </ci>
+                <ci> xo </ci>
+                <apply>
+                  <ln/>
+                  <apply>
+                    <divide/>
+                    <ci> xi </ci>
+                    <ci> xo </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <ci> xi </ci>
+                <ci> xo </ci>
+              </apply>
+            </apply>
+          </lambda>
+        </math>
+            </functionDefinition>
+    </listOfFunctionDefinitions>
+    <listOfUnitDefinitions>
+      <unitDefinition id="substance" metaid="a46a472f-9217-4b73-90fa-ac915a1a46b2" name="mmol">
+        <listOfUnits>
+          <unit kind="mole" metaid="_3761eaf3-e701-4014-b2d9-85675fd92a82" scale="-3"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="mM" metaid="f07ce54b-0cad-482e-bfe7-dd5b5fa057f5" name="mM">
+        <listOfUnits>
+          <unit kind="mole" metaid="_8306f74c-6d3f-4ec0-8ff7-4ff2d6db824f" scale="-3"/>
+          <unit exponent="-1" kind="litre" metaid="_2b4ce1bf-99cd-40e5-8590-10513d01b2a8"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="mmol_per_volt_per_sec_per_m2" metaid="c2a3e5e7-6c6f-4e1e-ac6d-dec79ff79ab7" name="mmol per volt per sec per m^2">
+        <listOfUnits>
+          <unit kind="mole" metaid="_8d6a05cf-bc38-4921-8ebf-bd0195bd50f9" scale="-3"/>
+          <unit exponent="-1" kind="volt" metaid="_9e34bbcb-2438-4dfa-af8b-990af2f2f18d"/>
+          <unit exponent="-1" kind="second" metaid="_772ddd2e-8591-4a24-b0dd-361ce047e563"/>
+          <unit exponent="-2" kind="metre" metaid="bd4fd86a-5c0c-4a11-8984-3ce7e6b578c1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="L_per_volt_per_sec_per_m2" metaid="fad87023-0c36-49a1-8f58-0f33004b6009" name="L per volt per sec per m^2">
+        <listOfUnits>
+          <unit kind="litre" metaid="_59ef1d55-63dc-4323-9871-274144caeaee"/>
+          <unit exponent="-1" kind="volt" metaid="b5df4fae-806f-46f4-91b9-6ef0925c7bea"/>
+          <unit exponent="-1" kind="second" metaid="_4885b007-d494-418e-bd45-3c9eb9e67978"/>
+          <unit exponent="-2" kind="metre" metaid="d82a0c2c-1acd-4a00-8a50-f47dbb40385f"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="mmol_per_sec_per_m2" metaid="_8109f7c4-18e8-48ab-807f-9c8000737c21" name="mmol per sec per m^2">
+        <listOfUnits>
+          <unit kind="mole" metaid="fdea411c-cb02-436c-b67e-86293122c4f6" scale="-3"/>
+          <unit exponent="-1" kind="second" metaid="_6db2be77-e2a9-4e87-a78c-dff6924b2552"/>
+          <unit exponent="-2" kind="metre" metaid="f57c4baf-5297-4efa-b0d2-0519d8d4126e"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="m2_per_L" metaid="_8acc7312-f338-4a11-b9f9-51bc29791e98" name="m^2 per L">
+        <listOfUnits>
+          <unit exponent="2" kind="metre" metaid="_175a2b5e-0981-4b65-bc80-b36507bb0992"/>
+          <unit exponent="-1" kind="litre" metaid="_651b9e59-7d86-40e2-a718-044144b5d880"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="L_per_sec_per_m2" metaid="_37deb4e2-6a28-45e2-a03e-40fe30579c47" name="L per sec per m^2">
+        <listOfUnits>
+          <unit kind="litre" metaid="_71626b16-d378-46fc-b52e-79da6d6f8103"/>
+          <unit exponent="-1" kind="second" metaid="_3a03e963-fdca-4470-89f1-4a4416f45def"/>
+          <unit exponent="-2" kind="metre" metaid="_87041758-2b58-4af4-b784-01779773b331"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="J_per_mol_per_K" metaid="_4b3f0112-918a-4f5f-9e1f-5fcddc3d9c6e" name="J per mol per K">
+        <listOfUnits>
+          <unit kind="joule" metaid="_038f21bf-8a25-45aa-bd85-bfd6285c33d7"/>
+          <unit exponent="-1" kind="mole" metaid="ea7dfda2-0208-43c0-b627-179b934de6ad"/>
+          <unit exponent="-1" kind="kelvin" metaid="_8435969f-5122-45b3-acec-09643f6efca9"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="C_per_mol" metaid="a8631468-6e21-4810-af33-33527f7ab1cb" name="C per mol">
+        <listOfUnits>
+          <unit kind="coulomb" metaid="_457bac47-aea3-4cf3-ae70-891ed9d7756c"/>
+          <unit exponent="-1" kind="mole" metaid="_8c30b711-8879-45d2-be1e-8b9d92e5ca23"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="plasma" metaid="meta_plasma" name="plasma" sboTerm="SBO:0000290" size="1"/>
+      <compartment id="cell" metaid="meta_cell" name="cell" sboTerm="SBO:0000290" size="1"/>
+      <compartment id="lumen" metaid="meta_lumen" name="lumen" sboTerm="SBO:0000290" size="0.1"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species boundaryCondition="true" compartment="plasma" constant="true" id="bb" initialConcentration="22" metaid="meta_bb" name="HCO3-" sboTerm="SBO:0000327">
+        <annotation>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#meta_bb">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:17544"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species boundaryCondition="true" compartment="plasma" constant="true" id="cb" initialConcentration="130" metaid="meta_cb" name="CL-" sboTerm="SBO:0000327">
+        <annotation>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#meta_cb">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:17996"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species boundaryCondition="true" compartment="plasma" constant="true" id="nb" initialConcentration="140" metaid="meta_nb" name="Na+" sboTerm="SBO:0000327">
+        <annotation>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#meta_nb">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:29101"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species compartment="cell" id="bi" initialConcentration="15" metaid="meta_bi" name="HCO3-" sboTerm="SBO:0000327">
+        <annotation>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#meta_bi">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:17544"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species compartment="cell" id="ci" initialConcentration="60" metaid="meta_ci" name="CL-" sboTerm="SBO:0000327">
+        <annotation>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#meta_ci">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:17996"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species compartment="cell" id="ni" initialConcentration="14" metaid="meta_ni" name="Na+" sboTerm="SBO:0000327">
+        <annotation>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#meta_ni">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:29101"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species compartment="lumen" id="bl" initialConcentration="32" metaid="meta_bl" name="HCO3-" sboTerm="SBO:0000327">
+        <annotation>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#meta_bl">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:17544"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	
+	</rdf:RDF>
+	</annotation>
+            </species>
+      <species boundaryCondition="true" compartment="lumen" id="cl" metaid="meta_cl" name="CL-" sboTerm="SBO:0000327">
+        <annotation>
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+            <rdf:Description rdf:about="#meta_cl">
+	<bqbiol:is>
+	<rdf:Bag>
+	<rdf:li rdf:resource="http://identifiers.org/chebi/CHEBI:17996"/>
+	</rdf:Bag>
+	</bqbiol:is>
+	</rdf:Description>
+	
+	</rdf:RDF>
+	</annotation>
+            </species>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="g_bi" metaid="_126632" sboTerm="SBO:0000009" units="dimensionless" value="0.2"/>
+      <parameter id="g_cl" metaid="_126634" sboTerm="SBO:0000009" units="dimensionless" value="1"/>
+      <parameter id="zeta" metaid="_126635" sboTerm="SBO:0000009" units="m2_per_L" value="50"/>
+      <parameter id="kbi" metaid="_126636" sboTerm="SBO:0000009" units="mM" value="1"/>
+      <parameter id="kcl" metaid="_126637" sboTerm="SBO:0000009" units="mM" value="10"/>
+      <parameter id="gnbc" metaid="_126639" sboTerm="SBO:0000257" units="mmol_per_volt_per_sec_per_m2" value="2"/>
+      <parameter id="gapl" metaid="_126640" sboTerm="SBO:0000257" units="mmol_per_volt_per_sec_per_m2" value="0.25"/>
+      <parameter id="gapbl" metaid="_126641" sboTerm="SBO:0000257" units="mmol_per_volt_per_sec_per_m2" value="0.005"/>
+      <parameter id="vr" metaid="_126642" sboTerm="SBO:0000196" units="dimensionless" value="10"/>
+      <parameter id="bi0" metaid="_126644" sboTerm="SBO:0000196" units="mM" value="15"/>
+      <parameter id="buf" metaid="_126645" sboTerm="SBO:0000196" units="L_per_sec_per_m2" value="0.1"/>
+      <parameter id="gcftron" metaid="_126646" sboTerm="SBO:0000196" units="L_per_volt_per_sec_per_m2" value="1"/>
+      <parameter id="gcftrbase" metaid="_126647" sboTerm="SBO:0000196" units="L_per_volt_per_sec_per_m2" value="7E-5"/>
+      <parameter id="ek" metaid="_126649" sboTerm="SBO:0000196" units="volt" value="-0.085"/>
+      <parameter id="gk" metaid="_126650" sboTerm="SBO:0000196" units="mmol_per_volt_per_sec_per_m2" value="1"/>
+      <parameter id="r" metaid="_126651" name="gas constant" sboTerm="SBO:0000567" units="J_per_mol_per_K" value="8.31451"/>
+      <parameter id="f" metaid="_126652" name="Faraday constant" sboTerm="SBO:0000568" units="C_per_mol" value="96485"/>
+      <parameter id="temp" metaid="_126654" sboTerm="SBO:0000002" units="kelvin" value="310"/>
+      <parameter id="ionstr" metaid="_126655" sboTerm="SBO:0000196" units="mM" value="160"/>
+      <parameter id="gnak" metaid="_126656" sboTerm="SBO:0000009" units="mmol_per_volt_per_sec_per_m2" value="3.125"/>
+      <parameter id="np0" metaid="_126657" sboTerm="SBO:0000002" units="mM" value="25"/>
+      <parameter id="epump" metaid="_126659" sboTerm="SBO:0000009" units="volt" value="-0.2"/>
+      <parameter id="gnaleak" metaid="_126660" sboTerm="SBO:0000009" units="mmol_per_volt_per_sec_per_m2" value="0.4"/>
+      <parameter id="jac" metaid="_126661" sboTerm="SBO:0000002" units="mmol_per_sec_per_m2" value="0.025"/>
+      <parameter id="rat" metaid="_126662" sboTerm="SBO:0000002" units="dimensionless" value="0.25"/>
+      <parameter id="ton" metaid="_126664" sboTerm="SBO:0000345" units="second" value="60"/>
+      <parameter id="toff" metaid="_126665" sboTerm="SBO:0000345" units="second" value="360"/>
+      <parameter constant="false" id="gcftr" metaid="_126666" sboTerm="SBO:0000196" units="L_per_volt_per_sec_per_m2"/>
+      <parameter constant="false" id="eb" metaid="_126667" units="volt"/>
+      <parameter constant="false" id="enbc" metaid="_126669" units="volt"/>
+      <parameter constant="false" id="ec" metaid="_126670" units="volt"/>
+      <parameter constant="false" id="ena" metaid="_126671" units="volt"/>
+      <parameter constant="false" id="kccf" metaid="_126672" units="mmol_per_volt_per_sec_per_m2"/>
+      <parameter constant="false" id="kbcf" metaid="_126674" units="mmol_per_volt_per_sec_per_m2"/>
+      <parameter constant="false" id="knbc" metaid="_126675" units="mmol_per_volt_per_sec_per_m2"/>
+      <parameter constant="false" id="v" metaid="_126676" units="volt"/>
+      <parameter constant="false" id="jnbc" metaid="_126677" units="mmol_per_sec_per_m2"/>
+      <parameter constant="false" id="jbcftr" metaid="_126679" units="mmol_per_sec_per_m2"/>
+      <parameter constant="false" id="jccftr" metaid="_126680" units="mmol_per_sec_per_m2"/>
+      <parameter constant="false" id="japl" metaid="_126681" units="mmol_per_sec_per_m2"/>
+      <parameter constant="false" id="japbl" metaid="_126682" units="mmol_per_sec_per_m2"/>
+      <parameter constant="false" id="jlum" metaid="_126684" units="L_per_sec_per_m2"/>
+      <parameter constant="false" id="jnak" metaid="_126685" units="mmol_per_sec_per_m2"/>
+      <parameter constant="false" id="jnaleak" metaid="_126686" units="mmol_per_sec_per_m2"/>
+    </listOfParameters>
+    <listOfInitialAssignments>
+      <initialAssignment metaid="_5ae62ba0-95e3-4050-9e93-67043acf365a" symbol="gcftr">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <ci> gcftrbase </ci>
+        </math>
+            </initialAssignment>
+      <initialAssignment metaid="_477d6c75-4c37-4e73-aefa-1daa6f55a560" symbol="lumen">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <divide/>
+            <ci> cell </ci>
+            <ci> vr </ci>
+          </apply>
+        </math>
+            </initialAssignment>
+    </listOfInitialAssignments>
+    <listOfRules>
+      <assignmentRule metaid="_126608" variable="cl">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <minus/>
+            <cn type="integer"> 160 </cn>
+            <ci> bl </ci>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126609" variable="eb">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> r </ci>
+                <ci> temp </ci>
+              </apply>
+              <ci> f </ci>
+            </apply>
+            <apply>
+              <ln/>
+              <apply>
+                <divide/>
+                <ci> bi </ci>
+                <ci> bl </ci>
+              </apply>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126610" variable="enbc">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> r </ci>
+                <ci> temp </ci>
+              </apply>
+              <ci> f </ci>
+            </apply>
+            <apply>
+              <ln/>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <apply>
+                    <power/>
+                    <ci> bi </ci>
+                    <cn type="integer"> 2 </cn>
+                  </apply>
+                  <ci> ni </ci>
+                </apply>
+                <apply>
+                  <times/>
+                  <apply>
+                    <power/>
+                    <ci> bb </ci>
+                    <cn type="integer"> 2 </cn>
+                  </apply>
+                  <ci> nb </ci>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126612" variable="ec">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> r </ci>
+                <ci> temp </ci>
+              </apply>
+              <ci> f </ci>
+            </apply>
+            <apply>
+              <ln/>
+              <apply>
+                <divide/>
+                <ci> ci </ci>
+                <ci> cl </ci>
+              </apply>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126613" variable="ena">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> r </ci>
+                <ci> temp </ci>
+              </apply>
+              <ci> f </ci>
+            </apply>
+            <apply>
+              <ln/>
+              <apply>
+                <divide/>
+                <ci> nb </ci>
+                <ci> ni </ci>
+              </apply>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126614" variable="kccf">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <apply>
+              <ci> g </ci>
+              <ci> ci </ci>
+              <ci> cl </ci>
+            </apply>
+            <ci> gcftr </ci>
+            <ci> g_cl </ci>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126615" variable="kbcf">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <apply>
+              <ci> g </ci>
+              <ci> bi </ci>
+              <ci> bl </ci>
+            </apply>
+            <ci> gcftr </ci>
+            <ci> g_bi </ci>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126617" variable="knbc">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <ci> gnbc </ci>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126618" variable="v">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <divide/>
+            <apply>
+              <plus/>
+              <apply>
+                <times/>
+                <ci> knbc </ci>
+                <ci> enbc </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> kbcf </ci>
+                <ci> eb </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> kccf </ci>
+                <ci> ec </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> gk </ci>
+                <ci> ek </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> gnaleak </ci>
+                <ci> ena </ci>
+              </apply>
+            </apply>
+            <apply>
+              <plus/>
+              <ci> knbc </ci>
+              <ci> kbcf </ci>
+              <ci> kccf </ci>
+              <ci> gk </ci>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126619" variable="jnbc">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <ci> knbc </ci>
+            <apply>
+              <minus/>
+              <ci> v </ci>
+              <ci> enbc </ci>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126620" variable="jbcftr">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <ci> kbcf </ci>
+            <apply>
+              <minus/>
+              <ci> v </ci>
+              <ci> eb </ci>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126622" variable="jccftr">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <ci> kccf </ci>
+            <apply>
+              <minus/>
+              <ci> v </ci>
+              <ci> ec </ci>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126623" variable="japl">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <apply>
+              <ci> ap </ci>
+              <ci> bl </ci>
+              <ci> bi </ci>
+              <ci> cl </ci>
+              <ci> ci </ci>
+              <ci> kbi </ci>
+              <ci> kcl </ci>
+            </apply>
+            <ci> gapl </ci>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126624" variable="japbl">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <apply>
+              <ci> ap </ci>
+              <ci> bb </ci>
+              <ci> bi </ci>
+              <ci> cb </ci>
+              <ci> ci </ci>
+              <ci> kbi </ci>
+              <ci> kcl </ci>
+            </apply>
+            <ci> gapbl </ci>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126625" variable="jlum">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <divide/>
+            <apply>
+              <plus/>
+              <apply>
+                <times/>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <plus/>
+                    <ci> jccftr </ci>
+                    <ci> jbcftr </ci>
+                  </apply>
+                </apply>
+                <ci> vr </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> jac </ci>
+                <apply>
+                  <plus/>
+                  <cn type="integer"> 1 </cn>
+                  <ci> rat </ci>
+                </apply>
+              </apply>
+            </apply>
+            <ci> ionstr </ci>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126626" variable="jnak">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <ci> gnak </ci>
+            <apply>
+              <minus/>
+              <ci> v </ci>
+              <ci> epump </ci>
+            </apply>
+            <apply>
+              <power/>
+              <apply>
+                <divide/>
+                <ci> ni </ci>
+                <ci> np0 </ci>
+              </apply>
+              <cn type="integer"> 3 </cn>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+      <assignmentRule metaid="_126627" variable="jnaleak">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <times/>
+            <ci> gnaleak </ci>
+            <apply>
+              <minus/>
+              <ci> v </ci>
+              <ci> ena </ci>
+            </apply>
+          </apply>
+        </math>
+            </assignmentRule>
+    </listOfRules>
+    <listOfReactions>
+      <reaction id="nbc" metaid="_126580" sboTerm="SBO:0000185">
+        <listOfReactants>
+          <speciesReference metaid="_61364b53-7e7c-46dd-9aa6-64c8cb396fb1" species="bb" stoichiometry="2"/>
+          <speciesReference metaid="fb94f294-3457-4430-9580-bba84c2be006" species="nb"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="a5ee454a-ff1b-4581-a7cf-9e39b9acac3f" species="bi" stoichiometry="2"/>
+          <speciesReference metaid="_5e09963b-0177-442c-b5be-16997dff36ef" species="ni"/>
+        </listOfProducts>
+        <kineticLaw metaid="_0088cc1a-5fe5-4b1d-ad2f-e331b337b911">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> cell </ci>
+              <ci> zeta </ci>
+              <ci> japl </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="bcftr" metaid="_126581" sboTerm="SBO:0000185">
+        <listOfReactants>
+          <speciesReference metaid="_4eacb092-8914-4c04-9a00-17214b73e51e" species="bl"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="_5c8c7b17-7045-466c-bc7a-0909432ead5f" species="bi"/>
+        </listOfProducts>
+        <kineticLaw metaid="_01b8b9fd-0954-40a8-8784-250ac6a838cf">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> cell </ci>
+              <ci> zeta </ci>
+              <ci> jbcftr </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="ccftr" metaid="_126582" sboTerm="SBO:0000185">
+        <listOfReactants>
+          <speciesReference metaid="_99bf42af-6894-4935-8bb3-7581eba843f2" species="cl"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="_0da075a6-cd6f-4599-bad0-3e37c440d951" species="ci"/>
+        </listOfProducts>
+        <kineticLaw metaid="ef905222-d8bb-4176-9624-fe6fdee8fc66">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> cell </ci>
+              <ci> zeta </ci>
+              <ci> jccftr </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="apl" metaid="_126584" sboTerm="SBO:0000185">
+        <listOfReactants>
+          <speciesReference metaid="_978cf12b-f996-4724-872b-c47c9cb8754e" species="bl"/>
+          <speciesReference metaid="d5415330-8c2f-45e7-b0e2-f9867dc593e6" species="ci"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="c9180fc7-f717-4e2a-a382-645cfcb6ad20" species="bi"/>
+          <speciesReference metaid="_75f08c7f-3a4d-4129-9d9a-404d4920cd19" species="cl"/>
+        </listOfProducts>
+        <kineticLaw metaid="_5d2b36a4-409b-4452-a5b5-55f8b73cff55">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> cell </ci>
+              <ci> zeta </ci>
+              <ci> japl </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="apbl" metaid="_126585" sboTerm="SBO:0000185">
+        <listOfReactants>
+          <speciesReference metaid="de80de22-a26b-469f-8bbf-905155ce7eaa" species="bb"/>
+          <speciesReference metaid="fef1623d-9128-487f-9c0d-23a0d1a2db3a" species="ci"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="c69e4f5b-fbd4-41df-8f89-09d4375c54d7" species="bi"/>
+          <speciesReference metaid="_80df8f43-cef6-4c08-92fc-18568fe130f0" species="cb"/>
+        </listOfProducts>
+        <kineticLaw metaid="_024440b7-2ed8-48a5-976a-6f7fe6997db4">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> cell </ci>
+              <ci> zeta </ci>
+              <ci> japbl </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="nak" metaid="_126586" sboTerm="SBO:0000185">
+        <listOfReactants>
+          <speciesReference metaid="_682e4a4a-2def-4286-ac38-073671c6796e" species="ni"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="_982d0d70-e853-4206-b302-9313219c77fa" species="nb"/>
+        </listOfProducts>
+        <kineticLaw metaid="fe47244d-7a14-4bb7-903e-4e6b307acbb1">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> cell </ci>
+              <ci> zeta </ci>
+              <ci> jnak </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="naleak" metaid="_126587" sboTerm="SBO:0000185">
+        <listOfReactants>
+          <speciesReference metaid="d593a639-fbeb-4f82-b79c-d86f91dcd2d2" species="ni"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference metaid="_4f05af66-db8e-4434-94f1-db8e21e08f0d" species="nb"/>
+        </listOfProducts>
+        <kineticLaw metaid="_26b2a1f1-ac1a-4655-b960-382777de5c2d">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> cell </ci>
+              <ci> zeta </ci>
+              <ci> jnaleak </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="buffering" metaid="_126590" sboTerm="SBO:0000176">
+        <listOfProducts>
+          <speciesReference metaid="_68fe100f-1a10-4d23-96f8-b5e4d8382fbe" species="bi"/>
+        </listOfProducts>
+        <kineticLaw metaid="a551762c-2e7d-4c37-a6bc-f9c86972a3d5">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> cell </ci>
+              <ci> zeta </ci>
+              <ci> buf </ci>
+              <apply>
+                <minus/>
+                <ci> bi0 </ci>
+                <ci> bi </ci>
+              </apply>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="bac" metaid="_126592" sboTerm="SBO:0000185">
+        <listOfProducts>
+          <speciesReference metaid="_20ef7255-8499-4d9e-96d4-1003d1b40689" species="bl"/>
+        </listOfProducts>
+        <kineticLaw metaid="_14397074-990f-4613-96da-efa9c91c21e0">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> lumen </ci>
+              <ci> zeta </ci>
+              <ci> jac </ci>
+              <ci> rat </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="cac" metaid="_126593" sboTerm="SBO:0000185">
+        <listOfProducts>
+          <speciesReference metaid="_0575af73-c3ab-44f6-9355-5d3cf6f85f05" species="cl"/>
+        </listOfProducts>
+        <kineticLaw metaid="_93dc3b17-93be-4777-9e97-6616268dbc64">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> lumen </ci>
+              <ci> zeta </ci>
+              <ci> jac </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+      <reaction id="outflow" metaid="_126594" sboTerm="SBO:0000185">
+        <listOfReactants>
+          <speciesReference metaid="ec4bca5a-f76d-42b1-bc2c-13f6ab3d08f4" species="bl"/>
+        </listOfReactants>
+        <kineticLaw metaid="_34b3df78-a656-4d5e-9221-2b5430854426">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <times/>
+              <ci> lumen </ci>
+              <ci> zeta </ci>
+              <ci> jlum </ci>
+              <ci> bl </ci>
+            </apply>
+          </math>
+                </kineticLaw>
+      </reaction>
+    </listOfReactions>
+    <listOfEvents>
+      <event metaid="_126605">
+        <trigger metaid="_37d8d627-242a-4dbc-877d-f85396045429">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <geq/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> t </csymbol>
+              <ci> ton </ci>
+            </apply>
+          </math>
+                </trigger>
+        <listOfEventAssignments>
+          <eventAssignment metaid="c510a9c2-0353-4bda-9d7a-7b273729dbfe" variable="gcftr">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">            
+              <ci> gcftron </ci>
+            </math>
+                    </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event metaid="_126606">
+        <trigger metaid="_7c742c2c-6090-4216-88a5-778d2f325661">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <geq/>
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> t </csymbol>
+              <ci> toff </ci>
+            </apply>
+          </math>
+                </trigger>
+        <listOfEventAssignments>
+          <eventAssignment metaid="ff589a87-1e44-4f94-ad59-d6fc37607fd5" variable="gcftr">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">            
+              <ci> gcftrbase </ci>
+            </math>
+                    </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+    </listOfEvents>
+  </model>
+</sbml>
