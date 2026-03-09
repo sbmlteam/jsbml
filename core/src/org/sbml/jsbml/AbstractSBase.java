@@ -32,6 +32,7 @@ import java.util.TreeMap;
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.JSBML;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
@@ -54,6 +55,7 @@ import org.sbml.jsbml.xml.parsers.AbstractReaderWriter;
 import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.PackageUtil;
 import org.sbml.jsbml.xml.parsers.ParserManager;
+import org.sbml.jsbml.xml.XHTMLConstants;
 
 /**
  * The base class for each {@link SBase} component.
@@ -2719,10 +2721,32 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void setNotes(String notes) throws XMLStreamException {
-    if ((notes == null) || (notes.trim().length() == 0)) {
+    if (notes == null || notes.trim().length() == 0) {
       unsetNotes();
     } else {
-      setNotes(XMLNode.convertStringToXMLNode(StringTools.toXMLNotesString(notes)));
+      try {
+        // Existing behavior: try to interpret the string as (possibly) XML notes.
+        setNotes(XMLNode.convertStringToXMLNode(StringTools.toXMLNotesString(notes)));
+      } catch (XMLStreamException e) {
+        // Fallback: treat the input as plain text and build a minimal XHTML notes structure.
+        // This avoids exposing a low-level XML parser exception to the user.
+        XMLNode notesNode = new XMLNode(new XMLTriple("notes", "", ""), new XMLAttributes());
+        XMLNode bodyNode = new XMLNode(
+            new XMLTriple(XHTMLConstants.ELEMENT_BODY, JSBML.URI_XHTML_DEFINITION, ""),
+            new XMLAttributes()
+        );
+        XMLNode pNode = new XMLNode(
+            new XMLTriple(XHTMLConstants.ELEMENT_P, JSBML.URI_XHTML_DEFINITION, ""),
+            new XMLAttributes()
+        );
+        // Add the raw text as a text node; when serialized, special characters like '<'
+        // will be escaped as &lt;, so the resulting XML is well-formed.
+        pNode.addChild(new XMLNode(notes));
+        bodyNode.addChild(pNode);
+        notesNode.addChild(bodyNode);
+
+        setNotes(notesNode); // delegate to setNotes(XMLNode)
+      }
     }
   }
 
