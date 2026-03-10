@@ -207,7 +207,7 @@ public class ListOfObjectives extends ListOf<Objective> {
    * Ensures that the active objective still refers to an objective
    * contained in this list; if not, unsets the active objective.
    */
-  private void ensureActiveObjectiveStillPresent() {
+  private void ensureActiveObjectiveConsistency() {
     if (isSetActiveObjective()) {
       // If there is no Objective with the activeObjective id any more,
       // unset the active objective to keep the model consistent.
@@ -221,7 +221,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   public boolean remove(Object o) {
     boolean removed = super.remove(o);
     if (removed) {
-      ensureActiveObjectiveStillPresent();
+      ensureActiveObjectiveConsistency();
     }
     return removed;
   }
@@ -230,7 +230,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   public Objective remove(int index) {
     Objective removed = super.remove(index);
     if (removed != null) {
-      ensureActiveObjectiveStillPresent();
+      ensureActiveObjectiveConsistency();
     }
     return removed;
   }
@@ -239,7 +239,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   public boolean removeAll(Collection<?> c) {
     boolean changed = super.removeAll(c);
     if (changed) {
-      ensureActiveObjectiveStillPresent();
+      ensureActiveObjectiveConsistency();
     }
     return changed;
   }
@@ -248,7 +248,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   public boolean retainAll(Collection<?> c) {
     boolean changed = super.retainAll(c);
     if (changed) {
-      ensureActiveObjectiveStillPresent();
+      ensureActiveObjectiveConsistency();
     }
     return changed;
   }
@@ -258,7 +258,7 @@ public class ListOfObjectives extends ListOf<Objective> {
     boolean hadElements = !isEmpty();
     super.clear();
     if (hadElements) {
-      ensureActiveObjectiveStillPresent();
+      ensureActiveObjectiveConsistency();
     }
   }
 
