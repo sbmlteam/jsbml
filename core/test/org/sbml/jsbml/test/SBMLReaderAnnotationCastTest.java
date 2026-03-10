@@ -22,6 +22,8 @@ package org.sbml.jsbml.test;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.InputStream;
+
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
@@ -33,22 +35,17 @@ import org.sbml.jsbml.SBMLReader;
  */
 public class SBMLReaderAnnotationCastTest {
 
+  private static final String RESOURCE = "annotation-cast-example.xml";
+
   @Test
   public void layoutInModelAnnotationDoesNotThrow() throws Exception {
-    String xml =
-        "<sbml xmlns=\"http://www.sbml.org/sbml/level2/version4\" " +
-        "      xmlns:layout=\"http://www.sbml.org/sbml/level3/version1/layout/version1\" " +
-        "      level=\"2\" version=\"4\">" +
-        "  <model id=\"m\">" +
-        "    <annotation>" +
-        "      <layout:listOfLayouts>" +
-        "        <layout:layout id=\"L1\"/>" +
-        "      </layout:listOfLayouts>" +
-        "    </annotation>" +
-        "  </model>" +
-        "</sbml>";
+    SBMLDocument doc;
 
-    SBMLDocument doc = new SBMLReader().readSBMLFromString(xml);
+    // Load the XML from the resource file
+    try (InputStream is = SBMLReaderAnnotationCastTest.class.getResourceAsStream(RESOURCE)) {
+      assertNotNull("Test SBML resource not found: " + RESOURCE, is);
+      doc = new SBMLReader().readSBMLFromStream(is);
+    }
 
     // If we reach here, no ClassCastException (or other exception) was thrown.
     assertNotNull(doc);
