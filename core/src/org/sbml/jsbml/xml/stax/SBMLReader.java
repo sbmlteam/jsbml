@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
 
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -75,6 +76,8 @@ import org.sbml.jsbml.xml.parsers.XMLNodeReader;
 
 import com.ctc.wstx.api.WstxInputProperties;
 import com.ctc.wstx.stax.WstxInputFactory;
+
+import static java.text.MessageFormat.format;
 
 
 /**
@@ -846,11 +849,28 @@ public class SBMLReader {
             isInsideAnnotation = false;
             annotationDeepness = -1;
 
-            // calling the annotation parsers
-            for (AnnotationReader annoReader : annotationParsers) {
-              annoReader.processAnnotation((SBase) ((Annotation) lastElement).getParent()); // or take the second element in the stack ??
-            }
+            // calling the annotation parsers, but be robust against unexpected stack contents
+            if (lastElement instanceof Annotation) {
+              Annotation annotation = (Annotation) lastElement;
+              Object parent = annotation.getParent();
 
+              if (parent instanceof SBase) {
+                for (AnnotationReader annoReader : annotationParsers) {
+                  annoReader.processAnnotation((SBase) parent); // or take the second element in the stack ??
+                }
+              } else {
+                logger.error(format(
+                    "End of <annotation>: expected parent of Annotation to be an SBase but found {0}. Skipping annotation parsing.",
+                    parent == null ? "null" : parent.getClass().getCanonicalName()
+                ));
+              }
+            } else {
+              logger.error(format(
+                  "End of <annotation>: expected top stack element to be an Annotation but found {0}. Skipping annotation parsing.",
+                  lastElement == null ? "null" : lastElement.getClass().getCanonicalName()
+              ));
+            }
+            
           } else if (isInsideAnnotation) {
             annotationDeepness--;
           }
