@@ -581,7 +581,7 @@ public class SBMLDocument extends AbstractSBase {
   /**
    * Validates the {@link SBMLDocument}.
    *
-   * <p>The validation is currently performed using the JSBML internal
+   * <p>The validation is primarily performed using the JSBML internal
    * offline validator, see {@link #checkConsistencyOffline()}. The SBML.org
    * online validator (http://sbml.org/validator/) is still available via
    * {@link #checkConsistencyOnline()}.</p>
