@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.fbc;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
@@ -38,7 +39,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   private static final long serialVersionUID = 8684683156123793632L;
 
   /**
-   * 
+   * The id of the active objective in this list.
    */
   private String activeObjective;
 
@@ -85,7 +86,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
-   * 
+   * Initializes default values.
    */
   private void initDefaults() {
     setPackageVersion(-1);
@@ -103,9 +104,9 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
-   * Returns the value of activeObjective
+   * Returns the value of activeObjective.
    *
-   * @return the value of activeObjective
+   * @return the value of activeObjective, or an empty string if it is not set.
    */
   public String getActiveObjective() {
     return isSetActiveObjective() ? activeObjective : "";
@@ -114,7 +115,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   /**
    * Returns the active {@link Objective}.
    * 
-   * @return the active {@link Objective} or null if none can be found.
+   * @return the active {@link Objective} or {@code null} if none can be found.
    */
   public Objective getActiveObjectiveInstance() {
     return firstHit(new NameFilter(getActiveObjective()));
@@ -129,7 +130,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
-   * Returns whether activeObjective is set
+   * Returns whether activeObjective is set.
    *
    * @return whether activeObjective is set
    */
@@ -187,7 +188,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
-   * Unsets the variable activeObjective
+   * Unsets the variable activeObjective.
    *
    * @return {@code true}, if activeObjective was set before,
    *         otherwise {@code false}
@@ -200,6 +201,65 @@ public class ListOfObjectives extends ListOf<Objective> {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Ensures that the active objective still refers to an objective
+   * contained in this list; if not, unsets the active objective.
+   */
+  private void ensureActiveObjectiveConsistency() {
+    if (isSetActiveObjective()) {
+      // If there is no Objective with the activeObjective id any more,
+      // unset the active objective to keep the model consistent.
+      if (firstHit(new NameFilter(activeObjective)) == null) {
+        unsetActiveObjective();
+      }
+    }
+  }
+
+  @Override
+  public boolean remove(Object o) {
+    boolean removed = super.remove(o);
+    if (removed) {
+      ensureActiveObjectiveConsistency();
+    }
+    return removed;
+  }
+
+  @Override
+  public Objective remove(int index) {
+    Objective removed = super.remove(index);
+    if (removed != null) {
+      ensureActiveObjectiveConsistency();
+    }
+    return removed;
+  }
+
+  @Override
+  public boolean removeAll(Collection<?> c) {
+    boolean changed = super.removeAll(c);
+    if (changed) {
+      ensureActiveObjectiveConsistency();
+    }
+    return changed;
+  }
+
+  @Override
+  public boolean retainAll(Collection<?> c) {
+    boolean changed = super.retainAll(c);
+    if (changed) {
+      ensureActiveObjectiveConsistency();
+    }
+    return changed;
+  }
+
+  @Override
+  public void clear() {
+    boolean hadElements = !isEmpty();
+    super.clear();
+    if (hadElements) {
+      ensureActiveObjectiveConsistency();
+    }
   }
 
   /* (non-Javadoc)
