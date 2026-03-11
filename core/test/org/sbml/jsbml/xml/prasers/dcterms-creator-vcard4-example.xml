@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model id="m">
+    <annotation>
+      <rdf:RDF
+          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+          xmlns:dcterms="http://purl.org/dc/terms/"
+          xmlns:vcard="http://www.w3.org/2006/vcard/ns#">
+        <rdf:Description rdf:about="#m">
+          <dcterms:creator>
+            <rdf:Bag>
+              <rdf:li rdf:parseType="Resource">
+                <vcard:hasName rdf:parseType="Resource">
+                  <vcard:family-name>Family1</vcard:family-name>
+                  <vcard:given-name>Given1</vcard:given-name>
+                </vcard:hasName>
+                <vcard:organization-name>Org1</vcard:organization-name>
+              </rdf:li>
+              <rdf:li rdf:parseType="Resource">
+                <vcard:hasName rdf:parseType="Resource">
+                  <vcard:family-name>Family2</vcard:family-name>
+                  <vcard:given-name>Given2</vcard:given-name>
+                </vcard:hasName>
+                <vcard:organization-name>Org2</vcard:organization-name>
+              </rdf:li>
+            </rdf:Bag>
+          </dcterms:creator>
+        </rdf:Description>
+      </rdf:RDF>
+    </annotation>
+  </model>
+</sbml>
