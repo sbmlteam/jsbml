@@ -167,9 +167,10 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
       AbstractTreeNode anode = (AbstractTreeNode) node;
       // Do not clone listeners!
       //   this.listOfListeners.addAll(anode.listOfListeners);
-      if (anode.isSetUserObjects()) {
-        userObjects = new HashMap<Object, Object>();
-        userObjects.putAll(anode.userObjects);
+      // Copy userObjects if present. We must not rely on isSetUserObjects(),
+      // because subclasses may override it with different semantics.
+      if (anode.userObjects != null && !anode.userObjects.isEmpty()) {
+        userObjects = new HashMap<Object, Object>(anode.userObjects);
       }
       
       // TODO - add this for all objects when we start using the checkAttribute method for other classes than Compartment.
