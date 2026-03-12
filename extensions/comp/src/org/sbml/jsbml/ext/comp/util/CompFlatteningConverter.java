@@ -41,22 +41,22 @@ public class CompFlatteningConverter {
 
     private ListOf<ModelDefinition> modelDefinitionListOf;
 
-    // HashMap containing prefix for each submodel
-    private HashMap<List<String>, String> subModelPrefixes;
+    // Map containing prefix for each submodel
+    private Map<List<String>, String> subModelPrefixes;
 
     private List<Submodel> listOfSubmodelsToFlatten;
 
-    // Hashmap of Replaced Elements in the form pathToModel -> idType (id, metaID, ...) -> replacedId -> replacedElementInfo
-    private HashMap<List<String>, HashMap<IdType, HashMap<String, ReplacedElementInfo>>> replacedAndDeletedElementsHashMap;
+    // Map of Replaced Elements in the form pathToModel -> idType (id, metaID, ...) -> replacedId -> replacedElementInfo
+    private Map<List<String>, Map<IdType, Map<String, ReplacedElementInfo>>> replacedAndDeletedElementsHashMap;
 
     // Contains newly created (generally copied) initial assignments
-    private HashMap<List<String>, List<InitialAssignment>> newInitAssignHashMap;
+    private Map<List<String>, List<InitialAssignment>> newInitAssignHashMap;
 
     // Contains newly created (generally copied) rules
-    private HashMap<List<String>, List<Rule>> newRulesHashMap;
+    private Map<List<String>, List<Rule>> newRulesHashMap;
 
     // Contains replaced units (their references can only be changed at the end)
-    private HashMap<String, String> newUnitDefMaps;
+    private Map<String, String> newUnitDefMaps;
 
     // Final flattened model that is merged into bottom-up in the submodel tree
     private Model flattenedModel;
@@ -65,7 +65,7 @@ public class CompFlatteningConverter {
     private List<String> curPath;
 
     // Previously visited models
-    private HashMap<String, Model> visitedModels;
+    private Map<String, Model> visitedModels;
 
     public CompFlatteningConverter() {
         this.listOfSubmodelsToFlatten = new ArrayList<>();
@@ -223,7 +223,7 @@ public class CompFlatteningConverter {
         parseAllReplacedBy(modelCopy, this.curPath);
 
         // STEP 3: Remove all objects which were either deleted or replaced
-        HashMap<String, ReplacedElementInfo> replacedElements = removeReplacedAndDeletedElements(modelCopy, compModelPlugin);
+        Map<String, ReplacedElementInfo> replacedElements = removeReplacedAndDeletedElements(modelCopy, compModelPlugin);
 
         // STEP 4: Add newly created InitialAssignments and Rules
         addNewElementsWithVariables(modelCopy);
@@ -259,7 +259,7 @@ public class CompFlatteningConverter {
      */
     private void parseListOfDeletions(List<Deletion> deletions, List<String> curPath, String submodelID) {
 
-        HashMap<String, ReplacedElementInfo> replacedIDElementsInModel = null;
+        Map<String, ReplacedElementInfo> replacedIDElementsInModel = null;
         if(this.replacedAndDeletedElementsHashMap.containsKey(curPath)) {
             replacedIDElementsInModel = this.replacedAndDeletedElementsHashMap.get(curPath).get(IdType.ID);
         }
@@ -287,19 +287,19 @@ public class CompFlatteningConverter {
 
             // Add deleted element to replacedAndDeletedElementsHashMap
             if (deletedElementRef != null) {
-                HashMap<IdType, HashMap<String, ReplacedElementInfo>> deletedElementsForModel = this.replacedAndDeletedElementsHashMap.get(deletionPath);
+                Map<IdType, Map<String, ReplacedElementInfo>> deletedElementsForModel = this.replacedAndDeletedElementsHashMap.get(deletionPath);
                 if (deletedElementsForModel == null) {
-                    HashMap<String, ReplacedElementInfo> innerHashMap = new HashMap<>();
+                    Map<String, ReplacedElementInfo> innerHashMap = new HashMap<>();
                     innerHashMap.put(deletedElementRef, null);
-                    HashMap<IdType, HashMap<String, ReplacedElementInfo>> idHashMap = new HashMap<>();
+                    Map<IdType, Map<String, ReplacedElementInfo>> idHashMap = new HashMap<>();
                     idHashMap.put(deletedElementType, innerHashMap);
                     this.replacedAndDeletedElementsHashMap.put(deletionPath, idHashMap);
                 } else {
-                    HashMap<String, ReplacedElementInfo> idHashMap = deletedElementsForModel.get(deletedElementType);
+                    Map<String, ReplacedElementInfo> idHashMap = deletedElementsForModel.get(deletedElementType);
                     if (idHashMap != null) {
                         idHashMap.put(deletedElementRef, null);
                     } else {
-                        HashMap<String, ReplacedElementInfo> deletedIDs = new HashMap<>();
+                        Map<String, ReplacedElementInfo> deletedIDs = new HashMap<>();
                         deletedIDs.put(deletedElementRef, null);
                         deletedElementsForModel.put(deletedElementType, deletedIDs);
                     }
@@ -358,10 +358,10 @@ public class CompFlatteningConverter {
                         }
                         // If replaceElement is not null add to replacedAndDeletedElementsHashMap
                         if (replacedElementRef != null) {
-                            HashMap<IdType, HashMap<String, ReplacedElementInfo>> hashMapOfModel = this.replacedAndDeletedElementsHashMap.get(submodelPath);
+                            Map<IdType, Map<String, ReplacedElementInfo>> hashMapOfModel = this.replacedAndDeletedElementsHashMap.get(submodelPath);
                             if (hashMapOfModel == null) {
-                                HashMap<IdType, HashMap<String, ReplacedElementInfo>> typeHashMap = new HashMap<IdType, HashMap<String, ReplacedElementInfo>>();
-                                HashMap<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
+                                Map<IdType, Map<String, ReplacedElementInfo>> typeHashMap = new HashMap<IdType, Map<String, ReplacedElementInfo>>();
+                                Map<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
                                 replacementHashMap.put(replacedElementRef, replacedElementInfo);
                                 typeHashMap.put(replacedElementType, replacementHashMap);
                                 this.replacedAndDeletedElementsHashMap.put(
@@ -369,9 +369,9 @@ public class CompFlatteningConverter {
                                         typeHashMap
                                 );
                             } else {
-                                HashMap<String, ReplacedElementInfo> hashMapOfRefType = hashMapOfModel.get(replacedElementType);
+                                Map<String, ReplacedElementInfo> hashMapOfRefType = hashMapOfModel.get(replacedElementType);
                                 if (hashMapOfRefType == null) {
-                                    HashMap<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
+                                    Map<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
                                     replacementHashMap.put(replacedElementRef, replacedElementInfo);
                                     hashMapOfModel.put(replacedElementType, replacementHashMap);
                                 } else {
@@ -414,7 +414,7 @@ public class CompFlatteningConverter {
                     ReplacedBy replacedBy = curCompSBasePlugin.getReplacedBy();
                     if (replacedBy != null) {
                         if (!submodelPathCopy.isEmpty()) {
-                            HashMap<IdType, HashMap<String, ReplacedElementInfo>> hashMapOfModel = this.replacedAndDeletedElementsHashMap.get(submodelPathOg);
+                            Map<IdType, Map<String, ReplacedElementInfo>> hashMapOfModel = this.replacedAndDeletedElementsHashMap.get(submodelPathOg);
                             String replacedByRef = null;
                             IdType replacedByType = null;
                             submodelPathCopy.add(replacedBy.getSubmodelRef());
@@ -463,8 +463,8 @@ public class CompFlatteningConverter {
 
                             // Add replacement to replacedAndDeletedElementsHashMap
                             if (hashMapOfModel == null) {
-                                HashMap<IdType, HashMap<String, ReplacedElementInfo>> typeHashMap = new HashMap<IdType, HashMap<String, ReplacedElementInfo>>();
-                                HashMap<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
+                                Map<IdType, Map<String, ReplacedElementInfo>> typeHashMap = new HashMap<IdType, Map<String, ReplacedElementInfo>>();
+                                Map<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
                                 replacementHashMap.put(sBaseID, replacedElementInfo);
                                 typeHashMap.put(IdType.ID, replacementHashMap);
                                 this.replacedAndDeletedElementsHashMap.put(
@@ -472,9 +472,9 @@ public class CompFlatteningConverter {
                                         typeHashMap
                                 );
                             } else {
-                                HashMap<String, ReplacedElementInfo> hashMapOfRefType = hashMapOfModel.get(IdType.ID);
+                                Map<String, ReplacedElementInfo> hashMapOfRefType = hashMapOfModel.get(IdType.ID);
                                 if (hashMapOfRefType == null) {
-                                    HashMap<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
+                                    Map<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
                                     replacementHashMap.put(sBaseID, replacedElementInfo);
                                     hashMapOfModel.put(IdType.ID, replacementHashMap);
                                 } else {
@@ -506,7 +506,7 @@ public class CompFlatteningConverter {
      * @param extentConvFactorNode
      */
     private void addPrefixesAndReplacementsToModelReferences(Model model, String subModelPrefix,
-                                                             HashMap<String, ReplacedElementInfo> replacedElementsHashMap,
+                                                             Map<String, ReplacedElementInfo> replacedElementsHashMap,
                                                              ASTNode timeConvFactorNode,
                                                              ASTNode extentConvFactorNode) {
 
@@ -672,7 +672,7 @@ public class CompFlatteningConverter {
     }
 
     /**
-     *  Set units of newly created model according to original model
+     * Set units of newly created model according to original model
      *
      * @param ogModel original model
      */
@@ -741,7 +741,7 @@ public class CompFlatteningConverter {
      * @param subModelPrefix
      * @param timeConvFactorNode
      */
-    private void replaceVariables(ASTNode parent, HashMap<String, ReplacedElementInfo> replacedElementsHashMap,
+    private void replaceVariables(ASTNode parent, Map<String, ReplacedElementInfo> replacedElementsHashMap,
                                   String subModelPrefix, ASTNode timeConvFactorNode) {
 
         int i = 0;
@@ -768,7 +768,7 @@ public class CompFlatteningConverter {
      * @param replacedElementsHashMap
      * @param subModelPrefix
      */
-    private void updateIDs(SBase sBase, HashMap<String, ReplacedElementInfo> replacedElementsHashMap, String subModelPrefix) {
+    private void updateIDs(SBase sBase, Map<String, ReplacedElementInfo> replacedElementsHashMap, String subModelPrefix) {
 
         if(sBase.isSetId()) {
             if (replacedElementsHashMap.containsKey(sBase.getId())) {
@@ -797,8 +797,8 @@ public class CompFlatteningConverter {
      * @param subModelPrefix
      * @param model
      */
-    private void updateUnits(SBaseWithUnit sBase, HashMap<String, ReplacedElementInfo> replacedElementsHashMap,
-                             String subModelPrefix, Model model) {
+    private void updateUnits(SBaseWithUnit sBase, Map<String, ReplacedElementInfo> replacedElementsHashMap,
+                               String subModelPrefix, Model model) {
 
         if(sBase.isSetUnits()) {
             if (replacedElementsHashMap.containsKey(sBase.getUnits())) {
@@ -816,18 +816,18 @@ public class CompFlatteningConverter {
      *
      * @param modelCopy
      * @param compModelPlugin
-     * @return Hash map of replaced elements
+     * @return Map of replaced elements
      */
-    private HashMap<String, ReplacedElementInfo> removeReplacedAndDeletedElements(Model modelCopy, CompModelPlugin compModelPlugin) {
+    private Map<String, ReplacedElementInfo> removeReplacedAndDeletedElements(Model modelCopy, CompModelPlugin compModelPlugin) {
 
-        // Get all replaced and deleted Elements for current model and initialize ReplacedElements hash map
-        HashMap<IdType, HashMap<String, ReplacedElementInfo>> replacedElementsInModel = this.replacedAndDeletedElementsHashMap.get(curPath);
-        HashMap<String, ReplacedElementInfo> replacedElements = new HashMap<>();
+        // Get all replaced and deleted Elements for current model and initialize ReplacedElements map
+        Map<IdType, Map<String, ReplacedElementInfo>> replacedElementsInModel = this.replacedAndDeletedElementsHashMap.get(curPath);
+        Map<String, ReplacedElementInfo> replacedElements = new HashMap<>();
 
         Model ogModelCopy = modelCopy.clone();
 
         if (replacedElementsInModel != null) {
-            // Iterate over every entry in hash map of replaced and deleted elements
+            // Iterate over every entry in map of replaced and deleted elements
             for (IdType key : replacedElementsInModel.keySet()) {
                 // Different replacement procedures are needed depending on idType (id, metaID, portID, unitID) of the element that is replaced
                 switch (key) {
@@ -907,7 +907,7 @@ public class CompFlatteningConverter {
                                 UnitDefinition unitDef = modelCopy.getUnitDefinition(entry.getKey());
                                 unitDef.removeFromParent();
                                 if (entry.getValue() != null) {
-                                    HashMap<String, String> hashMap = new HashMap<>();
+                                    Map<String, String> hashMap = new HashMap<>();
                                     hashMap.put(entry.getKey(), entry.getValue().id);
                                     replacedElements.put(entry.getKey(), entry.getValue());
                                 }
@@ -973,7 +973,7 @@ public class CompFlatteningConverter {
                                 UnitDefinition unitDef = modelCopy.getUnitDefinition(entry.getKey());
                                 unitDef.removeFromParent();
                                 if (entry.getValue() != null) {
-                                    HashMap<String, String> hashMap = new HashMap<>();
+                                    Map<String, String> hashMap = new HashMap<>();
                                     hashMap.put(entry.getKey(), entry.getValue().id);
                                     replacedElements.put(entry.getKey(), entry.getValue());
                                 }
@@ -989,7 +989,7 @@ public class CompFlatteningConverter {
                             //modelCopy.getElementBySId(unitDef.getId()).removeFromParent();
                             unitDef.removeFromParent();
                             if (entry.getValue() != null) {
-                                HashMap<String, String> hashMap = new HashMap<>();
+                                Map<String, String> hashMap = new HashMap<>();
                                 hashMap.put(entry.getKey(), entry.getValue().id);
                                 //newUnitDefMaps.add(hashMap);
                                 replacedElements.put(entry.getKey(), entry.getValue());
@@ -1069,7 +1069,7 @@ public class CompFlatteningConverter {
      * @param newElInfo
      * @param replacedElements
      */
-    private void checkInitialAssignmentsAndRules(Model modelCopy, String replacedID, ReplacedElementInfo newElInfo, HashMap<String, ReplacedElementInfo> replacedElements) {
+    private void checkInitialAssignmentsAndRules(Model modelCopy, String replacedID, ReplacedElementInfo newElInfo, Map<String, ReplacedElementInfo> replacedElements) {
 
 
         // Initial Assignments
@@ -1230,10 +1230,10 @@ public class CompFlatteningConverter {
     }
 
     /**
-     *  Get all lists excluding the list in each reaction
+     * Get all lists excluding the list in each reaction
      *
-     *  @param model
-     *  @return
+     * @param model
+     * @return
      */
     private List<? extends ListOf<? extends AbstractSBase>> getAllListsOfModel(Model model) {
         return Arrays.asList(
@@ -1263,7 +1263,7 @@ public class CompFlatteningConverter {
      * @param i
      */
     private void applyConvFactorToNode(ASTNode node, ASTNode parent,
-                                       HashMap<String, ReplacedElementInfo> replacedElementsHashMap,
+                                       Map<String, ReplacedElementInfo> replacedElementsHashMap,
                                        String subModelPrefix, ASTNode timeConvFactorNode, int i) {
 
         if (node.getType() == ASTNode.Type.NAME) {
@@ -1346,7 +1346,7 @@ public class CompFlatteningConverter {
         if (listOfObjects.getSBaseListType() == ListOf.Type.listOfReactions) {
 
 
-/*            for(Reaction reaction: targetModel.getListOfReactions()) {
+/* for(Reaction reaction: targetModel.getListOfReactions()) {
                 for (SpeciesReference specRef : reaction.getListOfProducts()) {
                     System.out.println("Target SR: " + targetModel.getElementBySId("z_stoich"));
                 }
@@ -1528,14 +1528,14 @@ public class CompFlatteningConverter {
      * are URLs or relative paths)
      *
      * @param document an {@link SBMLDocument}, which might, but need not, contain
-     *                 {@link ExternalModelDefinition}s to be transferred into its local
-     *                 {@link ModelDefinition}s. The locationURI of the given document need
-     *                 be set ({@link SBMLDocument#isSetLocationURI})!
+     * {@link ExternalModelDefinition}s to be transferred into its local
+     * {@link ModelDefinition}s. The locationURI of the given document need
+     * be set ({@link SBMLDocument#isSetLocationURI})!
      * @return a new {@link SBMLDocument} without {@link
      * ExternalModelDefinition}s, but containing the same information as
      * the given one
      * @throws Exception if given document's locationURI is not set. Set it with
-     *                   {@link SBMLDocument#setLocationURI}
+     * {@link SBMLDocument#setLocationURI}
      */
     public static SBMLDocument internaliseExternalModelDefinitions(
             SBMLDocument document) throws Exception {
