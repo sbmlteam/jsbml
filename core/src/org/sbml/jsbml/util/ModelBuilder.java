@@ -36,6 +36,7 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.SBase;
 
 /**
  * This class provides a collection of convenient methods to create SBML models
@@ -250,9 +251,50 @@ public class ModelBuilder {
    * @param sizeUnits
    * @return
    */
-  public Compartment buildCompartment(String id, boolean constant, String name, double spatialDimensions, double size, String sizeUnits) {
+  /**
+   * Creates or returns a {@link Compartment} with the given identifier.
+   * <p>
+   * If a compartment with the given {@code id} already exists in the underlying
+   * {@link Model}, this method returns that compartment unchanged and does not
+   * apply the other arguments. If no such compartment exists, a new one is created
+   * and the provided arguments are used to initialise its attributes.
+   * <p>
+   * If an element with the same {@code id} exists in the model but is not a
+   * {@link Compartment}, an {@link IllegalArgumentException} is thrown.
+   *
+   * @param id
+   *        the id of the compartment to create or return
+   * @param constant
+   *        value for {@code constant} if a new compartment is created
+   * @param name
+   *        value for {@code name} if a new compartment is created
+   * @param spatialDimensions
+   *        value for {@code spatialDimensions} if a new compartment is created
+   * @param size
+   *        value for {@code size} if a new compartment is created
+   * @param sizeUnits
+   *        units for {@code size} if a new compartment is created
+   * @return the existing or newly created {@link Compartment}
+   */
+  public Compartment buildCompartment(String id, boolean constant, String name,
+      double spatialDimensions, double size, String sizeUnits) {
     Model model = getModel();
-    Compartment c = model.createCompartment(id);
+    Compartment c = model.getCompartment(id);
+
+    if (c != null) {
+      return c;
+    }
+
+    if (id != null) {
+      SBase existing = model.findNamedSBase(id);
+      if (existing != null && !(existing instanceof Compartment)) {
+        throw new IllegalArgumentException(
+            "Element with id '" + id + "' already exists and is of type "
+                + existing.getElementName() + ", not a compartment.");
+      }
+    }
+
+    c = model.createCompartment(id);
     c.setConstant(constant);
     c.setName(name);
     c.setSpatialDimensions(spatialDimensions);
@@ -260,6 +302,7 @@ public class ModelBuilder {
     if (sizeUnits != null) {
       c.setUnits(sizeUnits);
     }
+
     return c;
   }
 
@@ -292,14 +335,32 @@ public class ModelBuilder {
   }
 
   /**
+   * Creates or returns the {@link Model} associated with this {@link SBMLDocument}.
+   * <p>
+   * If the document already contains a model, this method returns that model unchanged
+   * and does not alter its identifier. Otherwise, a new model is created with the
+   * given {@code id}. If {@code name} is non-null, it is applied as the model's
+   * name (only when the model is created or does not yet have a name).
    *
    * @param id
+   *        the id to use if a new model is created
    * @param name
-   * @return
+   *        an optional name to assign
+   * @return the existing or newly created {@link Model}
    */
   public Model buildModel(String id, String name) {
-    Model model = doc.createModel(id);
-    model.setName(name);
+    Model model;
+
+    if (doc.isSetModel()) {
+      model = doc.getModel();
+    } else {
+      model = doc.createModel(id);
+    }
+
+    if (name != null && !model.isSetName()) {
+      model.setName(name);
+    }
+
     return model;
   }
 
@@ -312,12 +373,41 @@ public class ModelBuilder {
    * @param units
    * @return
    */
-  public Parameter buildParameter(String id, String name, double value, boolean constant, String units) {
-    Parameter p = getModel().createParameter(id);
+  /**
+   * Creates or returns a {@link Parameter} with the given identifier.
+   * <p>
+   * If a parameter with the given {@code id} already exists in the underlying
+   * {@link Model}, this method returns that parameter unchanged and does not
+   * apply the other arguments. If no such parameter exists, a new one is
+   * created and the provided arguments are used to initialise its attributes.
+   * <p>
+   * If an element with the same {@code id} exists in the model but is not a
+   * {@link Parameter}, an {@link IllegalArgumentException} is thrown.
+   */
+  public Parameter buildParameter(String id, String name, double value,
+      boolean constant, String units) {
+    Model model = getModel();
+    Parameter p = model.getParameter(id);
+
+    if (p != null) {
+      return p;
+    }
+
+    if (id != null) {
+      SBase existing = model.findNamedSBase(id);
+      if (existing != null && !(existing instanceof Parameter)) {
+        throw new IllegalArgumentException(
+            "Element with id '" + id + "' already exists and is of type "
+                + existing.getElementName() + ", not a parameter.");
+      }
+    }
+
+    p = model.createParameter(id);
     p.setName(name);
     p.setValue(value);
     p.setConstant(constant);
     p.setUnits(units);
+
     return p;
   }
 
@@ -369,15 +459,43 @@ public class ModelBuilder {
    * @param reversible
    * @return
    */
-  public Reaction buildReaction(String id, String name, String compartment, boolean fast, boolean reversible) {
+  /**
+   * Creates or returns a {@link Reaction} with the given identifier.
+   * <p>
+   * If a reaction with the given {@code id} already exists in the underlying
+   * {@link Model}, this method returns that reaction unchanged and does not
+   * apply the other arguments. If no such reaction exists, a new one is created
+   * and the provided arguments are used to initialise its attributes.
+   * <p>
+   * If an element with the same {@code id} exists in the model but is not a
+   * {@link Reaction}, an {@link IllegalArgumentException} is thrown.
+   */
+  public Reaction buildReaction(String id, String name, String compartment,
+      boolean fast, boolean reversible) {
     Model model = getModel();
-    Reaction r = model.createReaction(id);
+    Reaction r = model.getReaction(id);
+
+    if (r != null) {
+      return r;
+    }
+
+    if (id != null) {
+      SBase existing = model.findNamedSBase(id);
+      if (existing != null && !(existing instanceof Reaction)) {
+        throw new IllegalArgumentException(
+            "Element with id '" + id + "' already exists and is of type "
+                + existing.getElementName() + ", not a reaction.");
+      }
+    }
+
+    r = model.createReaction(id);
     r.setName(name);
     if (compartment != null) {
       r.setCompartment(compartment);
     }
     r.setFast(fast);
     r.setReversible(reversible);
+
     return r;
   }
 
@@ -450,12 +568,38 @@ public class ModelBuilder {
    * @param substanceUnits
    * @return
    */
+  /**
+   * Creates or returns a {@link Species} with the given identifier.
+   * <p>
+   * If a species with the given {@code id} already exists in the underlying
+   * {@link Model}, this method returns that species unchanged and does not
+   * apply the other arguments. If no such species exists, a new one is created
+   * and the provided arguments are used to initialise its attributes.
+   * <p>
+   * If an element with the same {@code id} exists in the model but is not a
+   * {@link Species}, an {@link IllegalArgumentException} is thrown.
+   */
   public Species buildSpecies(String id, String name,
-    String compartmentId, boolean hasOnlySubstanceUnits,
-    boolean boundaryCondition, boolean constant, double initialConcentration,
-    String substanceUnits) {
+      String compartmentId, boolean hasOnlySubstanceUnits,
+      boolean boundaryCondition, boolean constant, double initialConcentration,
+      String substanceUnits) {
     Model model = getModel();
-    Species s = model.createSpecies(id);
+    Species s = model.getSpecies(id);
+
+    if (s != null) {
+      return s;
+    }
+
+    if (id != null) {
+      SBase existing = model.findNamedSBase(id);
+      if (existing != null && !(existing instanceof Species)) {
+        throw new IllegalArgumentException(
+            "Element with id '" + id + "' already exists and is of type "
+                + existing.getElementName() + ", not a species.");
+      }
+    }
+
+    s = model.createSpecies(id);
     s.setName(name);
     s.setCompartment(compartmentId);
     s.setHasOnlySubstanceUnits(hasOnlySubstanceUnits);
@@ -463,6 +607,7 @@ public class ModelBuilder {
     s.setConstant(constant);
     s.setInitialConcentration(initialConcentration);
     s.setSubstanceUnits(substanceUnits);
+
     return s;
   }
 
@@ -481,15 +626,40 @@ public class ModelBuilder {
    * @param name
    * @return
    */
+  /**
+   * Creates or returns a {@link UnitDefinition} with the given identifier.
+   * <p>
+   * If a unit definition with the given {@code id} already exists in the
+   * underlying {@link Model}, this method returns that unit definition unchanged
+   * and does not apply the other arguments. If no such unit definition exists,
+   * a new one is created and the provided arguments are used to initialise its
+   * attributes.
+   * <p>
+   * Note that {@link UnitDefinition} objects live in their own namespace and
+   * may have the same id as SId-based elements without causing clashes.
+   *
+   * @param id
+   *        the id of the unit definition
+   * @param name
+   *        the optional name to assign
+   * @param units
+   *        optional units to add if a new definition is created
+   * @return the existing or newly created {@link UnitDefinition}
+   */
   public UnitDefinition buildUnitDefinition(String id, String name, Unit... units) {
     Model model = getModel();
-    UnitDefinition ud = model.createUnitDefinition(id);
-    ud.setName(name);
-    if (units != null) {
-      for (Unit unit : units) {
-        ud.addUnit(unit);
+    UnitDefinition ud = model.getUnitDefinition(id);
+
+    if (ud == null) {
+      ud = model.createUnitDefinition(id);
+      ud.setName(name);
+      if (units != null) {
+        for (Unit unit : units) {
+          ud.addUnit(unit);
+        }
       }
     }
+
     return ud;
   }
 
