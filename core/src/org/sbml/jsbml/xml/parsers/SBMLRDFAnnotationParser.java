@@ -37,6 +37,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
+import org.sbml.jsbml.xml.RDFConstants;
 import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser.NODE_COLOR;
 import org.w3c.util.DateParser;
 import org.w3c.util.InvalidDateException;
@@ -169,7 +170,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         return NODE_COLOR.WHITE;
       }
 
-      XMLNode rdfNode = annotationXMLNode.getChildElement("RDF", Annotation.URI_RDF_SYNTAX_NS);
+      XMLNode rdfNode = annotationXMLNode.getChildElement(RDFConstants.RDF, Annotation.URI_RDF_SYNTAX_NS);
 
       return isValidRDFDescription(rdfNode);
     }
@@ -189,7 +190,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       }
 
       NODE_COLOR rdfNodeColor = null;
-      List<XMLNode> descriptionNodes = rdfNode.getChildElements("Description", Annotation.URI_RDF_SYNTAX_NS);
+      List<XMLNode> descriptionNodes = rdfNode.getChildElements(RDFConstants.DESCRIPTION, Annotation.URI_RDF_SYNTAX_NS);
 
       if (descriptionNodes == null || descriptionNodes.size() == 0) {
         rdfNodeColor = NODE_COLOR.WHITE;
@@ -274,10 +275,10 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
       // dc:creator->rdf:Bag->rdf:li*->VCard:stuff*
       NODE_COLOR wholeColor = NODE_COLOR.GREEN;
-      XMLNode bagNode = creatorNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
+      XMLNode bagNode = creatorNode.getChildElement(RDFConstants.BAG, Annotation.URI_RDF_SYNTAX_NS);
 
       if (bagNode != null) {
-        List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
+        List<XMLNode> liNodes = bagNode.getChildElements(RDFConstants.LI, Annotation.URI_RDF_SYNTAX_NS);
 
         if (liNodes != null && liNodes.size() > 0) {
 
@@ -509,7 +510,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       readRDFURIs(contextObject, descriptionNode);
       readRDFHistory(contextObject, descriptionNode);
 
-      contextObject.getAnnotation().setAbout(descriptionNode.getAttrValue("about", Annotation.URI_RDF_SYNTAX_NS));
+      contextObject.getAnnotation().setAbout(descriptionNode.getAttrValue(RDFConstants.ABOUT, Annotation.URI_RDF_SYNTAX_NS));
 
       descriptionNode.removeAttr("about", Annotation.URI_RDF_SYNTAX_NS);
       boolean removed = removeXmlNodeIfEmpty(descriptionNode);
@@ -520,9 +521,9 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
         if (nbChildElements > 0 || nbAttributes > 0) {
           // removing the usual namespace declarations if the node is empty
-          rdfNode.removeNamespace("rdf");
-          rdfNode.removeNamespace("dc");
-          rdfNode.removeNamespace("dcterms");
+          rdfNode.removeNamespace(RDFConstants.PREFIX_RDF);
+          rdfNode.removeNamespace(RDFConstants.PREFIX_DC);
+          rdfNode.removeNamespace(RDFConstants.PREFIX_DCTERMS);
           rdfNode.removeNamespace("vcard");
           rdfNode.removeNamespace("vCard");
           rdfNode.removeNamespace("bqbiol");
@@ -1268,7 +1269,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
         annotationXMLNode = new XMLNode(new XMLTriple("annotation"), new XMLAttributes());
       }
 
-      XMLNode rdfNode = getOrCreate(annotationXMLNode, "RDF", Annotation.URI_RDF_SYNTAX_NS, "rdf");
+      XMLNode rdfNode = getOrCreate(annotationXMLNode, RDFConstants.RDF, Annotation.URI_RDF_SYNTAX_NS, RDFConstants.PREFIX_RDF);
       rdfNode.addNamespace(Annotation.URI_RDF_SYNTAX_NS, "rdf");
 
       // writing only the needed namespaces
@@ -1279,7 +1280,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
       if (contextObject.isSetHistory() &&
           (contextObject.getHistory().isSetCreatedDate() || contextObject.getHistory().isSetModifiedDate()))
       {
-        rdfNode.addNamespace(JSBML.URI_PURL_TERMS, "dcterms");
+        rdfNode.addNamespace(JSBML.URI_PURL_TERMS, RDFConstants.PREFIX_DCTERMS);
       }
       if (contextObject.getCVTermCount() > 0) {
         boolean needBqModel = false;
@@ -1307,7 +1308,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
       // check if the rdf:about value is correct
       checkAbout(contextObject);
-      descriptionNode.addAttr("about", contextObject.getAnnotation().getAbout(), Annotation.URI_RDF_SYNTAX_NS, "rdf");
+      descriptionNode.addAttr(RDFConstants.ABOUT, contextObject.getAnnotation().getAbout(), Annotation.URI_RDF_SYNTAX_NS, RDFConstants.PREFIX_RDF);
 
       writeHistory(contextObject, descriptionNode);
       writeURIs(contextObject, descriptionNode);
