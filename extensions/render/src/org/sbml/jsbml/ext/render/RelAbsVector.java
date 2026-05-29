@@ -22,6 +22,8 @@ package org.sbml.jsbml.ext.render;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.TreeNodeVisitor;
+import org.sbml.jsbml.ext.layout.BoundingBox;
 
 /**
  * Implements the RelAbsVector-datatype defined in the render-specification:
@@ -327,4 +329,17 @@ public class RelAbsVector extends AbstractTreeNode {
   public boolean getAllowsChildren() {
     return false;
   }
+
+  /**
+     * Accepts a generic visitor to traverse this component.
+     *
+     * @param <T> the return type of the visitor
+     * @param visitor the visitor implementation
+     * @return the result of the visitor operation
+     */
+    @Override
+    public <T> T accept(TreeNodeVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
 }

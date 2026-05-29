@@ -28,6 +28,7 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.TreeNodeVisitor;
 import org.sbml.jsbml.util.filters.Filter;
 
 /**
@@ -320,5 +321,14 @@ Serializable {
    */
   public boolean addAllChangeListeners(
     Collection<TreeNodeChangeListener> listeners, boolean recursive);
+
+  /**
+   * Accepts a generic visitor to traverse this node.
+   *
+   * @param <T> the return type of the visitor
+   * @param visitor the visitor implementation
+   * @return the result of the visitor operation
+   */
+  public <T> T accept(TreeNodeVisitor<T> visitor);
 
 }

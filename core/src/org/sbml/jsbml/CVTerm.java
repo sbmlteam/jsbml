@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -1403,6 +1404,17 @@ public class CVTerm extends AnnotationElement {
    */
   public void setUnknownQualifierName(String unknownQualifierName) {
     this.unknownQualifierName = unknownQualifierName;
+  }
+
+  /**
+   * Accepts a generic visitor to traverse this component.
+   *
+   * @param <T> the return type of the visitor
+   * @param visitor the visitor implementation
+   * @return the result of the visitor operation
+   */
+  public <T> T accept(TreeNodeVisitor<T> visitor) {
+    return visitor.visit(this);
   }
 
 }

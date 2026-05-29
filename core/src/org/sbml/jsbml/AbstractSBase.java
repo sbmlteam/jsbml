@@ -3492,4 +3492,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
 
+  /**
+   * Accepts a generic visitor to traverse this SBase component.
+   *
+   * @param <T> the return type of the visitor
+   * @param visitor the visitor implementation
+   * @return the result of the visitor operation
+   */
+  @Override
+  public <T> T accept(TreeNodeVisitor<T> visitor) {
+    return visitor.visit(this);
+  }
+
 }

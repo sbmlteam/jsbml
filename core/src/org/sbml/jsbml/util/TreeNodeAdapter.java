@@ -32,6 +32,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.TreeNodeVisitor;
 
 /**
  * <p>
@@ -294,6 +295,17 @@ public class TreeNodeAdapter extends AbstractTreeNode {
       return userObject.toString();
     }
     return super.toString();
+  }
+
+  /**
+   * Accepts a generic visitor to traverse this component.
+   *
+   * @param <T> the return type of the visitor
+   * @param visitor the visitor implementation
+   * @return the result of the visitor operation
+   */
+  public <T> T accept(TreeNodeVisitor<T> visitor) {
+    return visitor.visit(this);
   }
 
 }

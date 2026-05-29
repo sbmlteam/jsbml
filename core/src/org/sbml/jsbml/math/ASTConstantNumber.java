@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.TreeNodeVisitor;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
@@ -217,6 +218,17 @@ public class ASTConstantNumber extends ASTNumber {
       logger.error("Unable to create MathML");
       return null;
     }
+  }
+
+  /**
+   * Accepts a generic visitor to traverse this component.
+   *
+   * @param <T> the return type of the visitor
+   * @param visitor the visitor implementation
+   * @return the result of the visitor operation
+   */
+  public <T> T accept(TreeNodeVisitor<T> visitor) {
+    return visitor.visit(this);
   }
 
 }

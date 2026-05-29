@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.TreeNodeVisitor;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -326,5 +327,17 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   public Map<String, String> writeXMLAttributes() {
     return new TreeMap<String, String>();
   }
+
+  /**
+     * Accepts a generic visitor to traverse this component.
+     *
+     * @param <T> the return type of the visitor
+     * @param visitor the visitor implementation
+     * @return the result of the visitor operation
+     */
+    @Override
+    public <T> T accept(TreeNodeVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 
 }

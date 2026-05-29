@@ -506,4 +506,16 @@ public class History extends AnnotationElement {
 	}
     return result.toString();
   }
+
+  /**
+   * Accepts a generic visitor to traverse this component.
+   *
+   * @param <T> the return type of the visitor
+   * @param visitor the visitor implementation
+   * @return the result of the visitor operation
+   */
+  public <T> T accept(TreeNodeVisitor<T> visitor) {
+    return visitor.visit(this);
+  }
+  
 }

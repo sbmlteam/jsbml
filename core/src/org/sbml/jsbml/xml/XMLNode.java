@@ -28,6 +28,7 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.TreeNodeVisitor;
 import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -766,6 +767,17 @@ public class XMLNode extends XMLToken {
     }
 
     return foundNodes;
+  }
+
+  /**
+   * Accepts a generic visitor to traverse this component.
+   *
+   * @param <T> the return type of the visitor
+   * @param visitor the visitor implementation
+   * @return the result of the visitor operation
+   */
+  public <T> T accept(TreeNodeVisitor<T> visitor) {
+    return visitor.visit(this);
   }
 
 }
