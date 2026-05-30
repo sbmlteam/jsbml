@@ -62,7 +62,7 @@ public class AntimonySerializer implements AntimonyConstants {
         StringBuilder ant = new StringBuilder();
         
         String modelName = model.isSetName() ? model.getName() : model.getId();
-        ant.append(MODEL).append(modelName).append("()\n\n");
+        ant.append(MODEL).append(" ").append(modelName).append("()\n\n");
 
         ant.append("  // Compartments\n");
         for (Compartment c : model.getListOfCompartments()) {
@@ -94,7 +94,7 @@ public class AntimonySerializer implements AntimonyConstants {
         }
         ant.append("\n");
 
-        ant.append(END);
+        ant.append(END).append("\n");
 
         return ant.toString();
     }
@@ -105,7 +105,7 @@ public class AntimonySerializer implements AntimonyConstants {
     public static String toAntimony(Compartment c) {
         if (c == null) return "";
         StringBuilder ant = new StringBuilder();
-        ant.append(COMPARTMENT).append(c.getId());
+        ant.append(COMPARTMENT).append(" ").append(c.getId());
         if (c.isSetSize()) {
             ant.append(" = ").append(c.getSize());
         }
@@ -126,9 +126,9 @@ public class AntimonySerializer implements AntimonyConstants {
 
         // 1. Handle Substance Units
         if (hOSU) {
-            ant.append(SUBSTANCE_ONLY);
+            ant.append(SUBSTANCE_ONLY).append(" ").append(SPECIES).append(" ");
         } else {
-            ant.append(SPECIES);
+            ant.append(SPECIES).append(" ");
         }
 
         // 2. Handle Boundary Condition
@@ -140,7 +140,7 @@ public class AntimonySerializer implements AntimonyConstants {
 
         // Compartment assignment
         if (s.isSetCompartment()) {
-            ant.append(IN).append(s.getCompartment());
+            ant.append(" ").append(IN).append(" ").append(s.getCompartment());
         }
 
         // 3. Handle Initial Values based on Concentration vs Amount assumptions
@@ -194,9 +194,9 @@ public class AntimonySerializer implements AntimonyConstants {
 
         // 3. Reversibility (Antimony uses -> for reversible, => for irreversible)
         if (r.isSetReversible() && !r.getReversible()) {
-            ant.append(IRREVERSIBLE);
+            ant.append(" ").append(IRREVERSIBLE).append(" ");
         } else {
-            ant.append(REVERSIBLE);
+            ant.append(" ").append(REVERSIBLE).append(" ");
         }
 
         // 4. Products
@@ -236,11 +236,11 @@ public class AntimonySerializer implements AntimonyConstants {
         String math = ASTNode.formulaToString(r.getMath());
         
         if (r instanceof AssignmentRule) {
-            return ((AssignmentRule) r).getVariable() + ASSIGNMENT + math + ";";
+            return ((AssignmentRule) r).getVariable() + " " + ASSIGNMENT + " " + math + ";";
         } else if (r instanceof RateRule) {
-            return ((RateRule) r).getVariable() + RATE + math + ";";
+            return ((RateRule) r).getVariable() + RATE + " = " + math + ";";
         } else if (r instanceof AlgebraicRule) {
-            return ALGEBRAIC + math + ";";
+            return ALGEBRAIC + " = " + math + ";";
         }
         
         return "// Unsupported Rule type.";
@@ -258,13 +258,13 @@ public class AntimonySerializer implements AntimonyConstants {
             ant.append(e.getId()).append(": ");
         }
 
-        ant.append(AT);
+        ant.append(AT).append(" ");
         boolean hasTrigger = e.isSetTrigger() && e.getTrigger().isSetMath();
         boolean hasDelay = e.isSetDelay() && e.getDelay().isSetMath();
 
         if (hasDelay && hasTrigger) {
             ant.append(ASTNode.formulaToString(e.getDelay().getMath()));
-            ant.append(AFTER);
+            ant.append(" ").append(AFTER).append(" ");
             ant.append(ASTNode.formulaToString(e.getTrigger().getMath()));
         } else if (hasTrigger) {
             ant.append(ASTNode.formulaToString(e.getTrigger().getMath()));
@@ -272,15 +272,15 @@ public class AntimonySerializer implements AntimonyConstants {
 
         // Advanced Event Options
         if (e.isSetPriority() && e.getPriority().isSetMath()) {
-            ant.append(PRIORITY).append(ASTNode.formulaToString(e.getPriority().getMath()));
+            ant.append(", ").append(PRIORITY).append(" = ").append(ASTNode.formulaToString(e.getPriority().getMath()));
         }
         if (e.isSetTrigger()) {
             org.sbml.jsbml.Trigger t = e.getTrigger();
             if (t.isSetInitialValue() && !t.getInitialValue()) {
-                ant.append(T0_FALSE);
+                ant.append(", ").append(T0_FALSE).append(" = false");
             }
             if (t.isSetPersistent() && !t.getPersistent()) {
-                ant.append(PERSISTENT_FALSE);
+                ant.append(", ").append(PERSISTENT_FALSE).append(" = false");
             }
         }
         ant.append(": ");
