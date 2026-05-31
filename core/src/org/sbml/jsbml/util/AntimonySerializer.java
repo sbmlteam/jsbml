@@ -14,6 +14,8 @@ import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.FunctionDefinition;
 
 /**
  * Utility class to serialize SBML models and components into the Antimony scripting language.
@@ -46,6 +48,10 @@ public class AntimonySerializer implements AntimonyConstants {
             return toAntimony((Rule) element);
         } else if (element instanceof Event) {
             return toAntimony((Event) element);
+        } else if (element instanceof Parameter) {
+            return toAntimony((Parameter) element);
+        } else if (element instanceof FunctionDefinition) {
+            return toAntimony((FunctionDefinition) element);
         }
         
         return "// Unsupported SBML component for Antimony serialization.";
@@ -91,6 +97,18 @@ public class AntimonySerializer implements AntimonyConstants {
         ant.append("  // Events\n");
         for (Event e : model.getListOfEvents()) {
             ant.append("  ").append(toAntimony(e)).append("\n");
+        }
+        ant.append("\n");
+
+        ant.append("  // Parameters\n");
+        for (Parameter p : model.getListOfParameters()) {
+            ant.append("  ").append(toAntimony(p)).append("\n");
+        }
+        ant.append("\n");
+
+        ant.append("  // Function Definitions\n");
+        for (FunctionDefinition fd : model.getListOfFunctionDefinitions()) {
+            ant.append("  ").append(toAntimony(fd)).append("\n");
         }
         ant.append("\n");
 
@@ -296,6 +314,55 @@ public class AntimonySerializer implements AntimonyConstants {
         }
 
         ant.append(";");
+        return ant.toString();
+    }
+
+    /**
+     * Converts an individual SBML Parameter into an Antimony string.
+     */
+    public static String toAntimony(Parameter p) {
+        if (p == null) return "";
+        StringBuilder ant = new StringBuilder();
+        
+        ant.append(p.getId());
+        if (p.isSetValue()) {
+            ant.append(" = ").append(p.getValue());
+        }
+        ant.append(";");
+        return ant.toString();
+    }
+
+    /**
+     * Converts an individual SBML FunctionDefinition into an Antimony string.
+     */
+    public static String toAntimony(FunctionDefinition fd) {
+        if (fd == null || !fd.isSetMath()) return "";
+        StringBuilder ant = new StringBuilder();
+        
+        ant.append("function ").append(fd.getId()).append("(");
+        
+        ASTNode math = fd.getMath();
+        if (math.isLambda()) {
+            // In JSBML, all children except the last one are the bound variables (bvars)
+            int numBvars = math.getChildCount() - 1; 
+            
+            for (int i = 0; i < numBvars; i++) {
+                // Fetch the child node directly
+                ant.append(math.getChild(i).getName());
+                if (i < numBvars - 1) {
+                    ant.append(", ");
+                }
+            }
+            ant.append(")\n  ");
+            
+            // The last child is the actual math body of the function
+            if (math.getChildCount() > 0) {
+                ASTNode body = math.getChild(math.getChildCount() - 1);
+                ant.append(ASTNode.formulaToString(body));
+            }
+        }
+        
+        ant.append("\nend\n");
         return ant.toString();
     }
 }
