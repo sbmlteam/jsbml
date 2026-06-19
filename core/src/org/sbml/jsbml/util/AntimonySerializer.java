@@ -362,7 +362,7 @@ public class AntimonySerializer implements AntimonyConstants {
             }
         }
         
-        ant.append("\nend\n");
+        ant.append("\n").append(END).append("\n");
         return ant.toString();
     }
 }
