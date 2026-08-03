@@ -23,7 +23,8 @@ import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.Priority;
-
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.FunctionDefinition;
 /**
  * Tests for the {@link AntimonySerializer} Phase 1 LLM utility.
  * 
@@ -287,5 +288,37 @@ public class AntimonySerializerTest {
         
         String expected = "E2: at 5 after x, priority = 1, t0 = false, persistent = false: S1 = 0;";
         assertEquals("Should serialize advanced event options", expected, AntimonySerializer.toAntimony(e));
+    }
+    @Test
+    public void testToAntimonyParameter() {
+        // Test a parameter with a value
+        Parameter p1 = new Parameter();
+        p1.setId("k1");
+        p1.setValue(0.5);
+        String result1 = AntimonySerializer.toAntimony(p1);
+        assertEquals("k1 = 0.5;", result1);
+        
+        // Test a parameter without a value
+        Parameter p2 = new Parameter();
+        p2.setId("k2");
+        String result2 = AntimonySerializer.toAntimony(p2);
+        assertEquals("k2;", result2);
+    }
+
+    @Test
+    public void testToAntimonyFunctionDefinition() throws Exception {
+        FunctionDefinition fd = new FunctionDefinition();
+        fd.setId("multiply");
+        
+        // In JSBML, parseFormula converts the string into a proper ASTNode tree
+        ASTNode math = ASTNode.parseFormula("lambda(x, y, x * y)"); 
+        fd.setMath(math);
+        
+        String result = AntimonySerializer.toAntimony(fd);
+        
+        // The expected Antimony output (removed spaces around the asterisk)
+        String expected = "function multiply(x, y)\n  x*y\n" + AntimonyConstants.END + "\n";
+        
+        assertEquals(expected, result);
     }
 }
