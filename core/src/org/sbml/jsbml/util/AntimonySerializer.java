@@ -1,5 +1,9 @@
 package org.sbml.jsbml.util;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Species;
@@ -25,6 +29,34 @@ import org.sbml.jsbml.FunctionDefinition;
  * @author Deepak Yadav
  */
 public class AntimonySerializer implements AntimonyConstants {
+
+    /**
+     * Keyword Mapping Table for the Abstraction Layer.
+     * All keys MUST be lowercase for safe matching.
+     */
+    private static final Map<String, String> ATTRIBUTE_MAP = new HashMap<>();
+    static {
+        // Core mapped attributes
+        ATTRIBUTE_MAP.put("size", ""); // Direct assignment
+        ATTRIBUTE_MAP.put("value", ""); // Direct assignment
+        
+        // Internal JSBML metadata and aliases to explicitly ignore
+        ATTRIBUTE_MAP.put("volume", "IGNORE");
+        ATTRIBUTE_MAP.put("version", "IGNORE");
+        ATTRIBUTE_MAP.put("level", "IGNORE");
+        ATTRIBUTE_MAP.put("levelandversion", "IGNORE");
+        ATTRIBUTE_MAP.put("parentsbmlobject", "IGNORE");
+        ATTRIBUTE_MAP.put("parent", "IGNORE");
+        ATTRIBUTE_MAP.put("constant", "IGNORE");
+        ATTRIBUTE_MAP.put("spatialdimensions", "IGNORE");
+        ATTRIBUTE_MAP.put("units", "IGNORE");
+        ATTRIBUTE_MAP.put("metaid", "IGNORE");
+        ATTRIBUTE_MAP.put("sboterm", "IGNORE");
+        ATTRIBUTE_MAP.put("notes", "IGNORE");
+        ATTRIBUTE_MAP.put("annotation", "IGNORE");
+        ATTRIBUTE_MAP.put("name", "IGNORE"); 
+        ATTRIBUTE_MAP.put("model", "IGNORE");
+    }
 
     /**
      * Generic router for UI plugins (e.g., Eclipse, IntelliJ, VSCode). 
@@ -118,17 +150,100 @@ public class AntimonySerializer implements AntimonyConstants {
     }
 
     /**
-     * Converts an individual SBML Compartment into an Antimony string.
+     * Base Abstraction Layer: Dynamically extracts and formats attributes for flat components.
+     * Uses Java reflection to find set attributes and translate them to Antimony syntax.
      */
-    public static String toAntimony(Compartment c) {
-        if (c == null) return "";
+    private static String serializeFlatComponent(SBase element, String antimonyKeyword) {
+        if (element == null) return "";
+        
         StringBuilder ant = new StringBuilder();
-        ant.append(COMPARTMENT).append(" ").append(c.getId());
-        if (c.isSetSize()) {
-            ant.append(" = ").append(c.getSize());
+        
+        // Use a Set to track and prevent duplicate values from being printed
+        java.util.Set<String> printedValues = new java.util.HashSet<>();
+        
+        // 1. Component declaration
+        if (antimonyKeyword != null && !antimonyKeyword.isEmpty()) {
+            ant.append(antimonyKeyword).append(" ");
         }
+        
+        // Ensure we have an ID
+        String id = "unknown_id";
+        try {
+            Method getIdMethod = element.getClass().getMethod("getId");
+            id = (String) getIdMethod.invoke(element);
+        } catch (Exception e) {
+            // Fallback if no ID is found
+        }
+        ant.append(id);
+        printedValues.add(id); // Prevent ID from being printed again as a property
+
+        // 2. Reflection loop to find dynamically set attributes
+        try {
+            Method[] methods = element.getClass().getMethods();
+            for (Method method : methods) {
+                String methodName = method.getName();
+                
+                // Look for zero-argument isSet methods (excluding id and name)
+                if (methodName.startsWith("isSet") && 
+                    method.getParameterTypes().length == 0 &&
+                    !methodName.equals("isSetId") && 
+                    !methodName.equals("isSetName")) {
+                    
+                    try {
+                        boolean isSet = (Boolean) method.invoke(element);
+                        if (isSet) {
+                            String rawAttributeName = methodName.substring(5); // Remove "isSet"
+                            String lowerAttributeName = rawAttributeName.toLowerCase();
+                            
+                            Method getMethod = element.getClass().getMethod("get" + rawAttributeName);
+                            Object valueObj = getMethod.invoke(element);
+                            
+                            if (valueObj == null) continue;
+                            String valueStr = valueObj.toString();
+                            
+                            // Map the attribute name for Antimony
+                            String mappedAttribute = ATTRIBUTE_MAP.getOrDefault(lowerAttributeName, lowerAttributeName);
+                            
+                            // Skip internal metadata
+                            if ("IGNORE".equals(mappedAttribute)) {
+                                continue;
+                            }
+                            
+                            // NEW: Skip if we have already printed this exact value (prevents aliases)
+                            if (printedValues.contains(valueStr)) {
+                                continue;
+                            }
+                            
+                            // Format the output
+                            if (mappedAttribute.isEmpty()) {
+                                ant.append(" = ").append(valueStr); // Direct assignment
+                            } else {
+                                ant.append(" ").append(mappedAttribute).append(" ").append(valueStr);
+                            }
+                            
+                            // Mark this value as printed
+                            printedValues.add(valueStr);
+                        }
+                    } catch (NoSuchMethodException e) {
+                        continue;
+                    } catch (Exception e) {
+                        continue;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            return "// Error during reflection serialization: " + e.getMessage();
+        }
+
         ant.append(";");
         return ant.toString();
+    }
+
+    /**
+     * Converts an individual SBML Compartment into an Antimony string using abstraction.
+     */
+    public static String toAntimony(Compartment c) {
+        return serializeFlatComponent(c, COMPARTMENT);
     }
 
     /**
@@ -318,18 +433,10 @@ public class AntimonySerializer implements AntimonyConstants {
     }
 
     /**
-     * Converts an individual SBML Parameter into an Antimony string.
+     * Converts an individual SBML Parameter into an Antimony string using abstraction.
      */
     public static String toAntimony(Parameter p) {
-        if (p == null) return "";
-        StringBuilder ant = new StringBuilder();
-        
-        ant.append(p.getId());
-        if (p.isSetValue()) {
-            ant.append(" = ").append(p.getValue());
-        }
-        ant.append(";");
-        return ant.toString();
+        return serializeFlatComponent(p, ""); // Parameters don't use a leading keyword in Antimony
     }
 
     /**
