@@ -24,6 +24,7 @@ import java.text.MessageFormat;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 /**
  * This simple implementation of the interfaces
@@ -283,7 +284,7 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
   @Override
   public void setUnits(String units) {
     if ((units != null) && (units.trim().length() == 0)) {
-      units = null; // If we pass the empty String or null, the value is reset.
+      units = null;
     }
 
     String oldUnits = unitsID;
@@ -292,24 +293,32 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
       unitsID = null;
     } else {
       units = units.trim();
+      unitsID = units;
 
       boolean illegalArgument = false;
 
       if (!Unit.isValidUnit(getModel(), units)) {
-        illegalArgument = true; // TODO - make use of the offline validation once attributes validation is in place.
+        illegalArgument = true;
       }
+      
       if (illegalArgument) {
         if (!isReadingInProgress()) {
-          throw new IllegalArgumentException(MessageFormat.format(
-            JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+          SBMLDocument doc = getSBMLDocument();
+          if (doc != null && doc.getErrorLog() != null) {
+            doc.getErrorLog().add(new SBMLError(
+              MessageFormat.format(JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units)
+            ));
+          } else {
+            throw new IllegalArgumentException(MessageFormat.format(
+              JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+          }
         } else {
           logger.info(MessageFormat.format(JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
         }
       }
-      unitsID = units;
     }
 
-    if (oldUnits != unitsID) {
+    if (oldUnits != null ? !oldUnits.equals(unitsID) : unitsID != null) {
       firePropertyChange(TreeNodeChangeEvent.units, oldUnits, unitsID);
     }
   }
