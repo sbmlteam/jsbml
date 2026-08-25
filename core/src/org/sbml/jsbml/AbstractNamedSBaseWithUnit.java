@@ -24,7 +24,8 @@ import java.text.MessageFormat;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
+import org.sbml.jsbml.validator.SyntaxChecker;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
 
 /**
  * This simple implementation of the interfaces
@@ -295,18 +296,20 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
       units = units.trim();
       unitsID = units;
 
-      boolean illegalArgument = false;
+      // Use the generic SId syntax checker with the current level and version
+      boolean isSyntaxValid = SyntaxChecker.isValidId(units, getLevel(), getVersion());
+      boolean isReferenceValid = isSyntaxValid && Unit.isValidUnit(getModel(), units);
 
-      if (!Unit.isValidUnit(getModel(), units)) {
-        illegalArgument = true;
-      }
-      
-      if (illegalArgument) {
+      if (!isSyntaxValid || !isReferenceValid) {
         if (!isReadingInProgress()) {
           SBMLDocument doc = getSBMLDocument();
           if (doc != null && doc.getErrorLog() != null) {
-            doc.getErrorLog().add(new SBMLError(
-              MessageFormat.format(JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units)
+            int errorCode = !isSyntaxValid ? 10311 : 10313;
+            
+            doc.getErrorLog().add(SBMLErrorFactory.createError(
+              errorCode, 
+              getLevel(), 
+              getVersion()
             ));
           } else {
             throw new IllegalArgumentException(MessageFormat.format(
