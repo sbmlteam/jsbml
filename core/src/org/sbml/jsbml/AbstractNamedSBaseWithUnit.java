@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.validator.SyntaxChecker;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
 
 /**
@@ -296,7 +297,6 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
       units = units.trim();
       unitsID = units;
 
-      // Use the generic SId syntax checker with the current level and version
       boolean isSyntaxValid = SyntaxChecker.isValidId(units, getLevel(), getVersion());
       boolean isReferenceValid = isSyntaxValid && Unit.isValidUnit(getModel(), units);
 
@@ -304,13 +304,19 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
         if (!isReadingInProgress()) {
           SBMLDocument doc = getSBMLDocument();
           if (doc != null && doc.getErrorLog() != null) {
-            int errorCode = !isSyntaxValid ? 10311 : 10313;
+            int errorCode = !isSyntaxValid ? SBMLErrorCodes.CORE_10311 : SBMLErrorCodes.CORE_10313;
             
-            doc.getErrorLog().add(SBMLErrorFactory.createError(
+            org.sbml.jsbml.SBMLError error = SBMLErrorFactory.createError(
               errorCode, 
               getLevel(), 
-              getVersion()
-            ));
+              getVersion(),
+              false, // Let the factory fetch the official SBML specification message!
+              this
+            );
+
+            if (error != null) {
+              doc.getErrorLog().add(error);
+            }
           } else {
             throw new IllegalArgumentException(MessageFormat.format(
               JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));

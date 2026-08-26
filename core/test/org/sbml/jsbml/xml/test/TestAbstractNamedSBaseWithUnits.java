@@ -26,9 +26,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.AbstractNamedSBaseWithUnit;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
 
 
 /**
@@ -125,6 +127,40 @@ public class TestAbstractNamedSBaseWithUnits {
   @Test
   public void testIsPredefinedUnitsID() {
     assertTrue(!sbase.isPredefinedUnitsID(kind.toString().toLowerCase()));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(java.lang.String)}
+   * when an invalid unit syntax is set on an attached node.
+   */
+  @Test
+  public void testSetInvalidUnitSyntaxWithDocumentLogsError() {
+    SBMLDocument doc = sbase.getSBMLDocument();
+    int initialErrorCount = doc.getErrorLog().getErrorCount();
+    sbase.setUnits("123 invalid syntax!"); // Malformed SId
+    org.junit.Assert.assertEquals("Error count should increment", initialErrorCount + 1, doc.getErrorLog().getErrorCount());
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(java.lang.String)}
+   * when an undefined unit is set on an attached node.
+   */
+  @Test
+  public void testSetMissingUnitReferenceWithDocumentLogsError() {
+    SBMLDocument doc = sbase.getSBMLDocument();
+    int initialErrorCount = doc.getErrorLog().getErrorCount();
+    sbase.setUnits("valid_syntax_but_missing"); // Valid SId, but not defined in model or built-ins
+    org.junit.Assert.assertEquals("Error count should increment", initialErrorCount + 1, doc.getErrorLog().getErrorCount());
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(java.lang.String)}
+   * when an invalid unit is set on an isolated node.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetInvalidUnitWithoutDocumentThrowsException() {
+    Parameter isolatedParam = new Parameter(3, 1);
+    isolatedParam.setUnits("invalid syntax!");
   }
 
 }
