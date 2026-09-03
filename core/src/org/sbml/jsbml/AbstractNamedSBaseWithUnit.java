@@ -317,7 +317,9 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
             if (error != null) {
               doc.getErrorLog().add(error);
             }
+            if (setLevelAndVersion(isSetNotes())) {
           } else {
+            unitsID = oldUnits;
             throw new IllegalArgumentException(MessageFormat.format(
               JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
           }

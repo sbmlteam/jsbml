@@ -139,6 +139,8 @@ public class TestAbstractNamedSBaseWithUnits {
     int initialErrorCount = doc.getErrorLog().getErrorCount();
     sbase.setUnits("123 invalid syntax!"); // Malformed SId
     org.junit.Assert.assertEquals("Error count should increment", initialErrorCount + 1, doc.getErrorLog().getErrorCount());
+    org.junit.Assert.assertEquals("Should log CORE_10311 for invalid UnitSId syntax",
+      (long) SBMLErrorCodes.CORE_10311, (long) doc.getErrorLog().getError(initialErrorCount).getCode());
   }
 
   /**
@@ -151,6 +153,8 @@ public class TestAbstractNamedSBaseWithUnits {
     int initialErrorCount = doc.getErrorLog().getErrorCount();
     sbase.setUnits("valid_syntax_but_missing"); // Valid SId, but not defined in model or built-ins
     org.junit.Assert.assertEquals("Error count should increment", initialErrorCount + 1, doc.getErrorLog().getErrorCount());
+    org.junit.Assert.assertEquals("Should log CORE_10313 for missing unit reference",
+      (long) SBMLErrorCodes.CORE_10313, (long) doc.getErrorLog().getError(initialErrorCount).getCode());
   }
 
   /**
