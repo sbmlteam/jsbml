@@ -298,19 +298,36 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
       unitsID = units;
 
       boolean isSyntaxValid = SyntaxChecker.isValidId(units, getLevel(), getVersion());
-      boolean isReferenceValid = isSyntaxValid && Unit.isValidUnit(getModel(), units);
+      
+      boolean isReferenceValid = false;
+      if (isSyntaxValid) {
+        Model m = getModel();
+        boolean definedInModel = (m != null) && (m.getUnitDefinition(units) != null);
+        isReferenceValid = definedInModel
+            || Unit.isUnitKind(units, getLevel(), getVersion())
+            || Unit.isPredefined(units, getLevel());
+      }
 
       if (!isSyntaxValid || !isReferenceValid) {
         if (!isReadingInProgress()) {
           SBMLDocument doc = getSBMLDocument();
           if (doc != null && doc.getErrorLog() != null) {
-            int errorCode = !isSyntaxValid ? SBMLErrorCodes.CORE_10311 : SBMLErrorCodes.CORE_10313;
+            int errorCode;
+            if (!isSyntaxValid) {
+              errorCode = SBMLErrorCodes.CORE_10311;
+            } else {
+              if (getLevel() > 2 || (getLevel() == 2 && getVersion() >= 5)) {
+                errorCode = SBMLErrorCodes.CORE_10313;
+              } else {
+                errorCode = SBMLErrorCodes.CORE_99303;
+              }
+            }
             
             org.sbml.jsbml.SBMLError error = SBMLErrorFactory.createError(
               errorCode, 
               getLevel(), 
               getVersion(),
-              false, // Let the factory fetch the official SBML specification message!
+              false,
               this
             );
 

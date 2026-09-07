@@ -167,4 +167,22 @@ public class TestAbstractNamedSBaseWithUnits {
     isolatedParam.setUnits("invalid syntax!");
   }
 
+  /**
+   * Test method for {@link org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(java.lang.String)}
+   * when an undefined unit is set on an attached node in SBML Level 2 Version 4.
+   */
+  @Test
+  public void testSetMissingUnitReferenceLevel2Version4LogsError() {
+    Parameter paramL2V4 = new Parameter(2, 4);
+    SBMLDocument doc = new SBMLDocument(2, 4);
+    Model model = doc.createModel("test_model_l2v4");
+    model.addParameter(paramL2V4);
+    
+    int initialErrorCount = doc.getErrorLog().getErrorCount();
+    paramL2V4.setUnits("valid_syntax_but_missing");
+    
+    org.junit.Assert.assertEquals("Error count should increment", initialErrorCount + 1, doc.getErrorLog().getErrorCount());
+    org.junit.Assert.assertEquals("Should log CORE_99303 for missing unit reference in L2V4",
+      (long) SBMLErrorCodes.CORE_99303, (long) doc.getErrorLog().getError(initialErrorCount).getCode());
+  }
 }
