@@ -24,6 +24,9 @@ import java.text.MessageFormat;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.validator.SyntaxChecker;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes;
+import org.sbml.jsbml.validator.offline.factory.SBMLErrorFactory;
 
 /**
  * This simple implementation of the interfaces
@@ -283,7 +286,7 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
   @Override
   public void setUnits(String units) {
     if ((units != null) && (units.trim().length() == 0)) {
-      units = null; // If we pass the empty String or null, the value is reset.
+      units = null;
     }
 
     String oldUnits = unitsID;
@@ -292,24 +295,57 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
       unitsID = null;
     } else {
       units = units.trim();
+      unitsID = units;
 
-      boolean illegalArgument = false;
-
-      if (!Unit.isValidUnit(getModel(), units)) {
-        illegalArgument = true; // TODO - make use of the offline validation once attributes validation is in place.
+      boolean isSyntaxValid = SyntaxChecker.isValidId(units, getLevel(), getVersion());
+      
+      boolean isReferenceValid = false;
+      if (isSyntaxValid) {
+        Model m = getModel();
+        boolean definedInModel = (m != null) && (m.getUnitDefinition(units) != null);
+        isReferenceValid = definedInModel
+            || Unit.isUnitKind(units, getLevel(), getVersion())
+            || Unit.isPredefined(units, getLevel());
       }
-      if (illegalArgument) {
+
+      if (!isSyntaxValid || !isReferenceValid) {
         if (!isReadingInProgress()) {
-          throw new IllegalArgumentException(MessageFormat.format(
-            JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+          SBMLDocument doc = getSBMLDocument();
+          if (doc != null && doc.getErrorLog() != null) {
+            int errorCode;
+            if (!isSyntaxValid) {
+              errorCode = SBMLErrorCodes.CORE_10311;
+            } else {
+              if (getLevel() > 2 || (getLevel() == 2 && getVersion() >= 5)) {
+                errorCode = SBMLErrorCodes.CORE_10313;
+              } else {
+                errorCode = SBMLErrorCodes.CORE_99303;
+              }
+            }
+            
+            org.sbml.jsbml.SBMLError error = SBMLErrorFactory.createError(
+              errorCode, 
+              getLevel(), 
+              getVersion(),
+              false,
+              this
+            );
+
+            if (error != null) {
+              doc.getErrorLog().add(error);
+            }
+          } else {
+            unitsID = oldUnits;
+            throw new IllegalArgumentException(MessageFormat.format(
+              JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
+          }
         } else {
           logger.info(MessageFormat.format(JSBML.ILLEGAL_UNIT_EXCEPTION_MSG, units));
         }
       }
-      unitsID = units;
     }
 
-    if (oldUnits != unitsID) {
+    if (oldUnits != null ? !oldUnits.equals(unitsID) : unitsID != null) {
       firePropertyChange(TreeNodeChangeEvent.units, oldUnits, unitsID);
     }
   }
