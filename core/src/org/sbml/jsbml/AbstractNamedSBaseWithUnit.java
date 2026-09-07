@@ -299,8 +299,8 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
 
       boolean isSyntaxValid = SyntaxChecker.isValidId(units, getLevel(), getVersion());
       
-      boolean isReferenceValid = false;
-      if (isSyntaxValid) {
+      boolean isReferenceValid = true;
+      if (isSyntaxValid && getSBMLDocument() != null) {
         Model m = getModel();
         boolean definedInModel = (m != null) && (m.getUnitDefinition(units) != null);
         isReferenceValid = definedInModel
@@ -323,28 +323,28 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
               }
             }
             
-org.sbml.jsbml.SBMLError error = SBMLErrorFactory.createError(
-  errorCode,
-  getLevel(),
-  getVersion(),
-  false,
-  this
-);
+            org.sbml.jsbml.SBMLError error = SBMLErrorFactory.createError(
+              errorCode, 
+              getLevel(), 
+              getVersion(),
+              false,
+              this
+            );
 
-if (error == null) {
-  error = new org.sbml.jsbml.SBMLError();
-  error.setCode(errorCode);
-  error.setSource(this);
-} else if (error.getMessageInstance() != null) {
-  java.util.ResourceBundle postMessageBundle = SBMLErrorFactory.getSBMLErrorPostMessageBundle();
-  String postMessageI18n = SBMLErrorFactory.getBundleString(postMessageBundle, Integer.toString(errorCode));
-  if (postMessageI18n != null) {
-    String detailedMessage = MessageFormat.format(postMessageI18n, units, getElementName(), getId());
-    error.getMessageInstance().setMessage(error.getMessage() + '\n' + detailedMessage);
-  }
-}
-
-doc.getErrorLog().add(error);
+            if (error == null) {
+              error = new org.sbml.jsbml.SBMLError();
+              error.setCode(errorCode);
+              error.setSource(this);
+            } else if (error.getMessageInstance() != null) {
+              java.util.ResourceBundle postMessageBundle = SBMLErrorFactory.getSBMLErrorPostMessageBundle();
+              String postMessagePattern = SBMLErrorFactory.getBundleString(postMessageBundle, Integer.toString(errorCode));
+              if (postMessagePattern != null) {
+                String detailedMessage = MessageFormat.format(postMessagePattern, units, getElementName(), getId());
+                error.getMessageInstance().setMessage(error.getMessage() + " in " + detailedMessage);
+              }
+            }
+            
+            doc.getErrorLog().add(error);
           } else {
             unitsID = oldUnits;
             throw new IllegalArgumentException(MessageFormat.format(
