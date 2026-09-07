@@ -336,11 +336,11 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
               error.setCode(errorCode);
               error.setSource(this);
             } else if (error.getMessageInstance() != null) {
-              java.util.ResourceBundle postMessageBundle = SBMLErrorFactory.getSBMLErrorPostMessageBundle();
-              String postMessagePattern = SBMLErrorFactory.getBundleString(postMessageBundle, Integer.toString(errorCode));
-              if (postMessagePattern != null) {
-                String detailedMessage = MessageFormat.format(postMessagePattern, units, getElementName(), getId());
-                error.getMessageInstance().setMessage(error.getMessage() + " in " + detailedMessage);
+java.util.ResourceBundle postMessageBundle = SBMLErrorFactory.getSBMLErrorPostMessageBundle();
+String postMessagePattern = SBMLErrorFactory.getBundleString(postMessageBundle, Integer.toString(errorCode));
+if (postMessagePattern != null) {
+  String detailedMessage = MessageFormat.format(postMessagePattern, units, getElementName(), getId());
+  error.getMessageInstance().setMessage(error.getMessageInstance().getMessage() + '\n' + detailedMessage);
               }
             }
             
