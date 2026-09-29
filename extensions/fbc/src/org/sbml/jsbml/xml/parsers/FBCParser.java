@@ -485,6 +485,8 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         return FBCConstants.namespaceURI_L3V1V1;
       case 2:
         return FBCConstants.namespaceURI_L3V1V2;
+      case 3:
+        return FBCConstants.namespaceURI_L3V1V3;
       default:
         break;
       }

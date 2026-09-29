@@ -150,7 +150,15 @@ public class FBCConstants {
    */
   public static final String namespaceURI_L3V1V2 = "http://www.sbml.org/sbml/level3/version1/fbc/version2";
   /**
-   * The latest namespace URI of this parser, this value can change between releases.
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 3.
+   * 
+   * @since jsbml 1.7
+   */
+  public static final String namespaceURI_L3V1V3 = "http://www.sbml.org/sbml/level3/version1/fbc/version3";
+  /**
+   * The namespace URI of new documents, this value can change between releases.
+   * It is still the namespace of version 2, version 3 has to be enabled explicitly
+   * with {@link #namespaceURI_L3V1V3}.
    */
   public static final String namespaceURI = namespaceURI_L3V1V2;
   /**
@@ -216,9 +224,20 @@ public class FBCConstants {
    */
   public static final String listOfFluxBounds = "listOfFluxBounds";
 
+  /**
+   * Introduced to FBC in version 3: the type (linear or quadratic) of a
+   * {@link FluxObjective} or of a user defined constraint component.
+   * 
+   * @since jsbml 1.7
+   */
+  public static final String variableType = "variableType";
+
   static {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);
+    namespaces.add(namespaceURI_L3V1V3);
+    // the last namespace is the default one, used when the package is enabled
+    // with its short label (SBMLDocument.enablePackage, PackageUtil): version 2
     namespaces.add(namespaceURI_L3V1V2);
   }
 
@@ -247,6 +266,8 @@ public class FBCConstants {
       return namespaceURI_L3V1V1;
     case 2:
       return namespaceURI_L3V1V2;
+    case 3:
+      return namespaceURI_L3V1V3;
     default:
       return namespaceURI;
     }

@@ -56,6 +56,10 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
    * 
    */
   private String reaction;
+  /**
+   * The type of the variable, introduced in FBC version 3.
+   */
+  private FBCVariableType variableType;
 
   /**
    * Creates an FluxObjective instance
@@ -128,6 +132,9 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     if (obj.isSetCoefficient()) {
       setCoefficient(obj.getCoefficient());
     }
+    if (obj.isSetVariableType()) {
+      setVariableType(obj.getVariableType());
+    }
   }
 
   /**
@@ -151,6 +158,7 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     temp = Double.doubleToLongBits(coefficient);
     result = prime * result + (int) (temp ^ (temp >>> 32));
     result = prime * result + ((reaction == null) ? 0 : reaction.hashCode());
+    result = prime * result + ((variableType == null) ? 0 : variableType.hashCode());
     return result;
   }
 
@@ -179,6 +187,9 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     } else if (!reaction.equals(other.reaction)) {
       return false;
     }
+    if (variableType != other.variableType) {
+      return false;
+    }
     return true;
   }
 
@@ -202,6 +213,62 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
    */
   public String getReaction() {
     return isSetReaction() ? reaction : "";
+  }
+
+  /**
+   * Returns the type of the variable (linear or quadratic), introduced in FBC
+   * version 3.
+   *
+   * @return the type of the variable, {@code null} if it is not set.
+   */
+  public FBCVariableType getVariableType() {
+    return variableType;
+  }
+
+  /**
+   * Returns whether the type of the variable is set.
+   *
+   * @return whether the type of the variable is set.
+   */
+  public boolean isSetVariableType() {
+    return variableType != null;
+  }
+
+  /**
+   * Sets the type of the variable (linear or quadratic), introduced in FBC
+   * version 3.
+   *
+   * @param variableType the type of the variable, {@code null} unsets it.
+   */
+  public void setVariableType(FBCVariableType variableType) {
+    FBCVariableType oldVariableType = this.variableType;
+    this.variableType = variableType;
+    firePropertyChange(FBCConstants.variableType, oldVariableType, this.variableType);
+  }
+
+  /**
+   * Sets the type of the variable from its value in SBML.
+   *
+   * @param variableType {@code linear} or {@code quadratic}.
+   * @throws IllegalArgumentException if the value is not a variable type.
+   * @see FBCVariableType#fromString(String)
+   */
+  public void setVariableType(String variableType) {
+    setVariableType(FBCVariableType.fromString(variableType));
+  }
+
+  /**
+   * Unsets the type of the variable.
+   *
+   * @return {@code true}, if the type of the variable was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetVariableType() {
+    if (isSetVariableType()) {
+      setVariableType((FBCVariableType) null);
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -275,6 +342,8 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
         setReaction(value);
       } else if (attributeName.equals("coefficient")) {
         setCoefficient(StringTools.parseSBMLDouble(value));
+      } else if (attributeName.equals(FBCConstants.variableType)) {
+        setVariableType(value);
       } else {
         isAttributeRead = false;
       }
@@ -365,6 +434,10 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     if (isSetCoefficient()) {
       attributes.put(FBCConstants.shortLabel+ ":" + FBCConstants.coefficient,
         StringTools.toString(Locale.ENGLISH, getCoefficient()));
+    }
+    if (isSetVariableType()) {
+      attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.variableType,
+        getVariableType().toString());
     }
     if (isSetId()) {
       attributes.remove("id");
