@@ -104,7 +104,11 @@ public class CompFlatteningConverter {
     "fbc:reaction", "fbc:lowerFluxBound", "fbc:upperFluxBound", "fbc:geneProduct", "fbc:associatedSpecies",
     "fbc:species", "fbc:activeObjective", "qual:compartment", "qual:qualitativeSpecies", "groups:idRef", "layout:species",
     "layout:reaction", "layout:compartment", "layout:speciesGlyph", "layout:reactionGlyph", "layout:originOfText",
-    "layout:graphicalObject", "layout:reference"));
+    "layout:graphicalObject", "layout:reference", "distrib:var", "distrib:varLower", "distrib:varUpper"));
+
+  /** Attributes of packages that reference unit definitions, as {@code prefix:name}. */
+  private static final Set<String> PACKAGE_UNIT_REFERENCES = new java.util.HashSet<String>(java.util.Arrays.asList(
+    "distrib:units"));
 
   /** Attributes of packages that reference metaids, as {@code prefix:name}. */
   private static final Set<String> PACKAGE_METAID_REFERENCES = new java.util.HashSet<String>(java.util.Arrays.asList(
@@ -954,6 +958,12 @@ public class CompFlatteningConverter {
         value = reference(instance, attribute.getValue()).id;
       } else if (PACKAGE_METAID_REFERENCES.contains(name)) {
         value = metaIdReference(instance, attribute.getValue());
+      } else if (PACKAGE_UNIT_REFERENCES.contains(name)) {
+        value = unitReference(instance, attribute.getValue());
+        if (value == null) {
+          // an undefined unit is kept
+          continue;
+        }
       } else {
         continue;
       }
