@@ -39,7 +39,7 @@ import org.sbml.jsbml.ext.distrib.Uncertainty;
 import org.sbml.jsbml.util.filters.Filter;
 
 /**
- * Writing and reading a model keeps all uncertainties: the uncertainty
+ * Writing and reading, and cloning a model keep all uncertainties: the uncertainty
  * parameters and spans with all attributes, their math and nested parameters.
  */
 public class DistribRoundTripTest {
@@ -97,5 +97,12 @@ public class DistribRoundTripTest {
     // 10 uncertainties with 16 uncertainty parameters and spans
     assertEquals(26, expected.size());
     assertEquals(expected, describe(written));
+  }
+
+  @Test
+  public void cloningKeepsAllUncertainties() throws Exception {
+    SBMLDocument document = SBMLReader.read(DistribRoundTripTest.class.getResourceAsStream("data/distrib_uncertainties.xml"));
+
+    assertEquals(describe(document), describe(document.clone()));
   }
 }
