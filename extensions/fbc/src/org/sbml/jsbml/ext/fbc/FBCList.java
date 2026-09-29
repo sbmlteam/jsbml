@@ -43,6 +43,14 @@ public enum FBCList {
    */
   listOfGeneProducts,
   /**
+   * Introduced in FBC version 3.
+   */
+  listOfUserDefinedConstraints,
+  /**
+   * Introduced in FBC version 3.
+   */
+  listOfUserDefinedConstraintComponents,
+  /**
    * 
    */
   none;

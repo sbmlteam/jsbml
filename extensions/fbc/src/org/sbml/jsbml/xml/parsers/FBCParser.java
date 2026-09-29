@@ -58,6 +58,8 @@ import org.sbml.jsbml.ext.fbc.GeneProductAssociation;
 import org.sbml.jsbml.ext.fbc.LogicalOperator;
 import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.ext.fbc.Or;
+import org.sbml.jsbml.ext.fbc.UserDefinedConstraint;
+import org.sbml.jsbml.ext.fbc.UserDefinedConstraintComponent;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -181,6 +183,10 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
       groupList = FBCList.listOfObjectives;
     } else if (elementName.equals(FBCList.listOfGeneProducts.name())) {
       groupList = FBCList.none;
+    } else if (elementName.equals(FBCList.listOfUserDefinedConstraints.name())) {
+      groupList = FBCList.none;
+    } else if (elementName.equals(FBCList.listOfUserDefinedConstraintComponents.name())) {
+      groupList = FBCList.listOfUserDefinedConstraints;
     }
 
     return true;
@@ -218,6 +224,10 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         ListOf<GeneProduct> listOfGeneProducts = fbcModel.getListOfGeneProducts();
         groupList = FBCList.listOfGeneProducts;
         return listOfGeneProducts;
+      } else if (elementName.equals(FBCList.listOfUserDefinedConstraints.name())) {
+        ListOf<UserDefinedConstraint> listOfUserDefinedConstraints = fbcModel.getListOfUserDefinedConstraints();
+        groupList = FBCList.listOfUserDefinedConstraints;
+        return listOfUserDefinedConstraints;
       } else {
         logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
@@ -233,6 +243,20 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         ListOf<FluxObjective> listOfFluxObjectives = objective.getListOfFluxObjectives();
         groupList = FBCList.listOfFluxObjectives;
         return listOfFluxObjectives;
+      } else {
+        logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
+        return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
+      }
+    } else if (contextObject instanceof UserDefinedConstraint) {
+      UserDefinedConstraint userDefinedConstraint = (UserDefinedConstraint) contextObject;
+
+      // keep order of elements for later validation of order or duplication
+      AbstractReaderWriter.storeElementsOrder(elementName, contextObject);
+
+      if (elementName.equals(FBCList.listOfUserDefinedConstraintComponents.name())) {
+        ListOf<UserDefinedConstraintComponent> listOfComponents = userDefinedConstraint.getListOfUserDefinedConstraintComponents();
+        groupList = FBCList.listOfUserDefinedConstraintComponents;
+        return listOfComponents;
       } else {
         logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);
@@ -336,6 +360,23 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
         extendeModel.addGeneProduct(geneProduct);
 
         return geneProduct;
+      } else if (elementName.equals(FBCConstants.userDefinedConstraint)
+          && groupList.equals(FBCList.listOfUserDefinedConstraints)) {
+        Model model = (Model) listOf.getParentSBMLObject();
+        FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.shortLabel);
+
+        UserDefinedConstraint userDefinedConstraint = new UserDefinedConstraint();
+        extendeModel.addUserDefinedConstraint(userDefinedConstraint);
+
+        return userDefinedConstraint;
+      } else if (elementName.equals(FBCConstants.userDefinedConstraintComponent)
+          && groupList.equals(FBCList.listOfUserDefinedConstraintComponents)) {
+        UserDefinedConstraint userDefinedConstraint = (UserDefinedConstraint) listOf.getParentSBMLObject();
+
+        UserDefinedConstraintComponent component = new UserDefinedConstraintComponent();
+        userDefinedConstraint.addUserDefinedConstraintComponent(component);
+
+        return component;
       } else {
         logger.warn(MessageFormat.format(bundle.getString("SBMLCoreParser.unknownElement"), elementName));
         return AbstractReaderWriter.processUnknownElement(elementName, uri, prefix, contextObject);

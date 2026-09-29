@@ -20,14 +20,18 @@ package org.sbml.jsbml.ext.fbc.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
@@ -37,6 +41,8 @@ import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCVariableType;
 import org.sbml.jsbml.ext.fbc.FluxObjective;
 import org.sbml.jsbml.ext.fbc.Objective;
+import org.sbml.jsbml.ext.fbc.UserDefinedConstraint;
+import org.sbml.jsbml.ext.fbc.UserDefinedConstraintComponent;
 import org.sbml.jsbml.xml.parsers.FBCParser;
 
 /**
@@ -45,6 +51,28 @@ import org.sbml.jsbml.xml.parsers.FBCParser;
  * @since 1.7
  */
 public class FBCVersion3Test {
+
+  /**
+   * The fbc version 3 model written and validated by libSBML 5.21.
+   */
+  static final String LIBSBML_MODEL = "/org/sbml/jsbml/xml/test/data/fbc/fbc_v3_example_L3V1_fbcV3.xml";
+
+  /**
+   * Reads the fbc version 3 model written by libSBML.
+   * 
+   * @return the document
+   */
+  static SBMLDocument readLibsbmlModel() throws XMLStreamException {
+    return SBMLReader.read(FBCVersion3Test.class.getResourceAsStream(LIBSBML_MODEL));
+  }
+
+  /**
+   * @param doc a document
+   * @return the fbc plugin of the model of the document
+   */
+  static FBCModelPlugin fbc(SBMLDocument doc) {
+    return (FBCModelPlugin) doc.getModel().getPlugin(FBCConstants.shortLabel);
+  }
 
   /**
    * Creates a document with the given fbc namespace and a model with two
@@ -163,6 +191,202 @@ public class FBCVersion3Test {
     assertTrue(xml, xml.contains("xmlns:fbc=\"" + FBCConstants.namespaceURI_L3V1V2 + "\""));
     assertFalse(xml, xml.contains("variableType"));
     assertEquals(xml, new SBMLWriter().writeSBMLToString(writeAndRead(doc)));
+  }
+
+  /**
+   * Asserts the attributes of a {@link UserDefinedConstraintComponent}.
+   */
+  private static void assertComponent(UserDefinedConstraintComponent component, String id,
+    String coefficient, String variable, String variable2, FBCVariableType variableType) {
+    assertEquals(id, component.getId());
+    assertEquals(coefficient, component.getCoefficient());
+    assertEquals(variable, component.getVariable());
+    assertEquals(variable2 != null, component.isSetVariable2());
+    if (variable2 != null) {
+      assertEquals(variable2, component.getVariable2());
+    }
+    assertEquals(variableType, component.getVariableType());
+  }
+
+  /**
+   * Reads all fbc version 3 elements and attributes of the libSBML model.
+   */
+  @Test
+  public void readLibsbml() throws XMLStreamException {
+    SBMLDocument doc = readLibsbmlModel();
+    assertEquals(FBCConstants.namespaceURI_L3V1V3, doc.getSBMLDocumentNamespaces().get("xmlns:fbc"));
+    Model model = doc.getModel();
+    FBCModelPlugin fbc = fbc(doc);
+
+    // elements of fbc version 2
+    assertEquals(3, fbc.getGeneProductCount());
+    assertEquals("A", fbc.getGeneProduct("g1").getAssociatedSpecies());
+    assertEquals(2, fbc.getObjectiveCount());
+    assertEquals("obj_linear", fbc.getActiveObjective());
+    assertEquals("zero", ((org.sbml.jsbml.ext.fbc.FBCReactionPlugin) model.getReaction("RGLX")
+        .getPlugin(FBCConstants.shortLabel)).getLowerFluxBound());
+    assertTrue(((org.sbml.jsbml.ext.fbc.FBCReactionPlugin) model.getReaction("RGLX")
+        .getPlugin(FBCConstants.shortLabel)).isSetGeneProductAssociation());
+
+    // variable types of the flux objectives
+    FluxObjective linear = fbc.getObjective(0).getListOfFluxObjectives().get(0);
+    assertEquals("RGDP", linear.getReaction());
+    assertEquals(FBCVariableType.LINEAR, linear.getVariableType());
+    FluxObjective quadratic = fbc.getObjective(1).getListOfFluxObjectives().get(0);
+    assertEquals("RGLX", quadratic.getReaction());
+    assertEquals(1d, quadratic.getCoefficient(), 0d);
+    assertEquals(FBCVariableType.QUADRATIC, quadratic.getVariableType());
+
+    // user defined constraints
+    assertTrue(fbc.isSetListOfUserDefinedConstraints());
+    assertEquals(3, fbc.getUserDefinedConstraintCount());
+
+    UserDefinedConstraint uc1 = fbc.getUserDefinedConstraint(0);
+    assertSame(uc1, fbc.getUserDefinedConstraint("uc1"));
+    assertEquals("uc1", uc1.getId());
+    assertEquals("RGLX - RBTK = 5", uc1.getName());
+    assertEquals("meta_uc1", uc1.getMetaId());
+    assertEquals("five", uc1.getLowerBound());
+    assertEquals("five", uc1.getUpperBound());
+    assertSame(model.getParameter("five"), uc1.getLowerBoundInstance());
+    assertSame(model.getParameter("five"), uc1.getUpperBoundInstance());
+    assertTrue(uc1.isSetAnnotation());
+    assertEquals(2, uc1.getUserDefinedConstraintComponentCount());
+    assertComponent(uc1.getUserDefinedConstraintComponent(0), "uc1_c1", "one", "RGLX", null, FBCVariableType.LINEAR);
+    assertComponent(uc1.getUserDefinedConstraintComponent(1), "uc1_c2", "negone", "RBTK", null, FBCVariableType.LINEAR);
+    assertSame(model.getParameter("one"), uc1.getUserDefinedConstraintComponent(0).getCoefficientInstance());
+    assertSame(model.getReaction("RGLX"), uc1.getUserDefinedConstraintComponent(0).getVariableInstance());
+    assertNull(uc1.getUserDefinedConstraintComponent(0).getVariable2Instance());
+
+    UserDefinedConstraint uc2 = fbc.getUserDefinedConstraint("uc2");
+    assertFalse(uc2.isSetName());
+    assertEquals("two", uc2.getLowerBound());
+    assertEquals("inf", uc2.getUpperBound());
+    assertTrue(Double.isInfinite(uc2.getUpperBoundInstance().getValue()));
+    assertComponent(uc2.getUserDefinedConstraintComponent(0), "uc2_c1", "two", "p1var", null, FBCVariableType.LINEAR);
+    assertComponent(uc2.getUserDefinedConstraintComponent(1), "uc2_c2", "negone", "RGDP", null, FBCVariableType.LINEAR);
+    // a variable can be a parameter
+    assertSame(model.getParameter("p1var"), uc2.getUserDefinedConstraintComponent(0).getVariableInstance());
+
+    UserDefinedConstraint uc3 = fbc.getUserDefinedConstraint("uc3");
+    assertEquals(1, uc3.getUserDefinedConstraintComponentCount());
+    UserDefinedConstraintComponent uc3c1 = uc3.getUserDefinedConstraintComponent(0);
+    assertComponent(uc3c1, "uc3_c1", "one", "RGLX", "RBTK", FBCVariableType.QUADRATIC);
+    assertSame(model.getReaction("RBTK"), uc3c1.getVariable2Instance());
+
+    // the ids are registered in the model
+    assertSame(uc3, model.findNamedSBase("uc3"));
+    assertSame(uc3c1, model.findNamedSBase("uc3_c1"));
+
+    // the tree
+    assertSame(fbc.getListOfUserDefinedConstraints(), fbc.getChildAt(fbc.getChildCount() - 1));
+    assertSame(uc1.getListOfUserDefinedConstraintComponents(), uc1.getChildAt(uc1.getChildCount() - 1));
+    assertSame(uc1, uc1.getUserDefinedConstraintComponent(0).getParent().getParent());
+  }
+
+  /**
+   * Writing the libSBML model and reading it back gives an equal document;
+   * the user defined constraints are written after the objectives and gene
+   * products, as libSBML does.
+   * 
+   * <p>The written XML is read by libSBML 5.21 (python-libsbml-experimental)
+   * without errors (checked with {@code libsbml.readSBMLFromString(xml)} and
+   * {@code checkConsistency()}): the only messages are the unit warnings of
+   * the libSBML model itself.</p>
+   */
+  @Test
+  public void writeAndReadLibsbml() throws XMLStreamException {
+    SBMLDocument doc = readLibsbmlModel();
+    String xml = new SBMLWriter().writeSBMLToString(doc);
+    assertTrue(xml, xml.contains("xmlns:fbc=\"" + FBCConstants.namespaceURI_L3V1V3 + "\""));
+    int objectives = xml.indexOf("<fbc:listOfObjectives");
+    int geneProducts = xml.indexOf("<fbc:listOfGeneProducts");
+    int constraints = xml.indexOf("<fbc:listOfUserDefinedConstraints");
+    assertTrue(xml, (0 < objectives) && (objectives < geneProducts) && (geneProducts < constraints));
+    assertTrue(xml, xml.contains("<fbc:userDefinedConstraintComponent"));
+    assertTrue(xml, xml.contains("fbc:variable2=\"RBTK\""));
+    assertTrue(xml, xml.contains("fbc:lowerBound=\"two\""));
+
+    SBMLDocument read = SBMLReader.read(xml);
+    assertEquals(doc.getModel(), read.getModel());
+    assertEquals(fbc(doc).getListOfUserDefinedConstraints(), fbc(read).getListOfUserDefinedConstraints());
+    assertEquals(xml, new SBMLWriter().writeSBMLToString(read));
+
+    // a changed component makes the models differ
+    fbc(read).getUserDefinedConstraint("uc3").getUserDefinedConstraintComponent(0).unsetVariable2();
+    assertFalse(doc.getModel().equals(read.getModel()));
+  }
+
+  /**
+   * Creates, clones, and changes user defined constraints.
+   */
+  @Test
+  public void createUserDefinedConstraints() throws XMLStreamException {
+    SBMLDocument doc = createDocument(FBCConstants.namespaceURI_L3V1V3);
+    Model model = doc.getModel();
+    Parameter lb = model.createParameter("lb");
+    lb.setValue(0d);
+    lb.setConstant(true);
+    model.createParameter("ub").setConstant(true);
+    model.createParameter("coef").setConstant(true);
+    FBCModelPlugin fbc = fbc(doc);
+    assertFalse(fbc.isSetListOfUserDefinedConstraints());
+    assertEquals(0, fbc.getUserDefinedConstraintCount());
+
+    UserDefinedConstraint constraint = fbc.createUserDefinedConstraint("con");
+    constraint.setLowerBound("lb");
+    constraint.setUpperBound("ub");
+    UserDefinedConstraintComponent component = constraint.createUserDefinedConstraintComponent();
+    component.setCoefficient("coef");
+    component.setVariable("r1");
+    component.setVariable2("r2");
+    component.setVariableType(FBCVariableType.QUADRATIC);
+    // a constraint without id
+    UserDefinedConstraint noId = fbc.createUserDefinedConstraint();
+    noId.setLowerBound("lb");
+    noId.setUpperBound("ub");
+    UserDefinedConstraintComponent linear = new UserDefinedConstraintComponent();
+    linear.setCoefficient("coef");
+    linear.setVariable("r1");
+    linear.setVariableType("linear");
+    assertTrue(noId.addUserDefinedConstraintComponent(linear));
+
+    assertEquals(2, fbc.getUserDefinedConstraintCount());
+    assertSame(lb, constraint.getLowerBoundInstance());
+    assertSame(model.getParameter("ub"), constraint.getUpperBoundInstance());
+    assertSame(model.getReaction("r2"), component.getVariable2Instance());
+    assertNotNull(component.toString());
+    assertTrue(constraint.toString(), constraint.toString().contains("lowerBound=lb"));
+
+    UserDefinedConstraint clone = constraint.clone();
+    assertEquals(constraint, clone);
+    assertEquals(constraint.hashCode(), clone.hashCode());
+    assertEquals(1, clone.getUserDefinedConstraintComponentCount());
+    clone.getUserDefinedConstraintComponent(0).setVariableType(FBCVariableType.LINEAR);
+    assertFalse(constraint.equals(clone));
+    assertEquals(FBCVariableType.QUADRATIC, component.getVariableType());
+
+    FBCModelPlugin fbcClone = fbc.clone();
+    assertEquals(2, fbcClone.getUserDefinedConstraintCount());
+    assertEquals(fbc.getListOfUserDefinedConstraints(), fbcClone.getListOfUserDefinedConstraints());
+    assertEquals(model, model.clone());
+
+    SBMLDocument read = writeAndRead(doc);
+    assertEquals(model, read.getModel());
+    UserDefinedConstraint readNoId = fbc(read).getUserDefinedConstraint(1);
+    assertFalse(readNoId.isSetId());
+    assertEquals(FBCVariableType.LINEAR, readNoId.getUserDefinedConstraintComponent(0).getVariableType());
+    assertFalse(readNoId.getUserDefinedConstraintComponent(0).isSetVariable2());
+
+    // unset and set lists
+    ListOf<UserDefinedConstraintComponent> components = constraint.getListOfUserDefinedConstraintComponents();
+    assertTrue(constraint.unsetListOfUserDefinedConstraintComponents());
+    assertEquals(0, constraint.getUserDefinedConstraintComponentCount());
+    constraint.setListOfUserDefinedConstraintComponents(components);
+    assertEquals(1, constraint.getUserDefinedConstraintComponentCount());
+    assertTrue(fbc.unsetListOfUserDefinedConstraints());
+    assertFalse(fbc.isSetListOfUserDefinedConstraints());
+    assertFalse(new SBMLWriter().writeSBMLToString(doc).contains("userDefinedConstraint"));
   }
 
 }

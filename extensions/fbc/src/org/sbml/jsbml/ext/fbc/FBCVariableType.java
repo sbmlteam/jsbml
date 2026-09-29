@@ -21,7 +21,7 @@ package org.sbml.jsbml.ext.fbc;
 
 /**
  * The type of a variable of a {@link FluxObjective} or a
- * user defined constraint component, introduced in FBC version 3: a
+ * {@link UserDefinedConstraintComponent}, introduced in FBC version 3: a
  * linear variable or a quadratic one (the product of two variables, or the
  * square of one).
  * 
