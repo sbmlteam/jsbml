@@ -26,6 +26,9 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
@@ -33,6 +36,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
@@ -387,6 +391,44 @@ public class FBCVersion3Test {
     assertTrue(fbc.unsetListOfUserDefinedConstraints());
     assertFalse(fbc.isSetListOfUserDefinedConstraints());
     assertFalse(new SBMLWriter().writeSBMLToString(doc).contains("userDefinedConstraint"));
+  }
+
+  /**
+   * @param doc a document
+   * @return the codes of the errors of the offline validation of the
+   *         document (errors, not warnings)
+   */
+  private static List<Integer> validationErrors(SBMLDocument doc) {
+    doc.checkConsistencyOffline();
+    List<Integer> codes = new ArrayList<Integer>();
+    for (SBMLError error : doc.getListOfErrors().getValidationErrors()) {
+      if (error.isError() || error.isFatal()) {
+        codes.add(error.getCode());
+      }
+    }
+    return codes;
+  }
+
+  /**
+   * The offline validation reports no errors for the valid fbc version 3
+   * model written by libSBML, before and after writing it with JSBML, and
+   * applies the fbc constraints of version 2 to version 3.
+   * 
+   * <p>The offline validation reads the messages from
+   * {@code org/sbml/jsbml/resources/SBMLErrors.json}, which has to be on the
+   * class path (in {@code core/resources}).</p>
+   */
+  @Test
+  public void offlineValidation() throws XMLStreamException {
+    SBMLDocument doc = readLibsbmlModel();
+    assertEquals(new ArrayList<Integer>(), validationErrors(doc));
+    assertEquals(new ArrayList<Integer>(), validationErrors(writeAndRead(readLibsbmlModel())));
+
+    // a flux bound that is no parameter is an error in version 3 as well
+    doc = readLibsbmlModel();
+    ((org.sbml.jsbml.ext.fbc.FBCReactionPlugin) doc.getModel().getReaction("RGDP")
+        .getPlugin(FBCConstants.shortLabel)).setLowerFluxBound("nonexisting");
+    assertTrue(validationErrors(doc).contains(Integer.valueOf(org.sbml.jsbml.validator.offline.factory.SBMLErrorCodes.FBC_20705)));
   }
 
 }
