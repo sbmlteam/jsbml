@@ -42,6 +42,7 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FBCVariableType;
 import org.sbml.jsbml.ext.fbc.FluxObjective;
 import org.sbml.jsbml.ext.fbc.Objective;
@@ -195,6 +196,63 @@ public class FBCVersion3Test {
     assertTrue(xml, xml.contains("xmlns:fbc=\"" + FBCConstants.namespaceURI_L3V1V2 + "\""));
     assertFalse(xml, xml.contains("variableType"));
     assertEquals(xml, new SBMLWriter().writeSBMLToString(writeAndRead(doc)));
+  }
+
+  /**
+   * Returns the SBML of a model with a species with the given fbc charge.
+   */
+  private static String chargeModel(String fbcNamespace, String charge) {
+    return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        + "<sbml xmlns=\"http://www.sbml.org/sbml/level3/version1/core\" level=\"3\" version=\"1\""
+        + " xmlns:fbc=\"" + fbcNamespace + "\" fbc:required=\"false\">\n"
+        + "  <model id=\"m\">\n"
+        + "    <listOfCompartments><compartment id=\"c\" constant=\"true\"/></listOfCompartments>\n"
+        + "    <listOfSpecies><species id=\"s\" compartment=\"c\" hasOnlySubstanceUnits=\"false\""
+        + " boundaryCondition=\"false\" constant=\"false\" fbc:charge=\"" + charge + "\"/></listOfSpecies>\n"
+        + "  </model>\n"
+        + "</sbml>\n";
+  }
+
+  /**
+   * @return the fbc plugin of the species s of the document
+   */
+  private static FBCSpeciesPlugin speciesPlugin(SBMLDocument doc) {
+    return (FBCSpeciesPlugin) doc.getModel().getSpecies("s").getPlugin(FBCConstants.shortLabel);
+  }
+
+  /**
+   * The charge of fbc version 3 is a double, the one of version 2 an integer.
+   */
+  @Test
+  public void chargeIsDoubleInVersion3() throws XMLStreamException {
+    SBMLDocument doc = SBMLReader.read(chargeModel(FBCConstants.namespaceURI_L3V1V3, "-1.5"));
+    assertEquals(-1.5, speciesPlugin(doc).getChargeAsDouble(), 0);
+    assertEquals(-1, speciesPlugin(doc).getCharge());
+    String xml = new SBMLWriter().writeSBMLToString(doc);
+    assertTrue(xml, xml.contains("fbc:charge=\"-1.5\""));
+
+    // an integral charge is written without fraction
+    speciesPlugin(doc).setCharge(-2);
+    xml = new SBMLWriter().writeSBMLToString(doc);
+    assertTrue(xml, xml.contains("fbc:charge=\"-2\""));
+    assertEquals(-2.0, speciesPlugin(writeAndRead(doc)).getChargeAsDouble(), 0);
+
+    SBMLDocument v2 = SBMLReader.read(chargeModel(FBCConstants.namespaceURI_L3V1V2, "-4"));
+    assertEquals(-4, speciesPlugin(v2).getCharge());
+    assertEquals(-4.0, speciesPlugin(v2).getChargeAsDouble(), 0);
+    xml = new SBMLWriter().writeSBMLToString(v2);
+    assertTrue(xml, xml.contains("fbc:charge=\"-4\""));
+  }
+
+  /**
+   * The charges of the libSBML model, written by libSBML as double.
+   */
+  @Test
+  public void readLibsbmlCharges() throws XMLStreamException {
+    SBMLDocument doc = readLibsbmlModel();
+    FBCSpeciesPlugin a = (FBCSpeciesPlugin) doc.getModel().getSpecies("A").getPlugin(FBCConstants.shortLabel);
+    assertEquals(-1.0, a.getChargeAsDouble(), 0);
+    assertEquals("C6H12O6", a.getChemicalFormula());
   }
 
   /**
