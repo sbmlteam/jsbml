@@ -71,4 +71,11 @@ public class DistribValidationTest {
 
     assertEquals(true, validationErrors(withoutDistrib).contains(10205));
   }
+
+  @Test
+  public void onlyTheDistributionsOfDistribAreValid() throws Exception {
+    String unknown = sbml().replace("http://www.sbml.org/sbml/symbols/distrib/normal", "http://www.sbml.org/sbml/symbols/distrib/foo");
+
+    assertEquals(true, validationErrors(unknown).contains(10205));
+  }
 }

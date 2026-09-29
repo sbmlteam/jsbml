@@ -84,10 +84,16 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
   public static final transient List<String> allowedCsymbolURI = Arrays.asList(ASTNode.URI_AVOGADRO_DEFINITION, ASTNode.URI_DELAY_DEFINITION, ASTNode.URI_RATE_OF_DEFINITION, ASTNode.URI_TIME_DEFINITION);
 
   /**
-   * The prefix of the definition URLs of the csymbols of the distribution
-   * functions of the distrib package.
+   * The definition URLs of the csymbols of the distribution functions of the
+   * distrib package, version 1.
    */
-  private static final transient String DISTRIB_CSYMBOL_URI_PREFIX = "http://www.sbml.org/sbml/symbols/distrib/";
+  private static final transient List<String> DISTRIB_CSYMBOL_URIS = Arrays.asList(
+    "http://www.sbml.org/sbml/symbols/distrib/normal", "http://www.sbml.org/sbml/symbols/distrib/uniform",
+    "http://www.sbml.org/sbml/symbols/distrib/bernoulli", "http://www.sbml.org/sbml/symbols/distrib/binomial",
+    "http://www.sbml.org/sbml/symbols/distrib/cauchy", "http://www.sbml.org/sbml/symbols/distrib/chisquare",
+    "http://www.sbml.org/sbml/symbols/distrib/exponential", "http://www.sbml.org/sbml/symbols/distrib/gamma",
+    "http://www.sbml.org/sbml/symbols/distrib/laplace", "http://www.sbml.org/sbml/symbols/distrib/lognormal",
+    "http://www.sbml.org/sbml/symbols/distrib/poisson", "http://www.sbml.org/sbml/symbols/distrib/rayleigh");
 
   /**
    * 
@@ -1387,7 +1393,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
   private static boolean isDistribCsymbol(ValidationContext ctx, ASTNode node) {
     return node.getType() == ASTNode.Type.FUNCTION_CSYMBOL
         && node.isSetDefinitionURL()
-        && node.getDefinitionURL().startsWith(DISTRIB_CSYMBOL_URI_PREFIX)
+        && DISTRIB_CSYMBOL_URIS.contains(node.getDefinitionURL())
         && ctx.getPackageVersion("distrib") != null;
   }
 }
