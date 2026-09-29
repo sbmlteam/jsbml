@@ -105,4 +105,17 @@ public class DistribRoundTripTest {
 
     assertEquals(describe(document), describe(document.clone()));
   }
+
+  @Test
+  public void cloningKeepsTheVarsOfASpan() {
+    UncertSpan span = new UncertSpan(3, 2);
+    span.setType(UncertParameter.Type.range);
+    span.setVarLower("lower");
+    span.setVarUpper("upper");
+
+    UncertSpan clone = span.clone();
+
+    assertEquals("lower", clone.getVarLower());
+    assertEquals("upper", clone.getVarUpper());
+  }
 }
