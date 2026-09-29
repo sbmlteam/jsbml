@@ -104,7 +104,17 @@ public class CompFlatteningConverter {
     "fbc:reaction", "fbc:lowerFluxBound", "fbc:upperFluxBound", "fbc:geneProduct", "fbc:associatedSpecies",
     "fbc:species", "fbc:activeObjective", "qual:compartment", "qual:qualitativeSpecies", "groups:idRef", "layout:species",
     "layout:reaction", "layout:compartment", "layout:speciesGlyph", "layout:reactionGlyph", "layout:originOfText",
-    "layout:graphicalObject", "layout:reference", "distrib:var", "distrib:varLower", "distrib:varUpper"));
+    "layout:graphicalObject", "layout:reference", "distrib:var", "distrib:varLower", "distrib:varUpper",
+    "fbc:lowerBound", "fbc:upperBound", "fbc:variable", "fbc:variable2"));
+
+  /**
+   * Attributes of packages that reference SIds on some elements only, as the
+   * element name to {@code prefix:name}: {@code fbc:coefficient} is the SId
+   * of a parameter on a user defined constraint component, but a number on a
+   * flux objective.
+   */
+  private static final Map<String, Set<String>> ELEMENT_SID_REFERENCES = Collections.singletonMap(
+    "userDefinedConstraintComponent", Collections.singleton("fbc:coefficient"));
 
   /** Attributes of packages that reference unit definitions, as {@code prefix:name}. */
   private static final Set<String> PACKAGE_UNIT_REFERENCES = new java.util.HashSet<String>(java.util.Arrays.asList(
@@ -954,7 +964,7 @@ public class CompFlatteningConverter {
     for (Map.Entry<String, String> attribute : attributes.entrySet()) {
       String name = attribute.getKey();
       String value;
-      if (PACKAGE_SID_REFERENCES.contains(name)) {
+      if (isSIdReference(name, element)) {
         value = reference(instance, attribute.getValue()).id;
       } else if (PACKAGE_METAID_REFERENCES.contains(name)) {
         value = metaIdReference(instance, attribute.getValue());
@@ -995,7 +1005,7 @@ public class CompFlatteningConverter {
         continue;
       }
       String value = attribute.getValue();
-      if (PACKAGE_SID_REFERENCES.contains(name)) {
+      if (isSIdReference(name, element)) {
         value = reference(instance, value).id;
       } else if (PACKAGE_METAID_REFERENCES.contains(name)) {
         value = metaIdReference(instance, value);
@@ -1008,6 +1018,22 @@ public class CompFlatteningConverter {
         plugin.readAttribute(localName, prefix, value);
       }
     }
+  }
+
+
+  /**
+   * Whether the package attribute of the element (or of a plugin of it, then
+   * the element is {@code null}) references an SId.
+   *
+   * @param name
+   *        the attribute, as {@code prefix:name}
+   */
+  private static boolean isSIdReference(String name, SBase element) {
+    if (PACKAGE_SID_REFERENCES.contains(name)) {
+      return true;
+    }
+    Set<String> references = (element != null) ? ELEMENT_SID_REFERENCES.get(element.getElementName()) : null;
+    return (references != null) && references.contains(name);
   }
 
 
