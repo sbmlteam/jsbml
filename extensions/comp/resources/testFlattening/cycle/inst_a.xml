@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
+  <!-- instantiates inst_b.xml, which instantiates this file: an instantiation cycle through files -->
+  <model id="inst_a">
+    <comp:listOfSubmodels>
+      <comp:submodel comp:id="b" comp:modelRef="B"/>
+    </comp:listOfSubmodels>
+  </model>
+  <comp:listOfExternalModelDefinitions>
+    <comp:externalModelDefinition comp:id="B" comp:source="inst_b.xml"/>
+  </comp:listOfExternalModelDefinitions>
+</sbml>

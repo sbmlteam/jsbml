@@ -308,7 +308,6 @@ public class CompFlattenTest {
   }
   
   
-  // TODO: these currently fail (and did so before)
   @Test
   public void testAllData() {
     ClassLoader cl = this.getClass().getClassLoader();
@@ -358,5 +357,54 @@ public class CompFlattenTest {
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
+  }
+
+
+  /**
+   * Cases of the SBML test suite, with the flat models of libSBML: replaced by
+   * chains (01135), nested time and extent conversion factors (01148), external
+   * model definitions without model reference (01168) and references to
+   * reactions with conversion factors (01181).
+   */
+  @Test
+  public void testSbmlTestSuiteCases() throws Exception {
+    for (String testCase : new String[] {"01135", "01148", "01168", "01181"}) {
+      URL urlFile = classLoader.getResource(
+        "testFlattening/sbml-test-suite/" + testCase + "-sbml-l3v1.xml");
+      URL urlExpected = classLoader.getResource(
+        "testFlattening/sbml-test-suite/" + testCase + "-sbml-l3v1_flat.xml");
+      File file = new File(urlFile.toURI());
+      SBMLDocument document = SBMLReader.read(file);
+      // the external model definitions are resolved relative to the document
+      document.setLocationURI(file.toURI().toString());
+      SBMLDocument flattened = new CompFlatteningConverter().flatten(document);
+      SBMLDocument expectedDocument = SBMLReader.read(new File(urlExpected.toURI()));
+      assertTrue("Flattening of test case " + testCase, expectedDocument.equals(flattened));
+    }
+  }
+
+
+  @Test
+  public void testFlattenDoesNotChangeDocument() throws Exception {
+    URL urlFile = classLoader.getResource("testFlattening/sbml-test-suite/01135-sbml-l3v1.xml");
+    SBMLDocument document = SBMLReader.read(new File(urlFile.toURI()));
+    SBMLDocument copy = document.clone();
+    SBMLDocument flattened = new CompFlatteningConverter().flatten(document);
+    assertTrue(document.equals(copy));
+    assertTrue(document.isPackageEnabled(CompConstants.shortLabel));
+    assertFalse(flattened.isPackageEnabled(CompConstants.shortLabel));
+  }
+
+
+  /**
+   * inst_a.xml instantiates inst_b.xml, which instantiates inst_a.xml: the cycle is
+   * reported, every file is read once.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testInstantiationCycleThroughFiles() throws Exception {
+    File file = new File(classLoader.getResource("testFlattening/cycle/inst_a.xml").toURI());
+    SBMLDocument document = SBMLReader.read(file);
+    document.setLocationURI(file.toURI().toString());
+    new CompFlatteningConverter().flatten(document);
   }
 }
