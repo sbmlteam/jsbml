@@ -190,7 +190,29 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
      * may be defined by any combination of the above. The only restriction is that the definitionURL must be defined
      * for any UncertParameter of type 'externalParameter'. This type value may be used for either UncertParameter or UncertSpan elements.
      */
-    externalParameter
+    externalParameter;
+
+    /**
+     * The misspelling of {@link #coefficientOfVariation} in the validation rules
+     * of the specification, which libSBML writes (sbmlteam/libsbml#492).
+     */
+    private static final String COEFFICIENT_OF_VARIATION_MISSPELLED = "coeffientOfVariation";
+
+    /**
+     * Returns the type of the value of the attribute {@code distrib:type}. The
+     * misspelling {@code coeffientOfVariation} is read as
+     * {@link #coefficientOfVariation}.
+     *
+     * @param value the value of the attribute
+     * @return the type
+     * @throws IllegalArgumentException if the value is not a type
+     */
+    public static Type fromString(String value) {
+      if (COEFFICIENT_OF_VARIATION_MISSPELLED.equals(value)) {
+        return coefficientOfVariation;
+      }
+      return valueOf(value);
+    }
   };
 
   /**
@@ -1143,7 +1165,7 @@ public class UncertParameter extends AbstractDistribSBase implements MathContain
         setDefinitionURL(value);
       }
       else if (attributeName.equals(DistribConstants.type)) {
-        setType(Type.valueOf(value));
+        setType(Type.fromString(value));
 
         // TODO - add a try/catch block
       }

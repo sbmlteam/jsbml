@@ -1,0 +1,81 @@
+/*
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2022 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
+package org.sbml.jsbml.ext.distrib.test;
+
+import static org.junit.Assert.assertEquals;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import org.junit.Test;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.SBMLReader;
+
+/**
+ * The offline validation of the math with the distribution functions of distrib
+ * ({@code <csymbol definitionURL="http://www.sbml.org/sbml/symbols/distrib/normal">}).
+ */
+public class DistribValidationTest {
+
+  /** SBML test suite, stochastic case 00091: a normal distribution in an event assignment. */
+  private static final String MODEL = "data/00091-sbml-l3v2.xml";
+
+  private static String sbml() {
+    InputStream stream = DistribValidationTest.class.getResourceAsStream(MODEL);
+    try (Scanner scanner = new Scanner(stream, "UTF-8")) {
+      return scanner.useDelimiter("\\A").next();
+    }
+  }
+
+  /** The codes of the errors of the offline validation. */
+  private static List<Integer> validationErrors(String sbml) throws Exception {
+    SBMLDocument document = SBMLReader.read(sbml);
+    document.checkConsistencyOffline();
+    List<Integer> codes = new ArrayList<Integer>();
+    for (SBMLError error : document.getListOfErrors().getValidationErrors()) {
+      codes.add(error.getCode());
+    }
+    return codes;
+  }
+
+  @Test
+  public void distributionFunctionsAreValid() throws Exception {
+    assertEquals(new ArrayList<Integer>(), validationErrors(sbml()));
+  }
+
+  @Test
+  public void distributionFunctionsNeedTheDistribPackage() throws Exception {
+    String withoutDistrib = sbml()
+        .replace(" xmlns:distrib=\"http://www.sbml.org/sbml/level3/version1/distrib/version1\"", "")
+        .replace(" distrib:required=\"true\"", "");
+
+    assertEquals(true, validationErrors(withoutDistrib).contains(10205));
+  }
+
+  @Test
+  public void onlyTheDistributionsOfDistribAreValid() throws Exception {
+    String unknown = sbml().replace("http://www.sbml.org/sbml/symbols/distrib/normal", "http://www.sbml.org/sbml/symbols/distrib/foo");
+
+    assertEquals(true, validationErrors(unknown).contains(10205));
+  }
+}
