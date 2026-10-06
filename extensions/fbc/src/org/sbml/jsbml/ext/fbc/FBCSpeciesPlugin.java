@@ -20,6 +20,7 @@
 package org.sbml.jsbml.ext.fbc;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -76,9 +77,9 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
   private static final long serialVersionUID = 923773407400143272L;
 
   /**
-   * 
+   * The charge, an integer in fbc version 1 and 2, a double in fbc version 3.
    */
-  private int charge;
+  private double charge;
 
   /**
    * 
@@ -103,7 +104,7 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
     }
 
     if (obj.isSetCharge()) {
-      setCharge(obj.getCharge());
+      setCharge(obj.getChargeAsDouble());
     }
 
   }
@@ -144,6 +145,20 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
    * @return the value of {@link #charge}.
    */
   public int getCharge() {
+    if (isSetCharge()) {
+      return (int) charge;
+    }
+    throw new PropertyUndefinedError(FBCConstants.charge, this);
+  }
+
+  /**
+   * Returns the value of {@link #charge} as a double: the charge of fbc version 3 is a
+   * double, the one of fbc version 1 and 2 an integer.
+   *
+   * @return the value of {@link #charge}.
+   * @throws PropertyUndefinedError if the charge is not set
+   */
+  public double getChargeAsDouble() {
     if (isSetCharge()) {
       return charge;
     }
@@ -216,7 +231,12 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
   public boolean readAttribute(String attributeName, String prefix, String value) {
 
     if (attributeName.equals(FBCConstants.charge)) {
-      setCharge(StringTools.parseSBMLInt(value));
+      // a double in fbc version 3, an integer before
+      if (getPackageVersion() >= 3) {
+        setCharge(StringTools.parseSBMLDouble(value));
+      } else {
+        setCharge(StringTools.parseSBMLInt(value));
+      }
       return true;
     } else if (attributeName.equals(FBCConstants.chemicalFormula)) {
       try {
@@ -241,7 +261,17 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
    * @param charge the value of charge. 
    */
   public void setCharge(int charge) {
-    int oldCharge = this.charge;
+    setCharge((double) charge);
+  }
+
+  /**
+   * Sets the value of charge. The charge of fbc version 3 is a double; fbc version 1 and 2
+   * write the charge as integer.
+   *
+   * @param charge the value of charge.
+   */
+  public void setCharge(double charge) {
+    double oldCharge = this.charge;
     this.charge = charge;
     isSetCharge = true;
     firePropertyChange(FBCConstants.charge, oldCharge, this.charge);
@@ -277,7 +307,7 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
    */
   public boolean unsetCharge() {
     if (isSetCharge()) {
-      int oldCharge = charge;
+      double oldCharge = charge;
       charge = 0;
       isSetCharge = false;
       firePropertyChange(FBCConstants.charge, oldCharge, charge);
@@ -310,7 +340,10 @@ public class FBCSpeciesPlugin extends AbstractFBCSBasePlugin {
     Map<String, String> attributes = new TreeMap<String, String>();
 
     if (isSetCharge) {
-      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.charge, Integer.toString(getCharge()));
+      String value = getPackageVersion() >= 3
+          ? StringTools.toString(Locale.ENGLISH, charge)
+          : Integer.toString(getCharge());
+      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.charge, value);
     }
     if (isSetChemicalFormula()) {
       attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.chemicalFormula, getChemicalFormula());

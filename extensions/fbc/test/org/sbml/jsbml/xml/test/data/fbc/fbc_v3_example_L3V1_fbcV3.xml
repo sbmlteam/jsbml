@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version3" level="3" version="1" fbc:required="false">
+  <model metaid="meta_fbc_v3_example" id="fbc_v3_example" name="fbc version 3 example" fbc:strict="false">
+    <annotation>
+      <listOfKeyValuePairs xmlns="http://sbml.org/fbc/keyvaluepair">
+        <keyValuePair key="author" value="cy3sbml" uri="https://github.com/matthiaskoenig/cy3sbml/kvp"/>
+        <keyValuePair id="kvp_created" key="created" value="2026-09-29"/>
+      </listOfKeyValuePairs>
+    </annotation>
+    <listOfCompartments>
+      <compartment id="c" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species metaid="meta_A" id="A" name="A" compartment="c" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" fbc:charge="-1" fbc:chemicalFormula="C6H12O6"/>
+      <species metaid="meta_B" id="B" name="B" compartment="c" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" fbc:charge="0" fbc:chemicalFormula="C3H6O3"/>
+      <species metaid="meta_C" id="C" name="C" compartment="c" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" fbc:charge="-2" fbc:chemicalFormula="C3H4O3"/>
+      <species metaid="meta_D" id="D" name="D" compartment="c" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false" fbc:charge="0" fbc:chemicalFormula="CO2">
+        <annotation>
+          <listOfKeyValuePairs xmlns="http://sbml.org/fbc/keyvaluepair">
+            <keyValuePair name="compartment label" key="compartment_label" value="cytosol" uri="https://github.com/matthiaskoenig/cy3sbml/kvp"/>
+          </listOfKeyValuePairs>
+        </annotation>
+      </species>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="zero" value="0" constant="true"/>
+      <parameter id="lb" value="-1000" constant="true"/>
+      <parameter id="ub" value="1000" constant="true"/>
+      <parameter id="inf" value="INF" constant="true"/>
+      <parameter id="five" value="5" constant="true"/>
+      <parameter id="two" value="2" constant="true"/>
+      <parameter id="one" value="1" constant="true"/>
+      <parameter id="negone" value="-1" constant="true"/>
+      <parameter id="p1var" constant="false"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction metaid="meta_RGLX" id="RGLX" reversible="false" fast="false" fbc:lowerFluxBound="zero" fbc:upperFluxBound="ub">
+        <annotation>
+          <listOfKeyValuePairs xmlns="http://sbml.org/fbc/keyvaluepair">
+            <keyValuePair key="confidence" value="4" uri="https://github.com/matthiaskoenig/cy3sbml/kvp"/>
+            <keyValuePair key="curated"/>
+          </listOfKeyValuePairs>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="A" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="B" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <fbc:geneProductAssociation>
+          <fbc:and>
+            <fbc:geneProductRef fbc:geneProduct="g1"/>
+            <fbc:geneProductRef fbc:geneProduct="g2"/>
+          </fbc:and>
+        </fbc:geneProductAssociation>
+      </reaction>
+      <reaction metaid="meta_RBTK" id="RBTK" reversible="true" fast="false" fbc:lowerFluxBound="lb" fbc:upperFluxBound="ub">
+        <listOfReactants>
+          <speciesReference species="B" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <fbc:geneProductAssociation>
+          <fbc:or>
+            <fbc:geneProductRef fbc:geneProduct="g3"/>
+            <fbc:geneProductRef fbc:geneProduct="g1"/>
+          </fbc:or>
+        </fbc:geneProductAssociation>
+      </reaction>
+      <reaction metaid="meta_RGDP" id="RGDP" reversible="false" fast="false" fbc:lowerFluxBound="zero" fbc:upperFluxBound="ub">
+        <listOfReactants>
+          <speciesReference species="C" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="D" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+    <fbc:listOfObjectives fbc:activeObjective="obj_linear">
+      <fbc:objective fbc:id="obj_linear" fbc:type="maximize">
+        <fbc:listOfFluxObjectives>
+          <fbc:fluxObjective fbc:reaction="RGDP" fbc:coefficient="1" fbc:variableType="linear"/>
+        </fbc:listOfFluxObjectives>
+      </fbc:objective>
+      <fbc:objective fbc:id="obj_quadratic" fbc:type="minimize">
+        <fbc:listOfFluxObjectives>
+          <fbc:fluxObjective fbc:reaction="RGLX" fbc:coefficient="1" fbc:variableType="quadratic"/>
+        </fbc:listOfFluxObjectives>
+      </fbc:objective>
+    </fbc:listOfObjectives>
+    <fbc:listOfGeneProducts>
+      <fbc:geneProduct metaid="meta_g1" fbc:id="g1" fbc:label="G1" fbc:associatedSpecies="A"/>
+      <fbc:geneProduct metaid="meta_g2" fbc:id="g2" fbc:label="G2"/>
+      <fbc:geneProduct metaid="meta_g3" fbc:id="g3" fbc:label="G3"/>
+    </fbc:listOfGeneProducts>
+    <fbc:listOfUserDefinedConstraints>
+      <fbc:userDefinedConstraint metaid="meta_uc1" fbc:id="uc1" fbc:name="RGLX - RBTK = 5" fbc:lowerBound="five" fbc:upperBound="five">
+        <annotation>
+          <listOfKeyValuePairs xmlns="http://sbml.org/fbc/keyvaluepair">
+            <keyValuePair key="source" value="fbc v3 specification" uri="https://github.com/matthiaskoenig/cy3sbml/kvp"/>
+          </listOfKeyValuePairs>
+        </annotation>
+        <fbc:listOfUserDefinedConstraintComponents>
+          <fbc:userDefinedConstraintComponent fbc:id="uc1_c1" fbc:coefficient="one" fbc:variable="RGLX" fbc:variableType="linear"/>
+          <fbc:userDefinedConstraintComponent fbc:id="uc1_c2" fbc:coefficient="negone" fbc:variable="RBTK" fbc:variableType="linear"/>
+        </fbc:listOfUserDefinedConstraintComponents>
+      </fbc:userDefinedConstraint>
+      <fbc:userDefinedConstraint metaid="meta_uc2" fbc:id="uc2" fbc:lowerBound="two" fbc:upperBound="inf">
+        <fbc:listOfUserDefinedConstraintComponents>
+          <fbc:userDefinedConstraintComponent fbc:id="uc2_c1" fbc:coefficient="two" fbc:variable="p1var" fbc:variableType="linear"/>
+          <fbc:userDefinedConstraintComponent fbc:id="uc2_c2" fbc:coefficient="negone" fbc:variable="RGDP" fbc:variableType="linear"/>
+        </fbc:listOfUserDefinedConstraintComponents>
+      </fbc:userDefinedConstraint>
+      <fbc:userDefinedConstraint metaid="meta_uc3" fbc:id="uc3" fbc:lowerBound="zero" fbc:upperBound="ub">
+        <fbc:listOfUserDefinedConstraintComponents>
+          <fbc:userDefinedConstraintComponent fbc:id="uc3_c1" fbc:coefficient="one" fbc:variable="RGLX" fbc:variable2="RBTK" fbc:variableType="quadratic"/>
+        </fbc:listOfUserDefinedConstraintComponents>
+      </fbc:userDefinedConstraint>
+    </fbc:listOfUserDefinedConstraints>
+  </model>
+</sbml>
