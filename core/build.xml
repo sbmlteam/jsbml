@@ -370,7 +370,7 @@
 	>
 		<copy todir="${build.dest}">
 			<fileset dir="${build.src}" 
-				includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties">
+				includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.json **/*.properties">
 			</fileset>
 		</copy>
 		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
@@ -410,7 +410,7 @@
 		<copy todir="${build.dest}">
 			<fileset
             dir="${build.src}"
-            includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties **/*.java" >
+            includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.json **/*.properties **/*.java" >
 			</fileset>
 		</copy>
 
