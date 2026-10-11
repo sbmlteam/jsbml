@@ -31,7 +31,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @since 1.5
  */
 @RunWith(value=Suite.class)
-@SuiteClasses(value={FbcV2ToCobraConverterTest.class})
+@SuiteClasses(value={FbcV2ToCobraConverterTest.class, FBCVersion3Test.class, KeyValuePairsTest.class})
 public class FbcJUnitTests {
 
 }

@@ -65,6 +65,11 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
    */
   private ListOfObjectives listOfObjectives;
 
+  /**
+   * Introduced to FBC in version 3.
+   */
+  private ListOf<UserDefinedConstraint> listOfUserDefinedConstraints;
+
 
   /**
    * The mandatory attribute strict is used to apply an additional set of
@@ -92,6 +97,9 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
     }
     if (fbcPlugin.isSetListOfGeneProducts()) {
       setListOfGeneProducts(fbcPlugin.getListOfGeneProducts().clone());
+    }
+    if (fbcPlugin.isSetListOfUserDefinedConstraints()) {
+      setListOfUserDefinedConstraints(fbcPlugin.getListOfUserDefinedConstraints().clone());
     }
     if (fbcPlugin.isSetStrict()) {
       setStrict(fbcPlugin.getStrict());
@@ -337,6 +345,12 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
       }
       pos++;
     }
+    if (isSetListOfUserDefinedConstraints()) {
+      if (pos == index) {
+        return getListOfUserDefinedConstraints();
+      }
+      pos++;
+    }
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       resourceBundle.getString("IndexExceedsBoundsException"),
@@ -357,6 +371,9 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
       count++;
     }
     if (isSetListOfGeneProducts()) {
+      count++;
+    }
+    if (isSetListOfUserDefinedConstraints()) {
       count++;
     }
 
@@ -983,6 +1000,157 @@ public class FBCModelPlugin extends AbstractFBCSBasePlugin {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Returns the list of {@link UserDefinedConstraint}s, introduced in FBC
+   * version 3. Creates it if it does not exist yet.
+   *
+   * @return the list of {@link UserDefinedConstraint}s.
+   */
+  public ListOf<UserDefinedConstraint> getListOfUserDefinedConstraints() {
+    if (listOfUserDefinedConstraints == null) {
+      listOfUserDefinedConstraints = new ListOf<UserDefinedConstraint>();
+      initListOfUserDefinedConstraints(listOfUserDefinedConstraints);
+
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfUserDefinedConstraints);
+      }
+    }
+    return listOfUserDefinedConstraints;
+  }
+
+  /**
+   * Makes the given list an fbc listOfUserDefinedConstraints.
+   *
+   * @param listOf the list.
+   */
+  private static void initListOfUserDefinedConstraints(ListOf<UserDefinedConstraint> listOf) {
+    listOf.setPackageVersion(-1);
+    // changing the ListOf package name from 'core' to 'fbc'
+    listOf.setPackageName(null);
+    listOf.setPackageName(FBCConstants.shortLabel);
+    listOf.setSBaseListType(ListOf.Type.other);
+    listOf.setOtherListName(FBCConstants.listOfUserDefinedConstraints);
+  }
+
+  /**
+   * Returns {@code true} if the list of {@link UserDefinedConstraint}s
+   * contains at least one element.
+   *
+   * @return {@code true} if the list of {@link UserDefinedConstraint}s
+   *         contains at least one element, otherwise {@code false}.
+   */
+  public boolean isSetListOfUserDefinedConstraints() {
+    return (listOfUserDefinedConstraints != null) && !listOfUserDefinedConstraints.isEmpty();
+  }
+
+  /**
+   * Sets the list of {@link UserDefinedConstraint}s. The elements of a list
+   * set before are removed.
+   *
+   * @param listOfUserDefinedConstraints the list.
+   */
+  public void setListOfUserDefinedConstraints(ListOf<UserDefinedConstraint> listOfUserDefinedConstraints) {
+    unsetListOfUserDefinedConstraints();
+    this.listOfUserDefinedConstraints = listOfUserDefinedConstraints;
+
+    if (listOfUserDefinedConstraints != null) {
+      initListOfUserDefinedConstraints(listOfUserDefinedConstraints);
+
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfUserDefinedConstraints);
+      }
+    }
+  }
+
+  /**
+   * Unsets the list of {@link UserDefinedConstraint}s.
+   *
+   * @return {@code true} if the list contained at least one element,
+   *         otherwise {@code false}.
+   */
+  public boolean unsetListOfUserDefinedConstraints() {
+    if (isSetListOfUserDefinedConstraints()) {
+      ListOf<UserDefinedConstraint> oldList = listOfUserDefinedConstraints;
+      listOfUserDefinedConstraints = null;
+      oldList.fireNodeRemovedEvent();
+      return true;
+    }
+    listOfUserDefinedConstraints = null;
+    return false;
+  }
+
+  /**
+   * Adds a {@link UserDefinedConstraint} to the list of
+   * {@link UserDefinedConstraint}s, which is created if necessary.
+   *
+   * @param userDefinedConstraint the element to add to the list.
+   * @return {@code true} (as specified by {@link java.util.Collection#add}).
+   */
+  public boolean addUserDefinedConstraint(UserDefinedConstraint userDefinedConstraint) {
+    return getListOfUserDefinedConstraints().add(userDefinedConstraint);
+  }
+
+  /**
+   * Creates a {@link UserDefinedConstraint} without id and adds it to the
+   * list of {@link UserDefinedConstraint}s.
+   *
+   * @return the new {@link UserDefinedConstraint}.
+   */
+  public UserDefinedConstraint createUserDefinedConstraint() {
+    return createUserDefinedConstraint(null);
+  }
+
+  /**
+   * Creates a {@link UserDefinedConstraint} and adds it to the list of
+   * {@link UserDefinedConstraint}s.
+   *
+   * @param id the id of the new element, can be {@code null}.
+   * @return the new {@link UserDefinedConstraint}, {@code null} if it could
+   *         not be added (for example because of a duplicated id).
+   */
+  public UserDefinedConstraint createUserDefinedConstraint(String id) {
+    UserDefinedConstraint userDefinedConstraint = new UserDefinedConstraint(id, getLevel(), getVersion());
+    return addUserDefinedConstraint(userDefinedConstraint) ? userDefinedConstraint : null;
+  }
+
+  /**
+   * Returns the {@link UserDefinedConstraint} at the given index.
+   *
+   * @param i the index.
+   * @return the {@link UserDefinedConstraint} at the given index.
+   * @throws IndexOutOfBoundsException if the list is not set or the index is
+   *         out of bounds.
+   */
+  public UserDefinedConstraint getUserDefinedConstraint(int i) {
+    if (!isSetListOfUserDefinedConstraints()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfUserDefinedConstraints().get(i);
+  }
+
+  /**
+   * Returns the {@link UserDefinedConstraint} with the given id.
+   *
+   * @param id the id.
+   * @return the {@link UserDefinedConstraint} with the given id, {@code null}
+   *         if there is none.
+   */
+  public UserDefinedConstraint getUserDefinedConstraint(String id) {
+    if (isSetListOfUserDefinedConstraints()) {
+      return getListOfUserDefinedConstraints().get(id);
+    }
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link UserDefinedConstraint}s.
+   *
+   * @return the number of {@link UserDefinedConstraint}s.
+   */
+  public int getUserDefinedConstraintCount() {
+    return isSetListOfUserDefinedConstraints() ? listOfUserDefinedConstraints.size() : 0;
   }
 
   /* (non-Javadoc)

@@ -134,7 +134,7 @@ public class UncertSpan extends UncertParameter {
     if (obj.isSetVarLower()) {
       setVarLower(obj.getVarLower());
     }
-    if (obj.isSetValueUpper()) {
+    if (obj.isSetVarUpper()) {
       setVarUpper(obj.getVarUpper());
     }
     
