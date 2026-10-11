@@ -117,8 +117,10 @@ public class Uncertainty extends AbstractDistribSBase {
    */
   public Uncertainty(Uncertainty obj) {
     super(obj);
-    
-    // TODO
+
+    if (obj.isSetListOfUncertParameters()) {
+      setListOfUncertParameters(obj.getListOfUncertParameters().clone());
+    }
   }
 
   /**

@@ -56,6 +56,13 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    */
   private static final transient Logger logger           =
     Logger.getLogger(Creator.class);
+
+  /** Timeout for connecting to a source URL, in milliseconds. */
+  private static final int CONNECT_TIMEOUT = 30000;
+
+  /** Timeout for reading from a source URL, in milliseconds. */
+  private static final int READ_TIMEOUT = 120000;
+
   /**
    * Generated serial version identifier.
    */
@@ -523,67 +530,74 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    */
   public Model getReferencedModel(URI absoluteContainingURI)
     throws XMLStreamException, IOException, URISyntaxException {
+    return getReferencedModel(readSource(getAbsoluteSourceURI(absoluteContainingURI)));
+  }
 
-    String sourceURIString;
-    URI sourceURI;
-    SBMLDocument externalFile;
-    sourceURI = getAbsoluteSourceURI(absoluteContainingURI);
-    URL sourceUrl = new URL(sourceURI.toString());
-    // Work under the assumption that sourceURI is a URL (file or https, ...),
-    // not some kind of opaque URI (like a URN)
-    if (sourceUrl.getProtocol().equals("file")) {
-      externalFile = org.sbml.jsbml.SBMLReader.read(new File(sourceURI));
-    } else {
-      logger.info("externalModelDefinition " + getId()
-        + " points to an online-resource. Trying to open connection to: "
-        + source);
-      InputStream stream = openStreamWithRedirects(sourceUrl);
-      externalFile = org.sbml.jsbml.SBMLReader.read(stream);
-      externalFile.getSBMLDocument().setLocationURI(sourceUrl.toURI().toString());
-      logger.info("Successfully read online source of externalModelDefinition "
-        + getId());
+
+  /**
+   * The model this references in the given document read from its source: the
+   * main model if the modelRef is not set (comp specification 3.3.1), else the
+   * model, model definition or the model of the external model definition with
+   * the id.
+   *
+   * @param source
+   *        the document read from the source of this
+   * @return the model, {@code null} if there is none
+   */
+  public Model getReferencedModel(SBMLDocument source)
+    throws XMLStreamException, IOException, URISyntaxException {
+    Model mainModel = source.getModel();
+    if (!isSetModelRef()) {
+      return mainModel;
     }
-    sourceURIString = sourceURI.toString();
-
-    // The referenced model can be the main model of the referenced File
-    // (comp-documentation page 14)
-    if (externalFile.getModel().getId().equals(modelRef)) {
-      return externalFile.getModel();
-    } else if (externalFile.isPackageEnabled(CompConstants.shortLabel)) {
+    if ((mainModel != null) && modelRef.equals(mainModel.getId())) {
+      return mainModel;
+    }
+    if (source.isPackageEnabled(CompConstants.shortLabel)) {
       CompSBMLDocumentPlugin externalFileCompPlugin =
-        (CompSBMLDocumentPlugin) externalFile.getExtension(
-          CompConstants.shortLabel);
+        (CompSBMLDocumentPlugin) source.getExtension(CompConstants.shortLabel);
       ModelDefinition localModelDefinition =
         externalFileCompPlugin.getModelDefinition(modelRef);
-      ExternalModelDefinition nextLayer =
-        externalFileCompPlugin.getExternalModelDefinition(modelRef);
-      
       if (localModelDefinition != null) {
         return localModelDefinition;
-        
-      } else if (nextLayer != null) {
-        // Allowed by the specification: This ExternalModelDefinition may
-        // reference an ExternalModelDefinition in the source; which may again
-        // reference an External definition. As by the specification, no loops
-        // are allowed (so they are not checked for here) 
-        // The source may be at an entirely different location OR at a location
-        // relative to the current one
-        if (!sourceURIString.startsWith(absoluteContainingURI.toString())
-          || sourceURIString.substring(
-            absoluteContainingURI.toString().length()).indexOf("/") != -1) {
-          return nextLayer.getReferencedModel(new URI(
-            sourceURIString.substring(0, sourceURIString.lastIndexOf("/"))));
-          
-        // Or just the current one
-        } else {
-          return nextLayer.getReferencedModel(absoluteContainingURI);
-        }
+      }
+      // Allowed by the specification: This ExternalModelDefinition may
+      // reference an ExternalModelDefinition in the source, which is resolved
+      // relative to the source. As by the specification, no loops are allowed.
+      ExternalModelDefinition nextLayer =
+        externalFileCompPlugin.getExternalModelDefinition(modelRef);
+      if (nextLayer != null) {
+        return nextLayer.getReferencedModel();
       }
     }
     return null;
   }
-  
-  
+
+
+  /**
+   * Reads the document at the absolute URI of a source, a file or a URL (with
+   * timeouts), and sets its location, so that its own relative sources resolve.
+   *
+   * @param sourceURI
+   *        absolute URI of the source
+   * @return the document
+   */
+  public static SBMLDocument readSource(URI sourceURI)
+    throws XMLStreamException, IOException {
+    SBMLDocument externalFile;
+    if ("file".equalsIgnoreCase(sourceURI.getScheme())) {
+      externalFile = org.sbml.jsbml.SBMLReader.read(new File(sourceURI));
+    } else {
+      logger.info("Trying to open connection to: " + sourceURI);
+      try (InputStream stream = openStreamWithRedirects(sourceURI.toURL())) {
+        externalFile = org.sbml.jsbml.SBMLReader.read(stream);
+      }
+    }
+    externalFile.setLocationURI(sourceURI.toString());
+    return externalFile;
+  }
+
+
   /**
    * Resolves the external {@link Model} referenced by this and returns that
    * model, under the assumption that the containing {@link SBMLDocument} a)
@@ -663,37 +677,47 @@ public class ExternalModelDefinition extends AbstractNamedSBase
    * @throws URISyntaxException
    */
   public URI getAbsoluteSourceURI(URI absoluteContainingURI) throws MalformedURLException, URISyntaxException {
-    URI sourceURI;
-    String completionOfAbsoluteContainingURI =
-      absoluteContainingURI.toString().endsWith("/") ? "" : "/";
-    URL sourceUrl;
-    try {
-      // the source itself is a valid URL: do not need absoluteContainingURI
-      sourceUrl = new URL(new URI(source).toString());
-    } catch (MalformedURLException e) {
-      // the source itself is not a valid URL: it is relative
-      StringBuilder workingURI = new StringBuilder();
-      if (!new File(source).isAbsolute()) {
-        workingURI.append(absoluteContainingURI);
-        workingURI.append(completionOfAbsoluteContainingURI);
-      } else {
-        workingURI.append("file:");
-        String completionOfPrefix = source.startsWith("/") ? "" : "/";
-        workingURI.append(completionOfPrefix);
-      }
-      workingURI.append(source);
-      sourceUrl = new URL(workingURI.toString());
+    URI sourceURI = sourceURI();
+    if (sourceURI.isOpaque() && "file".equalsIgnoreCase(sourceURI.getScheme())) {
+      // 'file:model.xml' is a relative reference with a scheme, resolved like a
+      // relative path (non-strict resolution of RFC 3986, section 5.2.2)
+      sourceURI = new URI(null, null, sourceURI.getSchemeSpecificPart(), sourceURI.getFragment());
     }
-    sourceURI = sourceUrl.toURI();
-    return sourceURI;
+    if (sourceURI.isAbsolute()) {
+      return sourceURI;
+    }
+    String base = absoluteContainingURI.toString();
+    return new URI(base.endsWith("/") ? base : base + "/").resolve(sourceURI);
   }
-  
+
+
+  /**
+   * @return the source as URI: absolute file paths (also Windows paths) become
+   *         file URIs, other paths with characters not allowed in URIs (like
+   *         spaces) are encoded
+   * @throws URISyntaxException
+   *         if the source is no valid URI and no path
+   */
+  private URI sourceURI() throws URISyntaxException {
+    // a scheme has at least two characters, 'C:' is a Windows drive
+    if (new File(source).isAbsolute() && !source.matches("[A-Za-z][A-Za-z0-9+.-]+:.*")) {
+      return new File(source).toURI();
+    }
+    try {
+      return new URI(source);
+    } catch (URISyntaxException e) {
+      return new URI(null, null, source, null);
+    }
+  }
+
   /**
    * Opens an InputStream for the given URL while explicitly following 
    * HTTP/HTTPS redirects.
    */
-  private InputStream openStreamWithRedirects(URL url) throws IOException {
+  private static InputStream openStreamWithRedirects(URL url) throws IOException {
     URLConnection connection = url.openConnection();
+    connection.setConnectTimeout(CONNECT_TIMEOUT);
+    connection.setReadTimeout(READ_TIMEOUT);
 
     if (connection instanceof HttpURLConnection) {
       HttpURLConnection httpConn = (HttpURLConnection) connection;

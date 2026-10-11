@@ -3,7 +3,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2018 jointly by the following organizations:
+ * Copyright (C) 2009-2022 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -19,1651 +19,1438 @@
  */
 package org.sbml.jsbml.ext.comp.util;
 
-import org.sbml.jsbml.*;
-import org.sbml.jsbml.ext.comp.*;
-import org.sbml.jsbml.util.Pair;
-
-import java.util.*;
+import java.lang.reflect.Method;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.swing.tree.TreeNode;
+
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Delay;
+import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.ExplicitRule;
+import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.InitialAssignment;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.QuantityWithUnit;
+import org.sbml.jsbml.RateRule;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.SimpleSpeciesReference;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.comp.CompConstants;
+import org.sbml.jsbml.ext.comp.CompModelPlugin;
+import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
+import org.sbml.jsbml.ext.comp.CompSBasePlugin;
+import org.sbml.jsbml.ext.comp.Deletion;
+import org.sbml.jsbml.ext.comp.ExternalModelDefinition;
+import org.sbml.jsbml.ext.comp.ModelDefinition;
+import org.sbml.jsbml.ext.comp.Port;
+import org.sbml.jsbml.ext.comp.ReplacedBy;
+import org.sbml.jsbml.ext.comp.ReplacedElement;
+import org.sbml.jsbml.ext.comp.SBaseRef;
+import org.sbml.jsbml.ext.comp.Submodel;
+
 /**
- * The {@link CompFlatteningConverter} object translates a hierarchical model defined with the SBML Level 3
- * Hierarchical Model Composition package into a 'flattened' version of the same model. This means the the hierarchical
- * structure is dissolved and all objects are built into a single model that does no longer require the comp package.
- *
- * @author Christoph Blessing
- * @author Eike Pertuch
- * @since 1.0
+ * Flattens a hierarchical model of the comp package into a model without
+ * submodels, following the specification of the comp package (version 1
+ * release 3, section 4) and the flattening of libSBML:
+ * <ol>
+ * <li>Every {@link Submodel} is instantiated with a copy of the model it
+ * references: a {@link ModelDefinition}, an {@link ExternalModelDefinition}
+ * (resolved relative to the location of the document, see
+ * {@link SBMLDocument#setLocationURI(String)}) or the main model. Submodels of
+ * the instantiated models are instantiated recursively.</li>
+ * <li>The elements of an instance get the prefix of the submodel ids of their
+ * path, for example {@code sub1__sub2__S1}. Local parameters keep their ids.</li>
+ * <li>{@link Deletion}s remove their target. A {@link ReplacedElement} removes
+ * its target and redirects the references to it to the replacing element. A
+ * {@link ReplacedBy} removes its parent, the target takes the id of the parent
+ * and the references to the parent are redirected to the target.</li>
+ * <li>The conversion factors of replaced elements and the time and extent
+ * conversion factors of submodels are applied to the math. Nested time and
+ * extent conversion factors are combined into a new parameter, for example
+ * {@code sub1__timeconv_times_timeconv}.</li>
+ * <li>All remaining elements are merged into the main model, the comp package is
+ * removed.</li>
+ * </ol>
+ * The given document is not changed, the flat model is in a new document.
  */
 public class CompFlatteningConverter {
 
-    private final static Logger LOGGER = Logger.getLogger(CompFlatteningConverter.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(CompFlatteningConverter.class.getName());
 
-    private ListOf<ModelDefinition> modelDefinitionListOf;
+  /** Separator of the submodel ids in the prefix of the flattened ids. */
+  public static final String PREFIX_SEPARATOR = "__";
 
-    // Map containing prefix for each submodel
-    private Map<List<String>, String> subModelPrefixes;
+  private static final String CORE = "core";
 
-    private List<Submodel> listOfSubmodelsToFlatten;
+  /** Attributes of packages that reference SIds, as {@code prefix:name}. */
+  private static final Set<String> PACKAGE_SID_REFERENCES = new java.util.HashSet<String>(java.util.Arrays.asList(
+    "fbc:reaction", "fbc:lowerFluxBound", "fbc:upperFluxBound", "fbc:geneProduct", "fbc:associatedSpecies",
+    "fbc:species", "fbc:activeObjective", "qual:compartment", "qual:qualitativeSpecies", "groups:idRef", "layout:species",
+    "layout:reaction", "layout:compartment", "layout:speciesGlyph", "layout:reactionGlyph", "layout:originOfText",
+    "layout:graphicalObject", "layout:reference", "distrib:var", "distrib:varLower", "distrib:varUpper"));
 
-    // Map of Replaced Elements in the form pathToModel -> idType (id, metaID, ...) -> replacedId -> replacedElementInfo
-    private Map<List<String>, Map<IdType, Map<String, ReplacedElementInfo>>> replacedAndDeletedElementsHashMap;
+  /** Attributes of packages that reference unit definitions, as {@code prefix:name}. */
+  private static final Set<String> PACKAGE_UNIT_REFERENCES = new java.util.HashSet<String>(java.util.Arrays.asList(
+    "distrib:units"));
 
-    // Contains newly created (generally copied) initial assignments
-    private Map<List<String>, List<InitialAssignment>> newInitAssignHashMap;
+  /** Attributes of packages that reference metaids, as {@code prefix:name}. */
+  private static final Set<String> PACKAGE_METAID_REFERENCES = new java.util.HashSet<String>(java.util.Arrays.asList(
+    "groups:metaIdRef", "layout:metaidRef"));
 
-    // Contains newly created (generally copied) rules
-    private Map<List<String>, List<Rule>> newRulesHashMap;
+  /** Separator of the parameters combined into one conversion factor. */
+  private static final String TIMES = "_times_";
 
-    // Contains replaced units (their references can only be changed at the end)
-    private Map<String, String> newUnitDefMaps;
+  /**
+   * A replacement of an element: the element replacing it and the conversion
+   * factor of the replacement, if any.
+   */
+  private static final class Replacement {
 
-    // Final flattened model that is merged into bottom-up in the submodel tree
-    private Model flattenedModel;
+    final SBase replacing;
 
-    // Path to currently visited submodel (node)
-    private List<String> curPath;
+    /** The instance in which the conversion factor is defined. */
+    final ModelInstance scope;
 
-    // Previously visited models
-    private Map<String, Model> visitedModels;
+    /** Id of the conversion factor, {@code null} if not set. */
+    final String conversionFactor;
 
-    public CompFlatteningConverter() {
-        this.listOfSubmodelsToFlatten = new ArrayList<>();
+    Replacement(SBase replacing, ModelInstance scope, String conversionFactor) {
+      this.replacing = replacing;
+      this.scope = scope;
+      this.conversionFactor = conversionFactor;
+    }
+  }
 
-        this.modelDefinitionListOf = new ListOf<>();
+  /** A reference in the flat model: the new id and the conversion factor to divide by. */
+  private static final class Reference {
 
-        this.replacedAndDeletedElementsHashMap = new HashMap<>();
+    final String id;
 
-        this.newInitAssignHashMap = new HashMap<>();
+    /** Conversion factor of the replacements, {@code null} if none. */
+    final ASTNode conversionFactor;
 
-        this.newRulesHashMap = new HashMap<>();
+    Reference(String id, ASTNode conversionFactor) {
+      this.id = id;
+      this.conversionFactor = conversionFactor;
+    }
+  }
 
-        this.newUnitDefMaps = new HashMap<>();
+  /** Elements per instance, in insertion order. */
+  private static final class ListMultimap {
 
-        this.flattenedModel = new Model();
+    private final Map<ModelInstance, List<SBase>> map = new IdentityHashMap<ModelInstance, List<SBase>>();
 
-        this.subModelPrefixes = new HashMap<List<String>, String>();
-
-        this.curPath = new ArrayList<>();
-
-        this.visitedModels = new HashMap<>();
-
+    void put(ModelInstance instance, SBase element) {
+      List<SBase> elements = map.get(instance);
+      if (elements == null) {
+        elements = new ArrayList<SBase>();
+        map.put(instance, elements);
+      }
+      elements.add(element);
     }
 
+    List<SBase> get(ModelInstance instance) {
+      List<SBase> elements = map.get(instance);
+      return elements == null ? Collections.<SBase>emptyList() : elements;
+    }
 
-    /**
-     * Public method to call on a CompflatteningConverter object.
-     * Takes a SBML Document and flattens the models of the comp plugin.
-     * Returns the SBML Document with a flattend model.
-     *
-     * @param document SBML Document to flatten
-     * @return SBML Document with flattened model
-     */
-    public SBMLDocument flatten(SBMLDocument document) {
+    void clear() {
+      map.clear();
+    }
+  }
 
-        if (document.isPackageEnabled(CompConstants.shortLabel)) {
 
-            CompSBMLDocumentPlugin compSBMLDocumentPlugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
+  /** A resolved {@link SBaseRef}: the element and the instance it belongs to. */
+  private static final class Target {
 
-            this.modelDefinitionListOf = compSBMLDocumentPlugin.getListOfModelDefinitions();
+    final ModelInstance instance;
 
-            if (document.isSetModel() && document.getModel().getExtension(CompConstants.shortLabel) != null) {
+    final SBase element;
 
-                //this.flattenedModel = document.getModel();
-                this.flattenedModel.setLevel(document.getLevel());
-                this.flattenedModel.setVersion(document.getVersion());
-                // Perform flattening of model
-                performFlattening(document.getModel(), null, new ArrayList<String>(), new ArrayList<String>());
-                // Set model units of flattened model
-                setModelUnits(document.getModel());
-                // replace Units in flattened model that were replaced
-                replaceUnits();
+    Target(ModelInstance instance, SBase element) {
+      this.instance = instance;
+      this.element = element;
+    }
+  }
 
-            } else {
-                LOGGER.warning("No comp package found in Model. Cannot flatten.");
-            }
+  private final List<ModelInstance> instances = new ArrayList<ModelInstance>();
 
+  private final Map<SBase, ModelInstance> owners = new IdentityHashMap<SBase, ModelInstance>();
+
+  private final Set<SBase> deleted = Collections.newSetFromMap(new IdentityHashMap<SBase, Boolean>());
+
+  private final Set<ModelInstance> deletedInstances =
+    Collections.newSetFromMap(new IdentityHashMap<ModelInstance, Boolean>());
+
+  private final Map<SBase, Replacement> replacements = new IdentityHashMap<SBase, Replacement>();
+
+  /** Replacing elements of {@link ReplacedBy}s mapped to the element whose id they take. */
+  private final Map<SBase, SBase> takesIdOf = new IdentityHashMap<SBase, SBase>();
+
+  /** New ids of the elements, computed before any id is changed. */
+  private final Map<SBase, String> newIds = new IdentityHashMap<SBase, String>();
+
+  /** The documents read from sources, by URI; the flattened document by its location. */
+  private final Map<String, SBMLDocument> sources = new java.util.HashMap<String, SBMLDocument>();
+
+  private final Map<ModelInstance, ASTNode> timeConversionFactors = new IdentityHashMap<ModelInstance, ASTNode>();
+
+  private final Map<ModelInstance, ASTNode> extentConversionFactors = new IdentityHashMap<ModelInstance, ASTNode>();
+
+  /** Parameters of combined conversion factors, added to the flat model with the instance. */
+  private final ListMultimap productParameters = new ListMultimap();
+
+  /** Initial assignments of the combined conversion factors. */
+  private final ListMultimap productAssignments = new ListMultimap();
+
+  private final Set<String> productIds = new java.util.HashSet<String>();
+
+  private Model flatModel;
+
+
+  /**
+   * Flattens the hierarchical model of the document.
+   * <p>
+   * {@link ExternalModelDefinition}s with relative sources are resolved against
+   * the location of the document, which must be set with
+   * {@link SBMLDocument#setLocationURI(String)}.
+   *
+   * @param document
+   *        the document to flatten, not changed
+   * @return a new document with the flat model, or a copy of the document if it
+   *         does not use the comp package
+   * @throws IllegalArgumentException
+   *         if a model instantiates itself through its submodels
+   */
+  public SBMLDocument flatten(SBMLDocument document) {
+    reset();
+    SBMLDocument result = document.clone();
+    if (document.isSetLocationURI()) {
+      result.setLocationURI(document.getLocationURI());
+    }
+    if (!result.isSetModel() || !result.isPackageEnabled(CompConstants.shortLabel)) {
+      LOGGER.warning("No model with the comp package in the document, nothing to flatten.");
+      return result;
+    }
+    flatModel = result.getModel();
+    if (result.isSetLocationURI()) {
+      // an external model definition that refers back to the file itself
+      sources.put(result.getLocationURI(), result);
+    }
+
+    ModelInstance root = new ModelInstance(null, null, flatModel, result, "");
+    register(root);
+    instantiateSubmodels(root, new ArrayList<String>());
+
+    for (ModelInstance instance : instances) {
+      collectDeletions(instance);
+    }
+    for (ModelInstance instance : instances) {
+      collectReplacements(instance);
+    }
+    for (ModelInstance instance : instances) {
+      computeNewIds(instance);
+    }
+    for (ModelInstance instance : instances) {
+      if (!isDeleted(instance)) {
+        computeConversionFactors(instance);
+      }
+    }
+    // the math refers to the elements by their original ids
+    for (ModelInstance instance : instances) {
+      if (!isDeleted(instance)) {
+        updateMath(instance);
+      }
+    }
+    for (ModelInstance instance : instances) {
+      if (!isDeleted(instance)) {
+        removeReplacedAndDeleted(instance);
+      }
+    }
+    for (ModelInstance instance : instances) {
+      if (!isDeleted(instance)) {
+        updateIds(instance);
+      }
+    }
+    // the model definitions of the document would clash with the merged elements
+    result.unsetExtension(CompConstants.shortLabel);
+    for (ModelInstance instance : instances) {
+      if (!instance.isRoot() && !isDeleted(instance)) {
+        merge(instance);
+      }
+    }
+    // after merging, so that the referenced elements are in the same model
+    for (ModelInstance instance : instances) {
+      if (!isDeleted(instance)) {
+        updateReferences(instance);
+      }
+    }
+    removeCompPackage(result);
+    return result;
+  }
+
+
+  private void reset() {
+    instances.clear();
+    owners.clear();
+    deleted.clear();
+    deletedInstances.clear();
+    replacements.clear();
+    takesIdOf.clear();
+    newIds.clear();
+    sources.clear();
+    timeConversionFactors.clear();
+    extentConversionFactors.clear();
+    productParameters.clear();
+    productAssignments.clear();
+    productIds.clear();
+    flatModel = null;
+  }
+
+
+  private void register(ModelInstance instance) {
+    instances.add(instance);
+    for (SBase element : instance.elements) {
+      owners.put(element, instance);
+    }
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Instantiation
+
+  /**
+   * Instantiates the submodels of the instance recursively.
+   *
+   * @param instance
+   *        the instance whose submodels are instantiated
+   * @param path
+   *        the models instantiated on the path to the instance, to detect cycles
+   */
+  private void instantiateSubmodels(ModelInstance instance, List<String> path) {
+    CompModelPlugin plugin = compModelPlugin(instance.model);
+    if (plugin == null || !plugin.isSetListOfSubmodels()) {
+      return;
+    }
+    for (Submodel submodel : plugin.getListOfSubmodels()) {
+      Model referenced = referencedModel(instance.document, submodel.getModelRef());
+      if (referenced == null) {
+        LOGGER.warning("The model '" + submodel.getModelRef() + "' of the submodel '" + submodel.getId()
+          + "' in the " + instance + " could not be found, the submodel is not instantiated.");
+        continue;
+      }
+      SBMLDocument document = referenced.getSBMLDocument() != null ? referenced.getSBMLDocument() : instance.document;
+      String key = System.identityHashCode(document) + "#" + referenced.getId();
+      if (path.contains(key)) {
+        throw new IllegalArgumentException("The model '" + submodel.getModelRef() + "' of the submodel '"
+          + submodel.getId() + "' instantiates itself.");
+      }
+      Model copy = referenced.clone();
+      ModelInstance child = new ModelInstance(instance, submodel, copy, document,
+        instance.prefix + submodel.getId() + PREFIX_SEPARATOR);
+      instance.children.put(submodel.getId(), child);
+      register(child);
+
+      List<String> childPath = new ArrayList<String>(path);
+      childPath.add(key);
+      instantiateSubmodels(child, childPath);
+    }
+  }
+
+
+  /**
+   * The model with the id in the document: a model definition, the model of an
+   * external model definition or the main model.
+   *
+   * @return the model, or {@code null} if there is none
+   */
+  private Model referencedModel(SBMLDocument document, String modelRef) {
+    CompSBMLDocumentPlugin plugin = (CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel);
+    if (plugin != null) {
+      ModelDefinition modelDefinition = plugin.getModelDefinition(modelRef);
+      if (modelDefinition != null) {
+        return modelDefinition;
+      }
+      ExternalModelDefinition external = plugin.getExternalModelDefinition(modelRef);
+      if (external != null) {
+        try {
+          SBMLDocument source = source(external.getAbsoluteSourceURI());
+          return external.isSetModelRef() ? referencedModel(source, external.getModelRef()) : source.getModel();
+        } catch (Exception e) {
+          // XMLStreamException, IOException, URISyntaxException and missing location
+          LOGGER.warning("The external model definition '" + modelRef + "' could not be resolved: " + e);
+          return null;
+        }
+      }
+    }
+    if (document.isSetModel() && modelRef.equals(document.getModel().getId())) {
+      return document.getModel();
+    }
+    return null;
+  }
+
+
+  /**
+   * The document at the source, read once per flattening, so that a model
+   * referenced several times is read once and a cycle of instantiations through
+   * files is detected.
+   */
+  private SBMLDocument source(URI uri) throws Exception {
+    SBMLDocument document = sources.get(uri.toString());
+    if (document == null) {
+      document = ExternalModelDefinition.readSource(uri);
+      sources.put(uri.toString(), document);
+    }
+    return document;
+  }
+
+
+  private static CompModelPlugin compModelPlugin(Model model) {
+    SBasePlugin plugin = model.getExtension(CompConstants.shortLabel);
+    return plugin instanceof CompModelPlugin ? (CompModelPlugin) plugin : null;
+  }
+
+
+  private boolean isDeleted(ModelInstance instance) {
+    for (ModelInstance i = instance; i != null; i = i.parent) {
+      if (deletedInstances.contains(i)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Deletions and replacements
+
+  private void collectDeletions(ModelInstance instance) {
+    CompModelPlugin plugin = compModelPlugin(instance.model);
+    if (plugin == null || !plugin.isSetListOfSubmodels()) {
+      return;
+    }
+    for (Submodel submodel : plugin.getListOfSubmodels()) {
+      ModelInstance child = instance.children.get(submodel.getId());
+      if (child == null) {
+        continue;
+      }
+      for (Deletion deletion : submodel.getListOfDeletions()) {
+        if (deleted.contains(deletion)) {
+          // a deletion deleted by an enclosing model does not apply
+          continue;
+        }
+        Target target = resolve(child, deletion);
+        if (target == null) {
+          LOGGER.warning("The target of the deletion '" + deletion + "' in the " + instance + " was not found.");
+        } else if (target.element instanceof Submodel) {
+          deletedInstances.add(target.instance.children.get(((Submodel) target.element).getId()));
         } else {
-            LOGGER.warning("No comp package found in Document. Cannot flatten.");
+          deleted.add(target.element);
         }
-
-        // Remove lists that are now empty from final model
-        for(ListOf<? extends AbstractSBase> modelList: getAllListsOfModel(this.flattenedModel)) {
-            if(modelList.isEmpty()) {
-                modelList.removeFromParent();
-            }
-        }
-
-        this.flattenedModel.unsetExtension(CompConstants.shortLabel);
-        this.flattenedModel.unsetPlugin(CompConstants.shortLabel);
-        this.flattenedModel.setId(document.getModel().getId());
-        this.flattenedModel.setName(document.getModel().getName());
-        this.flattenedModel.unsetExtension(CompConstants.shortLabel);
-
-        document.unsetExtension(CompConstants.shortLabel);
-        document.disablePackage(CompConstants.shortLabel);
-        document.setModel(this.flattenedModel);
-
-        return document;
+      }
     }
-
-    /**
-     * Method that performs the flattening of the model
-     * Recursively calls itself to flatten models in submodel tree
-     * depth-first postorder.
-     *
-     * @param model currentModel (to be flattened)
-     * @param subModelID Id of submodel (as defined in submodel list of parent model)
-     * @param timeConvFactors Time Conversion Factors applied to current and all parent models
-     * @param extentConvFactors Extent Conversion Factors applied to current and all parent models
-     * @return
-     */
-    private void performFlattening(Model model, String subModelID,
-                                    List<String> timeConvFactors, List<String> extentConvFactors) {
+  }
 
 
-        // Model needs to be cloned to be accessible after recursion call
-        Model modelCopy = model.clone();
-
-        this.visitedModels.put(modelCopy.getId(), modelCopy.clone());
-
-        // Initialize time and extent conversion factors list to save current factors for
-        List<String> curTimeConvFactors = new ArrayList<>(timeConvFactors);
-        List<String> curExtentConvFactors = new ArrayList<>(extentConvFactors);
-
-        this.curPath.add(subModelID == null ? (model.getId().isEmpty()? "mainModel": model.getId())  : subModelID);
-        CompModelPlugin compModelPlugin = (CompModelPlugin) modelCopy.getExtension(CompConstants.shortLabel);
-
-        // STEP 1: If current model contains submodels, flatten those submodels first
-        // Also collect all replaced elements in submodels of current model in this.replacedElementsHashMap
-        parseAllListsOfReplacedElements(modelCopy, curPath);
-
-        String subModelPrefix;
-        // Perform steps 2-6 only for submodels (not for the main model)
-        // STEP 2: Find prefix unique prefix containing Submodel_id
-        if (subModelID != null) {
-
-            CompFlatteningIDExpanderTS idExpander = new CompFlatteningIDExpanderTS();
-            subModelPrefix = idExpander.expandID(modelCopy, this.curPath);
-
+  private void collectReplacements(ModelInstance instance) {
+    for (SBase element : instance.elements) {
+      SBasePlugin extension = element.getExtension(CompConstants.shortLabel);
+      if (!(extension instanceof CompSBasePlugin)) {
+        continue;
+      }
+      CompSBasePlugin plugin = (CompSBasePlugin) extension;
+      if (plugin.isSetListOfReplacedElements()) {
+        for (ReplacedElement replacedElement : plugin.getListOfReplacedElements()) {
+          if (replacedElement.isSetDeletion()) {
+            // replaces an element that is deleted anyway
+            continue;
+          }
+          Target target = resolveInSubmodel(instance, replacedElement, replacedElement.getSubmodelRef());
+          if (target == null) {
+            LOGGER.warning("The target of the replaced element '" + replacedElement + "' of '" + element.getId()
+              + "' in the " + instance + " was not found.");
+          } else if (target.element instanceof Submodel) {
+            deletedInstances.add(target.instance.children.get(((Submodel) target.element).getId()));
+          } else {
+            String conversionFactor = replacedElement.isSetConversionFactor() ? replacedElement.getConversionFactor() : null;
+            replacements.put(target.element, new Replacement(element, instance, conversionFactor));
+          }
+        }
+      }
+      if (plugin.isSetReplacedBy()) {
+        ReplacedBy replacedBy = plugin.getReplacedBy();
+        Target target = resolveInSubmodel(instance, replacedBy, replacedBy.getSubmodelRef());
+        if (target == null) {
+          LOGGER.warning("The target of the replaced by of '" + element.getId() + "' in the " + instance
+            + " was not found.");
         } else {
-            subModelPrefix = "";
+          replacements.put(element, new Replacement(target.element, instance, null));
+          // instances are visited from the main model down, so the outermost element gives the id
+          if (!takesIdOf.containsKey(target.element)) {
+            takesIdOf.put(target.element, element);
+          }
         }
-        this.subModelPrefixes.put(new ArrayList<String>(this.curPath), subModelPrefix);
-
-        // If current model contains compModelPlugin and has submodels -> go into submodels
-        if (compModelPlugin != null && compModelPlugin.getSubmodelCount() > 0) {
-            for (Submodel submodel : compModelPlugin.getListOfSubmodels()) {
-                // ParseListOfDeletions in current submodel and add to replacedAndDeletedElementsHashMap
-                parseListOfDeletions(submodel.getListOfDeletions(), curPath, submodel.getId());
-                Model submodelModel = this.modelDefinitionListOf.get(submodel.getModelRef()).getModel().clone();
-
-                // Add time and extent conversion factors of model to list of active conversion factors
-                if (submodel.isSetTimeConversionFactor()) {
-                    String timeConvFactorName = submodel.getTimeConversionFactor();
-                    if (timeConvFactorName != null) {
-                        String timeConvFactor = model.getParameter(timeConvFactorName).getId();
-                        timeConvFactors.add(subModelPrefix + timeConvFactor);
-                    }
-                }
-                if (submodel.isSetExtentConversionFactor()) {
-                    String extentConvFactorName = submodel.getExtentConversionFactor();
-                    if (extentConvFactorName != null) {
-                        String extentConvFactor = model.getParameter(extentConvFactorName).getId();
-                        extentConvFactors.add(subModelPrefix + extentConvFactor);
-                    }
-                }
-
-                // Recursively call flattening for each submodel
-                performFlattening(submodelModel, submodel.getId(), timeConvFactors, extentConvFactors);
-            }
-        }
-
-        // Now parse ReplacedBy Elements and add to replacedAndDeletedElementsHashMap
-        parseAllReplacedBy(modelCopy, this.curPath);
-
-        // STEP 3: Remove all objects which were either deleted or replaced
-        Map<String, ReplacedElementInfo> replacedElements = removeReplacedAndDeletedElements(modelCopy, compModelPlugin);
-
-        // STEP 4: Add newly created InitialAssignments and Rules
-        addNewElementsWithVariables(modelCopy);
-
-        // STEP 5: Add prefix to all objects
-        addPrefixesToModelObjects(modelCopy, subModelPrefix);
-
-        // STEP 6: Add prefix to all references and adjust them according to replacements
-        ASTNode timeConvFactorNode = createNewConvNode(modelCopy, curTimeConvFactors);
-        ASTNode extentConvFactorNode = createNewConvNode(modelCopy, curExtentConvFactors);
-        addPrefixesAndReplacementsToModelReferences(modelCopy, subModelPrefix, replacedElements, timeConvFactorNode,
-                extentConvFactorNode);
-
-        // STEP 7: Merge model into flattened model
-        this.flattenedModel = mergeModels(this.flattenedModel, modelCopy);
-
-        // Submodel flattenening finished -> go up in submodel tree;
-        this.curPath.remove(this.curPath.size() - 1);
+      }
     }
+  }
 
 
-    //////////////////////////////////////////
-    /// Replacements/Deletions parsers //////
-    ////////////////////////////////////////
+  private Target resolveInSubmodel(ModelInstance instance, SBaseRef sBaseRef, String submodelRef) {
+    ModelInstance child = instance.children.get(submodelRef);
+    return child == null ? null : resolve(child, sBaseRef);
+  }
 
-    /**
-     *
-     * Parse deletions in current model
-     *
-     * @param deletions
-     * @param curPath
-     * @param submodelID
-     */
-    private void parseListOfDeletions(List<Deletion> deletions, List<String> curPath, String submodelID) {
 
-        Map<String, ReplacedElementInfo> replacedIDElementsInModel = null;
-        if(this.replacedAndDeletedElementsHashMap.containsKey(curPath)) {
-            replacedIDElementsInModel = this.replacedAndDeletedElementsHashMap.get(curPath).get(IdType.ID);
-        }
-
-        for (Deletion deletion : deletions) {
-            // If deleted Element was added previously -> skip
-            if(replacedIDElementsInModel != null && replacedIDElementsInModel.containsKey(deletion.getId())) {
-                continue;
-            }
-            List<String> deletionPath = new ArrayList<>(curPath);
-            deletionPath.add(submodelID);
-            IdType deletedElementType;
-            String deletedElementRef;
-            Pair<String, IdType> returnValue;
-            // If deletion is nested (sBaseRef set) get final sBaseRef and extend deletionPath accordingly
-            if (deletion.isSetSBaseRef()) {
-                deletionPath.add(deletion.getIdRef());
-                SBaseRef finalSBaseRef = determineSubmodelPath(deletion.getSBaseRef(), deletionPath);
-                returnValue = selectCorrectRef(finalSBaseRef);
-            } else {
-                returnValue = selectCorrectRef(deletion);
-            }
-            deletedElementRef = returnValue.getKey();
-            deletedElementType = returnValue.getValue();
-
-            // Add deleted element to replacedAndDeletedElementsHashMap
-            if (deletedElementRef != null) {
-                Map<IdType, Map<String, ReplacedElementInfo>> deletedElementsForModel = this.replacedAndDeletedElementsHashMap.get(deletionPath);
-                if (deletedElementsForModel == null) {
-                    Map<String, ReplacedElementInfo> innerHashMap = new HashMap<>();
-                    innerHashMap.put(deletedElementRef, null);
-                    Map<IdType, Map<String, ReplacedElementInfo>> idHashMap = new HashMap<>();
-                    idHashMap.put(deletedElementType, innerHashMap);
-                    this.replacedAndDeletedElementsHashMap.put(deletionPath, idHashMap);
-                } else {
-                    Map<String, ReplacedElementInfo> idHashMap = deletedElementsForModel.get(deletedElementType);
-                    if (idHashMap != null) {
-                        idHashMap.put(deletedElementRef, null);
-                    } else {
-                        Map<String, ReplacedElementInfo> deletedIDs = new HashMap<>();
-                        deletedIDs.put(deletedElementRef, null);
-                        deletedElementsForModel.put(deletedElementType, deletedIDs);
-                    }
-                }
-            }
-        }
+  /**
+   * Resolves the element the {@link SBaseRef} points to in the instance, following
+   * ports and nested references into the instances of submodels.
+   *
+   * @return the target, or {@code null} if it does not exist
+   */
+  private Target resolve(ModelInstance instance, SBaseRef sBaseRef) {
+    Target target;
+    if (sBaseRef.isSetPortRef()) {
+      Port port = instance.portSIds.get(sBaseRef.getPortRef());
+      target = port == null ? null : resolve(instance, port);
+    } else if (sBaseRef.isSetIdRef()) {
+      target = target(instance, instance.sIds.get(sBaseRef.getIdRef()));
+    } else if (sBaseRef.isSetUnitRef()) {
+      target = target(instance, instance.unitSIds.get(sBaseRef.getUnitRef()));
+    } else if (sBaseRef.isSetMetaIdRef()) {
+      target = target(instance, instance.metaIds.get(sBaseRef.getMetaIdRef()));
+    } else {
+      target = null;
     }
-
-    /**
-     *
-     * Parses all lists of replacedElements in model and add them to replacedAndDeletedElementsHashMap
-     *
-     * @param model
-     * @param curPath
-     */
-    private void parseAllListsOfReplacedElements(Model model, List<String> curPath) {
-
-        List<List<? extends AbstractSBase>> listOfListsOfSBases = getListOfListsOfSBases(model);
-
-        // Iterate over every SBase list in model
-        for (List<? extends AbstractSBase> listOfSBases : listOfListsOfSBases) {
-            for (AbstractSBase sBase : listOfSBases) {
-                String sBaseID = sBase.getId();
-                CompSBasePlugin curCompSBasePlugin = (CompSBasePlugin) sBase.getExtension(CompConstants.shortLabel);
-
-                // Parse list of elements that are replaced by this element
-                if (curCompSBasePlugin != null) {
-                    ListOf<ReplacedElement> listOfReplacedElements = curCompSBasePlugin.getListOfReplacedElements();
-                    for (ReplacedElement replacedElement : listOfReplacedElements) {
-                        List<String> submodelPath = new ArrayList<>(curPath);
-
-                        ReplacedElementInfo replacedElementInfo = new ReplacedElementInfo(
-                                sBaseID,
-                                model.getId(),
-                                IdType.ID,
-                                replacedElement.isSetConversionFactor()? replacedElement.getConversionFactor(): null,
-                                new ArrayList<String>(submodelPath)
-                        );
-
-                        String replacedElementRef = null;
-                        IdType replacedElementType = null;
-                        submodelPath.add(replacedElement.getSubmodelRef());
-                        // If replacedElement is nested (sBaseRef set) get final sBaseRef and extend submodelPath accordingly
-                        if (replacedElement.getSBaseRef() != null) {
-                            submodelPath.add(replacedElement.getIdRef());
-                            // Get last sBaseRef in nested sBaseRef and extend current submodelPath accordingly
-                            SBaseRef finalSBaseRef = determineSubmodelPath(replacedElement.getSBaseRef(), submodelPath);
-                            Pair<String, IdType> returnValue = selectCorrectRef(finalSBaseRef);
-                            replacedElementRef = returnValue.getKey();
-                            replacedElementType = returnValue.getValue();
-                        }
-                        else {
-                            Pair<String, IdType> returnValue = selectCorrectRef(replacedElement);
-                            replacedElementRef = returnValue.getKey();
-                            replacedElementType = returnValue.getValue();
-                        }
-                        // If replaceElement is not null add to replacedAndDeletedElementsHashMap
-                        if (replacedElementRef != null) {
-                            Map<IdType, Map<String, ReplacedElementInfo>> hashMapOfModel = this.replacedAndDeletedElementsHashMap.get(submodelPath);
-                            if (hashMapOfModel == null) {
-                                Map<IdType, Map<String, ReplacedElementInfo>> typeHashMap = new HashMap<IdType, Map<String, ReplacedElementInfo>>();
-                                Map<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
-                                replacementHashMap.put(replacedElementRef, replacedElementInfo);
-                                typeHashMap.put(replacedElementType, replacementHashMap);
-                                this.replacedAndDeletedElementsHashMap.put(
-                                        submodelPath,
-                                        typeHashMap
-                                );
-                            } else {
-                                Map<String, ReplacedElementInfo> hashMapOfRefType = hashMapOfModel.get(replacedElementType);
-                                if (hashMapOfRefType == null) {
-                                    Map<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
-                                    replacementHashMap.put(replacedElementRef, replacedElementInfo);
-                                    hashMapOfModel.put(replacedElementType, replacementHashMap);
-                                } else {
-                                    hashMapOfRefType.put(replacedElementRef, replacedElementInfo);
-                                }
-                            }
-                        }
-                    }
-                    if(!curCompSBasePlugin.isSetReplacedBy()) {
-                        sBase.unsetExtension(CompConstants.shortLabel);
-                        sBase.disablePackage(CompConstants.shortLabel);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     *
-     * Parse all replacedBy elements and add them to replacedAndDeletedElementsHashMap
-     *
-     * @param model
-     * @param submodelPath
-     */
-    private void parseAllReplacedBy(Model model, List<String> submodelPath) {
-
-        List<String> submodelPathOg = new ArrayList<>(submodelPath);
-        List<String> submodelPathCopy = new ArrayList<>(submodelPath);
-
-        List<List<? extends AbstractSBase>> listOfListsOfSBases = getListOfListsOfSBases(model);
-
-        for (List<? extends AbstractSBase> listOfSBases : listOfListsOfSBases) {
-            for (AbstractSBase sBase : listOfSBases) {
-                submodelPathCopy = new ArrayList<>(submodelPath);
-                String sBaseID = sBase.getId();
-                CompSBasePlugin curCompSBasePlugin = (CompSBasePlugin) sBase.getExtension(CompConstants.shortLabel);
-                // Parse list of elements that are replaced by this element
-                if (curCompSBasePlugin != null) {
-                    // Get ReplacedBy and add
-                    ReplacedBy replacedBy = curCompSBasePlugin.getReplacedBy();
-                    if (replacedBy != null) {
-                        if (!submodelPathCopy.isEmpty()) {
-                            Map<IdType, Map<String, ReplacedElementInfo>> hashMapOfModel = this.replacedAndDeletedElementsHashMap.get(submodelPathOg);
-                            String replacedByRef = null;
-                            IdType replacedByType = null;
-                            submodelPathCopy.add(replacedBy.getSubmodelRef());
-
-                            //If replacedBy is nested (sBaseRef set) get final sBaseRef and extend submodelPath accordingly
-                            if (replacedBy.getSBaseRef() != null) {
-                                SBaseRef finalSBaseRef = determineSubmodelPath(replacedBy.getSBaseRef(), submodelPathCopy);
-                                if (finalSBaseRef.isSetIdRef()) {
-                                    replacedByRef = finalSBaseRef.getIdRef();
-                                    replacedByType = IdType.ID;
-                                } else if (finalSBaseRef.isSetMetaIdRef()) {
-                                    replacedByRef = finalSBaseRef.getMetaIdRef();
-                                    replacedByType = IdType.META_ID;
-                                } else if (finalSBaseRef.isSetPortRef()) {
-                                    replacedByRef = finalSBaseRef.getPortRef();
-                                    replacedByType = IdType.PORT;
-                                } else if (finalSBaseRef.isSetUnitRef()) {
-                                    replacedByRef = finalSBaseRef.getUnitRef();
-                                    replacedByType = IdType.UNIT_ID;
-                                }
-                            } else {
-                                if (replacedBy.isSetIdRef()) {
-                                    replacedByRef = replacedBy.getIdRef();
-                                    replacedByType = IdType.ID;
-                                } else if (replacedBy.isSetMetaIdRef()) {
-                                    replacedByRef = replacedBy.getMetaIdRef();
-                                    replacedByType = IdType.META_ID;
-                                } else if (replacedBy.isSetPortRef()) {
-                                    replacedByRef = replacedBy.getPortRef();
-                                    replacedByType = IdType.PORT;
-                                } else if (replacedBy.isSetUnitRef()) {
-                                    replacedByRef = replacedBy.getUnitRef();
-                                    replacedByType = IdType.UNIT_ID;
-                                }
-                            }
-
-                            String modelRef = ((CompModelPlugin)model.getExtension(CompConstants.shortLabel)).getListOfSubmodels().get(replacedBy.getSubmodelRef()).getModelRef();
-                            ReplacedElementInfo replacedElementInfo = new ReplacedElementInfo(
-                                    replacedByRef,
-                                    modelRef,
-                                    replacedByType,
-                                    null,
-                                    submodelPathCopy
-                            );
-
-
-                            // Add replacement to replacedAndDeletedElementsHashMap
-                            if (hashMapOfModel == null) {
-                                Map<IdType, Map<String, ReplacedElementInfo>> typeHashMap = new HashMap<IdType, Map<String, ReplacedElementInfo>>();
-                                Map<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
-                                replacementHashMap.put(sBaseID, replacedElementInfo);
-                                typeHashMap.put(IdType.ID, replacementHashMap);
-                                this.replacedAndDeletedElementsHashMap.put(
-                                        submodelPathOg,
-                                        typeHashMap
-                                );
-                            } else {
-                                Map<String, ReplacedElementInfo> hashMapOfRefType = hashMapOfModel.get(IdType.ID);
-                                if (hashMapOfRefType == null) {
-                                    Map<String, ReplacedElementInfo> replacementHashMap = new HashMap<String, ReplacedElementInfo>();
-                                    replacementHashMap.put(sBaseID, replacedElementInfo);
-                                    hashMapOfModel.put(IdType.ID, replacementHashMap);
-                                } else {
-                                    hashMapOfRefType.put(sBaseID, replacedElementInfo);
-                                }
-                            }
-                        }
-                    }
-                    sBase.unsetExtension(CompConstants.shortLabel);
-                    sBase.disablePackage(CompConstants.shortLabel);
-                }
-            }
-        }
-    }
-
-    //////////////////////////////////////////
-    /// References modifier methods /////////
-    ////////////////////////////////////////
-
-    /**
-     *
-     * Add prefixes to references, replace references to elements that were replaced
-     * and add conversion factors appropriately (as defined in comp package docs)
-     *
-     * @param model
-     * @param subModelPrefix
-     * @param replacedElementsHashMap
-     * @param timeConvFactorNode
-     * @param extentConvFactorNode
-     */
-    private void addPrefixesAndReplacementsToModelReferences(Model model, String subModelPrefix,
-                                                             Map<String, ReplacedElementInfo> replacedElementsHashMap,
-                                                             ASTNode timeConvFactorNode,
-                                                             ASTNode extentConvFactorNode) {
-
-
-        // Rules
-        for (Rule rule : model.getListOfRules()) {
-            Class<? extends Rule> classRule = rule.getClass();
-            String variable;
-
-            replaceVariables(rule.getMath(), replacedElementsHashMap, subModelPrefix, timeConvFactorNode);
-            if (!classRule.equals(AlgebraicRule.class)) {
-                if (classRule.equals(RateRule.class)) {
-                    RateRule rRule = (RateRule) rule;
-                    variable = rRule.getVariable();
-                    if (replacedElementsHashMap.containsKey(variable)) {
-                        rRule.setVariable(replacedElementsHashMap.get(variable).id);
-                        String convFactor = replacedElementsHashMap.get(variable).conversionFactor;
-                        if (convFactor != null) {
-                            ASTNode convNode = new ASTNode(convFactor);
-                            rRule.getMath().multiplyWith(convNode);
-                        }
-                        if (timeConvFactorNode != null) {
-                            rRule.getMath().divideBy(timeConvFactorNode);
-                        }
-                    } else {
-                        rRule.setVariable(subModelPrefix + variable);
-                    }
-                } else if (classRule.equals(AssignmentRule.class)) {
-                    AssignmentRule aRule = (AssignmentRule) rule;
-                    variable = aRule.getVariable();
-                    if (replacedElementsHashMap.containsKey(variable)) {
-                        aRule.setVariable(replacedElementsHashMap.get(variable).id);
-                        String convFactor = replacedElementsHashMap.get(variable).conversionFactor;
-                        if (convFactor != null) {
-                            ASTNode convNode = new ASTNode(convFactor);
-                            aRule.getMath().multiplyWith(convNode);
-                        }
-                    } else {
-                        aRule.setVariable(subModelPrefix + variable);
-                    }
-                }
-            }
-        }
-
-        // Initial Assignments
-        for (InitialAssignment initAssign : model.getListOfInitialAssignments()) {
-            replaceVariables(initAssign.getMath(), replacedElementsHashMap, subModelPrefix, timeConvFactorNode);
-            String initAssignVariable = initAssign.getVariable();
-            if (replacedElementsHashMap.containsKey(initAssignVariable)) {
-                initAssign.setVariable(replacedElementsHashMap.get(initAssignVariable).id);
-                String convFactor = replacedElementsHashMap.get(initAssignVariable).conversionFactor;
-                if (convFactor != null) {
-                    ASTNode convNode = new ASTNode(convFactor);
-                    initAssign.getMath().multiplyWith(convNode);
-                }
-            } else {
-                initAssign.setVariable(subModelPrefix + initAssignVariable);
-            }
-        }
-
-        for(Compartment compartment: model.getListOfCompartments()) {
-            updateUnits(compartment, replacedElementsHashMap, subModelPrefix, model);
-        }
-
-        // Species compartments
-        for (Species species : model.getListOfSpecies()) {
-            String compartment = species.getCompartment();
-            updateUnits(species, replacedElementsHashMap, subModelPrefix, model);
-            if (replacedElementsHashMap.containsKey(compartment)) {
-                species.setCompartment(replacedElementsHashMap.get(compartment).id);
-            } else {
-                species.setCompartment(subModelPrefix + compartment);
-            }
-        }
-
-        // Constraints
-        for (Constraint constraint : model.getListOfConstraints()) {
-            replaceVariables(constraint.getMath(), replacedElementsHashMap, subModelPrefix, timeConvFactorNode);
-        }
-
-        // Reactions and more specifically Reactants, Products and Kinetic laws
-        for (Reaction reaction : model.getListOfReactions()) {
-
-            for (SpeciesReference speciesRef : reaction.getListOfReactants()) {
-                String species = speciesRef.getSpecies();
-                if (replacedElementsHashMap.containsKey(species)) {
-                    speciesRef.setSpecies(replacedElementsHashMap.get(species).id);
-                } else {
-                    speciesRef.setSpecies(subModelPrefix + species);
-                }
-                updateIDs(speciesRef, replacedElementsHashMap, subModelPrefix);
-            }
-
-            for (SpeciesReference speciesRef : reaction.getListOfProducts()) {
-                String species = speciesRef.getSpecies();
-                if (replacedElementsHashMap.containsKey(species)) {
-                    speciesRef.setSpecies(replacedElementsHashMap.get(species).id);
-                } else {
-                    speciesRef.setSpecies(subModelPrefix + species);
-                }
-                updateIDs(speciesRef, replacedElementsHashMap, subModelPrefix);
-            }
-
-            if (reaction.isSetKineticLaw()) {
-                replaceVariables(reaction.getKineticLaw().getMath(), replacedElementsHashMap, subModelPrefix, timeConvFactorNode);
-                ASTNode convFactorNode;
-                if (extentConvFactorNode != null && timeConvFactorNode != null) {
-                    convFactorNode = extentConvFactorNode.divideBy(timeConvFactorNode);
-                    reaction.getKineticLaw().getMath().multiplyWith(convFactorNode);
-                } else if (extentConvFactorNode != null) {
-                    convFactorNode = extentConvFactorNode;
-                    reaction.getKineticLaw().getMath().multiplyWith(convFactorNode);
-                } else if (timeConvFactorNode != null) {
-                    convFactorNode = new ASTNode(1).divideBy(timeConvFactorNode);
-                    reaction.getKineticLaw().getMath().multiplyWith(convFactorNode);
-                }
-
-                for (LocalParameter localParameter : reaction.getKineticLaw().getListOfLocalParameters()) {
-                    updateUnits(localParameter, replacedElementsHashMap, subModelPrefix, model);
-                    updateIDs(localParameter, replacedElementsHashMap, subModelPrefix);
-                }
-            }
-        }
-
-        // Delays, triggers and event assignments
-        for (Event event : model.getListOfEvents()) {
-            Delay delay = event.getDelay();
-            if (delay != null) {
-                replaceVariables(delay.getMath(), replacedElementsHashMap, subModelPrefix, timeConvFactorNode);
-                if (timeConvFactorNode != null) {
-                    delay.getMath().multiplyWith(timeConvFactorNode);
-                }
-                updateIDs(delay, replacedElementsHashMap, subModelPrefix);
-            }
-
-            Trigger trigger = event.getTrigger();
-            if (trigger != null) {
-                replaceVariables(trigger.getMath(), replacedElementsHashMap, subModelPrefix, timeConvFactorNode);
-                updateIDs(trigger, replacedElementsHashMap, subModelPrefix);
-            }
-
-            Priority priority = event.getPriority();
-            if (priority != null) {
-                replaceVariables(priority.getMath(), replacedElementsHashMap, subModelPrefix, timeConvFactorNode);
-                updateIDs(priority, replacedElementsHashMap, subModelPrefix);
-            }
-
-            for (EventAssignment eventAssignment : event.getListOfEventAssignments()) {
-                replaceVariables(eventAssignment.getMath(), replacedElementsHashMap, subModelPrefix, timeConvFactorNode);
-                if (replacedElementsHashMap.containsKey(eventAssignment.getVariable())) {
-                    ReplacedElementInfo value = replacedElementsHashMap.get(eventAssignment.getVariable());
-                    eventAssignment.setVariable(value.id);
-                    if (value.conversionFactor != null) {
-                        eventAssignment.getMath().multiplyWith(new ASTNode(value.conversionFactor));
-                    }
-                }
-                else {
-                    eventAssignment.setVariable(subModelPrefix + eventAssignment.getVariable());
-                }
-                updateIDs(eventAssignment, replacedElementsHashMap, subModelPrefix);
-            }
-        }
-    }
-
-    /**
-     * Set units of newly created model according to original model
-     *
-     * @param ogModel original model
-     */
-    private void setModelUnits(Model ogModel) {
-
-        if(ogModel.isSetAreaUnits()) {
-            this.flattenedModel.setAreaUnits(ogModel.getAreaUnits());
-        }
-        if(ogModel.isSetExtentUnits()) {
-            this.flattenedModel.setExtentUnits(ogModel.getExtentUnits());
-        }
-        if(ogModel.isSetLengthUnits()) {
-            this.flattenedModel.setLengthUnits(ogModel.getLengthUnits());
-        }
-        if(ogModel.isSetTimeUnits()) {
-            this.flattenedModel.setTimeUnits(ogModel.getTimeUnits());
-        }
-        if(ogModel.isSetSubstanceUnits()) {
-            this.flattenedModel.setSubstanceUnits(ogModel.getSubstanceUnits());
-        }
-        if(ogModel.isSetVolumeUnits()) {
-            this.flattenedModel.setVolumeUnits(ogModel.getSubstanceUnits());
-        }
-
-    }
-
-    /**
-     *
-     * Replace Units that were replaced
-     *
-     */
-    private void replaceUnits() {
-
-        // Replace units (references) in compartments
-        for(Compartment comp: this.flattenedModel.getListOfCompartments()) {
-            if(comp.isSetUnits() && this.newUnitDefMaps.containsKey(comp.getUnits())) {
-                comp.setUnits(newUnitDefMaps.get(comp.getUnits()));
-            }
-        }
-
-        // Replace units (references) in species
-        for (Species spec : this.flattenedModel.getListOfSpecies()) {
-            if (spec.isSetUnits() && this.newUnitDefMaps.containsKey(spec.getUnits())) {
-                spec.setUnits(this.newUnitDefMaps.get(spec.getUnits()));
-            }
-        }
-
-        // Replace units (references) in local parameters of kinetic laws
-        for(Reaction reac: this.flattenedModel.getListOfReactions()) {
-            if(reac.isSetKineticLaw() && reac.getKineticLaw().isSetListOfLocalParameters()) {
-                for(LocalParameter lp: reac.getKineticLaw().getListOfLocalParameters()) {
-                    if(this.newUnitDefMaps.containsKey(lp.getUnits())) {
-                        lp.setUnits(this.newUnitDefMaps.get(lp.getUnits()));
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     *
-     * Recursively replace variables/symbols in math elements
-     *
-     * @param parent
-     * @param replacedElementsHashMap
-     * @param subModelPrefix
-     * @param timeConvFactorNode
-     */
-    private void replaceVariables(ASTNode parent, Map<String, ReplacedElementInfo> replacedElementsHashMap,
-                                  String subModelPrefix, ASTNode timeConvFactorNode) {
-
-        int i = 0;
-        List<ASTNode> listOfNodes = new ArrayList<>(parent.getListOfNodes());
-        for (ASTNode node : listOfNodes) {
-            List<ASTNode> children = node.getChildren();
-            // If leaf is reached -> apply Conversion Factor
-            // Otherwise recall with children of node
-            if (children.isEmpty()) {
-                applyConvFactorToNode(node, parent, replacedElementsHashMap, subModelPrefix, timeConvFactorNode, i);
-            } else {
-                replaceVariables(node, replacedElementsHashMap, subModelPrefix, timeConvFactorNode);
-            }
-            i++;
-        }
-        applyConvFactorToNode(parent, parent, replacedElementsHashMap, subModelPrefix, timeConvFactorNode, i);
-    }
-
-    /**
-     *
-     * Update the id of a given sBase by either adding a prefix or replacing it if present in replacedElementHashMap
-     *
-     * @param sBase
-     * @param replacedElementsHashMap
-     * @param subModelPrefix
-     */
-    private void updateIDs(SBase sBase, Map<String, ReplacedElementInfo> replacedElementsHashMap, String subModelPrefix) {
-
-        if(sBase.isSetId()) {
-            if (replacedElementsHashMap.containsKey(sBase.getId())) {
-                String value = replacedElementsHashMap.get(sBase.getId()).id;
-                sBase.setId(value);
-            } else {
-                sBase.setId(subModelPrefix + sBase.getId());
-            }
-        }
-        if(sBase.isSetMetaId()) {
-            if (replacedElementsHashMap.containsKey(sBase.getMetaId())) {
-                String value = replacedElementsHashMap.get(sBase.getMetaId()).id;
-                sBase.setMetaId(value);
-            } else {
-                sBase.setMetaId(subModelPrefix + sBase.getMetaId());
-            }
-        }
-    }
-
-    /**
-     *
-     * Update Units of givem SBase depending on if its present in replacedElementsHashMap
-     *
-     * @param sBase
-     * @param replacedElementsHashMap
-     * @param subModelPrefix
-     * @param model
-     */
-    private void updateUnits(SBaseWithUnit sBase, Map<String, ReplacedElementInfo> replacedElementsHashMap,
-                               String subModelPrefix, Model model) {
-
-        if(sBase.isSetUnits()) {
-            if (replacedElementsHashMap.containsKey(sBase.getUnits())) {
-                String subPrefix = this.subModelPrefixes.get(replacedElementsHashMap.get(sBase.getUnits()).replacedElementPath);
-                this.newUnitDefMaps.put(sBase.getUnits(), subPrefix + replacedElementsHashMap.get(sBase.getUnits()).id);
-            } else if (model.getPredefinedUnitDefinition(sBase.getUnits()) == null) {
-                this.newUnitDefMaps.put(sBase.getUnits(), subModelPrefix + sBase.getUnits());
-            }
-        }
-    }
-
-    /**
-     * Remove elements that were either replaced or deleted in the model
-     * and at them to the replacedElementsHashmap to later update ID references accordingly
-     *
-     * @param modelCopy
-     * @param compModelPlugin
-     * @return Map of replaced elements
-     */
-    private Map<String, ReplacedElementInfo> removeReplacedAndDeletedElements(Model modelCopy, CompModelPlugin compModelPlugin) {
-
-        // Get all replaced and deleted Elements for current model and initialize ReplacedElements map
-        Map<IdType, Map<String, ReplacedElementInfo>> replacedElementsInModel = this.replacedAndDeletedElementsHashMap.get(curPath);
-        Map<String, ReplacedElementInfo> replacedElements = new HashMap<>();
-
-        Model ogModelCopy = modelCopy.clone();
-
-        if (replacedElementsInModel != null) {
-            // Iterate over every entry in map of replaced and deleted elements
-            for (IdType key : replacedElementsInModel.keySet()) {
-                // Different replacement procedures are needed depending on idType (id, metaID, portID, unitID) of the element that is replaced
-                switch (key) {
-                    case PORT:
-                        if (compModelPlugin != null) {
-                            for (Map.Entry<String, ReplacedElementInfo> entry : replacedElementsInModel.get(IdType.PORT).entrySet()) {
-                                // Obtain id of element from port
-                                Port port = compModelPlugin.getListOfPorts().get(entry.getKey());
-                                Pair<String, IdType> result = selectCorrectRef(port);
-                                // Remove element and port from parent
-                                if (result.getValue().equals(IdType.META_ID)) {
-                                    modelCopy.getElementByMetaId(result.getKey()).removeFromParent();
-                                } else {
-                                    modelCopy.getElementBySId(result.getKey()).removeFromParent();
-                                }
-                                port.removeFromParent();
-                                // If element was replaced (not deleted) add the element that it's replaced by to replacedElements
-                                if (entry.getValue() != null) {
-                                    replacedElements.put(result.getKey(), entry.getValue());
-                                }
-                            }
-                        }
-                        break;
-                    case ID:
-                        for (Map.Entry<String, ReplacedElementInfo> entry : replacedElementsInModel.get(IdType.ID).entrySet()) {
-                            SBase replacedSBase = modelCopy.getElementBySId(entry.getKey());
-                            SBase ogReplacedSBase = ogModelCopy.getElementBySId(entry.getKey());
-                            if (replacedSBase != null) {
-                                // Species References need special treatment because id needs to stay the same if replaced
-                                // and new Initial Assignments might be created
-                                if((replacedSBase.getClass().equals(SpeciesReference.class)) && (entry.getValue() != null)) {
-                                    ReplacedElementInfo repElInfo = entry.getValue().clone();
-                                    Model replacedElementModel = this.visitedModels.get(repElInfo.modelId);
-                                    String submodelPrefix = this.subModelPrefixes.get(repElInfo.replacedElementPath);
-                                    SpeciesReference specRef = null;
-
-                                    switch (repElInfo.idType) {
-                                        case PORT:
-                                            CompModelPlugin cmp = (CompModelPlugin) replacedElementModel.getPlugin(CompConstants.shortLabel);
-                                            Port port = cmp.getPort(repElInfo.id);
-                                            specRef = replacedElementModel.getModel().findSpeciesReference(port.getIdRef()).clone();
-                                            break;
-                                        case ID:
-                                            specRef = replacedElementModel.getModel().findSpeciesReference(entry.getValue().id).clone();
-                                            break;
-                                        case META_ID:
-                                            specRef = (SpeciesReference) replacedElementModel.getModel().getElementByMetaId(entry.getValue().id).clone();
-                                            break;
-                                        default:
-                                            LOGGER.warning("Replacing SpeciesReference has neither a port or (meta) id!");
-                                            break;
-                                    }
-
-                                    if(specRef != null) {
-                                        // Update speciesReference with replacedElements value except ID and MetaID (as replacement would lead to duplicate IDs)
-                                        SpeciesReference replacedSpecRef = (SpeciesReference) replacedSBase;
-                                        replacedSpecRef.setSpecies(submodelPrefix + specRef.getSpecies());
-                                        replacedSpecRef.setStoichiometry(specRef.getStoichiometry());
-                                        replacedSpecRef.setConstant(specRef.getConstant());
-                                        replacedSpecRef.setValue(specRef.getValue());
-                                        replacedSpecRef.setAnnotation(specRef.getAnnotation());
-                                        if(entry.getValue() != null) {
-                                            checkInitialAssignmentsAndRules(modelCopy, ogReplacedSBase.getId(), entry.getValue(), replacedElements);
-                                        }
-                                    }
-                                }
-                                else {
-                                    replacedSBase.removeFromParent();
-                                    // If element was replaced (not deleted) add the element that it's replaced by to replacedElements
-                                    if(entry.getValue() != null) {
-                                        replacedElements.put(replacedSBase.getId(), entry.getValue());
-                                    }
-                                }
-                            }
-                            // Replacement could be UnitDefinition (can not be got by getElementBySID)
-                            else if(modelCopy.getUnitDefinition(entry.getKey()) != null) {
-                                UnitDefinition unitDef = modelCopy.getUnitDefinition(entry.getKey());
-                                unitDef.removeFromParent();
-                                if (entry.getValue() != null) {
-                                    Map<String, String> hashMap = new HashMap<>();
-                                    hashMap.put(entry.getKey(), entry.getValue().id);
-                                    replacedElements.put(entry.getKey(), entry.getValue());
-                                }
-                            }
-                            else if(ogReplacedSBase != null && entry.getValue() != null) {
-                                checkInitialAssignmentsAndRules(modelCopy, ogReplacedSBase.getId(), entry.getValue(), replacedElements);
-                            }
-                        }
-                        break;
-                    case META_ID:
-                        for (Map.Entry<String, ReplacedElementInfo> entry : replacedElementsInModel.get(IdType.META_ID).entrySet()) {
-                            SBase replacedSBase = modelCopy.getElementByMetaId(entry.getKey());
-                            SBase ogReplacedSBase = ogModelCopy.getElementByMetaId(entry.getKey());
-                            if (replacedSBase != null) {
-                                // Species References need special treatment because id needs to stay the same if replaced
-                                // and new Initial Assignments might be created
-                                if(replacedSBase.getClass().equals(SpeciesReference.class) && entry.getValue() != null) {
-                                    Model replacedElementModel = this.visitedModels.get(entry.getValue().modelId);
-                                    ReplacedElementInfo repElInfo = entry.getValue().clone();
-                                    String submodelPrefix = this.subModelPrefixes.get(repElInfo.replacedElementPath);
-                                    SpeciesReference specRef = null;
-
-                                    switch (repElInfo.idType) {
-                                        case PORT:
-                                            CompModelPlugin cmp = (CompModelPlugin) replacedElementModel.getPlugin(CompConstants.shortLabel);
-                                            Port port = cmp.getPort(repElInfo.id);
-                                            specRef = replacedElementModel.getModel().findSpeciesReference(port.getIdRef()).clone();
-                                            break;
-                                        case ID:
-                                            specRef = replacedElementModel.getModel().findSpeciesReference(entry.getValue().id).clone();
-                                            break;
-                                        case META_ID:
-                                            specRef = (SpeciesReference) replacedElementModel.getModel().getElementByMetaId(entry.getValue().id).clone();
-                                            break;
-                                        default:
-                                            LOGGER.warning("Replacing SpeciesReference has neither a port or (meta) id!");
-                                            break;
-                                    }
-
-
-                                    if(specRef != null) {
-                                        // Update speciesReference with replacedElements value except ID and MetaID (as replacement would lead to duplicate IDs)
-                                        SpeciesReference replacedSpecRef = (SpeciesReference) replacedSBase;
-                                        replacedSpecRef.setSpecies(submodelPrefix + specRef.getSpecies());
-                                        replacedSpecRef.setStoichiometry(specRef.getStoichiometry());
-                                        replacedSpecRef.setConstant(specRef.getConstant());
-                                        replacedSpecRef.setValue(specRef.getValue());
-                                        replacedSpecRef.setAnnotation(specRef.getAnnotation());
-                                        if(entry.getValue() != null) {
-                                            checkInitialAssignmentsAndRules(modelCopy, replacedSBase.getId(), entry.getValue(), replacedElements);
-                                        }
-                                    }
-                                }
-                                else {
-                                    replacedSBase.removeFromParent();
-                                    if (entry.getValue() != null) {
-                                        replacedElements.put(replacedSBase.getId(), entry.getValue());
-                                    }
-                                }
-                            }
-                            // Replacement could be UnitDefinition (can not be got by getElementByMetaID)
-                            else if(modelCopy.getUnitDefinition(entry.getKey()) != null) {
-                                UnitDefinition unitDef = modelCopy.getUnitDefinition(entry.getKey());
-                                unitDef.removeFromParent();
-                                if (entry.getValue() != null) {
-                                    Map<String, String> hashMap = new HashMap<>();
-                                    hashMap.put(entry.getKey(), entry.getValue().id);
-                                    replacedElements.put(entry.getKey(), entry.getValue());
-                                }
-                            }
-                            else if(ogReplacedSBase != null && entry.getValue() != null) {
-                                checkInitialAssignmentsAndRules(modelCopy, ogReplacedSBase.getId(), entry.getValue(), replacedElements);
-                            }
-                        }
-                        break;
-                    case UNIT_ID:
-                        for (Map.Entry<String, ReplacedElementInfo> entry : replacedElementsInModel.get(IdType.UNIT_ID).entrySet()) {
-                            UnitDefinition unitDef = modelCopy.getUnitDefinition(entry.getKey());
-                            //modelCopy.getElementBySId(unitDef.getId()).removeFromParent();
-                            unitDef.removeFromParent();
-                            if (entry.getValue() != null) {
-                                Map<String, String> hashMap = new HashMap<>();
-                                hashMap.put(entry.getKey(), entry.getValue().id);
-                                //newUnitDefMaps.add(hashMap);
-                                replacedElements.put(entry.getKey(), entry.getValue());
-                            }
-                        }
-                        break;
-                }
-            }
-        }
-
-        return replacedElements;
-    }
-
-
-    //////////////////////////////////////////
-    /// Utility /////////////////////////////
-    ////////////////////////////////////////
-
-    /**
-     * Adds newly created initial Assignment and Rules to model
-     *
-     * @param modelCopy
-     */
-    private void addNewElementsWithVariables(Model modelCopy) {
-        if(this.newInitAssignHashMap.containsKey(curPath)) {
-            modelCopy.getListOfInitialAssignments().addAll(this.newInitAssignHashMap.get(curPath));
-        }
-        if(this.newRulesHashMap.containsKey(curPath)) {
-            modelCopy.getListOfRules().addAll(this.newRulesHashMap.get(curPath));
-        }
-    }
-
-    /**
-     * Create ASTNode for all conversion factors of current model by multiplying them
-     *
-     * @param modelCopy
-     * @param convFactors list of conversion factors
-     * @return ASTNode created by multiplying all conversion factors
-     */
-    private ASTNode createNewConvNode(Model modelCopy, List<String> convFactors) {
-
-
-        if (convFactors.size() > 0) {
-            StringBuilder convNodeName = new StringBuilder(convFactors.get(0));
-            ASTNode initAssignConvNode = new ASTNode(convNodeName.toString());
-            for (String convFactor : convFactors.subList(1, convFactors.size())) {
-                initAssignConvNode.multiplyWith(new ASTNode(convFactor));
-                convNodeName.append("_times_").append(convFactor);
-            }
-
-            if (!this.flattenedModel.containsParameter(convNodeName.toString()) && convFactors.size() > 1) {
-                InitialAssignment initAssignConv = new InitialAssignment(this.flattenedModel.getLevel(), this.flattenedModel.getVersion());
-                initAssignConv.setVariable(convNodeName.toString());
-                initAssignConv.setMath(initAssignConvNode);
-                this.flattenedModel.getListOfInitialAssignments().add(initAssignConv);
-
-                Parameter parameterConv = new Parameter(this.flattenedModel.getLevel(), this.flattenedModel.getVersion());
-                parameterConv.setId(convNodeName.toString());
-                this.flattenedModel.getListOfParameters().add(parameterConv);
-            }
-
-            return new ASTNode(convNodeName.toString());
-        }
-
+    if (target != null && sBaseRef.isSetSBaseRef()) {
+      if (!(target.element instanceof Submodel)) {
         return null;
+      }
+      ModelInstance child = target.instance.children.get(((Submodel) target.element).getId());
+      return child == null ? null : resolve(child, sBaseRef.getSBaseRef());
+    }
+    return target;
+  }
+
+
+  private static Target target(ModelInstance instance, SBase element) {
+    return element == null ? null : new Target(instance, element);
+  }
+
+
+  /**
+   * The element that is left of the chain of replacements of the element.
+   */
+  private SBase replacing(SBase element) {
+    SBase current = element;
+    Set<SBase> seen = Collections.newSetFromMap(new IdentityHashMap<SBase, Boolean>());
+    while (replacements.containsKey(current) && seen.add(current)) {
+      current = replacements.get(current).replacing;
+    }
+    return current;
+  }
+
+
+  private boolean isRemoved(SBase element) {
+    return deleted.contains(element) || replacements.containsKey(element);
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Ids
+
+  private void computeNewIds(ModelInstance instance) {
+    for (SBase element : instance.elements) {
+      if (element.isSetId() && isRenamed(element)) {
+        newIds.put(element, newId(element));
+      }
+    }
+  }
+
+
+  /**
+   * The elements whose ids get the prefix: all but local parameters and the
+   * elements of the comp package, which is removed.
+   */
+  private static boolean isRenamed(SBase element) {
+    return !(element instanceof LocalParameter) && !(element instanceof Model)
+        && !CompConstants.shortLabel.equals(element.getPackageName());
+  }
+
+
+  private String newId(SBase element) {
+    SBase named = named(element);
+    return owners.get(named).prefix + named.getId();
+  }
+
+
+  /**
+   * The element whose id the element takes: the outermost element it replaces with
+   * a {@link ReplacedBy}, else the element itself.
+   */
+  private SBase named(SBase element) {
+    SBase named = element;
+    Set<SBase> seen = Collections.newSetFromMap(new IdentityHashMap<SBase, Boolean>());
+    while (takesIdOf.containsKey(named) && seen.add(named)) {
+      named = takesIdOf.get(named);
+    }
+    return named;
+  }
+
+
+  private void updateIds(ModelInstance instance) {
+    for (SBase element : instance.elements) {
+      if (isRemoved(element)) {
+        continue;
+      }
+      String newId = newIds.get(element);
+      if (newId != null && !newId.equals(element.getId())) {
+        element.setId(newId);
+      }
+      SBase named = named(element);
+      if (named != element && named.isSetMetaId()) {
+        // the replacing element of a replaced by takes the metaid of the replaced element
+        element.setMetaId(owners.get(named).prefix + named.getMetaId());
+      } else if (!instance.isRoot() && element.isSetMetaId()) {
+        element.setMetaId(instance.prefix + element.getMetaId());
+      }
+    }
+  }
+
+
+  /**
+   * The reference in the flat model for the SId in the instance.
+   */
+  private Reference reference(ModelInstance instance, String id) {
+    return reference(instance, instance.sIds.get(id), id);
+  }
+
+
+  /**
+   * The reference in the flat model for the element with the id in the instance.
+   *
+   * @param element
+   *        the element, {@code null} if there is no element with the id
+   */
+  private Reference reference(ModelInstance instance, SBase element, String id) {
+    if (element == null) {
+      return new Reference(instance.prefix + id, null);
+    }
+    List<ASTNode> factors = new ArrayList<ASTNode>();
+    SBase current = element;
+    Set<SBase> seen = Collections.newSetFromMap(new IdentityHashMap<SBase, Boolean>());
+    while (replacements.containsKey(current) && seen.add(current)) {
+      Replacement replacement = replacements.get(current);
+      if (replacement.conversionFactor != null) {
+        factors.add(new ASTNode(reference(replacement.scope, replacement.conversionFactor).id));
+      }
+      current = replacement.replacing;
+    }
+    String newId = newIds.containsKey(current) ? newIds.get(current) : instance.prefix + id;
+    return new Reference(newId, times(factors));
+  }
+
+
+  /**
+   * The unit in the flat model for the unit in the instance.
+   *
+   * @return the unit, {@code null} if the unit is not defined
+   */
+  private String unitReference(ModelInstance instance, String units) {
+    if (Unit.isPredefined(units, flatModel.getLevel())
+        || Unit.Kind.isValidUnitKindString(units, flatModel.getLevel(), flatModel.getVersion())) {
+      return units;
+    }
+    SBase unitDefinition = instance.unitSIds.get(units);
+    if (unitDefinition == null) {
+      // an undefined unit is kept, JSBML does not allow to set it
+      return null;
+    }
+    SBase current = replacing(unitDefinition);
+    return newIds.containsKey(current) ? newIds.get(current) : instance.prefix + units;
+  }
+
+
+  private static ASTNode times(List<ASTNode> factors) {
+    if (factors.isEmpty()) {
+      return null;
+    }
+    if (factors.size() == 1) {
+      return factors.get(0);
+    }
+    return multiply(factors);
+  }
+
+
+  /**
+   * A new node dividing the nodes. {@link ASTNode#frac(ASTNode, ASTNode)} is not
+   * used, as it turns the numerator node into the division and keeps its
+   * attributes, like the definition URL of a csymbol.
+   */
+  private static ASTNode divide(ASTNode numerator, ASTNode denominator) {
+    ASTNode node = new ASTNode(ASTNode.Type.DIVIDE);
+    node.addChild(numerator);
+    node.addChild(denominator);
+    return node;
+  }
+
+
+  /** A new node multiplying the nodes, see {@link #divide(ASTNode, ASTNode)}. */
+  private static ASTNode multiply(ASTNode... factors) {
+    return multiply(java.util.Arrays.asList(factors));
+  }
+
+
+  /**
+   * A new node multiplying the factors. The factors of a factor that is a
+   * product are added directly, as in libSBML.
+   */
+  private static ASTNode multiply(List<ASTNode> factors) {
+    ASTNode node = new ASTNode(ASTNode.Type.TIMES);
+    for (ASTNode factor : factors) {
+      if (factor.getType() == ASTNode.Type.TIMES) {
+        for (ASTNode child : new ArrayList<ASTNode>(factor.getChildren())) {
+          node.addChild(child);
+        }
+      } else {
+        node.addChild(factor);
+      }
+    }
+    return node;
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Conversion factors
+
+  /**
+   * Computes the time and extent conversion factors of the instance: the product
+   * of the conversion factor of its submodel and the one of the enclosing
+   * instance. The product of two parameters is a new parameter {@code a_times_b}
+   * with an initial assignment {@code a * b}.
+   */
+  private void computeConversionFactors(ModelInstance instance) {
+    if (instance.isRoot()) {
+      return;
+    }
+    Submodel submodel = instance.submodel;
+    String time = submodel.isSetTimeConversionFactor()
+        ? reference(instance.parent, submodel.getTimeConversionFactor()).id : null;
+    String extent = submodel.isSetExtentConversionFactor()
+        ? reference(instance.parent, submodel.getExtentConversionFactor()).id : null;
+    timeConversionFactors.put(instance, product(instance, time, timeConversionFactors.get(instance.parent)));
+    extentConversionFactors.put(instance, product(instance, extent, extentConversionFactors.get(instance.parent)));
+  }
+
+
+  /**
+   * The product of the parameter and the conversion factor of the enclosing instance.
+   *
+   * @return the math of the product, {@code null} if both are not set
+   */
+  private ASTNode product(ModelInstance instance, String id, ASTNode enclosing) {
+    if (id == null) {
+      return enclosing;
+    }
+    if (enclosing == null) {
+      return new ASTNode(id);
+    }
+    String productId = id + TIMES + enclosing.getName();
+    if (!productIds.contains(productId)) {
+      productIds.add(productId);
+      Parameter parameter = new Parameter(productId, flatModel.getLevel(), flatModel.getVersion());
+      parameter.setConstant(true);
+      InitialAssignment assignment = new InitialAssignment(flatModel.getLevel(), flatModel.getVersion());
+      assignment.setVariable(productId);
+      assignment.setMath(multiply(new ASTNode(id), enclosing.clone()));
+      productParameters.put(instance, parameter);
+      productAssignments.put(instance, assignment);
+    }
+    return new ASTNode(productId);
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  // References
+
+  /**
+   * Updates the references of the elements of the instance to their ids in the
+   * flat model, and applies the conversion factors.
+   */
+  private void updateMath(ModelInstance instance) {
+    ASTNode time = timeConversionFactors.get(instance);
+    for (SBase element : instance.elements) {
+      if (isRemoved(element) || !(element instanceof MathContainer) || !((MathContainer) element).isSetMath()) {
+        continue;
+      }
+      MathContainer container = (MathContainer) element;
+      ASTNode math = updateMath(instance, container, container.getMath(), time);
+      ASTNode assignmentFactor = assignmentFactor(instance, element);
+      if (assignmentFactor != null) {
+        math = multiply(math, assignmentFactor);
+      }
+      if (element instanceof RateRule && time != null) {
+        math = divide(math, time.clone());
+      } else if (element instanceof KineticLaw) {
+        ASTNode rateFactor = rateFactor(instance);
+        if (rateFactor != null) {
+          // the factor comes first, as in libSBML
+          math = multiply(rateFactor, math);
+        }
+      } else if (element instanceof Delay && time != null) {
+        math = multiply(time.clone(), math);
+      }
+      if (math != container.getMath()) {
+        container.setMath(math);
+      }
+    }
+  }
+
+
+  /**
+   * The conversion factor to multiply the math of the element with, if it assigns
+   * a value to a replaced element with a conversion factor.
+   *
+   * @return the factor, {@code null} if there is none
+   */
+  private ASTNode assignmentFactor(ModelInstance instance, SBase element) {
+    String variable = null;
+    if (element instanceof ExplicitRule && ((ExplicitRule) element).isSetVariable()) {
+      variable = ((ExplicitRule) element).getVariable();
+    } else if (element instanceof InitialAssignment && ((InitialAssignment) element).isSetVariable()) {
+      variable = ((InitialAssignment) element).getVariable();
+    } else if (element instanceof EventAssignment && ((EventAssignment) element).isSetVariable()) {
+      variable = ((EventAssignment) element).getVariable();
+    }
+    return variable == null ? null : reference(instance, variable).conversionFactor;
+  }
+
+
+  /**
+   * Updates the attributes of the elements of the instance that reference other
+   * elements to the ids in the flat model.
+   */
+  private void updateReferences(ModelInstance instance) {
+    if (instance.isRoot()) {
+      updateModelReferences(instance);
+    }
+    for (SBase element : instance.elements) {
+      if (!isRemoved(element) && !CompConstants.shortLabel.equals(element.getPackageName())) {
+        updateAttributeReferences(instance, element);
+        if (element instanceof MathContainer && ((MathContainer) element).isSetMath()) {
+          updateMathUnits(instance, ((MathContainer) element).getMath());
+        }
+      }
+    }
+  }
+
+
+  private void updateModelReferences(ModelInstance root) {
+    if (flatModel.isSetConversionFactor()) {
+      flatModel.setConversionFactor(reference(root, flatModel.getConversionFactor()).id);
+    }
+  }
+
+
+  /**
+   * Updates the attributes of the element that reference other elements.
+   */
+  private void updateAttributeReferences(ModelInstance instance, SBase element) {
+    // the units of a species are its substance units
+    if (element instanceof QuantityWithUnit) {
+      QuantityWithUnit quantity = (QuantityWithUnit) element;
+      String units = quantity.isSetUnits() ? unitReference(instance, quantity.getUnits()) : null;
+      if (units != null && !units.equals(quantity.getUnits())) {
+        quantity.setUnits(units);
+      }
+    }
+    updatePackageReferences(instance, element);
+    if (element instanceof Species) {
+      Species species = (Species) element;
+      if (species.isSetCompartment()) {
+        species.setCompartment(reference(instance, species.getCompartment()).id);
+      }
+      if (species.isSetConversionFactor()) {
+        species.setConversionFactor(reference(instance, species.getConversionFactor()).id);
+      }
+    } else if (element instanceof Reaction) {
+      Reaction reaction = (Reaction) element;
+      if (reaction.isSetCompartment()) {
+        reaction.setCompartment(reference(instance, reaction.getCompartment()).id);
+      }
+    } else if (element instanceof SimpleSpeciesReference) {
+      SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) element;
+      if (speciesReference.isSetSpecies()) {
+        speciesReference.setSpecies(reference(instance, speciesReference.getSpecies()).id);
+      }
+    } else if (element instanceof ExplicitRule) {
+      ExplicitRule rule = (ExplicitRule) element;
+      if (rule.isSetVariable()) {
+        rule.setVariable(reference(instance, rule.getVariable()).id);
+      }
+    } else if (element instanceof InitialAssignment) {
+      InitialAssignment assignment = (InitialAssignment) element;
+      if (assignment.isSetVariable()) {
+        assignment.setVariable(reference(instance, assignment.getVariable()).id);
+      }
+    } else if (element instanceof EventAssignment) {
+      EventAssignment assignment = (EventAssignment) element;
+      if (assignment.isSetVariable()) {
+        assignment.setVariable(reference(instance, assignment.getVariable()).id);
+      }
+    }
+  }
+
+
+  /**
+   * Updates the units of the numbers in the math. Done after merging, as JSBML
+   * checks that the unit definition exists in the model.
+   */
+  private void updateMathUnits(ModelInstance instance, ASTNode node) {
+    String units = node.isSetUnits() ? unitReference(instance, node.getUnits()) : null;
+    if (units != null && !units.equals(node.getUnits())) {
+      node.setUnits(units);
+    }
+    for (int i = 0; i < node.getChildCount(); i++) {
+      updateMathUnits(instance, node.getChild(i));
+    }
+  }
+
+
+  /**
+   * Updates the attributes of packages that reference SIds or metaids, of the
+   * element if it belongs to a package and of the package plugins of the element.
+   */
+  private void updatePackageReferences(ModelInstance instance, SBase element) {
+    if (!CORE.equals(element.getPackageName())) {
+      updatePackageReferences(instance, element.writeXMLAttributes(), element, null);
+    }
+    for (SBasePlugin plugin : element.getExtensionPackages().values()) {
+      if (!(plugin instanceof CompSBasePlugin)) {
+        updatePackageReferences(instance, plugin.writeXMLAttributes(), null, plugin);
+      }
+    }
+  }
+
+
+  private void updatePackageReferences(ModelInstance instance, Map<String, String> attributes, SBase element,
+    SBasePlugin plugin) {
+    for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+      String name = attribute.getKey();
+      String value;
+      if (PACKAGE_SID_REFERENCES.contains(name)) {
+        value = reference(instance, attribute.getValue()).id;
+      } else if (PACKAGE_METAID_REFERENCES.contains(name)) {
+        value = metaIdReference(instance, attribute.getValue());
+      } else if (PACKAGE_UNIT_REFERENCES.contains(name)) {
+        value = unitReference(instance, attribute.getValue());
+        if (value == null) {
+          // an undefined unit is kept
+          continue;
+        }
+      } else {
+        continue;
+      }
+      int colon = name.indexOf(':');
+      String prefix = name.substring(0, colon);
+      String localName = name.substring(colon + 1);
+      if (element != null) {
+        element.readAttribute(localName, prefix, value);
+      } else {
+        plugin.readAttribute(localName, prefix, value);
+      }
+    }
+  }
+
+
+  /**
+   * Sets the package attributes (with a prefix) of the element or plugin to the
+   * given ones, with the references updated.
+   */
+  private void copyAttributes(ModelInstance instance, Map<String, String> attributes, SBase element,
+    SBasePlugin plugin) {
+    if (attributes == null) {
+      return;
+    }
+    for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+      String name = attribute.getKey();
+      int colon = name.indexOf(':');
+      if (colon < 0 || name.startsWith("xmlns") || name.startsWith("xsi")) {
+        continue;
+      }
+      String value = attribute.getValue();
+      if (PACKAGE_SID_REFERENCES.contains(name)) {
+        value = reference(instance, value).id;
+      } else if (PACKAGE_METAID_REFERENCES.contains(name)) {
+        value = metaIdReference(instance, value);
+      }
+      String prefix = name.substring(0, colon);
+      String localName = name.substring(colon + 1);
+      if (element != null) {
+        element.readAttribute(localName, prefix, value);
+      } else {
+        plugin.readAttribute(localName, prefix, value);
+      }
+    }
+  }
+
+
+  /**
+   * The reference in the flat model for the metaid in the instance.
+   */
+  private String metaIdReference(ModelInstance instance, String metaId) {
+    SBase element = instance.metaIds.get(metaId);
+    if (element == null) {
+      return instance.prefix + metaId;
+    }
+    SBase current = replacing(element);
+    return current.isSetMetaId() ? current.getMetaId() : instance.prefix + metaId;
+  }
+
+
+  /**
+   * Updates the names in the math. Names of replaced elements with a conversion
+   * factor are divided by it, the time is divided by the time conversion factor
+   * and the delay of the delay function is multiplied with it.
+   *
+   * @return the updated math, which is a new node if the root node is replaced
+   */
+  private ASTNode updateMath(ModelInstance instance, MathContainer container, ASTNode node, ASTNode time) {
+    for (int i = 0; i < node.getChildCount(); i++) {
+      ASTNode child = node.getChild(i);
+      ASTNode updated = updateMath(instance, container, child, time);
+      if (updated != child) {
+        node.replaceChild(i, updated);
+      }
+    }
+    boolean function = container instanceof FunctionDefinition;
+    switch (node.getType()) {
+    case NAME:
+      if (function) {
+        return node;
+      }
+      String name = node.getName();
+      Reference reference = mathReference(instance, container, name);
+      if (reference == null) {
+        return node;
+      }
+      // the name of a node bound to an element is the id of the element
+      node.setVariable(null);
+      node.setName(reference.id);
+      ASTNode updated = node;
+      if (reference.conversionFactor != null) {
+        updated = divide(updated, reference.conversionFactor);
+      }
+      ASTNode rateFactor = rateFactor(instance);
+      if (rateFactor != null && isReactionOf(instance, name)) {
+        // the rate of a reaction in the units of the instance: its kinetic law in
+        // the flat model is multiplied with the rate factor
+        updated = divide(updated, rateFactor);
+      }
+      return updated;
+    case FUNCTION:
+      if (node.getName() != null) {
+        node.setName(reference(instance, node.getName()).id);
+      }
+      return node;
+    case NAME_TIME:
+      if (time != null && !function) {
+        return divide(node, time.clone());
+      }
+      return node;
+    case FUNCTION_DELAY:
+      if (time != null && !function && node.getChildCount() == 2) {
+        node.replaceChild(1, multiply(time.clone(), node.getChild(1)));
+      }
+      return node;
+    default:
+      return node;
+    }
+  }
+
+
+  /**
+   * The factor of the kinetic laws of the instance: extent / time conversion factor.
+   *
+   * @return a new node, {@code null} if there are no conversion factors
+   */
+  private ASTNode rateFactor(ModelInstance instance) {
+    ASTNode extent = extentConversionFactors.get(instance);
+    ASTNode time = timeConversionFactors.get(instance);
+    if (extent != null && time != null) {
+      return divide(extent.clone(), time.clone());
+    } else if (extent != null) {
+      return extent.clone();
+    } else if (time != null) {
+      return divide(new ASTNode(1), time.clone());
+    }
+    return null;
+  }
+
+
+  /**
+   * @return {@code true} if the id refers to a reaction of the instance that is
+   *         not replaced
+   */
+  private boolean isReactionOf(ModelInstance instance, String id) {
+    SBase element = instance.sIds.get(id);
+    return element instanceof Reaction && owners.get(replacing(element)) == instance;
+  }
+
+
+  /**
+   * The reference for a name in the math of the container. A name of a local
+   * parameter of a kinetic law refers to the local parameter; if it is deleted,
+   * the name refers to the global element with the id.
+   *
+   * @return the reference, {@code null} if the name refers to a local parameter
+   *         that is kept
+   */
+  private Reference mathReference(ModelInstance instance, MathContainer container, String name) {
+    if (container instanceof KineticLaw) {
+      LocalParameter localParameter = ((KineticLaw) container).getLocalParameter(name);
+      if (localParameter != null && !deleted.contains(localParameter)) {
+        return replacements.containsKey(localParameter) ? reference(instance, localParameter, name) : null;
+      }
+    }
+    return reference(instance, name);
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Removal and merging
+
+  private void removeReplacedAndDeleted(ModelInstance instance) {
+    for (SBase element : instance.elements) {
+      if (isRemoved(element)) {
+        remove(element);
+      }
+    }
+  }
+
+
+  private static void remove(SBase element) {
+    TreeNode parent = element.getParent();
+    if (parent instanceof ListOf<?>) {
+      ListOf<?> listOf = (ListOf<?>) parent;
+      listOf.remove(element);
+      if (listOf.isEmpty() && (listOf.getParent() != null)) {
+        // as libSBML, which does not write empty lists
+        unsetChild(listOf.getParent(), listOf.getElementName());
+      }
+    } else if (parent != null && !unsetChild(parent, element.getElementName())) {
+      LOGGER.warning("The replaced or deleted element '" + element + "' could not be removed.");
+    }
+  }
+
+
+  /**
+   * Unsets the child with the element name with its unset method, for example
+   * {@code Event.unsetDelay()} for {@code delay}.
+   *
+   * @return {@code true} if the child was unset
+   */
+  private static boolean unsetChild(TreeNode parent, String elementName) {
+    try {
+      String unsetter = "unset" + Character.toUpperCase(elementName.charAt(0)) + elementName.substring(1);
+      parent.getClass().getMethod(unsetter).invoke(parent);
+      return true;
+    } catch (ReflectiveOperationException e) {
+      return false;
+    }
+  }
+
+
+  /**
+   * Adds the remaining elements of the instance to the flat model.
+   */
+  private void merge(ModelInstance instance) {
+    Model model = instance.model;
+    for (SBase parameter : productParameters.get(instance)) {
+      flatModel.addParameter((Parameter) parameter);
+    }
+    for (SBase assignment : productAssignments.get(instance)) {
+      flatModel.addInitialAssignment((InitialAssignment) assignment);
+    }
+    if (model.isSetListOfUnitDefinitions() && !model.getListOfUnitDefinitions().isEmpty()) {
+      addAll(model.getListOfUnitDefinitions(), flatModel.getListOfUnitDefinitions());
+    }
+    if (model.isSetListOfFunctionDefinitions() && !model.getListOfFunctionDefinitions().isEmpty()) {
+      addAll(model.getListOfFunctionDefinitions(), flatModel.getListOfFunctionDefinitions());
+    }
+    if (model.isSetListOfCompartments() && !model.getListOfCompartments().isEmpty()) {
+      addAll(model.getListOfCompartments(), flatModel.getListOfCompartments());
+    }
+    if (model.isSetListOfSpecies() && !model.getListOfSpecies().isEmpty()) {
+      addAll(model.getListOfSpecies(), flatModel.getListOfSpecies());
+    }
+    if (model.isSetListOfParameters() && !model.getListOfParameters().isEmpty()) {
+      addAll(model.getListOfParameters(), flatModel.getListOfParameters());
+    }
+    if (model.isSetListOfInitialAssignments() && !model.getListOfInitialAssignments().isEmpty()) {
+      addAll(model.getListOfInitialAssignments(), flatModel.getListOfInitialAssignments());
+    }
+    if (model.isSetListOfRules() && !model.getListOfRules().isEmpty()) {
+      addAll(model.getListOfRules(), flatModel.getListOfRules());
+    }
+    if (model.isSetListOfConstraints() && !model.getListOfConstraints().isEmpty()) {
+      addAll(model.getListOfConstraints(), flatModel.getListOfConstraints());
+    }
+    if (model.isSetListOfReactions() && !model.getListOfReactions().isEmpty()) {
+      addAll(model.getListOfReactions(), flatModel.getListOfReactions());
+    }
+    if (model.isSetListOfEvents() && !model.getListOfEvents().isEmpty()) {
+      addAll(model.getListOfEvents(), flatModel.getListOfEvents());
+    }
+    for (Map.Entry<String, SBasePlugin> entry : model.getExtensionPackages().entrySet()) {
+      SBasePlugin plugin = entry.getValue();
+      if (plugin instanceof CompSBasePlugin) {
+        continue;
+      }
+      boolean newPlugin = flatModel.getExtension(entry.getKey()) == null;
+      SBasePlugin flatPlugin = flatModel.getPlugin(entry.getKey());
+      if (newPlugin) {
+        // the main model does not use the package: take the attributes of the submodel
+        copyAttributes(instance, plugin.writeXMLAttributes(), null, flatPlugin);
+      }
+      List<ListOf<?>> listsOf = new ArrayList<ListOf<?>>();
+      for (int i = 0; i < plugin.getChildCount(); i++) {
+        if (plugin.getChildAt(i) instanceof ListOf<?>) {
+          listsOf.add((ListOf<?>) plugin.getChildAt(i));
+        }
+      }
+      for (ListOf<?> listOf : listsOf) {
+        ListOf<?> flatListOf = listOf(flatPlugin, listOf.getElementName());
+        if (flatListOf == null) {
+          LOGGER.warning("The elements of the list '" + listOf.getElementName() + "' in the " + instance
+            + " could not be merged.");
+          continue;
+        }
+        if (flatListOf.isEmpty()) {
+          // for example the active objective of the list of objectives
+          copyAttributes(instance, listOf.writeXMLAttributes(), flatListOf, null);
+        }
+        addAll(listOf, flatListOf);
+      }
+    }
+  }
+
+
+  /**
+   * Moves the elements of the source to the target list. The elements are moved,
+   * not copied, as the conversion refers to them by identity.
+   */
+  @SuppressWarnings("unchecked")
+  private static <T extends SBase> void addAll(ListOf<?> source, ListOf<T> target) {
+    for (SBase element : new ArrayList<SBase>(source)) {
+      source.remove(element);
+      target.add((T) element);
+    }
+  }
+
+
+  /**
+   * The list of the plugin with the element name, created with its getter if it
+   * does not exist yet (for example {@code getListOfGeneProducts} for
+   * {@code listOfGeneProducts}).
+   */
+  private static ListOf<?> listOf(SBasePlugin plugin, String elementName) {
+    for (int i = 0; i < plugin.getChildCount(); i++) {
+      TreeNode child = plugin.getChildAt(i);
+      if (child instanceof ListOf<?> && elementName.equals(((ListOf<?>) child).getElementName())) {
+        return (ListOf<?>) child;
+      }
+    }
+    try {
+      String getter = "get" + Character.toUpperCase(elementName.charAt(0)) + elementName.substring(1);
+      Method method = plugin.getClass().getMethod(getter);
+      Object listOf = method.invoke(plugin);
+      return listOf instanceof ListOf<?> ? (ListOf<?>) listOf : null;
+    } catch (ReflectiveOperationException e) {
+      return null;
+    }
+  }
+
+
+  /**
+   * Removes the comp package from the flat model and its document.
+   */
+  private void removeCompPackage(SBMLDocument document) {
+    removeCompExtensions(flatModel);
+    CompModelPlugin plugin = compModelPlugin(flatModel);
+    if (plugin != null) {
+      // the ports are unregistered by the plugin, which is their IdManager
+      plugin.unsetListOfPorts();
+      plugin.unsetListOfSubmodels();
+    }
+    flatModel.unsetExtension(CompConstants.shortLabel);
+    document.unsetExtension(CompConstants.shortLabel);
+    document.disablePackage(CompConstants.shortLabel);
+  }
+
+
+  private static void removeCompExtensions(TreeNode node) {
+    for (int i = 0; i < node.getChildCount(); i++) {
+      TreeNode child = node.getChildAt(i);
+      if (child instanceof SBase) {
+        SBase sbase = (SBase) child;
+        if (sbase.getExtension(CompConstants.shortLabel) != null) {
+          sbase.unsetExtension(CompConstants.shortLabel);
+        }
+        removeCompExtensions(sbase);
+      } else if (child instanceof SBasePlugin && !(child instanceof CompSBasePlugin)) {
+        removeCompExtensions(child);
+      }
+    }
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  // External model definitions
+
+  /**
+  * Collects any {@link ExternalModelDefinition}s that might be contained in
+  * the given {@link SBMLDocument} and transfers them into local
+  * {@link ModelDefinition}s (recursively, if the external models themselves
+  * include external models; in that case, renaming may occur).
+  * <br>
+  * The given {@link SBMLDocument} need have its locationURI set!
+  * <br>
+  * Opaque URIs (URNs) will not be dealt with in any defined way, resolve them
+  * first (make sure all relevant externalModelDefinitions' source-attributes
+  * are URLs or relative paths)
+  *
+  * @param document an {@link SBMLDocument}, which might, but need not, contain
+  * {@link ExternalModelDefinition}s to be transferred into its local
+  * {@link ModelDefinition}s. The locationURI of the given document need
+  * be set ({@link SBMLDocument#isSetLocationURI})!
+  * @return a new {@link SBMLDocument} without {@link
+  * ExternalModelDefinition}s, but containing the same information as
+  * the given one
+  * @throws Exception if given document's locationURI is not set. Set it with
+  * {@link SBMLDocument#setLocationURI}
+  */
+  public static SBMLDocument internaliseExternalModelDefinitions(
+      SBMLDocument document) throws Exception {
+
+    if (!document.isSetLocationURI()) {
+      LOGGER.warning("Location URI is not set: " + document);
+      throw new Exception(
+          "document's locationURI need be set. But it was not.");
+    }
+    SBMLDocument result = document.clone(); // no side-effects intended
+    ArrayList<String> usedIds = new ArrayList<String>();
+    if (result.isSetModel()) {
+      usedIds.add(result.getModel().getId());
     }
 
-    /**
-     * If species reference is replaced initial assignment/rule for it have to be updated.
-     * There are two possibilities:
-     * 1. Initial Assignment/Rule of replacedElement also references another element -> create new InitialAssignment that's a copy of it
-     * 2. Initial Assignment/Rule of replacedElement does not reference another element -> simply replace variable of assignment/rule
-     *
-     *
-     * @param modelCopy
-     * @param replacedID
-     * @param newElInfo
-     * @param replacedElements
-     */
-    private void checkInitialAssignmentsAndRules(Model modelCopy, String replacedID, ReplacedElementInfo newElInfo, Map<String, ReplacedElementInfo> replacedElements) {
+    CompSBMLDocumentPlugin compSBMLDocumentPlugin =
+        (CompSBMLDocumentPlugin) result.getExtension(CompConstants.shortLabel);
 
+    // There is nothing to retrieve:
+    if (compSBMLDocumentPlugin == null || !compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
+      return result;
+    } else {
+      /** For name-collision-avoidance */
+      for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
+        usedIds.add(emd.getId());
+      }
 
-        // Initial Assignments
-        List<InitialAssignment> listOfInitialAssignments = modelCopy.getListOfInitialAssignments();
-        List<InitialAssignment> newInitialAssignments = new ArrayList<>();
-
-        for(InitialAssignment initAssign: listOfInitialAssignments) {
-            if(replacedID.equals(initAssign.getVariable())) {
-                if(modelCopy.getElementBySId(replacedID) == null) {
-                    replacedElements.put(replacedID, newElInfo);
-                }
-                else {
-                    InitialAssignment initAssignNew = initAssign.clone();
-                    initAssignNew.setVariable(newElInfo.id);
-                    newInitialAssignments.add(initAssignNew);
-                    break;
-                }
+      for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
+        // general note: Be careful when using clone/cloning-constructors, they
+        // do not preserve parent-child-relations
+        Model referenced = emd.getReferencedModel();
+        SBMLDocument referencedDocument = referenced.getSBMLDocument();
+        SBMLDocument flattened = internaliseExternalModelDefinitions(referencedDocument);
+        // Guarantee: flattened does not contain any externalModelDefinitions, only local MDs
+        // (and main model)
+        // use this, and migrate the MDs into the current compSBMLDocumentPlugin
+        StringBuilder prefixBuilder = new StringBuilder(emd.getModelRef());
+        /** For name-collision-avoidance */
+        boolean contained = false;
+        do {
+          contained = false;
+          prefixBuilder.append("_");
+          for (String id : usedIds) {
+            contained |= id.startsWith(prefixBuilder.toString());
+            if (contained) {
+              break;
             }
-        }
-        if(!newInitialAssignments.isEmpty()) {
-            if (this.newInitAssignHashMap.containsKey(newElInfo.replacedElementPath)) {
-                this.newInitAssignHashMap.get(newElInfo.replacedElementPath).addAll(newInitialAssignments);
-            } else {
-                this.newInitAssignHashMap.put(newElInfo.replacedElementPath, newInitialAssignments);
-            }
-        }
+          }
+        } while (contained);
+        String newPrefix = prefixBuilder.toString();
 
-        // Rules
-        List<Rule> listOfRules = modelCopy.getListOfRules();
-        List<Rule> newRules = new ArrayList<>();
+        CompSBMLDocumentPlugin referencedDocumentPlugin =
+            (CompSBMLDocumentPlugin) flattened.getExtension(
+                CompConstants.shortLabel);
 
-        for(Rule rule: listOfRules) {
-            if(rule.getClass().equals(AssignmentRule.class)) {
-                AssignmentRule aRule = (AssignmentRule) rule;
-                if(replacedID.equals(aRule.getVariable())) {
-                    if(modelCopy.getElementBySId(replacedID) == null) {
-                        replacedElements.put(replacedID, newElInfo);
-                    }
-                    else {
-                        AssignmentRule aRuleNew = aRule.clone();
-                        aRuleNew.setVariable(newElInfo.id);
-                        newRules.add(aRuleNew);
-                    }
-                }
-            }
-            else if(rule.getClass().equals(RateRule.class)) {
-                RateRule rRule = (RateRule) rule;
-                if(replacedID.equals(rRule.getVariable())) {
-                    if(modelCopy.getElementBySId(replacedID) == null) {
-                        replacedElements.put(replacedID, newElInfo);
-                    }
-                    else {
-                        RateRule rRuleNew = rRule.clone();
-                        rRuleNew.setVariable(newElInfo.id);
-                        newRules.add(rRuleNew);
-                    }
-                }
-            }
-        }
-        if(!newRules.isEmpty()) {
-            if (this.newRulesHashMap.containsKey(newElInfo.replacedElementPath)) {
-                this.newRulesHashMap.get(newElInfo.replacedElementPath).addAll(newRules);
-            } else {
-                this.newRulesHashMap.put(newElInfo.replacedElementPath, newRules);
-            }
-        }
-    }
-
-    /**
-     *
-     * Given sBase reference returns its id and idType as a pair
-     *
-     * @param sBaseRef
-     * @return pair of id and idType
-     */
-    private Pair<String, IdType> selectCorrectRef(SBaseRef sBaseRef) {
-
-        String elementRef = null;
-        IdType elementType = null;
-
-        if (sBaseRef.isSetIdRef()) {
-            elementRef = sBaseRef.getIdRef();
-            elementType = IdType.ID;
-        } else if (sBaseRef.isSetMetaIdRef()) {
-            elementRef = sBaseRef.getMetaIdRef();
-            elementType = IdType.META_ID;
-        } else if (sBaseRef.isSetPortRef()) {
-            elementRef = sBaseRef.getPortRef();
-            elementType = IdType.PORT;
-        } else if (sBaseRef.isSetUnitRef()) {
-            elementRef = sBaseRef.getUnitRef();
-            elementType = IdType.UNIT_ID;
-        }
-
-        return new Pair<String, IdType>(
-                elementRef,
-                elementType
-        );
-    }
-
-
-    /**
-     *
-     * Recursively iterate through nested sBaseRef until last sBaseRef and return it
-     * Also extends submodelPath accordingly
-     *
-     * @param sBaseRef
-     * @param submodelPath
-     * @return
-     */
-    private SBaseRef determineSubmodelPath(SBaseRef sBaseRef, List<String> submodelPath) {
-
-
-        if (sBaseRef.getSBaseRef() != null) {
-            if (!sBaseRef.getIdRef().isEmpty()) {
-                submodelPath.add(sBaseRef.getIdRef());
-            } else if (!sBaseRef.getMetaIdRef().isEmpty()) {
-                submodelPath.add(sBaseRef.getMetaIdRef());
-            }
-            return determineSubmodelPath(sBaseRef.getSBaseRef(), submodelPath);
+        ListOf<ModelDefinition> workingList;
+        if (referencedDocumentPlugin == null) {
+          // This may happen, if the main model of a non-comp-file is referenced
+          workingList = new ListOf<ModelDefinition>();
+          workingList.setLevel(referenced.getLevel());
+          workingList.setVersion(referenced.getVersion());
         } else {
-            return sBaseRef;
+          workingList = referencedDocumentPlugin.getListOfModelDefinitions().clone();
         }
 
+        // Check whether the main model is needed; Do not internalise it, if not necessary
+        boolean isMainReferenced = flattened.getModel().getId().equals(emd.getModelRef());
+        for (ModelDefinition md : workingList) {
+          if (isMainReferenced) {
+            break;
+          }
+          CompModelPlugin cmp = (CompModelPlugin) md.getExtension(CompConstants.shortLabel);
+          if (cmp != null) {
+            for (Submodel sm : cmp.getListOfSubmodels()) {
+              isMainReferenced |= flattened.getModel().getId().equals(sm.getModelRef());
+            }
+          }
+        }
+
+        if (isMainReferenced) {
+          ModelDefinition localisedMain = new ModelDefinition(flattened.getModel());
+          workingList.add(0, localisedMain);
+        }
+
+        for (ModelDefinition md : workingList) {
+          ModelDefinition internalised = new ModelDefinition(md);
+          // i.e. current one is the one directly referenced => take referent's place
+          if (md.getId().equals(referenced.getId())) {
+            internalised.setId(emd.getId());
+          } else {
+            internalised.setId(newPrefix + internalised.getId());
+          }
+
+          CompModelPlugin notYetInternalisedModelPlugin =
+              (CompModelPlugin) internalised.getExtension(CompConstants.shortLabel);
+          if (notYetInternalisedModelPlugin != null && notYetInternalisedModelPlugin.isSetListOfSubmodels()) {
+            for (Submodel sm : notYetInternalisedModelPlugin.getListOfSubmodels()) {
+              sm.setModelRef(newPrefix + sm.getModelRef());
+            }
+          }
+
+          compSBMLDocumentPlugin.addModelDefinition(internalised);
+        }
+      }
+      compSBMLDocumentPlugin.unsetListOfExternalModelDefinitions();
+      return result;
     }
-
-
-    /**
-     *
-     * Get all lists including the list in each reaction
-     *
-     * @param model
-     * @return
-     */
-    private List<List<? extends AbstractSBase>> getListOfListsOfSBases(Model model) {
-
-        List<List<? extends AbstractSBase>> listOfListsOfSBases = new ArrayList<>();
-
-        listOfListsOfSBases.addAll(Arrays.asList(
-                model.getListOfCompartments(),
-                model.getListOfParameters(),
-                model.getListOfEvents(),
-                model.getListOfSpecies(),
-                model.getListOfFunctionDefinitions(),
-                model.getListOfRules(),
-                model.getListOfConstraints(),
-                model.getListOfUnitDefinitions(),
-                model.getListOfReactions(),
-                model.getListOfInitialAssignments()
-        ));
-
-        for (Reaction reaction : model.getListOfReactions()) {
-            listOfListsOfSBases.add(reaction.getListOfProducts());
-            listOfListsOfSBases.add(reaction.getListOfReactants());
-        }
-
-        return listOfListsOfSBases;
-    }
-
-    /**
-     * Get all lists excluding the list in each reaction
-     *
-     * @param model
-     * @return
-     */
-    private List<? extends ListOf<? extends AbstractSBase>> getAllListsOfModel(Model model) {
-        return Arrays.asList(
-                model.getListOfCompartments(),
-                model.getListOfSpecies(),
-                model.getListOfFunctionDefinitions(),
-                model.getListOfRules(),
-                model.getListOfEvents(),
-                model.getListOfUnitDefinitions(),
-                model.getListOfReactions(),
-                model.getListOfConstraints(),
-                model.getListOfParameters(),
-                model.getListOfInitialAssignments()
-        );
-    }
-
-
-    /**
-     *
-     * Apply the conversion factor to a node
-     *
-     * @param node
-     * @param parent
-     * @param replacedElementsHashMap
-     * @param subModelPrefix
-     * @param timeConvFactorNode
-     * @param i
-     */
-    private void applyConvFactorToNode(ASTNode node, ASTNode parent,
-                                       Map<String, ReplacedElementInfo> replacedElementsHashMap,
-                                       String subModelPrefix, ASTNode timeConvFactorNode, int i) {
-
-        if (node.getType() == ASTNode.Type.NAME) {
-            if (replacedElementsHashMap.containsKey(node.toString())) {
-                ASTNode newNode = new ASTNode(replacedElementsHashMap.get(node.toString()).id);
-                // Apply conversion factor to element
-                String convFactor = replacedElementsHashMap.get(node.toString()).conversionFactor;
-                if (convFactor != null) {
-                    ASTNode convNode = new ASTNode(convFactor);
-                    newNode.divideBy(convNode);
-                }
-                parent.replaceChild(i, newNode);
-            } else {
-                parent.replaceChild(i, new ASTNode(subModelPrefix + node));
-            }
-        } else if (node.getType() == ASTNode.Type.NAME_TIME && timeConvFactorNode != null) {
-            node.divideBy(timeConvFactorNode);
-        } else if (node.getType() == ASTNode.Type.FUNCTION_DELAY && timeConvFactorNode != null) {
-            node.getChild(1).multiplyWith(timeConvFactorNode);
-        }
-    }
-
-
-    /**
-     * All remaining elements are placed in a single Model object
-     * The original Model, ModelDefinition, and ExternalModelDefinition objects are all deleted
-     *
-     * @param previousModel
-     * @param currentModel
-     * @return mergedModel
-     */
-    private Model mergeModels(Model previousModel, Model currentModel) {
-
-        Model mergedModel = new Model();
-
-        // Merging of SBML models should be done in the order
-        // Compartments -> Species -> Function Definitions -> Rules -> Events -> Units -> Reactions -> Parameters
-        // If done in this order, potential conflicts are resolved incrementally along the way.
-
-        // Set level/version from whichever model is available
-        if (previousModel != null) {
-            mergedModel.setLevel(previousModel.getLevel());
-            mergedModel.setVersion(previousModel.getVersion());
-        } else if (currentModel != null) {
-            mergedModel.setLevel(currentModel.getLevel());
-            mergedModel.setVersion(currentModel.getVersion());
-        }
-
-        // IMPORTANT: merge the current (parent) model first,
-        // then the previously flattened submodels, so that
-        // original objects (like param1) appear before
-        // flattened submodel objects (like submod1__subparam2).
-        if (currentModel != null) {
-            for (ListOf<? extends AbstractSBase> modelList : getAllListsOfModel(currentModel)) {
-                if (!modelList.isEmpty()) {
-                    mergeListsOfModels(modelList, currentModel, mergedModel);
-                }
-            }
-        }
-
-        if (previousModel != null) {
-            for (ListOf<? extends AbstractSBase> modelList : getAllListsOfModel(previousModel)) {
-                if (!modelList.isEmpty()) {
-                    mergeListsOfModels(modelList, previousModel, mergedModel);
-                }
-            }
-        }
-
-        // TODO: delete original model, ModelDefinition, and ExternalModelDefinition objects
-        // QUESTION: can a model def be instantiated more than one time?
-        return mergedModel;
-    }
-
-
-    private void mergeListsOfModels(ListOf listOfObjects, Model sourceModel, Model targetModel) {
-
-        // TODO: generify with listOf SBase ?
-
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfReactions) {
-            ListOf<Reaction> reactionListOf = sourceModel.getListOfReactions().clone();
-            sourceModel.getListOfReactions().removeFromParent();
-            for (Reaction reaction : reactionListOf) {
-                if (reaction.isSetId() && targetModel.getReaction(reaction.getId()) != null) continue;
-                targetModel.addReaction(reaction.clone());
-            }
-        }
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfCompartments) {
-            ListOf<Compartment> compartmentListOf = sourceModel.getListOfCompartments().clone();
-            sourceModel.getListOfCompartments().removeFromParent();
-            for (Compartment compartment : compartmentListOf) {
-                if (compartment.isSetId() && targetModel.getCompartment(compartment.getId()) != null) continue;
-                targetModel.addCompartment(compartment.clone());
-            }
-        }
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfConstraints) {
-            ListOf<Constraint> constraintListOf = sourceModel.getListOfConstraints().clone();
-            sourceModel.getListOfConstraints().removeFromParent();
-            for (Constraint constraint : constraintListOf) {
-                if (constraint.isSetId() && targetModel.getElementBySId(constraint.getId()) != null) continue;
-                targetModel.addConstraint(constraint.clone());
-            }
-        }
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfSpecies) {
-            ListOf<Species> speciesListOf = sourceModel.getListOfSpecies().clone();
-            sourceModel.getListOfSpecies().removeFromParent();
-            for (Species species : speciesListOf) {
-                if (species.isSetId() && targetModel.getSpecies(species.getId()) != null) continue;
-                targetModel.addSpecies(species.clone());
-            }
-        }
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfEvents) {
-            ListOf<Event> eventListOf = sourceModel.getListOfEvents().clone();
-            sourceModel.getListOfEvents().removeFromParent();
-            for (Event event : eventListOf) {
-                if (event.isSetId() && targetModel.getEvent(event.getId()) != null) continue;
-                targetModel.addEvent(event.clone());
-            }
-        }
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfFunctionDefinitions) {
-            ListOf<FunctionDefinition> functionalDefinitionsListOf = sourceModel.getListOfFunctionDefinitions().clone();
-            sourceModel.getListOfFunctionDefinitions().removeFromParent();
-            for (FunctionDefinition functionalDefinition : functionalDefinitionsListOf) {
-                if (functionalDefinition.isSetId() && targetModel.getFunctionDefinition(functionalDefinition.getId()) != null) continue;
-                targetModel.addFunctionDefinition(functionalDefinition.clone());
-            }
-        }
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfInitialAssignments) {
-            ListOf<InitialAssignment> initialAssignmentListOf = sourceModel.getListOfInitialAssignments().clone();
-            sourceModel.getListOfInitialAssignments().removeFromParent();
-            for (InitialAssignment initialAssignment : initialAssignmentListOf) {
-                if (initialAssignment.isSetId() && targetModel.getElementBySId(initialAssignment.getId()) != null) continue;
-                targetModel.addInitialAssignment(initialAssignment.clone());
-            }
-        }
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfParameters) {
-            ListOf<Parameter> parameterListOf = sourceModel.getListOfParameters().clone();
-            sourceModel.getListOfParameters().removeFromParent();
-            for (Parameter parameter : parameterListOf) {
-                if (parameter.isSetId() && targetModel.getParameter(parameter.getId()) != null) continue;
-                targetModel.addParameter(parameter.clone());
-            }
-        }
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfRules) {
-            ListOf<Rule> ruleListOf = sourceModel.getListOfRules().clone();
-            sourceModel.getListOfRules().removeFromParent();
-            for (Rule rule : ruleListOf) {
-                if (rule.isSetId() && targetModel.getElementBySId(rule.getId()) != null) continue;
-                targetModel.addRule(rule.clone());
-            }
-        }
-
-        if (listOfObjects.getSBaseListType() == ListOf.Type.listOfUnitDefinitions) {
-            ListOf<UnitDefinition> unitDefinitionListOf = sourceModel.getListOfUnitDefinitions().clone();
-            sourceModel.getListOfUnitDefinitions().removeFromParent();
-            for (UnitDefinition unit : unitDefinitionListOf) {
-                if (unit.isSetId() && targetModel.getUnitDefinition(unit.getId()) != null) continue;
-                targetModel.addUnitDefinition(unit.clone());
-            }
-        }
-
-
-        //TODO:
-        // no longer supported? there are no get methods for this
-//        ListOf.Type.listOfCompartmentTypes
-//        ListOf.Type.listOfEventAssignments
-//        ListOf.Type.listOfLocalParameters: there is no getter method :(
-//        ListOf.Type.listOfModifiers
-//        ListOf.Type.listOfSpeciesTypes
-//        ListOf.Type.listOfUnits
-
-        // maybe they are already in listOfReactions?
-//        ListOf.Type.listOfProducts
-//        ListOf.Type.listOfReactants
-    }
-
-
-    private void addPrefixesToSBaseList(Model modelOfSubmodel, ListOf listOfSBase, String subModelPrefix) {
-
-        ListOf<SBase> list = (ListOf<SBase>) listOfSBase;
-
-        for (SBase sBase : list) {
-
-            if (!sBase.getId().equals("")) {
-                sBase.setId(subModelPrefix + sBase.getId());
-            }
-
-            if (!sBase.getMetaId().equals("")) {
-                sBase.setMetaId(subModelPrefix + sBase.getMetaId());
-            }
-        }
-
-    }
-
-    private Model addPrefixesToModelObjects(Model modelOfSubmodel, String subModelPrefix) {
-
-        addPrefixesToSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfReactions(), subModelPrefix);
-        addPrefixesToSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfCompartments(), subModelPrefix);
-        addPrefixesToSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfConstraints(), subModelPrefix);
-        addPrefixesToSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfEvents(), subModelPrefix);
-
-        addPrefixesToSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfFunctionDefinitions(), subModelPrefix);
-        addPrefixesToSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfParameters(), subModelPrefix);
-        addPrefixesToSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfRules(), subModelPrefix);
-        addPrefixesToSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfSpecies(), subModelPrefix);
-        addPrefixesToSBaseList(modelOfSubmodel, modelOfSubmodel.getListOfUnitDefinitions(), subModelPrefix);
-
-        for(Reaction reaction: modelOfSubmodel.getListOfReactions()) {
-            //addPrefixesToSBaseList(modelOfSubmodel, reaction.getListOfProducts(), subModelPrefix);
-            //addPrefixesToSBaseList(modelOfSubmodel, reaction.getListOfReactants(), subModelPrefix);
-            //addPrefixesToSBaseList(modelOfSubmodel, reaction.getListOfModifiers(), subModelPrefix);
-        }
-
-        return modelOfSubmodel;
-    }
-
-
-    /**
-     * Collects any {@link ExternalModelDefinition}s that might be contained in
-     * the given {@link SBMLDocument} and transfers them into local
-     * {@link ModelDefinition}s (recursively, if the external models themselves
-     * include external models; in that case, renaming may occur).
-     * <br>
-     * The given {@link SBMLDocument} need have its locationURI set!
-     * <br>
-     * Opaque URIs (URNs) will not be dealt with in any defined way, resolve them
-     * first (make sure all relevant externalModelDefinitions' source-attributes
-     * are URLs or relative paths)
-     *
-     * @param document an {@link SBMLDocument}, which might, but need not, contain
-     * {@link ExternalModelDefinition}s to be transferred into its local
-     * {@link ModelDefinition}s. The locationURI of the given document need
-     * be set ({@link SBMLDocument#isSetLocationURI})!
-     * @return a new {@link SBMLDocument} without {@link
-     * ExternalModelDefinition}s, but containing the same information as
-     * the given one
-     * @throws Exception if given document's locationURI is not set. Set it with
-     * {@link SBMLDocument#setLocationURI}
-     */
-    public static SBMLDocument internaliseExternalModelDefinitions(
-            SBMLDocument document) throws Exception {
-
-        if (!document.isSetLocationURI()) {
-            LOGGER.warning("Location URI is not set: " + document);
-            throw new Exception(
-                    "document's locationURI need be set. But it was not.");
-        }
-        SBMLDocument result = document.clone(); // no side-effects intended
-        ArrayList<String> usedIds = new ArrayList<String>();
-        if (result.isSetModel()) {
-            usedIds.add(result.getModel().getId());
-        }
-
-        CompSBMLDocumentPlugin compSBMLDocumentPlugin =
-                (CompSBMLDocumentPlugin) result.getExtension(CompConstants.shortLabel);
-
-        // There is nothing to retrieve:
-        if (compSBMLDocumentPlugin == null || !compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
-            return result;
-        } else {
-            /** For name-collision-avoidance */
-            for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
-                usedIds.add(emd.getId());
-            }
-
-            for (ExternalModelDefinition emd : compSBMLDocumentPlugin.getListOfExternalModelDefinitions()) {
-                // general note: Be careful when using clone/cloning-constructors, they
-                // do not preserve parent-child-relations
-                Model referenced = emd.getReferencedModel();
-                SBMLDocument referencedDocument = referenced.getSBMLDocument();
-                SBMLDocument flattened = internaliseExternalModelDefinitions(referencedDocument);
-                // Guarantee: flattened does not contain any externalModelDefinitions, only local MDs
-                // (and main model)
-                // use this, and migrate the MDs into the current compSBMLDocumentPlugin
-                StringBuilder prefixBuilder = new StringBuilder(emd.getModelRef());
-                /** For name-collision-avoidance */
-                boolean contained = false;
-                do {
-                    contained = false;
-                    prefixBuilder.append("_");
-                    for (String id : usedIds) {
-                        contained |= id.startsWith(prefixBuilder.toString());
-                        if (contained) {
-                            break;
-                        }
-                    }
-                } while (contained);
-                String newPrefix = prefixBuilder.toString();
-
-                CompSBMLDocumentPlugin referencedDocumentPlugin =
-                        (CompSBMLDocumentPlugin) flattened.getExtension(
-                                CompConstants.shortLabel);
-
-                ListOf<ModelDefinition> workingList;
-                if (referencedDocumentPlugin == null) {
-                    // This may happen, if the main model of a non-comp-file is referenced
-                    workingList = new ListOf<ModelDefinition>();
-                    workingList.setLevel(referenced.getLevel());
-                    workingList.setVersion(referenced.getVersion());
-                } else {
-                    workingList = referencedDocumentPlugin.getListOfModelDefinitions().clone();
-                }
-
-                // Check whether the main model is needed; Do not internalise it, if not necessary
-                boolean isMainReferenced = flattened.getModel().getId().equals(emd.getModelRef());
-                for (ModelDefinition md : workingList) {
-                    if (isMainReferenced) {
-                        break;
-                    }
-                    CompModelPlugin cmp = (CompModelPlugin) md.getExtension(CompConstants.shortLabel);
-                    if (cmp != null) {
-                        for (Submodel sm : cmp.getListOfSubmodels()) {
-                            isMainReferenced |= flattened.getModel().getId().equals(sm.getModelRef());
-                        }
-                    }
-                }
-
-                if (isMainReferenced) {
-                    ModelDefinition localisedMain = new ModelDefinition(flattened.getModel());
-                    workingList.add(0, localisedMain);
-                }
-
-                for (ModelDefinition md : workingList) {
-                    ModelDefinition internalised = new ModelDefinition(md);
-                    // i.e. current one is the one directly referenced => take referent's place
-                    if (md.getId().equals(referenced.getId())) {
-                        internalised.setId(emd.getId());
-                    } else {
-                        internalised.setId(newPrefix + internalised.getId());
-                    }
-
-                    CompModelPlugin notYetInternalisedModelPlugin =
-                            (CompModelPlugin) internalised.getExtension(CompConstants.shortLabel);
-                    if (notYetInternalisedModelPlugin != null && notYetInternalisedModelPlugin.isSetListOfSubmodels()) {
-                        for (Submodel sm : notYetInternalisedModelPlugin.getListOfSubmodels()) {
-                            sm.setModelRef(newPrefix + sm.getModelRef());
-                        }
-                    }
-
-                    compSBMLDocumentPlugin.addModelDefinition(internalised);
-                }
-            }
-            compSBMLDocumentPlugin.unsetListOfExternalModelDefinitions();
-            return result;
-        }
-    }
-
-    /**
-     * Type of identifier used in replaced/deleted element references.
-     */
-    private static enum IdType {
-        ID,
-        META_ID,
-        PORT,
-        UNIT_ID;
-    }
-
-    /**
-     * Information about a replaced element: where it lives, how it is referenced,
-     * and any conversion factor to apply.
-     */
-    private static class ReplacedElementInfo implements Cloneable {
-        String id;                        // id/metaId/portId/unitId of the replacing element
-        String modelId;                   // id of the model that contains the replacing element
-        IdType idType;                    // how to interpret 'id'
-        String conversionFactor;          // optional parameter id for conversion factor
-        List<String> replacedElementPath; // path of submodel ids from root to the replaced element
-
-        ReplacedElementInfo(String id,
-                            String modelId,
-                            IdType idType,
-                            String conversionFactor,
-                            List<String> replacedElementPath) {
-            this.id = id;
-            this.modelId = modelId;
-            this.idType = idType;
-            this.conversionFactor = conversionFactor;
-            this.replacedElementPath = (replacedElementPath == null)
-                    ? null
-                    : new ArrayList<String>(replacedElementPath);
-        }
-
-        @Override
-        public ReplacedElementInfo clone() {
-            return new ReplacedElementInfo(
-                    this.id,
-                    this.modelId,
-                    this.idType,
-                    this.conversionFactor,
-                    this.replacedElementPath == null
-                            ? null
-                            : new ArrayList<String>(this.replacedElementPath));
-        }
-    }
+  }
 }

@@ -26,13 +26,14 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.util.IdManager;
 
 /**
  * 
  * @author Nicolas Rodriguez
  * @since 1.1
  */
-public class DistribSBasePlugin extends AbstractSBasePlugin {
+public class DistribSBasePlugin extends AbstractSBasePlugin implements IdManager {
 
   /**
    * Generated serial version identifier.
@@ -356,6 +357,35 @@ public class DistribSBasePlugin extends AbstractSBasePlugin {
    */
   public int getNumUncertainties() {
     return getUncertaintyCount();
+  }
+
+  /**
+   * The ids of the distrib elements ({@link AbstractDistribSBase}) are not in
+   * the SId namespace of the model (libSBML accepts an uncertainty with the id
+   * of a parameter, for example), so they
+   * are accepted here and not registered anywhere.
+   *
+   * @see org.sbml.jsbml.util.IdManager#accept(org.sbml.jsbml.SBase)
+   */
+  @Override
+  public boolean accept(SBase sbase) {
+    return sbase instanceof AbstractDistribSBase;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#register(org.sbml.jsbml.SBase)
+   */
+  @Override
+  public boolean register(SBase sbase) {
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#unregister(org.sbml.jsbml.SBase)
+   */
+  @Override
+  public boolean unregister(SBase sbase) {
+    return true;
   }
 
 

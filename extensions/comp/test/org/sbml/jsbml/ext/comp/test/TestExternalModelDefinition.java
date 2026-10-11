@@ -510,4 +510,63 @@ public class TestExternalModelDefinition {
     // This should now cause an exception
     externalModel.getAbsoluteSourceURI();
   }
+
+
+  private static URI sourceURI(String source, String base) throws Exception {
+    ExternalModelDefinition definition = new ExternalModelDefinition("external", 3, 1);
+    definition.setSource(source);
+    return definition.getAbsoluteSourceURI(new URI(base));
+  }
+
+
+  @Test
+  public void testGetAbsoluteSourceURI_relative() throws Exception {
+    assertEquals(new URI("file:/models/a/model.xml"), sourceURI("model.xml", "file:/models/a"));
+    assertEquals(new URI("file:/models/b/model.xml"), sourceURI("../b/model.xml", "file:/models/a"));
+    assertEquals(new URI("https://example.org/models/model.xml"),
+      sourceURI("model.xml", "https://example.org/models"));
+  }
+
+
+  /**
+   * 'file:model.xml' is a relative file reference (used for example by the
+   * models of Watanabe et al. 2014).
+   */
+  @Test
+  public void testGetAbsoluteSourceURI_relativeFileURI() throws Exception {
+    assertEquals(new URI("file:/models/a/model.xml"), sourceURI("file:model.xml", "file:/models/a"));
+  }
+
+
+  @Test
+  public void testGetAbsoluteSourceURI_absolute() throws Exception {
+    assertEquals(new URI("file:/other/model.xml"), sourceURI("file:/other/model.xml", "file:/models/a"));
+    assertEquals(new URI("https://example.org/model.xml"),
+      sourceURI("https://example.org/model.xml", "file:/models/a"));
+  }
+
+
+  @Test
+  public void testGetAbsoluteSourceURI_space() throws Exception {
+    assertEquals(new URI("file:/models/a/my%20model.xml"), sourceURI("my model.xml", "file:/models/a"));
+  }
+
+
+  /**
+   * Without modelRef, the main model of the source is referenced, and the
+   * location of the source is set so that its own relative sources resolve.
+   */
+  @Test
+  public void testGetReferencedModel_withoutModelRef() throws Exception {
+    File file = new File(cl.getResource("testFlattening/sbml-test-suite/01168-sbml-l3v1.xml").toURI());
+    SBMLDocument document = SBMLReader.read(file);
+    document.setLocationURI(file.toURI().toString());
+    ExternalModelDefinition definition =
+      ((CompSBMLDocumentPlugin) document.getExtension(CompConstants.shortLabel)).getExternalModelDefinition("EM1");
+    Model referenced = definition.getReferencedModel();
+    assertNotNull(referenced);
+    assertEquals(referenced.getSBMLDocument().getModel(), referenced);
+    assertEquals(new File(file.getParentFile(), "enzyme_identical-l3v1.xml").toURI().toString(),
+      referenced.getSBMLDocument().getLocationURI());
+  }
 }
