@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.12.0 with libSBML version 5.18.1. -->
+<sbml xmlns:distrib="http://www.sbml.org/sbml/level3/version1/distrib/version1" xmlns="http://www.sbml.org/sbml/level3/version2/core" level="3" version="2" distrib:required="true">
+  <model metaid="doc0" id="doc0">
+    <listOfCompartments>
+      <compartment id="C" spatialDimensions="3" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="X" compartment="C" initialAmount="0" hasOnlySubstanceUnits="true" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="t" value="0" constant="false"/>
+      <parameter id="mean" value="0" constant="true"/>
+    </listOfParameters>
+    <listOfRules>
+      <rateRule variable="t">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <cn type="integer"> 1 </cn>
+        </math>
+      </rateRule>
+    </listOfRules>
+    <listOfEvents>
+      <event id="E0" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <geq/>
+              <ci> t </ci>
+              <cn> 0.5 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="X">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <apply>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/distrib/normal"> normal </csymbol>
+                <ci> mean </ci>
+                <apply>
+                  <root/>
+                  <degree>
+                    <cn type="integer"> 2 </cn>
+                  </degree>
+                  <cn> 1.5 </cn>
+                </apply>
+              </apply>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="t">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn> -0.5 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+    </listOfEvents>
+  </model>
+</sbml>

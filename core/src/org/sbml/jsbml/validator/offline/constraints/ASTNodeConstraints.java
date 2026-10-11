@@ -84,6 +84,18 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
   public static final transient List<String> allowedCsymbolURI = Arrays.asList(ASTNode.URI_AVOGADRO_DEFINITION, ASTNode.URI_DELAY_DEFINITION, ASTNode.URI_RATE_OF_DEFINITION, ASTNode.URI_TIME_DEFINITION);
 
   /**
+   * The definition URLs of the csymbols of the distribution functions of the
+   * distrib package, version 1.
+   */
+  private static final transient List<String> DISTRIB_CSYMBOL_URIS = Arrays.asList(
+    "http://www.sbml.org/sbml/symbols/distrib/normal", "http://www.sbml.org/sbml/symbols/distrib/uniform",
+    "http://www.sbml.org/sbml/symbols/distrib/bernoulli", "http://www.sbml.org/sbml/symbols/distrib/binomial",
+    "http://www.sbml.org/sbml/symbols/distrib/cauchy", "http://www.sbml.org/sbml/symbols/distrib/chisquare",
+    "http://www.sbml.org/sbml/symbols/distrib/exponential", "http://www.sbml.org/sbml/symbols/distrib/gamma",
+    "http://www.sbml.org/sbml/symbols/distrib/laplace", "http://www.sbml.org/sbml/symbols/distrib/lognormal",
+    "http://www.sbml.org/sbml/symbols/distrib/poisson", "http://www.sbml.org/sbml/symbols/distrib/rayleigh");
+
+  /**
    * 
    */
   public static final transient List<String> allowedCsymbolURIL2 = Arrays.asList(ASTNode.URI_DELAY_DEFINITION, ASTNode.URI_TIME_DEFINITION);
@@ -236,7 +248,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           public boolean check(ValidationContext ctx, ASTNode node) {
 
             // encoding only on some element
-            if (node.isSetEncoding() && 
+            if (node.isSetEncoding() && !isDistribCsymbol(ctx, node) &&
                 !(node.getType() == ASTNode.Type.FUNCTION_DELAY || node.getType() == ASTNode.Type.FUNCTION_RATE_OF
                 || node.getType() == ASTNode.Type.NAME_TIME || node.getType() == ASTNode.Type.NAME_AVOGADRO))
             {
@@ -260,7 +272,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
               return false;
             }
 
-            if (node.isSetDefinitionURL() && 
+            if (node.isSetDefinitionURL() && !isDistribCsymbol(ctx, node) &&
                 !(node.isSemantics() || node.isName()
                 || node.getType() == ASTNode.Type.FUNCTION_DELAY 
                 || node.getType() == ASTNode.Type.FUNCTION_RATE_OF)) 
@@ -280,7 +292,7 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
           public boolean check(ValidationContext ctx, ASTNode node) {
 
             // check allowed values for definitionURL
-            if (node.isSetDefinitionURL()) {
+            if (node.isSetDefinitionURL() && !isDistribCsymbol(ctx, node)) {
             
               if (ctx.getLevel() == 2 && !allowedCsymbolURIL2.contains(node.getDefinitionURL())) {
                 return false;
@@ -1368,4 +1380,20 @@ public class ASTNodeConstraints extends AbstractConstraintDeclaration {
     return func;
   }
 
+
+  /**
+   * Returns {@code true} if the node is the csymbol of a distribution function
+   * of the distrib package ({@code <csymbol definitionURL="http://www.sbml.org/sbml/symbols/distrib/normal">})
+   * and the distrib package is enabled in the validated document.
+   *
+   * @param ctx the validation context
+   * @param node the node
+   * @return {@code true} for a csymbol of distrib in a document with distrib
+   */
+  private static boolean isDistribCsymbol(ValidationContext ctx, ASTNode node) {
+    return node.getType() == ASTNode.Type.FUNCTION_CSYMBOL
+        && node.isSetDefinitionURL()
+        && DISTRIB_CSYMBOL_URIS.contains(node.getDefinitionURL())
+        && ctx.getPackageVersion("distrib") != null;
+  }
 }
